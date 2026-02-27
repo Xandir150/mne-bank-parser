@@ -1,6 +1,8 @@
 # Izvod — Montenegrin Bank Statement Parser for 1C
 
-A web service that automatically parses PDF/HTML bank statements from Montenegrin banks and generates import files for 1C:Enterprise accounting software.
+A web service that automatically parses PDF/HTML bank statements from Montenegrin banks and generates import files for 1C:Enterprise (Бухгалтерия 3.0).
+
+Fully automatic pipeline: drop a PDF into the input folder → parsed → exported to 1CClientBankExchange format → ready for import in 1C.
 
 ## Supported Banks
 
@@ -20,9 +22,10 @@ A web service that automatically parses PDF/HTML bank statements from Montenegri
 
 1. **Drop PDF/HTML files** into `data/input/{bank_code}/` directories (e.g., `data/input/520/`)
 2. **Background worker** scans directories every 60 seconds, parses new files automatically
-3. **Web interface** at `http://localhost:8000` shows parsed statements with inline editing
-4. **Export to 1C** — generates `1CClientBankExchange` format files (UTF-8) for import into 1C:Бухгалтерия 3.0
-5. **Originals are moved** to `data/processed/{bank_code}/` after parsing
+3. **Auto-export** — immediately generates `1CClientBankExchange` files (Windows-1251) organized by account number
+4. **Web interface** at `http://localhost:8000` shows parsed statements with inline editing (Russian/Serbian)
+5. **Originals are moved** to `data/processed/{bank_code}/` after successful parsing
+6. **Failed files stay** in `input/` for retry, errors are logged to `data/log/izvod.log`
 
 ## Quick Start
 
@@ -38,7 +41,73 @@ open http://localhost:8000
 # Drop a bank statement PDF into the appropriate directory
 cp your_statement.pdf data/input/520/
 
-# Wait ~60 seconds for automatic parsing, or check the web UI
+# Wait ~60 seconds — file is parsed, exported, and ready for 1C
+```
+
+## 1C Integration
+
+The service generates files in `1CClientBankExchange` format (version 1.03, Windows-1251 encoding).
+
+### Output Structure
+
+Each statement is exported to its own file, organized by account number:
+
+```
+data/output/
+├── 520000000004307069/
+│   └── 20260201_1.txt      ← one file per statement
+├── 560000000000290342/
+│   ├── 20260202_5.txt
+│   └── 20260215_12.txt     ← new statements get new files
+└── ...
+```
+
+Account numbers are normalized to 18-digit format without dashes (e.g., `535-22023-67` → `535000000002202367`).
+
+### Setup in 1C (per bank account)
+
+In 1C:Бухгалтерия 3.0, go to **Банк и касса → Обмен с банком → Настройка обмена с клиентом банка**:
+
+| Field | Value |
+|-------|-------|
+| Обслуживаемый банковский счет | Select the account |
+| Файл выгрузки в банк | _(leave empty)_ |
+| Файл загрузки из банка | `\\server\izvod\data\output\{account}\{file}.txt` |
+| Кодировка | **Windows** |
+
+**Recommended checkboxes:**
+- **Автоматическое создание ненайденных элементов** — yes (auto-creates new counterparties)
+- **Перед загрузкой показывать форму "Обмен с банком"** — yes (review before import)
+
+To import: click **Загрузить** in bank statements, browse to the account folder, select the file.
+
+### Output File Format
+
+```
+1CClientBankExchange
+ВерсияФормата=1.03
+Кодировка=Windows
+Отправитель=BankStatementParser
+...
+РасчСчет=520000000004307069
+СекцияРасчСчет
+НачальныйОстаток=1069.94
+КонечныйОстаток=1066.06
+ДебетОборот=3.88
+КредитОборот=0.00
+КонецРасчСчет
+СекцияДокумент=Платёжное поручение
+Номер=1
+Дата=01.02.2026
+Сумма=3.88
+ПлательщикСчет=520000000004307069
+Плательщик=FSTR DOO
+ПлательщикИНН=03424804
+ПолучательСчет=520000000004307069
+Получатель=...
+НазначениеПлатежа=Naplata naknada
+КонецДокумента
+КонецФайла
 ```
 
 ## Architecture
@@ -50,7 +119,7 @@ izvod/
 │   ├── config.py        # Configuration (paths, bank codes)
 │   ├── database.py      # SQLite + SQLAlchemy
 │   ├── models.py        # Statement & Transaction ORM models
-│   ├── worker.py        # Background directory scanner (APScheduler)
+│   ├── worker.py        # Background scanner + auto-export (APScheduler)
 │   ├── export_1c.py     # 1CClientBankExchange file generator
 │   ├── i18n.py          # Russian & Serbian translations
 │   ├── parsers/
@@ -68,8 +137,9 @@ izvod/
 │   └── static/          # CSS
 ├── data/
 │   ├── input/           # Drop bank statements here (by bank code)
-│   ├── processed/       # Originals moved here after parsing
-│   ├── output/          # Generated 1C import files
+│   ├── processed/       # Originals moved here after successful parsing
+│   ├── output/          # Generated 1C files (by account number)
+│   ├── log/             # Application log (izvod.log)
 │   └── db/              # SQLite database
 ├── Dockerfile
 ├── docker-compose.yml
@@ -82,7 +152,7 @@ izvod/
 - **PDF Parsing:** pdfplumber
 - **HTML Parsing:** BeautifulSoup4 (for Erste Bank)
 - **Database:** SQLite + SQLAlchemy
-- **Background Jobs:** APScheduler
+- **Background Jobs:** APScheduler (60s interval)
 - **Frontend:** Jinja2 + Bootstrap 5 + Tabulator.js (inline editing)
 - **Container:** Docker (python:3.12-slim-bookworm)
 
@@ -92,35 +162,6 @@ izvod/
 - **Statement Detail** — editable header fields + transaction table with inline cell editing
 - **Language switcher** — Russian (default) and Serbian
 - **Auto-refresh** — dashboard updates every 30 seconds
-
-## 1C Integration
-
-The service generates files in `1CClientBankExchange` format (version 1.03, UTF-8 encoding).
-
-### Setup in 1C:
-
-1. Mount `data/output/` as a network drive or shared folder accessible from the 1C server
-2. In 1C:Бухгалтерия 3.0, go to **Банк и касса → Обмен с банком → Настройка обмена**
-3. Set the exchange directory to the mounted `data/output/` path
-4. Click **Загрузить** to import parsed statements
-
-### Output Format
-
-```
-1CClientBankExchange
-ВерсияФормата=1.03
-Кодировка=UTF-8
-...
-СекцияДокумент=Платёжное поручение
-Номер=1
-Дата=01.02.2026
-Сумма=3.88
-ПлательщикСчет=520000000004307069
-Плательщик=FSTR DOO
-...
-КонецДокумента
-КонецФайла
-```
 
 ## Configuration
 
@@ -137,6 +178,12 @@ Account number, IBAN, statement number/date, period start/end, opening/closing b
 
 ### Transaction
 Row number, value date, booking date, debit, credit, counterparty name/account/bank, payment code, purpose, debit/credit references, reclamation data, fee
+
+## Error Handling
+
+- **Parse errors**: file stays in `input/`, statement with status `error` shown in web UI, full traceback in `data/log/izvod.log`
+- **Export errors**: statement is parsed and saved, but export file is not generated; can be re-exported from the web UI
+- **Serbian characters** (š, č, ž, ć, đ): transliterated to Latin equivalents for Windows-1251 compatibility
 
 ## Adding a New Bank Parser
 
