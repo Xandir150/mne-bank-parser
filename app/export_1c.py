@@ -5,11 +5,45 @@ from pathlib import Path
 from app.models import Statement
 
 
+# Serbian/Croatian Latin characters not present in Windows-1251
+_LATIN_MAP = str.maketrans({
+    'š': 's', 'Š': 'S',
+    'č': 'c', 'Č': 'C',
+    'ć': 'c', 'Ć': 'C',
+    'ž': 'z', 'Ž': 'Z',
+    'đ': 'dj', 'Đ': 'Dj',
+})
+
+
+def _safe_text(text: str) -> str:
+    """Replace characters that cannot be encoded in Windows-1251."""
+    if not text:
+        return ""
+    return text.translate(_LATIN_MAP)
+
+
 def _fmt_date(d) -> str:
     """Format date as DD.MM.YYYY."""
     if d is None:
         return ""
     return d.strftime("%d.%m.%Y")
+
+
+def _fmt_account(acct) -> str:
+    """Format account number for 1C: 18-digit format without dashes.
+
+    Montenegrin accounts have format: BBB-NNNNNNNNNNNNN-CC (3-13-2).
+    Short formats like 535-22023-67 need zero-padding in the middle part.
+    """
+    if not acct:
+        return ""
+    import re
+    m = re.match(r"^(\d{3})-(\d+)-(\d{2})$", acct)
+    if m:
+        bank, number, check = m.group(1), m.group(2), m.group(3)
+        return bank + number.zfill(13) + check
+    # Already without dashes or unknown format
+    return acct.replace("-", "")
 
 
 def _fmt_amount(val) -> str:
@@ -29,25 +63,27 @@ def generate_1c_file(statement: Statement, output_dir: Path) -> Path:
     Returns:
         Path to the generated file.
     """
-    output_dir.mkdir(parents=True, exist_ok=True)
+    # Organize output by account number: output/{account}/import.txt
+    # Fixed filename so 1C can point "Файл загрузки из банка" to it
+    account_dir_name = _fmt_account(statement.account_number) or "unknown"
+    account_dir = output_dir / account_dir_name
+    account_dir.mkdir(parents=True, exist_ok=True)
 
-    date_str = statement.statement_date.strftime("%Y%m%d") if statement.statement_date else "nodate"
-    filename = f"statement_{statement.id}_{statement.bank_code}_{date_str}.txt"
-    output_path = output_dir / filename
+    output_path = account_dir / "import.txt"
 
     now = datetime.now()
     lines = []
 
     lines.append("1CClientBankExchange")
     lines.append("ВерсияФормата=1.03")
-    lines.append("Кодировка=UTF-8")
+    lines.append("Кодировка=Windows")
     lines.append("Отправитель=BankStatementParser")
     lines.append("Получатель=")
     lines.append(f"ДатаСоздания={now.strftime('%d.%m.%Y')}")
     lines.append(f"ВремяСоздания={now.strftime('%H:%M:%S')}")
     lines.append(f"ДатаНачала={_fmt_date(statement.period_start)}")
     lines.append(f"ДатаКонца={_fmt_date(statement.period_end)}")
-    lines.append(f"РасчСчет={statement.account_number or ''}")
+    lines.append(f"РасчСчет={_fmt_account(statement.account_number)}")
 
     # Account section
     lines.append("СекцияРасчСчет")
@@ -70,27 +106,27 @@ def generate_1c_file(statement: Statement, output_dir: Path) -> Path:
 
         if is_debit:
             # Debit: payer = our company, receiver = counterparty
-            lines.append(f"ПлательщикСчет={statement.account_number or ''}")
-            lines.append(f"Плательщик={statement.client_name or ''}")
+            lines.append(f"ПлательщикСчет={_fmt_account(statement.account_number)}")
+            lines.append(f"Плательщик={_safe_text(statement.client_name or '')}")
             lines.append(f"ПлательщикИНН={statement.client_pib or ''}")
-            lines.append(f"ПолучательСчет={tx.counterparty_account or ''}")
-            lines.append(f"Получатель={tx.counterparty or ''}")
+            lines.append(f"ПолучательСчет={_fmt_account(tx.counterparty_account)}")
+            lines.append(f"Получатель={_safe_text(tx.counterparty or '')}")
             lines.append("ПолучательИНН=")
         else:
             # Credit: payer = counterparty, receiver = our company
-            lines.append(f"ПлательщикСчет={tx.counterparty_account or ''}")
-            lines.append(f"Плательщик={tx.counterparty or ''}")
+            lines.append(f"ПлательщикСчет={_fmt_account(tx.counterparty_account)}")
+            lines.append(f"Плательщик={_safe_text(tx.counterparty or '')}")
             lines.append("ПлательщикИНН=")
-            lines.append(f"ПолучательСчет={statement.account_number or ''}")
-            lines.append(f"Получатель={statement.client_name or ''}")
+            lines.append(f"ПолучательСчет={_fmt_account(statement.account_number)}")
+            lines.append(f"Получатель={_safe_text(statement.client_name or '')}")
             lines.append(f"ПолучательИНН={statement.client_pib or ''}")
 
-        lines.append(f"НазначениеПлатежа={tx.purpose or ''}")
+        lines.append(f"НазначениеПлатежа={_safe_text(tx.purpose or '')}")
         lines.append("КонецДокумента")
 
     lines.append("КонецФайла")
 
     content = "\r\n".join(lines)
-    output_path.write_text(content, encoding="utf-8")
+    output_path.write_text(content, encoding="windows-1251")
 
     return output_path

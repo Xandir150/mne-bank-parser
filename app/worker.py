@@ -9,6 +9,7 @@ from app.config import settings
 from app.database import SessionLocal
 from app.models import Statement, Transaction
 from app.parsers import parse_file
+from app.export_1c import generate_1c_file
 
 logger = logging.getLogger(__name__)
 
@@ -87,6 +88,16 @@ def scan_directories():
                         db.add(tx)
 
                     db.commit()
+
+                    # Auto-export to 1C format
+                    try:
+                        export_path = generate_1c_file(stmt, settings.output_dir)
+                        stmt.export_file = str(export_path)
+                        stmt.status = "exported"
+                        db.commit()
+                        logger.info("Auto-exported -> %s", export_path)
+                    except Exception as export_err:
+                        logger.error("Auto-export failed for %s: %s", file_path.name, export_err)
 
                     # Move to processed
                     processed_dir = settings.processed_dir / bank_code
