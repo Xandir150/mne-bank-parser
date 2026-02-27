@@ -9,7 +9,7 @@ from app.config import settings
 from app.database import SessionLocal
 from app.models import Statement, Transaction
 from app.parsers import parse_file
-from app.export_1c import generate_1c_file_multi
+from app.export_1c import generate_1c_file
 
 logger = logging.getLogger(__name__)
 
@@ -107,22 +107,13 @@ def scan_directories():
 
                     db.commit()
 
-                    # Auto-export: regenerate import.txt with ALL statements for this account
+                    # Auto-export to 1C format
                     try:
-                        all_for_account = (
-                            db.query(Statement)
-                            .filter(
-                                Statement.account_number == stmt.account_number,
-                                Statement.status != "error",
-                            )
-                            .all()
-                        )
-                        export_path = generate_1c_file_multi(all_for_account, settings.output_dir)
-                        for s in all_for_account:
-                            s.export_file = str(export_path)
-                            s.status = "exported"
+                        export_path = generate_1c_file(stmt, settings.output_dir)
+                        stmt.export_file = str(export_path)
+                        stmt.status = "exported"
                         db.commit()
-                        logger.info("Auto-exported %d statement(s) -> %s", len(all_for_account), export_path)
+                        logger.info("Auto-exported -> %s", export_path)
                     except Exception as export_err:
                         logger.error("Auto-export failed for %s: %s", file_path.name, export_err)
 

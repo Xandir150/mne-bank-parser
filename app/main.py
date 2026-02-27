@@ -10,7 +10,7 @@ from app.config import settings
 from app.database import init_db, get_db
 from app.models import Statement, Transaction
 from app.worker import start_scheduler, stop_scheduler
-from app.export_1c import generate_1c_file_multi
+from app.export_1c import generate_1c_file
 from app.i18n import get_translations, DEFAULT_LANG
 
 app = FastAPI(title="Izvod - Bank Statement Parser")
@@ -204,19 +204,9 @@ def api_export(statement_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Statement not found")
 
     try:
-        # Export all statements for this account into one file
-        all_for_account = (
-            db.query(Statement)
-            .filter(
-                Statement.account_number == stmt.account_number,
-                Statement.status != "error",
-            )
-            .all()
-        )
-        export_path = generate_1c_file_multi(all_for_account, settings.output_dir)
-        for s in all_for_account:
-            s.export_file = str(export_path)
-            s.status = "exported"
+        export_path = generate_1c_file(stmt, settings.output_dir)
+        stmt.export_file = str(export_path)
+        stmt.status = "exported"
         db.commit()
         return {"ok": True, "file": str(export_path)}
     except Exception as e:
