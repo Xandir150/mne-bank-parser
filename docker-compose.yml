@@ -8,5 +8,6 @@ services:
       - ./data/processed:/data/processed
       - ./data/output:/data/output
       - ./data/db:/data/db
+      - ./data/log:/data/log
     environment:
       - IZVOD_SCAN_INTERVAL=60

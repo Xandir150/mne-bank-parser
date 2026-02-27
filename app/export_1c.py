@@ -1,6 +1,8 @@
+import re
 from datetime import datetime
 from decimal import Decimal
 from pathlib import Path
+from typing import List
 
 from app.models import Statement
 
@@ -37,7 +39,6 @@ def _fmt_account(acct) -> str:
     """
     if not acct:
         return ""
-    import re
     m = re.match(r"^(\d{3})-(\d+)-(\d{2})$", acct)
     if m:
         bank, number, check = m.group(1), m.group(2), m.group(3)
@@ -54,26 +55,47 @@ def _fmt_amount(val) -> str:
 
 
 def generate_1c_file(statement: Statement, output_dir: Path) -> Path:
-    """Generate a 1CClientBankExchange format file for the given statement.
+    """Generate a 1CClientBankExchange file for a single statement.
 
-    Args:
-        statement: Statement ORM object with loaded transactions.
-        output_dir: Directory to write the output file.
-
-    Returns:
-        Path to the generated file.
+    The file is written to output/{account}/import.txt.
+    Each new export overwrites the file for this account.
+    1C deduplicates by date+number so previously imported operations won't repeat.
     """
-    # Organize output by account number: output/{account}/import.txt
-    # Fixed filename so 1C can point "Файл загрузки из банка" to it
-    account_dir_name = _fmt_account(statement.account_number) or "unknown"
+    return generate_1c_file_multi([statement], output_dir)
+
+
+def generate_1c_file_multi(statements: List[Statement], output_dir: Path) -> Path:
+    """Generate a single 1CClientBankExchange file containing all given statements.
+
+    All statements must belong to the same account.
+    File is written to output/{account}/import.txt.
+    """
+    if not statements:
+        raise ValueError("No statements to export")
+
+    account_number = statements[0].account_number
+    account_dir_name = _fmt_account(account_number) or "unknown"
     account_dir = output_dir / account_dir_name
     account_dir.mkdir(parents=True, exist_ok=True)
-
     output_path = account_dir / "import.txt"
+
+    # Determine date range across all statements
+    all_dates = []
+    for stmt in statements:
+        if stmt.period_start:
+            all_dates.append(stmt.period_start)
+        if stmt.period_end:
+            all_dates.append(stmt.period_end)
+        if stmt.statement_date:
+            all_dates.append(stmt.statement_date)
+
+    date_start = min(all_dates) if all_dates else None
+    date_end = max(all_dates) if all_dates else None
 
     now = datetime.now()
     lines = []
 
+    # File header
     lines.append("1CClientBankExchange")
     lines.append("ВерсияФормата=1.03")
     lines.append("Кодировка=Windows")
@@ -81,48 +103,50 @@ def generate_1c_file(statement: Statement, output_dir: Path) -> Path:
     lines.append("Получатель=")
     lines.append(f"ДатаСоздания={now.strftime('%d.%m.%Y')}")
     lines.append(f"ВремяСоздания={now.strftime('%H:%M:%S')}")
-    lines.append(f"ДатаНачала={_fmt_date(statement.period_start)}")
-    lines.append(f"ДатаКонца={_fmt_date(statement.period_end)}")
-    lines.append(f"РасчСчет={_fmt_account(statement.account_number)}")
+    lines.append(f"ДатаНачала={_fmt_date(date_start)}")
+    lines.append(f"ДатаКонца={_fmt_date(date_end)}")
+    lines.append(f"РасчСчет={_fmt_account(account_number)}")
 
-    # Account section
-    lines.append("СекцияРасчСчет")
-    lines.append(f"НачальныйОстаток={_fmt_amount(statement.opening_balance)}")
-    lines.append(f"КонечныйОстаток={_fmt_amount(statement.closing_balance)}")
-    lines.append(f"ДебетОборот={_fmt_amount(statement.total_debit)}")
-    lines.append(f"КредитОборот={_fmt_amount(statement.total_credit)}")
-    lines.append("КонецРасчСчет")
+    # One account section per statement
+    for stmt in statements:
+        lines.append("СекцияРасчСчет")
+        lines.append(f"ДатаНачала={_fmt_date(stmt.period_start or stmt.statement_date)}")
+        lines.append(f"ДатаКонца={_fmt_date(stmt.period_end or stmt.statement_date)}")
+        lines.append(f"НачальныйОстаток={_fmt_amount(stmt.opening_balance)}")
+        lines.append(f"КонечныйОстаток={_fmt_amount(stmt.closing_balance)}")
+        lines.append(f"ДебетОборот={_fmt_amount(stmt.total_debit)}")
+        lines.append(f"КредитОборот={_fmt_amount(stmt.total_credit)}")
+        lines.append("КонецРасчСчет")
 
-    # Transactions
-    for tx in statement.transactions:
-        is_debit = tx.debit is not None and tx.debit > 0
-        amount = tx.debit if is_debit else tx.credit
-        tx_date = tx.value_date or tx.booking_date
+    # All transactions from all statements
+    for stmt in statements:
+        for tx in stmt.transactions:
+            is_debit = tx.debit is not None and tx.debit > 0
+            amount = tx.debit if is_debit else tx.credit
+            tx_date = tx.value_date or tx.booking_date
 
-        lines.append("СекцияДокумент=Платёжное поручение")
-        lines.append(f"Номер={tx.row_number}")
-        lines.append(f"Дата={_fmt_date(tx_date)}")
-        lines.append(f"Сумма={_fmt_amount(amount)}")
+            lines.append("СекцияДокумент=Платёжное поручение")
+            lines.append(f"Номер={tx.row_number}")
+            lines.append(f"Дата={_fmt_date(tx_date)}")
+            lines.append(f"Сумма={_fmt_amount(amount)}")
 
-        if is_debit:
-            # Debit: payer = our company, receiver = counterparty
-            lines.append(f"ПлательщикСчет={_fmt_account(statement.account_number)}")
-            lines.append(f"Плательщик={_safe_text(statement.client_name or '')}")
-            lines.append(f"ПлательщикИНН={statement.client_pib or ''}")
-            lines.append(f"ПолучательСчет={_fmt_account(tx.counterparty_account)}")
-            lines.append(f"Получатель={_safe_text(tx.counterparty or '')}")
-            lines.append("ПолучательИНН=")
-        else:
-            # Credit: payer = counterparty, receiver = our company
-            lines.append(f"ПлательщикСчет={_fmt_account(tx.counterparty_account)}")
-            lines.append(f"Плательщик={_safe_text(tx.counterparty or '')}")
-            lines.append("ПлательщикИНН=")
-            lines.append(f"ПолучательСчет={_fmt_account(statement.account_number)}")
-            lines.append(f"Получатель={_safe_text(statement.client_name or '')}")
-            lines.append(f"ПолучательИНН={statement.client_pib or ''}")
+            if is_debit:
+                lines.append(f"ПлательщикСчет={_fmt_account(stmt.account_number)}")
+                lines.append(f"Плательщик={_safe_text(stmt.client_name or '')}")
+                lines.append(f"ПлательщикИНН={stmt.client_pib or ''}")
+                lines.append(f"ПолучательСчет={_fmt_account(tx.counterparty_account)}")
+                lines.append(f"Получатель={_safe_text(tx.counterparty or '')}")
+                lines.append("ПолучательИНН=")
+            else:
+                lines.append(f"ПлательщикСчет={_fmt_account(tx.counterparty_account)}")
+                lines.append(f"Плательщик={_safe_text(tx.counterparty or '')}")
+                lines.append("ПлательщикИНН=")
+                lines.append(f"ПолучательСчет={_fmt_account(stmt.account_number)}")
+                lines.append(f"Получатель={_safe_text(stmt.client_name or '')}")
+                lines.append(f"ПолучательИНН={stmt.client_pib or ''}")
 
-        lines.append(f"НазначениеПлатежа={_safe_text(tx.purpose or '')}")
-        lines.append("КонецДокумента")
+            lines.append(f"НазначениеПлатежа={_safe_text(tx.purpose or '')}")
+            lines.append("КонецДокумента")
 
     lines.append("КонецФайла")
 

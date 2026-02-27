@@ -9,9 +9,27 @@ from app.config import settings
 from app.database import SessionLocal
 from app.models import Statement, Transaction
 from app.parsers import parse_file
-from app.export_1c import generate_1c_file
+from app.export_1c import generate_1c_file_multi
 
 logger = logging.getLogger(__name__)
+
+
+def _setup_file_logging():
+    """Configure logging to write to data/log/izvod.log."""
+    log_dir = settings.data_dir / "log"
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_file = log_dir / "izvod.log"
+
+    file_handler = logging.FileHandler(log_file, encoding="utf-8")
+    file_handler.setLevel(logging.INFO)
+    file_handler.setFormatter(logging.Formatter(
+        "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    ))
+
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.INFO)
+    root_logger.addHandler(file_handler)
 
 scheduler = BackgroundScheduler()
 
@@ -89,13 +107,22 @@ def scan_directories():
 
                     db.commit()
 
-                    # Auto-export to 1C format
+                    # Auto-export: regenerate import.txt with ALL statements for this account
                     try:
-                        export_path = generate_1c_file(stmt, settings.output_dir)
-                        stmt.export_file = str(export_path)
-                        stmt.status = "exported"
+                        all_for_account = (
+                            db.query(Statement)
+                            .filter(
+                                Statement.account_number == stmt.account_number,
+                                Statement.status != "error",
+                            )
+                            .all()
+                        )
+                        export_path = generate_1c_file_multi(all_for_account, settings.output_dir)
+                        for s in all_for_account:
+                            s.export_file = str(export_path)
+                            s.status = "exported"
                         db.commit()
-                        logger.info("Auto-exported -> %s", export_path)
+                        logger.info("Auto-exported %d statement(s) -> %s", len(all_for_account), export_path)
                     except Exception as export_err:
                         logger.error("Auto-export failed for %s: %s", file_path.name, export_err)
 
@@ -111,9 +138,9 @@ def scan_directories():
 
                 except Exception as e:
                     db.rollback()
-                    logger.error("Failed to process %s: %s", file_path.name, e)
+                    logger.error("Failed to process %s: %s", file_path.name, e, exc_info=True)
 
-                    # Save error record
+                    # Save error record — file stays in input for retry
                     error_stmt = Statement(
                         bank_code=bank_code,
                         bank_name=settings.bank_names.get(bank_code, bank_code),
@@ -124,23 +151,13 @@ def scan_directories():
                     )
                     db.add(error_stmt)
                     db.commit()
-
-                    # Move to processed even on error to avoid reprocessing
-                    try:
-                        processed_dir = settings.processed_dir / bank_code
-                        processed_dir.mkdir(parents=True, exist_ok=True)
-                        dest = processed_dir / file_path.name
-                        if dest.exists():
-                            dest = processed_dir / f"{file_path.stem}_error{file_path.suffix}"
-                        shutil.move(str(file_path), str(dest))
-                    except Exception as move_err:
-                        logger.error("Failed to move error file %s: %s", file_path.name, move_err)
     finally:
         db.close()
 
 
 def start_scheduler():
     """Start the background scheduler for directory scanning."""
+    _setup_file_logging()
     scheduler.add_job(
         scan_directories,
         trigger=IntervalTrigger(seconds=settings.scan_interval),
