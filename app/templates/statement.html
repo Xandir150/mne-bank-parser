@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+{% block title %}{{ t.statement_num }} #{{ statement.id }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">
+        {{ t.statement_num }} #{{ statement.id }} &mdash; {{ statement.bank_name }}
+        <span class="badge bg-{{ 'warning' if statement.status == 'new' else 'primary' if statement.status == 'reviewed' else 'success' if statement.status == 'exported' else 'danger' }}">
+            {{ statement.status }}
+        </span>
+    </h4>
+    <a href="/?lang={{ lang }}" class="btn btn-outline-secondary btn-sm">{{ t.back_to_dashboard }}</a>
+</div>
+
+{% if statement.error_message %}
+<div class="alert alert-danger">
+    <strong>{{ t.error_label }}:</strong> {{ statement.error_message }}
+</div>
+{% endif %}
+
+<!-- Header Fields -->
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>{{ t.statement_details }}</span>
+        <button class="btn btn-sm btn-primary" id="btn-save-header">{{ t.save_header }}</button>
+    </div>
+    <div class="card-body">
+        <form id="header-form">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.bank_code }}</label>
+                    <input type="text" class="form-control" value="{{ statement.bank_code }}" disabled>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.bank_name }}</label>
+                    <input type="text" class="form-control" value="{{ statement.bank_name }}" disabled>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.account_number }}</label>
+                    <input type="text" class="form-control" name="account_number" value="{{ statement.account_number or '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.iban }}</label>
+                    <input type="text" class="form-control" name="iban" value="{{ statement.iban or '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.statement_number }}</label>
+                    <input type="text" class="form-control" name="statement_number" value="{{ statement.statement_number or '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.statement_date }}</label>
+                    <input type="date" class="form-control" name="statement_date" value="{{ statement.statement_date.isoformat() if statement.statement_date else '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.period_start }}</label>
+                    <input type="date" class="form-control" name="period_start" value="{{ statement.period_start.isoformat() if statement.period_start else '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.period_end }}</label>
+                    <input type="date" class="form-control" name="period_end" value="{{ statement.period_end.isoformat() if statement.period_end else '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.opening_balance }}</label>
+                    <input type="text" class="form-control" name="opening_balance" value="{{ statement.opening_balance if statement.opening_balance is not none else '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.closing_balance }}</label>
+                    <input type="text" class="form-control" name="closing_balance" value="{{ statement.closing_balance if statement.closing_balance is not none else '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.total_debit }}</label>
+                    <input type="text" class="form-control" name="total_debit" value="{{ statement.total_debit if statement.total_debit is not none else '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.total_credit }}</label>
+                    <input type="text" class="form-control" name="total_credit" value="{{ statement.total_credit if statement.total_credit is not none else '' }}">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">{{ t.currency }}</label>
+                    <input type="text" class="form-control" name="currency" value="{{ statement.currency or '' }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">{{ t.client_name }}</label>
+                    <input type="text" class="form-control" name="client_name" value="{{ statement.client_name or '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.client_pib }}</label>
+                    <input type="text" class="form-control" name="client_pib" value="{{ statement.client_pib or '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ t.source_file }}</label>
+                    <input type="text" class="form-control" value="{{ statement.source_file or '' }}" disabled>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Transactions Table -->
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>{{ t.transactions }} ({{ transactions | length }})</span>
+        <button class="btn btn-sm btn-primary" id="btn-save-tx">{{ t.save_changes }}</button>
+    </div>
+    <div class="card-body p-0">
+        <div id="tx-table"></div>
+    </div>
+</div>
+
+<!-- Action Buttons -->
+<div class="d-flex gap-2 mb-4">
+    <button class="btn btn-success" id="btn-export">{{ t.export_to_1c }}</button>
+    <a href="/api/statement/{{ statement.id }}/download" class="btn btn-outline-success" id="btn-download">{{ t.download_1c }}</a>
+    <button class="btn btn-danger ms-auto" id="btn-delete">{{ t.delete_statement }}</button>
+</div>
+
+<div id="action-result" class="mb-4" style="display:none;"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const STATEMENT_ID = {{ statement.id }};
+const LANG = "{{ lang }}";
+const T = {
+    header_saved: "{{ t.header_saved }}",
+    save_failed: "{{ t.save_failed }}",
+    no_changes: "{{ t.no_changes }}",
+    export_ok: "{{ t.export_ok }}",
+    export_failed: "{{ t.export_failed }}",
+    delete_confirm: "{{ t.delete_confirm }}",
+    delete_failed: "{{ t.delete_failed }}",
+};
+
+const txData = [
+    {% for t in transactions %}
+    {
+        id: {{ t.id }},
+        row_number: {{ t.row_number }},
+        value_date: "{{ t.value_date.isoformat() if t.value_date else '' }}",
+        booking_date: "{{ t.booking_date.isoformat() if t.booking_date else '' }}",
+        debit: "{{ t.debit if t.debit is not none else '' }}",
+        credit: "{{ t.credit if t.credit is not none else '' }}",
+        counterparty: "{{ (t.counterparty or '') | replace('"', '\\"') | replace('\n', ' ') | replace('\r', '') }}",
+        counterparty_account: "{{ t.counterparty_account or '' }}",
+        payment_code: "{{ t.payment_code or '' }}",
+        purpose: "{{ (t.purpose or '') | replace('"', '\\"') | replace('\n', ' ') | replace('\r', '') }}",
+        fee: "{{ t.fee if t.fee is not none else '' }}",
+    },
+    {% endfor %}
+];
+
+const modifiedTx = new Set();
+
+const txTable = new Tabulator("#tx-table", {
+    data: txData,
+    layout: "fitColumns",
+    height: "auto",
+    placeholder: "{{ t.no_transactions }}",
+    columns: [
+        {title: "{{ t.row_num }}", field: "row_number", width: 50, editor: "input"},
+        {title: "{{ t.value_date }}", field: "value_date", width: 110, editor: "input"},
+        {title: "{{ t.booking_date }}", field: "booking_date", width: 110, editor: "input"},
+        {title: "{{ t.debit }}", field: "debit", hozAlign: "right", width: 110, editor: "input"},
+        {title: "{{ t.credit }}", field: "credit", hozAlign: "right", width: 110, editor: "input"},
+        {title: "{{ t.counterparty }}", field: "counterparty", editor: "input"},
+        {title: "{{ t.counterparty_account }}", field: "counterparty_account", width: 180, editor: "input"},
+        {title: "{{ t.payment_code }}", field: "payment_code", width: 80, editor: "input"},
+        {title: "{{ t.purpose }}", field: "purpose", editor: "input"},
+        {title: "{{ t.fee }}", field: "fee", hozAlign: "right", width: 90, editor: "input"},
+    ],
+});
+
+txTable.on("cellEdited", function(cell) {
+    modifiedTx.add(cell.getRow().getData().id);
+});
+
+function showResult(msg, isError) {
+    const div = document.getElementById("action-result");
+    div.className = "mb-4 alert " + (isError ? "alert-danger" : "alert-success");
+    div.textContent = msg;
+    div.style.display = "block";
+    setTimeout(() => div.style.display = "none", 4000);
+}
+
+// Save header
+document.getElementById("btn-save-header").addEventListener("click", async function() {
+    const form = document.getElementById("header-form");
+    const data = {};
+    for (const input of form.querySelectorAll("input[name]")) {
+        const val = input.value.trim();
+        data[input.name] = val === "" ? null : val;
+    }
+    try {
+        const resp = await fetch(`/api/statement/${STATEMENT_ID}`, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data),
+        });
+        if (resp.ok) {
+            showResult(T.header_saved, false);
+        } else {
+            const err = await resp.json();
+            showResult(T.save_failed + ": " + (err.detail || ""), true);
+        }
+    } catch (err) {
+        showResult(T.save_failed + ": " + err.message, true);
+    }
+});
+
+// Save transactions
+document.getElementById("btn-save-tx").addEventListener("click", async function() {
+    if (modifiedTx.size === 0) {
+        showResult(T.no_changes, false);
+        return;
+    }
+    let errors = 0;
+    for (const txId of modifiedTx) {
+        const row = txTable.getRows().find(r => r.getData().id === txId);
+        if (!row) continue;
+        const d = row.getData();
+        const body = {};
+        for (const [k, v] of Object.entries(d)) {
+            if (k === "id") continue;
+            body[k] = v === "" ? null : v;
+        }
+        try {
+            const resp = await fetch(`/api/transaction/${txId}`, {
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(body),
+            });
+            if (!resp.ok) errors++;
+        } catch {
+            errors++;
+        }
+    }
+    if (errors === 0) {
+        showResult(T.header_saved + " (" + modifiedTx.size + ")", false);
+        modifiedTx.clear();
+    } else {
+        showResult(errors + " error(s)", true);
+    }
+});
+
+// Export
+document.getElementById("btn-export").addEventListener("click", async function() {
+    try {
+        const resp = await fetch(`/api/statement/${STATEMENT_ID}/export`, {method: "POST"});
+        const data = await resp.json();
+        if (resp.ok) {
+            showResult(T.export_ok, false);
+        } else {
+            showResult(T.export_failed + ": " + (data.detail || ""), true);
+        }
+    } catch (err) {
+        showResult(T.export_failed + ": " + err.message, true);
+    }
+});
+
+// Delete
+document.getElementById("btn-delete").addEventListener("click", async function() {
+    if (!confirm(T.delete_confirm)) return;
+    try {
+        const resp = await fetch(`/api/statement/${STATEMENT_ID}`, {method: "DELETE"});
+        if (resp.ok) {
+            window.location.href = "/?lang=" + LANG;
+        } else {
+            const err = await resp.json();
+            showResult(T.delete_failed + ": " + (err.detail || ""), true);
+        }
+    } catch (err) {
+        showResult(T.delete_failed + ": " + err.message, true);
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}{{ t.dashboard }}{% endblock %}
+{% block nav_dashboard %}active{% endblock %}
+
+{% block content %}
+<!-- Stats -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title" id="stat-total">{{ statements | length }}</h5>
+                <p class="card-text text-muted">{{ t.total_statements }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title text-warning" id="stat-new">{{ statements | selectattr('status', 'equalto', 'new') | list | length }}</h5>
+                <p class="card-text text-muted">{{ t.new }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title text-primary" id="stat-reviewed">{{ statements | selectattr('status', 'equalto', 'reviewed') | list | length }}</h5>
+                <p class="card-text text-muted">{{ t.reviewed }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title text-success" id="stat-exported">{{ statements | selectattr('status', 'equalto', 'exported') | list | length }}</h5>
+                <p class="card-text text-muted">{{ t.exported }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statements Table -->
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>{{ t.statements }}</span>
+        <small class="text-muted">{{ t.auto_refresh }}</small>
+    </div>
+    <div class="card-body p-0">
+        <div id="statements-table"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const LANG = "{{ lang }}";
+const statementsData = [
+    {% for s in statements %}
+    {
+        id: {{ s.id }},
+        bank_code: "{{ s.bank_code }}",
+        bank_name: "{{ s.bank_name }}",
+        statement_date: "{{ s.statement_date.strftime('%d.%m.%Y') if s.statement_date else '-' }}",
+        account_number: "{{ s.account_number or '-' }}",
+        client_name: "{{ s.client_name or '-' }}",
+        total_debit: "{{ s.total_debit if s.total_debit is not none else '-' }}",
+        total_credit: "{{ s.total_credit if s.total_credit is not none else '-' }}",
+        status: "{{ s.status }}",
+        tx_count: {{ s.transactions | length }},
+        source_file: "{{ s.source_file or '-' }}",
+    },
+    {% endfor %}
+];
+
+function statusFormatter(cell) {
+    const val = cell.getValue();
+    const colors = {new: "warning", reviewed: "primary", exported: "success", error: "danger"};
+    const color = colors[val] || "secondary";
+    return `<span class="badge bg-${color}">${val}</span>`;
+}
+
+const table = new Tabulator("#statements-table", {
+    data: statementsData,
+    layout: "fitColumns",
+    height: "auto",
+    placeholder: "{{ t.no_statements }}",
+    columns: [
+        {title: "{{ t.bank_name }}", field: "bank_name", width: 180},
+        {title: "{{ t.date }}", field: "statement_date", width: 110},
+        {title: "{{ t.account }}", field: "account_number", width: 200},
+        {title: "{{ t.client }}", field: "client_name"},
+        {title: "{{ t.debit }}", field: "total_debit", hozAlign: "right", width: 120},
+        {title: "{{ t.credit }}", field: "total_credit", hozAlign: "right", width: 120},
+        {title: "{{ t.tx_count }}", field: "tx_count", hozAlign: "center", width: 60},
+        {title: "{{ t.status }}", field: "status", formatter: statusFormatter, hozAlign: "center", width: 100},
+        {title: "{{ t.source_file }}", field: "source_file", width: 200},
+    ],
+});
+
+table.on("rowClick", function(e, row) {
+    window.location.href = "/statement/" + row.getData().id + "?lang=" + LANG;
+});
+
+// Auto-refresh every 30 seconds
+setInterval(async function() {
+    try {
+        const resp = await fetch("/api/statements");
+        const data = await resp.json();
+        table.replaceData(data.map(s => ({
+            id: s.id,
+            bank_code: s.bank_code,
+            bank_name: s.bank_name,
+            statement_date: s.statement_date || "-",
+            account_number: s.account_number || "-",
+            client_name: s.client_name || "-",
+            total_debit: s.total_debit || "-",
+            total_credit: s.total_credit || "-",
+            status: s.status,
+            tx_count: s.tx_count,
+            source_file: s.source_file || "-",
+        })));
+        document.getElementById("stat-total").textContent = data.length;
+        document.getElementById("stat-new").textContent = data.filter(s => s.status === "new").length;
+        document.getElementById("stat-reviewed").textContent = data.filter(s => s.status === "reviewed").length;
+        document.getElementById("stat-exported").textContent = data.filter(s => s.status === "exported").length;
+    } catch (err) {
+        console.error("Auto-refresh failed:", err);
+    }
+}, 30000);
+</script>
+{% endblock %}

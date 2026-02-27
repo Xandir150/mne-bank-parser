@@ -1,0 +1,12 @@
+services:
+  izvod:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/input:/data/input
+      - ./data/processed:/data/processed
+      - ./data/output:/data/output
+      - ./data/db:/data/db
+    environment:
+      - IZVOD_SCAN_INTERVAL=60

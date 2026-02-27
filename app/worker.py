@@ -1,0 +1,148 @@
+import logging
+import shutil
+from pathlib import Path
+
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.interval import IntervalTrigger
+
+from app.config import settings
+from app.database import SessionLocal
+from app.models import Statement, Transaction
+from app.parsers import parse_file
+
+logger = logging.getLogger(__name__)
+
+scheduler = BackgroundScheduler()
+
+
+def scan_directories():
+    """Scan input directories for new bank statement files and process them."""
+    db = SessionLocal()
+    try:
+        for bank_code in settings.bank_names:
+            input_dir = settings.input_dir / bank_code
+            if not input_dir.exists():
+                continue
+
+            extensions = settings.supported_extensions.get(bank_code, [".pdf"])
+            for file_path in input_dir.iterdir():
+                if not file_path.is_file():
+                    continue
+                if file_path.suffix.lower() not in extensions:
+                    continue
+
+                # Skip already processed files
+                existing = (
+                    db.query(Statement)
+                    .filter(Statement.source_file == file_path.name, Statement.bank_code == bank_code)
+                    .first()
+                )
+                if existing:
+                    continue
+
+                logger.info("Processing %s for bank %s", file_path.name, bank_code)
+                try:
+                    parsed = parse_file(file_path, bank_code)
+
+                    stmt = Statement(
+                        bank_code=parsed.bank_code,
+                        bank_name=parsed.bank_name,
+                        account_number=parsed.account_number,
+                        iban=parsed.iban,
+                        statement_number=parsed.statement_number,
+                        statement_date=parsed.statement_date,
+                        period_start=parsed.period_start,
+                        period_end=parsed.period_end,
+                        opening_balance=parsed.opening_balance,
+                        closing_balance=parsed.closing_balance,
+                        total_debit=parsed.total_debit,
+                        total_credit=parsed.total_credit,
+                        currency=parsed.currency,
+                        client_name=parsed.client_name,
+                        client_pib=parsed.client_pib,
+                        source_file=file_path.name,
+                        status="new",
+                    )
+                    db.add(stmt)
+                    db.flush()
+
+                    for pt in parsed.transactions:
+                        tx = Transaction(
+                            statement_id=stmt.id,
+                            row_number=pt.row_number,
+                            value_date=pt.value_date,
+                            booking_date=pt.booking_date,
+                            debit=pt.debit,
+                            credit=pt.credit,
+                            counterparty=pt.counterparty,
+                            counterparty_account=pt.counterparty_account,
+                            counterparty_bank=pt.counterparty_bank,
+                            payment_code=pt.payment_code,
+                            purpose=pt.purpose,
+                            reference_debit=pt.reference_debit,
+                            reference_credit=pt.reference_credit,
+                            reclamation_data=pt.reclamation_data,
+                            fee=pt.fee,
+                        )
+                        db.add(tx)
+
+                    db.commit()
+
+                    # Move to processed
+                    processed_dir = settings.processed_dir / bank_code
+                    processed_dir.mkdir(parents=True, exist_ok=True)
+                    dest = processed_dir / file_path.name
+                    if dest.exists():
+                        dest = processed_dir / f"{file_path.stem}_{stmt.id}{file_path.suffix}"
+                    shutil.move(str(file_path), str(dest))
+
+                    logger.info("Successfully processed %s -> Statement #%d", file_path.name, stmt.id)
+
+                except Exception as e:
+                    db.rollback()
+                    logger.error("Failed to process %s: %s", file_path.name, e)
+
+                    # Save error record
+                    error_stmt = Statement(
+                        bank_code=bank_code,
+                        bank_name=settings.bank_names.get(bank_code, bank_code),
+                        account_number="",
+                        source_file=file_path.name,
+                        status="error",
+                        error_message=str(e),
+                    )
+                    db.add(error_stmt)
+                    db.commit()
+
+                    # Move to processed even on error to avoid reprocessing
+                    try:
+                        processed_dir = settings.processed_dir / bank_code
+                        processed_dir.mkdir(parents=True, exist_ok=True)
+                        dest = processed_dir / file_path.name
+                        if dest.exists():
+                            dest = processed_dir / f"{file_path.stem}_error{file_path.suffix}"
+                        shutil.move(str(file_path), str(dest))
+                    except Exception as move_err:
+                        logger.error("Failed to move error file %s: %s", file_path.name, move_err)
+    finally:
+        db.close()
+
+
+def start_scheduler():
+    """Start the background scheduler for directory scanning."""
+    scheduler.add_job(
+        scan_directories,
+        trigger=IntervalTrigger(seconds=settings.scan_interval),
+        id="scan_directories",
+        name="Scan input directories for new statements",
+        replace_existing=True,
+    )
+    scheduler.start()
+    logger.info("Background scheduler started (interval=%ds)", settings.scan_interval)
+
+
+def stop_scheduler():
+    """Stop the background scheduler."""
+    if scheduler.running:
+        scheduler.shutdown(wait=False)
+        logger.info("Background scheduler stopped")
