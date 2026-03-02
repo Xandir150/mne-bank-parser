@@ -50,14 +50,20 @@ def scan_directories():
                 if file_path.suffix.lower() not in extensions:
                     continue
 
-                # Skip already processed files
+                # Skip already processed files (but retry errors)
                 existing = (
                     db.query(Statement)
                     .filter(Statement.source_file == file_path.name, Statement.bank_code == bank_code)
                     .first()
                 )
                 if existing:
-                    continue
+                    if existing.status == "error":
+                        # Delete old error record so we can retry
+                        db.delete(existing)
+                        db.commit()
+                        logger.info("Retrying previously failed file %s", file_path.name)
+                    else:
+                        continue
 
                 logger.info("Processing %s for bank %s", file_path.name, bank_code)
                 try:
