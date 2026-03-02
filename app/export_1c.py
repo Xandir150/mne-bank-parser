@@ -6,6 +6,72 @@ from pathlib import Path
 from app.models import Statement
 
 
+# Montenegrin payment codes (šifra plaćanja) → Russian descriptions for 1C
+# Structure: 1xx = cash, 2xx = non-cash; last two digits = payment basis
+PAYMENT_CODE_DESCRIPTIONS = {
+    # Товары и услуги
+    "120": "Товары", "220": "Товары",
+    "121": "Услуги", "221": "Комиссия банка",
+    "122": "Товары", "222": "Товары",
+    "123": "Инвестиции", "223": "Инвестиции",
+    "124": "Инвестиции прочие", "224": "Инвестиции прочие",
+    "125": "Аренда гос. имущества", "225": "Аренда гос. имущества",
+    "126": "Аренда", "226": "Аренда",
+    "127": "Субсидии", "227": "Субсидии",
+    "128": "Субсидии прочие", "228": "Субсидии прочие",
+    # Таможня
+    "131": "Таможенные пошлины", "231": "Таможенные пошлины",
+    "132": "Акцизы и сборы", "232": "Акцизы и сборы",
+    # Налоги и зарплата
+    "139": "Прирез на подоходный налог", "239": "Прирез на подоходный налог",
+    "140": "Налоги и взносы", "240": "Заработная плата",
+    "141": "Необлагаемые выплаты", "241": "Необлагаемые выплаты",
+    "142": "Компенсации по зарплате", "242": "Компенсации по зарплате",
+    "145": "Пенсии", "245": "Пенсии",
+    "146": "Удержания", "246": "Удержания",
+    "148": "Доходы от капитала", "248": "Доходы от капитала",
+    "151": "Заработная плата", "251": "Заработная плата",
+    "153": "Налоги и сборы", "253": "Налоги и сборы",
+    "154": "Коммунальные услуги", "254": "Коммунальные услуги",
+    "157": "Страховые взносы", "257": "Страховые взносы",
+    "158": "Членские взносы", "258": "Членские взносы",
+    # Переводы
+    "160": "Премии", "260": "Премии",
+    "161": "Ценные бумаги", "261": "Ценные бумаги",
+    "162": "Трансфертные платежи", "262": "Трансфертные платежи",
+    "163": "Прочие переводы", "263": "Прочие переводы",
+    "165": "Выручка", "265": "Выручка",
+    "166": "Снятие наличных", "266": "Снятие наличных",
+    # Кредиты и финансы
+    "170": "Краткосрочные кредиты", "270": "Краткосрочные кредиты",
+    "171": "Долгосрочные кредиты", "271": "Долгосрочные кредиты",
+    "172": "Проценты по кредитам", "272": "Проценты по кредитам",
+    "173": "Проценты", "273": "Проценты",
+    "177": "Внутренние расчеты банка", "277": "Внутренние расчеты банка",
+    "178": "Купля-продажа валюты", "278": "Купля-продажа валюты",
+    # Прочие
+    "185": "Пожертвования", "285": "Пожертвования",
+    "186": "Выплата ущерба", "286": "Выплата ущерба",
+    "187": "Платежи за третьих лиц", "287": "Платежи за третьих лиц",
+    "189": "Прочие платежи", "289": "Прочие платежи",
+    "190": "Валютные операции", "290": "Валютные операции",
+}
+
+
+def _purpose_with_code(payment_code, purpose: str) -> str:
+    """Prepend Russian payment code description to purpose text."""
+    if not payment_code:
+        return purpose or ""
+    desc = PAYMENT_CODE_DESCRIPTIONS.get(payment_code)
+    if desc:
+        prefix = f"{payment_code} {desc}"
+    else:
+        prefix = f"Код {payment_code}"
+    if purpose:
+        return f"[{prefix}] {purpose}"
+    return f"[{prefix}]"
+
+
 # Serbian/Croatian Latin characters not present in Windows-1251
 _LATIN_MAP = str.maketrans({
     'š': 's', 'Š': 'S',
@@ -94,13 +160,16 @@ def generate_1c_file(statement: Statement, output_dir: Path) -> Path:
     lines.append("КонецРасчСчет")
 
     # Transactions
+    stmt_num = statement.statement_number or ""
     for tx in statement.transactions:
         is_debit = tx.debit is not None and tx.debit > 0
         amount = tx.debit if is_debit else tx.credit
         tx_date = tx.value_date or tx.booking_date
 
+        # Номер: statement_number-row_number for unique identification
+        doc_num = f"{stmt_num}-{tx.row_number}" if stmt_num else str(tx.row_number)
         lines.append("СекцияДокумент=Платёжное поручение")
-        lines.append(f"Номер={tx.row_number}")
+        lines.append(f"Номер={doc_num}")
         lines.append(f"Дата={_fmt_date(tx_date)}")
         lines.append(f"Сумма={_fmt_amount(amount)}")
 
@@ -119,7 +188,8 @@ def generate_1c_file(statement: Statement, output_dir: Path) -> Path:
             lines.append(f"Получатель={_safe_text(statement.client_name or '')}")
             lines.append(f"ПолучательИНН={statement.client_pib or ''}")
 
-        lines.append(f"НазначениеПлатежа={_safe_text(tx.purpose or '')}")
+        purpose = _purpose_with_code(tx.payment_code, tx.purpose)
+        lines.append(f"НазначениеПлатежа={_safe_text(purpose)}")
         lines.append("КонецДокумента")
 
     lines.append("КонецФайла")
