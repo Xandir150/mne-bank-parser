@@ -119,20 +119,46 @@ def _fmt_amount(val) -> str:
     return f"{Decimal(val):.2f}"
 
 
+def _safe_dirname(name: str) -> str:
+    """Sanitize a string for use as a directory name."""
+    if not name:
+        return ""
+    # Transliterate Serbian characters
+    name = name.translate(_LATIN_MAP)
+    # Replace filesystem-unfriendly characters
+    name = re.sub(r'[<>:"/\\|?*]', '', name)
+    # Collapse whitespace to single space, strip
+    name = " ".join(name.split()).strip()
+    return name
+
+
 def generate_1c_file(statement: Statement, output_dir: Path) -> Path:
     """Generate a 1CClientBankExchange file for a single statement.
 
-    Output: output/{account}/{date}_{statement_id}.txt
-    Each statement gets its own file. 1C "Файл загрузки из банка" points
-    to the account directory — user selects the specific file to import.
+    Output: output/{ClientName}-{PIB}/{account}_{stmt_number}_{date}.txt
+    All accounts of the same company go into one directory.
     """
-    account_dir_name = _fmt_account(statement.account_number) or "unknown"
-    account_dir = output_dir / account_dir_name
-    account_dir.mkdir(parents=True, exist_ok=True)
+    # Directory: "CompanyName-PIB" or fallback to account number
+    client = _safe_dirname(statement.client_name or "")
+    pib = statement.client_pib or ""
+    if client and pib:
+        company_dir_name = f"{client}-{pib}"
+    elif client:
+        company_dir_name = client
+    elif pib:
+        company_dir_name = pib
+    else:
+        company_dir_name = _fmt_account(statement.account_number) or "unknown"
 
+    company_dir = output_dir / company_dir_name
+    company_dir.mkdir(parents=True, exist_ok=True)
+
+    # Filename: account_stmtN_date.txt
+    acct = _fmt_account(statement.account_number) or "unknown"
+    stmt_num = statement.statement_number or str(statement.id)
     date_str = statement.statement_date.strftime("%Y%m%d") if statement.statement_date else "nodate"
-    filename = f"{date_str}_{statement.id}.txt"
-    output_path = account_dir / filename
+    filename = f"{acct}_{stmt_num}_{date_str}.txt"
+    output_path = company_dir / filename
 
     stmt_date = statement.period_start or statement.statement_date
     stmt_end = statement.period_end or statement.statement_date
