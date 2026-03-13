@@ -185,12 +185,16 @@ class LovcenParser(BankParser):
         if not lines:
             return
 
-        # First line: "163 W06 OSTALI TRANSFERI" or "400 WNK"
+        # First line: "140 445 DOPRINOSI..." or "163 W06 OSTALI TRANSFERI"
+        # Format: {payment_code} [{budget_code}] {purpose_text}
         first = lines[0]
         m = re.match(r"(\d{3})\s+(.*)", first)
         if m:
             txn.payment_code = m.group(1)
-            purpose_parts = [m.group(2)]
+            rest = m.group(2)
+            # Strip optional second numeric code (budget classification like 445)
+            rest = re.sub(r"^\d{3}\s+", "", rest)
+            purpose_parts = [rest]
         else:
             purpose_parts = [first]
 

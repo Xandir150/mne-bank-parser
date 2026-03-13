@@ -78,8 +78,8 @@ class HipotekarnaParser(BankParser):
                 # Currency code
                 elif re.match(r"^\d{3}$", t) and x > 1000:
                     pass  # currency code like 978
-                # 18-digit account number
-                elif re.match(r"^(520|565)\d{15}$", t):
+                # 18-digit account number (only set once from header area)
+                elif re.match(r"^(520|565)\d{15}$", t) and not stmt.account_number:
                     stmt.account_number = t
                 # Statement number + date line: "004" at one x, "01.02.2026." at another
                 elif re.match(r"^\d{1,4}$", t) and not stmt.statement_number:
@@ -97,73 +97,125 @@ class HipotekarnaParser(BankParser):
                         stmt.client_name = self.clean_text(t)
                         break
 
+    # Column x-boundaries (from PDF word positions):
+    # x < 150: date (col 1)
+    # 150 <= x < 600: counterparty name / account (col 2)
+    # 600 <= x < 800: debit amount (col 4)
+    # 800 <= x < 880: credit amount (col 5)
+    # 880 <= x < 1200: payment code / purpose (col 6)
+    # 1200 <= x < 1450: references (col 7)
+    # x >= 1450: reclamation data (col 8)
+    _COL_COUNTERPARTY = 150
+    _COL_DEBIT = 600
+    _COL_CREDIT = 800
+    _COL_PURPOSE = 880
+    _COL_REF = 1200
+    _COL_RECLAM = 1450
+
+    def _classify_word(self, x: float) -> str:
+        if x < self._COL_COUNTERPARTY:
+            return "date"
+        elif x < self._COL_DEBIT:
+            return "counterparty"
+        elif x < self._COL_CREDIT:
+            return "debit"
+        elif x < self._COL_PURPOSE:
+            return "credit"
+        elif x < self._COL_REF:
+            return "purpose"
+        elif x < self._COL_RECLAM:
+            return "reference"
+        else:
+            return "reclamation"
+
     def _parse_page(self, page, stmt: ParsedStatement) -> None:
         words = page.extract_words(keep_blank_chars=True, x_tolerance=3, y_tolerance=3)
-        lines = self._group_by_y(words)
-        text = page.extract_text() or ""
+        lines = self._group_by_y(words, tolerance=4)
 
-        # Parse transactions from text lines
-        # Transaction line: date + counterparty_bank + debit + credit
-        # Next line: account + purpose + reclamation
-        all_lines = text.split("\n")
+        # Pair lines: line1 (date row) + line2 (account row)
+        pending_txn = None
 
-        i = 0
-        while i < len(all_lines):
-            line = all_lines[i].strip()
+        for y, ws in lines:
+            cols = {}
+            for w in ws:
+                text = w['text'].strip()
+                if not text:
+                    continue
+                col = self._classify_word(w['x0'])
+                cols.setdefault(col, []).append(text)
 
-            # Match transaction start: DD.MM.YYYY. followed by text and amounts
-            m = re.match(
-                r"(\d{2}\.\d{2}\.\d{4})\.?\s+(.+?)\s+([\d,.]+)\s+([\d,.]+)\s*$",
-                line,
-            )
-            if m:
-                date_str = m.group(1)
-                counterparty_bank = m.group(2).strip()
-                debit_str = m.group(3)
-                credit_str = m.group(4)
+            date_text = " ".join(cols.get("date", []))
 
-                txn = ParsedTransaction(
-                    row_number=len(stmt.transactions) + 1,
-                )
-                txn.value_date = self.parse_date_dmy(date_str)
-                txn.booking_date = txn.value_date
-                txn.counterparty_bank = self.clean_text(counterparty_bank)
+            # Check if this is a summary line (all numbers, no date pattern)
+            if not re.match(r"\d{2}\.\d{2}\.\d{4}", date_text):
+                # Could be line 2 of a transaction or summary
+                cp_text = " ".join(cols.get("counterparty", []))
 
-                txn.debit = self.parse_amount_us(debit_str)
-                txn.credit = self.parse_amount_us(credit_str)
-                if txn.debit is not None and txn.debit == Decimal("0"):
-                    txn.debit = None
-                if txn.credit is not None and txn.credit == Decimal("0"):
-                    txn.credit = None
+                if pending_txn and re.match(r"(\d{18}|\d{3}-\d{5}-\d{2})", cp_text):
+                    # Line 2: account, purpose, reference, reclamation
+                    pending_txn.counterparty_account = cp_text.split()[0]
+                    pending_txn.purpose = self.clean_text(" ".join(cols.get("purpose", [])))
+                    ref_text = " ".join(cols.get("reference", []))
+                    if ref_text:
+                        pending_txn.reference_credit = ref_text
+                    reclam_text = " ".join(cols.get("reclamation", []))
+                    if reclam_text:
+                        pending_txn.reclamation_data = reclam_text
+                    if pending_txn.debit is not None or pending_txn.credit is not None:
+                        stmt.transactions.append(pending_txn)
+                    pending_txn = None
+                    continue
 
-                # Next line: account + purpose + reclamation
-                if i + 1 < len(all_lines):
-                    next_line = all_lines[i + 1].strip()
-                    m2 = re.match(r"(\d{18})\s*(.*)", next_line)
-                    if m2:
-                        txn.counterparty_account = m2.group(1)
-                        rest = m2.group(2).strip()
-                        # Split purpose and reclamation reference
-                        m3 = re.search(r"(\d{3}-\d{9,15})\s*$", rest)
-                        if m3:
-                            txn.purpose = self.clean_text(rest[: m3.start()])
-                            txn.reclamation_data = m3.group(1)
-                        elif rest:
-                            txn.purpose = self.clean_text(rest)
-                        i += 1
-
-                if txn.debit is not None or txn.credit is not None:
-                    stmt.transactions.append(txn)
-            else:
-                # Summary line: opening debit credit closing count_debit count_credit
+                # Summary line
+                all_text = " ".join(t for texts in cols.values() for t in texts)
                 m = re.match(
                     r"([\d,.]+)\s+([\d,.]+)\s+([\d,.]+)\s+([\d,.]+)\s+(\d+)\s+(\d+)\s*$",
-                    line,
+                    all_text,
                 )
                 if m:
                     stmt.opening_balance = self.parse_amount_us(m.group(1))
                     stmt.total_debit = self.parse_amount_us(m.group(2))
                     stmt.total_credit = self.parse_amount_us(m.group(3))
                     stmt.closing_balance = self.parse_amount_us(m.group(4))
+                continue
 
-            i += 1
+            # Line 1: date, counterparty, debit, credit, payment_code, reference
+            if pending_txn and (pending_txn.debit is not None or pending_txn.credit is not None):
+                # Previous txn had no line 2 (shouldn't happen, but safe)
+                stmt.transactions.append(pending_txn)
+                pending_txn = None
+
+            date_str = re.match(r"(\d{2}\.\d{2}\.\d{4})", date_text).group(1)
+            counterparty_name = " ".join(cols.get("counterparty", []))
+            debit_str = " ".join(cols.get("debit", []))
+            credit_str = " ".join(cols.get("credit", []))
+            purpose_parts = cols.get("purpose", [])
+            payment_code = purpose_parts[0] if purpose_parts else ""
+            ref_debit = " ".join(cols.get("reference", []))
+            reclam = " ".join(cols.get("reclamation", []))
+
+            txn = ParsedTransaction(
+                row_number=len(stmt.transactions) + 1,
+            )
+            txn.value_date = self.parse_date_dmy(date_str)
+            txn.booking_date = txn.value_date
+            txn.counterparty = self.clean_text(counterparty_name)
+            txn.payment_code = payment_code if re.match(r"\d{3}$", payment_code) else ""
+
+            txn.debit = self.parse_amount_us(debit_str) if debit_str else None
+            txn.credit = self.parse_amount_us(credit_str) if credit_str else None
+            if txn.debit is not None and txn.debit == Decimal("0"):
+                txn.debit = None
+            if txn.credit is not None and txn.credit == Decimal("0"):
+                txn.credit = None
+
+            if ref_debit:
+                txn.reference_debit = ref_debit
+            if reclam:
+                txn.reclamation_data = reclam
+
+            pending_txn = txn
+
+        # Flush last pending
+        if pending_txn and (pending_txn.debit is not None or pending_txn.credit is not None):
+            stmt.transactions.append(pending_txn)

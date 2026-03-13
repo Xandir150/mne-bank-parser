@@ -8,10 +8,12 @@ from apscheduler.triggers.interval import IntervalTrigger
 from app.config import settings
 from app.database import SessionLocal
 from app.models import Statement, Transaction
-from app.parsers import parse_file
+from app.parsers import parse_file, detect_bank_code
 from app.export_1c import generate_1c_file
 
 logger = logging.getLogger(__name__)
+
+ALL_EXTENSIONS = {".pdf", ".htm", ".html"}
 
 
 def _setup_file_logging():
@@ -34,10 +36,117 @@ def _setup_file_logging():
 scheduler = BackgroundScheduler()
 
 
+def _process_file(db, file_path: Path, bank_code: str) -> None:
+    """Process a single bank statement file."""
+    # Skip already processed files (but retry errors)
+    existing = (
+        db.query(Statement)
+        .filter(Statement.source_file == file_path.name, Statement.bank_code == bank_code)
+        .first()
+    )
+    if existing:
+        if existing.status == "error":
+            db.delete(existing)
+            db.commit()
+            logger.info("Retrying previously failed file %s", file_path.name)
+        else:
+            return
+
+    logger.info("Processing %s for bank %s", file_path.name, bank_code)
+    try:
+        parsed = parse_file(file_path, bank_code)
+
+        if not parsed.transactions:
+            raise ValueError(
+                f"Parser returned 0 transactions for {file_path.name} — "
+                "possible format change or extraction failure"
+            )
+
+        stmt = Statement(
+            bank_code=parsed.bank_code,
+            bank_name=parsed.bank_name,
+            account_number=parsed.account_number,
+            iban=parsed.iban,
+            statement_number=parsed.statement_number,
+            statement_date=parsed.statement_date,
+            period_start=parsed.period_start,
+            period_end=parsed.period_end,
+            opening_balance=parsed.opening_balance,
+            closing_balance=parsed.closing_balance,
+            total_debit=parsed.total_debit,
+            total_credit=parsed.total_credit,
+            currency=parsed.currency,
+            client_name=parsed.client_name,
+            client_pib=parsed.client_pib,
+            source_file=file_path.name,
+            status="new",
+        )
+        db.add(stmt)
+        db.flush()
+
+        for pt in parsed.transactions:
+            tx = Transaction(
+                statement_id=stmt.id,
+                row_number=pt.row_number,
+                value_date=pt.value_date,
+                booking_date=pt.booking_date,
+                debit=pt.debit,
+                credit=pt.credit,
+                counterparty=pt.counterparty,
+                counterparty_account=pt.counterparty_account,
+                counterparty_bank=pt.counterparty_bank,
+                payment_code=pt.payment_code,
+                purpose=pt.purpose,
+                reference_debit=pt.reference_debit,
+                reference_credit=pt.reference_credit,
+                reclamation_data=pt.reclamation_data,
+                fee=pt.fee,
+            )
+            db.add(tx)
+
+        db.commit()
+
+        # Auto-export to 1C format
+        try:
+            export_path = generate_1c_file(stmt, settings.output_dir)
+            stmt.export_file = str(export_path)
+            stmt.status = "exported"
+            db.commit()
+            logger.info("Auto-exported -> %s", export_path)
+        except Exception as export_err:
+            logger.error("Auto-export failed for %s: %s", file_path.name, export_err)
+
+        # Move to processed
+        processed_dir = settings.processed_dir / bank_code
+        processed_dir.mkdir(parents=True, exist_ok=True)
+        dest = processed_dir / file_path.name
+        if dest.exists():
+            dest = processed_dir / f"{file_path.stem}_{stmt.id}{file_path.suffix}"
+        shutil.move(str(file_path), str(dest))
+
+        logger.info("Successfully processed %s -> Statement #%d", file_path.name, stmt.id)
+
+    except Exception as e:
+        db.rollback()
+        logger.error("Failed to process %s: %s", file_path.name, e, exc_info=True)
+
+        error_stmt = Statement(
+            bank_code=bank_code,
+            bank_name=settings.bank_names.get(bank_code, bank_code),
+            account_number="",
+            source_file=file_path.name,
+            status="error",
+            error_message=str(e),
+        )
+        db.add(error_stmt)
+        db.commit()
+
+
 def scan_directories():
     """Scan input directories for new bank statement files and process them."""
     db = SessionLocal()
     try:
+        # 1. Scan per-bank subdirectories (existing behavior)
         for bank_code in settings.bank_names:
             input_dir = settings.input_dir / bank_code
             if not input_dir.exists():
@@ -49,105 +158,25 @@ def scan_directories():
                     continue
                 if file_path.suffix.lower() not in extensions:
                     continue
+                _process_file(db, file_path, bank_code)
 
-                # Skip already processed files (but retry errors)
-                existing = (
-                    db.query(Statement)
-                    .filter(Statement.source_file == file_path.name, Statement.bank_code == bank_code)
-                    .first()
+        # 2. Scan root input/ for files with auto-detection
+        for file_path in settings.input_dir.iterdir():
+            if not file_path.is_file():
+                continue
+            if file_path.suffix.lower() not in ALL_EXTENSIONS:
+                continue
+
+            bank_code = detect_bank_code(file_path)
+            if not bank_code:
+                logger.warning(
+                    "Could not auto-detect bank for %s — move to a bank folder or check format",
+                    file_path.name,
                 )
-                if existing:
-                    if existing.status == "error":
-                        # Delete old error record so we can retry
-                        db.delete(existing)
-                        db.commit()
-                        logger.info("Retrying previously failed file %s", file_path.name)
-                    else:
-                        continue
+                continue
 
-                logger.info("Processing %s for bank %s", file_path.name, bank_code)
-                try:
-                    parsed = parse_file(file_path, bank_code)
-
-                    stmt = Statement(
-                        bank_code=parsed.bank_code,
-                        bank_name=parsed.bank_name,
-                        account_number=parsed.account_number,
-                        iban=parsed.iban,
-                        statement_number=parsed.statement_number,
-                        statement_date=parsed.statement_date,
-                        period_start=parsed.period_start,
-                        period_end=parsed.period_end,
-                        opening_balance=parsed.opening_balance,
-                        closing_balance=parsed.closing_balance,
-                        total_debit=parsed.total_debit,
-                        total_credit=parsed.total_credit,
-                        currency=parsed.currency,
-                        client_name=parsed.client_name,
-                        client_pib=parsed.client_pib,
-                        source_file=file_path.name,
-                        status="new",
-                    )
-                    db.add(stmt)
-                    db.flush()
-
-                    for pt in parsed.transactions:
-                        tx = Transaction(
-                            statement_id=stmt.id,
-                            row_number=pt.row_number,
-                            value_date=pt.value_date,
-                            booking_date=pt.booking_date,
-                            debit=pt.debit,
-                            credit=pt.credit,
-                            counterparty=pt.counterparty,
-                            counterparty_account=pt.counterparty_account,
-                            counterparty_bank=pt.counterparty_bank,
-                            payment_code=pt.payment_code,
-                            purpose=pt.purpose,
-                            reference_debit=pt.reference_debit,
-                            reference_credit=pt.reference_credit,
-                            reclamation_data=pt.reclamation_data,
-                            fee=pt.fee,
-                        )
-                        db.add(tx)
-
-                    db.commit()
-
-                    # Auto-export to 1C format
-                    try:
-                        export_path = generate_1c_file(stmt, settings.output_dir)
-                        stmt.export_file = str(export_path)
-                        stmt.status = "exported"
-                        db.commit()
-                        logger.info("Auto-exported -> %s", export_path)
-                    except Exception as export_err:
-                        logger.error("Auto-export failed for %s: %s", file_path.name, export_err)
-
-                    # Move to processed
-                    processed_dir = settings.processed_dir / bank_code
-                    processed_dir.mkdir(parents=True, exist_ok=True)
-                    dest = processed_dir / file_path.name
-                    if dest.exists():
-                        dest = processed_dir / f"{file_path.stem}_{stmt.id}{file_path.suffix}"
-                    shutil.move(str(file_path), str(dest))
-
-                    logger.info("Successfully processed %s -> Statement #%d", file_path.name, stmt.id)
-
-                except Exception as e:
-                    db.rollback()
-                    logger.error("Failed to process %s: %s", file_path.name, e, exc_info=True)
-
-                    # Save error record — file stays in input for retry
-                    error_stmt = Statement(
-                        bank_code=bank_code,
-                        bank_name=settings.bank_names.get(bank_code, bank_code),
-                        account_number="",
-                        source_file=file_path.name,
-                        status="error",
-                        error_message=str(e),
-                    )
-                    db.add(error_stmt)
-                    db.commit()
+            logger.info("Auto-detected bank %s for %s", bank_code, file_path.name)
+            _process_file(db, file_path, bank_code)
     finally:
         db.close()
 

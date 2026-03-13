@@ -14,11 +14,13 @@ from app.parsers.base import BankParser, ParsedStatement, ParsedTransaction
 class ZapadParser(BankParser):
     """Parser for Zapad Banka (570) PDF statements.
 
-    Supports two sub-formats:
+    Supports four sub-formats:
     1. Daily statement (Montenegrin): "IZVOD RACUNA - broj N"
        - Old variant: US amounts (1,234.56)
        - New variant: EU amounts with space thousands (1 234,56)
     2. Period statement (English): "ACCOUNT STATEMENT"
+    3. Account turnover (Montenegrin): "PROMET RAČUNA"
+    4. Period statement (Russian): "ВЫПИСКА ПО СЧЕТУ"
     """
 
     bank_code = "570"
@@ -34,6 +36,10 @@ class ZapadParser(BankParser):
             first_text = (pdf.pages[0].extract_text() or "")[:500]
             if "ACCOUNT STATEMENT" in first_text:
                 self._parse_period(pdf, stmt)
+            elif "PROMET RAČUNA" in first_text:
+                self._parse_promet(pdf, stmt)
+            elif "ВЫПИСКА ПО СЧЕТУ" in first_text:
+                self._parse_russian(pdf, stmt)
             else:
                 self._parse_daily(pdf, stmt)
 
@@ -461,6 +467,424 @@ class ZapadParser(BankParser):
                 continue
             purpose_parts.append(stripped)
         purpose = self.clean_text(" ".join(purpose_parts))
+
+        txn = ParsedTransaction(
+            row_number=len(stmt.transactions) + 1,
+            value_date=value_date,
+            booking_date=booking_date,
+            debit=debit,
+            credit=credit,
+            counterparty=counterparty,
+            counterparty_account=iban,
+            purpose=purpose,
+        )
+        stmt.transactions.append(txn)
+
+    # ----------------------------------------------------------------
+    # Account turnover format (PROMET RAČUNA)
+    # ----------------------------------------------------------------
+    def _parse_promet(self, pdf, stmt: ParsedStatement) -> None:
+        """Parse 'PROMET RAČUNA' (account turnover) format."""
+        full_text = ""
+        for page in pdf.pages:
+            full_text += (page.extract_text() or "") + "\n"
+
+        self._parse_promet_header(full_text, stmt)
+        self._parse_promet_transactions(full_text, stmt)
+
+    def _parse_promet_header(self, text: str, stmt: ParsedStatement) -> None:
+        # Client name: line after "PROMET RAČUNA", before "RAČUN"
+        m = re.search(r"PROMET RAČUNA\s*\n(.+?)\s+RAČUN", text)
+        if m:
+            stmt.client_name = self.clean_text(m.group(1))
+
+        # JMBG/PIB
+        m = re.search(r"JMBG/PIB:\s*(\d+)", text)
+        if m:
+            stmt.client_pib = m.group(1)
+
+        # IBAN (header) — match first occurrence only
+        m = re.search(r"IBAN:\s*(ME[\d ]+)", text)
+        if m:
+            iban = m.group(1).replace(" ", "")
+            stmt.iban = iban
+            # Derive account number: 570-NNNNNNNNNNNNN-CC
+            if len(iban) >= 22:
+                digits = iban[4:]  # strip ME25
+                stmt.account_number = (
+                    f"{digits[:3]}-{digits[3:16]}-{digits[16:]}"
+                )
+
+        # Period dates: OD: d.m.yyyy. / DO: d.m.yyyy.
+        m = re.search(r"OD:\s*(\d{1,2}\.\d{1,2}\.\d{4})", text)
+        if m:
+            stmt.period_start = self.parse_date_dmy(m.group(1))
+        m = re.search(r"DO:\s*(\d{1,2}\.\d{1,2}\.\d{4})", text)
+        if m:
+            stmt.period_end = self.parse_date_dmy(m.group(1))
+            stmt.statement_date = stmt.period_end
+
+        # Opening balance: "PRETHODNO STANJE: 2.596,60"
+        m = re.search(r"PRETHODNO STANJE:\s*(\d[\d.,]*)", text)
+        if m:
+            stmt.opening_balance = self.parse_amount_eu(m.group(1))
+
+        # Closing balance: "STANJE NA KRAJU PERIODA: 2.133,39"
+        m = re.search(r"STANJE NA KRAJU PERIODA:\s*(\d[\d.,]*)", text)
+        if m:
+            stmt.closing_balance = self.parse_amount_eu(m.group(1))
+
+        # Totals: "PROMET EUR(978): 463,21 0,00"
+        m = re.search(
+            r"PROMET EUR\(\d+\):\s*(\d[\d.,]*)\s+(\d[\d.,]*)", text
+        )
+        if m:
+            stmt.total_debit = self.parse_amount_eu(m.group(1))
+            stmt.total_credit = self.parse_amount_eu(m.group(2))
+
+        # Currency: "VALUTA: EUR (978)"
+        m = re.search(r"VALUTA:\s*(\w+)\s*\(\d+\)", text)
+        if m:
+            stmt.currency = m.group(1)
+
+    def _parse_promet_transactions(self, text: str,
+                                   stmt: ParsedStatement) -> None:
+        """Parse PROMET RAČUNA transactions, split by 'SVRHA:' blocks."""
+        eu_amt_triple = re.compile(
+            r"(\d[\d.]*,\d{2})\s+(\d[\d.]*,\d{2})\s+(\d[\d.]*,\d{2})"
+        )
+        date_pat = re.compile(r"(\d{1,2}\.\d{1,2}\.\d{4})\.")
+        iban_pat = re.compile(r"(\d{7,8})\s+(.*?)IBAN:\s*(\S+)")
+
+        blocks = re.split(r"(?=SVRHA:)", text)
+
+        for block in blocks:
+            if not block.startswith("SVRHA:"):
+                continue
+
+            lines = block.split("\n")
+
+            purpose_parts: list[str] = []
+            dates: list[str] = []
+            debit = credit = None
+            trans_no = counterparty_iban = None
+            counterparty_parts: list[str] = []
+            pnbz = pnbo = None
+            found_iban = False
+            found_amounts = False
+
+            for line in lines:
+                stripped = line.strip()
+                if not stripped:
+                    continue
+
+                # ---- known keyword lines ----
+                if stripped.startswith("SVRHA:"):
+                    purpose_parts.append(stripped[6:].strip())
+                    continue
+                if stripped.startswith("PNBZ:"):
+                    val = stripped[5:].strip()
+                    if val:
+                        pnbz = val
+                    continue
+                if stripped.startswith("PNBO:"):
+                    val = stripped[5:].strip()
+                    if val:
+                        pnbo = val
+                    continue
+
+                # ---- skip footers / end-markers ----
+                if re.match(
+                    r"\d{1,2}\.\d{1,2}\.\d{4}\.\s+\d+\.\d+\s+Promet",
+                    stripped,
+                ):
+                    continue
+                if (
+                    "STANJE NA KRAJU PERIODA" in stripped
+                    or stripped.startswith("PROMET EUR")
+                    or stripped.startswith("Ovaj dokument")
+                ):
+                    continue
+
+                # ---- IBAN line (with optional date prefix) ----
+                m_iban = iban_pat.search(stripped)
+                if m_iban:
+                    trans_no = m_iban.group(1)
+                    cp = m_iban.group(2).strip()
+                    if cp and re.search(r"[A-Za-z]", cp):
+                        counterparty_parts.append(cp)
+                    counterparty_iban = m_iban.group(3)
+                    # date prefix
+                    m_d = date_pat.match(stripped)
+                    if m_d:
+                        dates.append(m_d.group(1))
+                    # amounts after IBAN on same line
+                    remainder = stripped[m_iban.end():]
+                    m_a = eu_amt_triple.search(remainder)
+                    if m_a and not found_amounts:
+                        debit = self.parse_amount_eu(m_a.group(1))
+                        credit = self.parse_amount_eu(m_a.group(2))
+                        found_amounts = True
+                    found_iban = True
+                    continue
+
+                # ---- amounts line ----
+                m_a = eu_amt_triple.search(stripped)
+                if m_a and not found_amounts:
+                    debit = self.parse_amount_eu(m_a.group(1))
+                    credit = self.parse_amount_eu(m_a.group(2))
+                    found_amounts = True
+                    prefix = stripped[: m_a.start()].strip()
+                    if prefix:
+                        purpose_parts.append(prefix)
+                    continue
+
+                # ---- date-only line ----
+                m_d = date_pat.match(stripped)
+                if m_d and date_pat.sub("", stripped).strip() == "":
+                    dates.append(m_d.group(1))
+                    continue
+
+                # ---- text continuation ----
+                if found_iban:
+                    counterparty_parts.append(stripped)
+                else:
+                    purpose_parts.append(stripped)
+
+            # Skip blocks without amounts (e.g. header area)
+            if debit is None and credit is None:
+                continue
+
+            value_date = (
+                self.parse_date_dmy(dates[0]) if dates else None
+            )
+            booking_date = (
+                self.parse_date_dmy(dates[1])
+                if len(dates) > 1
+                else value_date
+            )
+
+            counterparty = (
+                self.clean_text(" ".join(counterparty_parts))
+                if counterparty_parts
+                else None
+            )
+            purpose = (
+                self.clean_text(" ".join(purpose_parts))
+                if purpose_parts
+                else None
+            )
+
+            txn = ParsedTransaction(
+                row_number=len(stmt.transactions) + 1,
+                value_date=value_date,
+                booking_date=booking_date,
+                debit=debit,
+                credit=credit,
+                counterparty=counterparty,
+                counterparty_account=counterparty_iban,
+                purpose=purpose,
+            )
+            if pnbz:
+                txn.reference_credit = pnbz
+            if pnbo:
+                txn.reference_debit = pnbo
+            stmt.transactions.append(txn)
+
+    # ----------------------------------------------------------------
+    # Russian period statement format (ВЫПИСКА ПО СЧЕТУ)
+    # ----------------------------------------------------------------
+    def _parse_russian(self, pdf, stmt: ParsedStatement) -> None:
+        """Parse Russian-language period statement from Zapad Banka."""
+        full_text = ""
+        for page in pdf.pages:
+            full_text += (page.extract_text() or "") + "\n"
+
+        self._parse_russian_header(full_text, stmt)
+
+        for page in pdf.pages:
+            self._parse_russian_transactions(page, stmt)
+
+    def _parse_russian_header(self, text: str, stmt: ParsedStatement) -> None:
+        # Client name: line after "ВЫПИСКА ПО СЧЕТУ"
+        lines = text.split("\n")
+        for i, line in enumerate(lines):
+            if "ВЫПИСКА ПО СЧЕТУ" in line:
+                if i + 1 < len(lines):
+                    name_line = lines[i + 1].strip()
+                    # Remove trailing "СЧЕТ ПЕРИОД"
+                    name_line = re.sub(r"\s*СЧЕТ\s+ПЕРИОД\s*$", "", name_line)
+                    name_line = re.sub(r"\s*СЧЕТ\s*$", "", name_line)
+                    if name_line:
+                        stmt.client_name = self.clean_text(name_line)
+                break
+
+        # JMBG/PIB
+        m = re.search(r"JMBG/PIB:\s*(\d+)", text)
+        if m:
+            stmt.client_pib = m.group(1)
+
+        # IBAN
+        m = re.search(r"IBAN:\s*(ME[\d\s]+?)(?:\s+[СС]:|$)", text)
+        if m:
+            stmt.iban = m.group(1).replace(" ", "")
+            if len(stmt.iban) > 4:
+                digits = stmt.iban[4:]
+                if len(digits) >= 18:
+                    stmt.account_number = (
+                        f"{digits[:3]}-{digits[3:16]}-{digits[16:]}"
+                    )
+
+        # Period: С: DD.MM.YYYY ... ДО: DD.MM.YYYY
+        m = re.search(r"С:\s*(\d{2}\.\d{2}\.\d{4})", text)
+        if m:
+            stmt.period_start = self.parse_date_dmy(m.group(1))
+        m = re.search(r"ДО:\s*(\d{2}\.\d{2}\.\d{4})", text)
+        if m:
+            stmt.period_end = self.parse_date_dmy(m.group(1))
+            stmt.statement_date = stmt.period_end
+
+        # Opening balance: ВХОДЯЩИЙОСТАТОК: or ВХОДЯЩИЙ ОСТАТОК:
+        m = re.search(r"ВХОДЯЩИЙ\s*ОСТАТОК:\s*(\d[\d\s.,]*\d)", text)
+        if m:
+            stmt.opening_balance = self.parse_amount_eu(
+                m.group(1).replace(" ", "")
+            )
+
+        # Closing balance: ИСХОДЯЩИЙОСТАТОК: or ИСХОДЯЩИЙ ОСТАТОК:
+        m = re.search(r"ИСХОДЯЩИЙ\s*ОСТАТОК:\s*(\d[\d\s.,]*\d)", text)
+        if m:
+            stmt.closing_balance = self.parse_amount_eu(
+                m.group(1).replace(" ", "")
+            )
+
+        # Totals: ОБОРОТ EUR(978): 1429,90 0,00
+        m = re.search(
+            r"ОБОРОТ\s+EUR\(\d+\):\s*(\d[\d.,]*)\s+(\d[\d.,]*)", text
+        )
+        if m:
+            stmt.total_debit = self.parse_amount_eu(m.group(1))
+            stmt.total_credit = self.parse_amount_eu(m.group(2))
+
+        # Currency: ВАЛЮТА: EUR(978)
+        m = re.search(r"ВАЛЮТА:\s*(\w+)\s*\(\d+\)", text)
+        if m:
+            stmt.currency = m.group(1)
+
+    def _parse_russian_transactions(self, page, stmt: ParsedStatement) -> None:
+        """Parse Russian format transactions.
+
+        Each transaction block:
+        ДЕТАЛИ: <purpose>
+        <date DD.MM.YYYY>
+        <optional purpose continuation>
+        <amounts: debit credit balance>  (may be on trans_no line)
+        <date> <trans_no> <counterparty> IBAN: <iban>
+        """
+        text = page.extract_text() or ""
+        lines = text.split("\n")
+
+        i = 0
+        while i < len(lines):
+            line = lines[i].strip()
+
+            if not line.startswith("ДЕТАЛИ:") and "ДЕТАЛИ:" not in line:
+                i += 1
+                continue
+
+            block_lines = [line]
+            i += 1
+
+            while i < len(lines):
+                next_line = lines[i].strip()
+                if (
+                    next_line.startswith("ДЕТАЛИ:")
+                    or "ДЕТАЛИ:" in next_line
+                    or next_line.startswith("ОБОРОТ")
+                    or next_line.startswith("ИСХОДЯЩИЙ")
+                    or "действителен" in next_line
+                ):
+                    break
+                block_lines.append(next_line)
+                i += 1
+
+            self._parse_russian_block(block_lines, stmt)
+
+    def _parse_russian_block(self, block_lines: list[str],
+                             stmt: ParsedStatement) -> None:
+        """Parse a single Russian transaction block."""
+        block = "\n".join(block_lines)
+
+        # Extract purpose from ДЕТАЛИ:
+        m = re.search(r"ДЕТАЛИ:\s*(.+?)(?:\n|$)", block)
+        details_text = m.group(1).strip() if m else ""
+
+        # Find amounts: three EU-format numbers (debit credit balance)
+        eu_amt_triple = re.compile(
+            r"(\d[\d.]*,\d{2})\s+(\d[\d.]*,\d{2})\s+(\d[\d.]*,\d{2})"
+        )
+        debit = None
+        credit = None
+        amounts_line_idx = None
+        for idx, line in enumerate(block_lines):
+            m = eu_amt_triple.search(line)
+            if m:
+                debit = self.parse_amount_eu(m.group(1))
+                credit = self.parse_amount_eu(m.group(2))
+                amounts_line_idx = idx
+                break
+
+        if debit is None and credit is None:
+            return
+
+        # Extract dates (DD.MM.YYYY)
+        dates = re.findall(r"\b(\d{2}\.\d{2}\.\d{4})\b", block)
+        value_date = self.parse_date_dmy(dates[0]) if dates else None
+        booking_date = (
+            self.parse_date_dmy(dates[1]) if len(dates) > 1 else value_date
+        )
+
+        # Extract transaction number (7-8 digit number)
+        trans_no = None
+        m = re.search(r"\b(\d{7,8})\b", block)
+        if m:
+            trans_no = m.group(1)
+
+        # Extract IBAN
+        iban = None
+        m = re.search(r"IBAN:\s*(\S+)", block)
+        if m:
+            iban = m.group(1)
+
+        # Extract counterparty (between trans_no and IBAN:)
+        counterparty = None
+        if trans_no:
+            for line in block_lines:
+                if trans_no not in line:
+                    continue
+                m = re.search(
+                    re.escape(trans_no) + r"\s+(.+?)\s+IBAN:", line
+                )
+                if m:
+                    name = self.clean_text(m.group(1))
+                    if name and re.search(r"[A-Za-z\u0400-\u04FF]", name):
+                        counterparty = name
+                break
+
+        # Build purpose from details + continuation lines
+        purpose_parts = [details_text] if details_text else []
+        for idx, line in enumerate(block_lines[1:], 1):
+            stripped = line.strip()
+            if (
+                re.match(r"^\d{2}\.\d{2}\.\d{4}", stripped)
+                or eu_amt_triple.search(stripped)
+                or "IBAN:" in stripped
+                or (trans_no and trans_no in stripped)
+                or not stripped
+            ):
+                continue
+            purpose_parts.append(stripped)
+        purpose = self.clean_text(" ".join(purpose_parts)) if purpose_parts else None
 
         txn = ParsedTransaction(
             row_number=len(stmt.transactions) + 1,

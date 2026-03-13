@@ -22,18 +22,9 @@ app.mount("/static", StaticFiles(directory=str(Path(__file__).parent / "static")
 @app.on_event("startup")
 def on_startup():
     init_db()
-    for code in settings.bank_names:
-        (settings.input_dir / code).mkdir(parents=True, exist_ok=True)
-        (settings.processed_dir / code).mkdir(parents=True, exist_ok=True)
+    settings.input_dir.mkdir(parents=True, exist_ok=True)
     settings.output_dir.mkdir(parents=True, exist_ok=True)
     settings.db_path.parent.mkdir(parents=True, exist_ok=True)
-
-    # Generate cheat-sheet: bank codes → names
-    cheat = settings.input_dir / "banks.txt"
-    lines = ["Код - Банк", "=" * 30]
-    for code, name in sorted(settings.bank_names.items()):
-        lines.append(f"{code} - {name}")
-    cheat.write_text("\n".join(lines), encoding="utf-8")
 
     start_scheduler()
 
