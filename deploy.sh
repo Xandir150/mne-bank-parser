@@ -56,27 +56,26 @@ log "  set DOCKER_BUILDKIT=0&& docker compose up --build -d"
 # ============================================================
 # Loader1C — .NET service for loading statements into 1C
 # ============================================================
-LOADER_REMOTE="C:/NET/Epsilon/izvod/loader1c"
+LOADER_REMOTE="C:/scripts/loader1c"
+LOADER_SRC="C:/NET/Epsilon/izvod/loader1c"
 
 log ""
 log "Uploading loader1c sources ..."
 ssh_cmd() { ssh -i "$SSH_KEY" -o ConnectTimeout=10 "$SSH_HOST" "$@"; }
 
-# Ensure remote directory exists
-ssh_cmd "mkdir -p '$LOADER_REMOTE'"
-
-# Upload C# source files and project
-for f in Program.cs Loader1C.csproj appsettings.json; do
-    scp_cmd "$PROJECT_DIR/loader1c/$f" "$SSH_HOST:$LOADER_REMOTE/$f"
+# Upload all C# source files and project to build directory
+for f in "$PROJECT_DIR"/loader1c/*.cs "$PROJECT_DIR"/loader1c/*.csproj "$PROJECT_DIR"/loader1c/appsettings.json; do
+    [ -f "$f" ] && scp_cmd "$f" "$SSH_HOST:$LOADER_SRC/$(basename "$f")"
 done
 
-log "Building loader1c on server ..."
-ssh_cmd "cd '$LOADER_REMOTE' && dotnet publish -c Release -o bin/publish --nologo -v quiet"
+log "Building loader1c ..."
+ssh_cmd "sc stop Loader1C 2>nul; timeout /t 2 >nul"
+ssh_cmd "cd '$LOADER_SRC' && dotnet publish Loader1C.csproj -c Release -o '$LOADER_REMOTE' --nologo -v quiet"
 
-log "Restarting Loader1C service ..."
-ssh_cmd "sc stop Loader1C 2>nul; timeout /t 2 >nul; sc start Loader1C 2>nul || echo Service not yet registered"
+log "Starting Loader1C service ..."
+ssh_cmd "sc start Loader1C 2>nul || echo Service not yet registered"
 
 log ""
 log "Loader1C deployed to $LOADER_REMOTE"
 log "If service is not registered yet, run on server:"
-log "  sc create Loader1C binPath= \"C:\\NET\\Epsilon\\izvod\\loader1c\\bin\\publish\\Loader1C.exe\" start= auto obj= \".\\USR1CV8\" password= \"<password>\""
+log "  sc create Loader1C binPath= \"C:\\scripts\\loader1c\\Loader1C.exe\" start= auto obj= \".\\USR1CV8\" password= \"<password>\""
