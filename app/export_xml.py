@@ -101,7 +101,8 @@ def _extract_rule(rule: dict, is_debit: bool) -> dict:
 
 
 def _get_operation_info(counterparty_account: str, payment_code: str,
-                        is_debit: bool) -> dict:
+                        is_debit: bool, purpose: str = "",
+                        counterparty: str = "") -> dict:
     cfg = _load_config()
     acct = _fmt_account(counterparty_account)
 
@@ -110,9 +111,23 @@ def _get_operation_info(counterparty_account: str, payment_code: str,
         if pattern and acct and re.match(pattern, acct):
             return _extract_rule(rule, is_debit)
 
+    purpose_lower = (purpose or "").lower()
+    for rule in cfg.get("шифры_по_назначению", []):
+        if payment_code == rule.get("шифра", "") and rule.get("слово", "").lower() in purpose_lower:
+            return _extract_rule(rule, is_debit)
+
     code_rules = cfg.get("шифры", {})
     if payment_code and payment_code in code_rules:
         return _extract_rule(code_rules[payment_code], is_debit)
+
+    for rule in cfg.get("по_назначению", []):
+        if rule.get("слово", "").lower() in purpose_lower:
+            return _extract_rule(rule, is_debit)
+
+    cp_lower = (counterparty or "").lower()
+    for rule in cfg.get("по_контрагенту", []):
+        if rule.get("слово", "").lower() in cp_lower:
+            return _extract_rule(rule, is_debit)
 
     default = cfg.get("дефолт", {})
     if default:
@@ -248,7 +263,8 @@ def generate_xml_file(statement, output_dir: Path) -> Path:
         tx_date = tx.value_date or tx.booking_date
 
         op_info = _get_operation_info(
-            tx.counterparty_account, tx.payment_code, is_debit)
+            tx.counterparty_account, tx.payment_code, is_debit, tx.purpose,
+            tx.counterparty)
         вид_операции_ru = op_info.get("вид_операции", "")
         вид_операции = _OP_MAP.get(вид_операции_ru, "ПрочееСписание" if is_debit else "ПрочееПоступление")
 

@@ -47,7 +47,7 @@ class UCBParser(BankParser):
         # Account number from "Broj partije: 560-0000000002903-42"
         m = re.search(r"Broj\s+partije:\s*([\d\-]+)", text)
         if m:
-            stmt.account_number = m.group(1).strip()
+            stmt.account_number = re.sub(r"\D", "", m.group(1))
 
         # Statement number: "Izvod broj : 8"
         m = re.search(r"Izvod\s+broj\s*:\s*(\d+)", text)
@@ -62,8 +62,8 @@ class UCBParser(BankParser):
             except ValueError:
                 pass
 
-        # PIB
-        m = re.search(r"(?:Poreski\s+broj|PIB):\s*(\d+)", text)
+        # PIB — use "Poreski broj" (client's), not "PIB" (bank's header)
+        m = re.search(r"Poreski\s+broj:\s*(\d+)", text)
         if m:
             stmt.client_pib = m.group(1)
 
@@ -144,28 +144,23 @@ class UCBParser(BankParser):
                     stmt.transactions.append(txn)
 
     def _parse_counterparty(self, cell: str, txn: ParsedTransaction) -> None:
-        """Parse counterparty cell: name, address, account number."""
+        """Parse counterparty cell: name, address, account number.
+
+        Format: "NAME\\n, Address,\\n560000000000777767"
+        First line = name, last line = account (15-18 digits), middle = address.
+        """
         lines = [l.strip() for l in cell.split("\n") if l.strip()]
         if not lines:
             return
 
         # Account number is the last long digit string (15-18 digits)
         account = None
-        name_parts = []
         for line in lines:
-            # Check if line ends with or is an account number
             m = re.search(r"(\d{15,18})\s*$", line)
             if m:
                 account = m.group(1)
-                prefix = line[: m.start()].strip().rstrip(",").strip()
-                if prefix:
-                    name_parts.append(prefix)
-            else:
-                name_parts.append(line)
 
         txn.counterparty_account = account
-        full = ", ".join(name_parts)
-        # Clean up double commas and spaces
-        full = re.sub(r",\s*,", ",", full)
-        full = self.clean_text(full)
-        txn.counterparty = full
+        # First line: "Name, Address..." — name is always before the first comma
+        first_line = lines[0].split(",")[0].strip()
+        txn.counterparty = self.clean_text(first_line)

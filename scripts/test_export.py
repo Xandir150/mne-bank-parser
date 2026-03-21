@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from app.parsers.lovcen import LovcenParser
+from app.parsers import detect_bank_code, get_parser
 from app.parsers.base import ParsedStatement
 from app.export_1c import generate_1c_file
 from app.export_xml import generate_xml_file
@@ -55,7 +55,15 @@ def main():
         return
 
     print(f"Parsing: {pdf.name}")
-    parser = LovcenParser()
+    bank_code = detect_bank_code(pdf)
+    if not bank_code:
+        print("  ERROR: No bank detected for this file")
+        return
+    parser = get_parser(bank_code)
+    if not parser:
+        print(f"  ERROR: No parser for bank code {bank_code}")
+        return
+    print(f"  Detected: {parser.__class__.__name__} (bank {bank_code})")
     parsed = parser.parse(pdf)
 
     print(f"  Account: {parsed.account_number}")

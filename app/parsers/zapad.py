@@ -62,15 +62,17 @@ class ZapadParser(BankParser):
     # ----------------------------------------------------------------
     def _parse_daily(self, pdf, stmt: ParsedStatement) -> None:
         full_text = ""
+        layout_text = ""
         for page in pdf.pages:
             full_text += (page.extract_text() or "") + "\n"
+            layout_text += (page.extract_text(layout=True) or "") + "\n"
 
         # Detect amount format: EU (3 546,24) vs US (3,546.24)
         # EU amounts end with ,NN before whitespace; US has ,NNN.NN
         eu_fmt = bool(re.search(r"stanje:\s*\d[\d ]*,\d{2}(?:\s|$)", full_text))
 
         self._parse_daily_header(full_text, stmt, eu_fmt)
-        self._parse_daily_transactions(full_text, stmt, eu_fmt)
+        self._parse_daily_transactions(layout_text, stmt, eu_fmt)
 
     def _parse_daily_header(self, text: str, stmt: ParsedStatement,
                             eu_fmt: bool) -> None:
@@ -94,10 +96,10 @@ class ZapadParser(BankParser):
         if m:
             stmt.client_pib = m.group(1)
 
-        # Account: "Žiro račun: 570-1110011238-10"
+        # Account: "Žiro račun: 570-1110011238-10" → normalize to 18 digits
         m = re.search(r"Žiro\s+račun:\s*([\d\-]+)", text)
         if m:
-            stmt.account_number = m.group(1)
+            stmt.account_number = self.normalize_account(m.group(1))
 
         # Currency
         m = re.search(r"Valuta:\s*\d+\s+(\w+)", text)
@@ -127,119 +129,180 @@ class ZapadParser(BankParser):
 
     def _parse_daily_transactions(self, text: str, stmt: ParsedStatement,
                                   eu_fmt: bool) -> None:
-        """Parse daily format transactions.
+        """Parse daily format transactions from layout-preserved text.
 
-        Transaction line: "N. <trans_number> <counterparty> <account> <amounts>"
-        Purpose lines follow below, optionally starting with 3-digit payment code.
+        Normal line: "N. <trans_no> <counterparty> <account> <amounts>"
+        Split line:  "<trans_no> <counterparty> <account>"  (no row number)
+                     "N.                                    <amounts>"  (row number + amounts only)
+        Purpose lines follow, optionally starting with 3-digit payment code.
         """
         lines = text.split("\n")
 
-        # Regex to find EU or US amounts in the "rest" part after account
         if eu_fmt:
             amt_re = re.compile(r"\d{1,3}(?: \d{3})*,\d{2}")
         else:
             amt_re = re.compile(r"[\d,]+\.\d{2}")
 
-        # Transaction start: "N. <trans_no> <counterparty> <account> <rest>"
-        txn_re = re.compile(
-            r"^(\d+)\.\s+"             # Row number
-            r"(\d+)\s+"               # Transaction number
-            r"(.+?)\s+"              # Counterparty (non-greedy)
-            r"(\d{3}-[\d]+-\d{2})\s+"  # Account (NNN-N...N-NN)
-            r"(.+)$"                  # Rest (amounts)
-        )
+        acct_re = re.compile(r"(\d{3}-[\d]+-\d{2})")
 
-        txn_data = []  # (ParsedTransaction, saldo, needs_direction)
+        # Normal: "N. <trans_no> <counterparty> <account> <amounts>"
+        txn_re = re.compile(
+            r"^\s*(\d+)\.\s+"
+            r"(\d+)\s+"
+            r"(.+?)\s+"
+            r"(\d{3}-[\d]+-\d{2})\s+"
+            r"(.+)$"
+        )
+        # Split: row number + amounts only (no counterparty on this line)
+        row_only_re = re.compile(r"^\s*(\d+)\.\s*$|^\s*(\d+)\.\s+([\d,. ]+)$")
+        # Counterparty line (no row number): "<trans_no> <counterparty> <account>"
+        cp_line_re = re.compile(r"^\s*(\d+)\s+(.+?)\s+(\d{3}-[\d]+-\d{2})")
+
+        txn_data = []
+        pending_cp = None  # (trans_no, counterparty, account) from split line
 
         i = 0
         while i < len(lines):
-            line = lines[i].strip()
+            line = lines[i]
+            stripped = line.strip()
 
-            m = txn_re.match(line)
-            if not m:
+            if not stripped:
                 i += 1
                 continue
 
-            # Extract amounts from rest of line
-            rest = m.group(5)
-            amounts_str = amt_re.findall(rest)
-            if not amounts_str:
+            # End markers
+            if any(stripped.startswith(s) for s in [
+                "UKUPNO:", "Prethodno stanje:", "Krajnje stanje:",
+                "Ovaj dokument", "Rbr.", "Šifra", "Raspoloživo"
+            ]) or re.match(r"^Zapad banka AD\s*\(", stripped):
                 i += 1
                 continue
 
-            amounts = [self._parse_amt(a, eu_fmt) for a in amounts_str]
-            amounts = [a for a in amounts if a is not None]
-            if not amounts:
-                i += 1
-                continue
-
-            txn = ParsedTransaction(row_number=int(m.group(1)))
-            txn.counterparty = self.clean_text(m.group(3))
-            txn.counterparty_account = m.group(4)
-            txn.value_date = stmt.statement_date
-            txn.booking_date = stmt.statement_date
-
-            if len(amounts) >= 3:
-                txn.debit = amounts[0]
-                txn.credit = amounts[1]
-                saldo = amounts[2]
-                needs_direction = False
-            elif len(amounts) == 2:
-                txn.debit = amounts[0]  # temporary; direction determined later
-                txn.credit = Decimal("0")
-                saldo = amounts[1]
-                needs_direction = True
-            else:
-                txn.debit = amounts[0]
-                txn.credit = Decimal("0")
-                saldo = None
-                needs_direction = True
-
-            # Collect purpose lines & extract payment code
-            purpose_lines = []
-            payment_code = None
-            i += 1
-            while i < len(lines):
-                next_line = lines[i].strip()
-                if not next_line:
+            # Try normal format first
+            m = txn_re.match(stripped)
+            if m:
+                pending_cp = None
+                row_num = int(m.group(1))
+                counterparty = self.clean_text(m.group(3))
+                account = m.group(4)
+                rest = m.group(5)
+                amounts_str = amt_re.findall(rest)
+                amounts = [self._parse_amt(a, eu_fmt) for a in amounts_str]
+                amounts = [a for a in amounts if a is not None]
+                if amounts:
+                    txn, saldo, needs_dir = self._build_txn(
+                        row_num, counterparty, account, amounts, stmt)
                     i += 1
+                    txn.payment_code, purpose = self._collect_purpose(lines, i, txn_re, cp_line_re, amt_re)
+                    i = purpose[1]  # updated index
+                    txn.purpose = purpose[0]
+                    self._auto_detect_fee(txn)
+                    txn_data.append((txn, saldo, needs_dir))
                     continue
-                if (
-                    txn_re.match(next_line)
-                    or next_line.startswith("UKUPNO:")
-                    or "Prethodno stanje:" in next_line
-                    or "Krajnje stanje:" in next_line
-                    or next_line.startswith("Ovaj dokument")
-                    or next_line.startswith("Rbr.")
-                    or next_line.startswith("Šifra")
-                    or re.match(r"^Zapad banka AD\s*\(", next_line)
-                ):
-                    break
-                # First purpose line may start with 3-digit payment code
-                if not purpose_lines:
-                    m_code = re.match(r"^(\d{3})\s+(.*)", next_line)
-                    if m_code:
-                        payment_code = m_code.group(1)
-                        rest_text = m_code.group(2).strip()
-                        if rest_text:
-                            purpose_lines.append(rest_text)
-                    else:
-                        purpose_lines.append(next_line)
-                else:
-                    purpose_lines.append(next_line)
                 i += 1
+                continue
 
-            txn.payment_code = payment_code
-            if purpose_lines:
-                txn.purpose = self.clean_text(" ".join(purpose_lines))
+            # Try counterparty-only line (split format, part 1)
+            m_cp = cp_line_re.match(stripped)
+            if m_cp:
+                pending_cp = (m_cp.group(1), self.clean_text(m_cp.group(2)), m_cp.group(3))
+                i += 1
+                continue
 
-            # Auto-detect bank fees (no payment code, "Fee for order" purpose)
-            if not txn.payment_code and txn.purpose and "Fee for order" in txn.purpose:
-                txn.payment_code = "221"
+            # Try row-number-only line with amounts (split format, part 2)
+            m_row = re.match(r"^\s*(\d+)\.", stripped)
+            if m_row and pending_cp:
+                row_num = int(m_row.group(1))
+                amounts_str = amt_re.findall(stripped)
+                amounts = [self._parse_amt(a, eu_fmt) for a in amounts_str]
+                amounts = [a for a in amounts if a is not None]
+                if amounts:
+                    _, counterparty, account = pending_cp
+                    txn, saldo, needs_dir = self._build_txn(
+                        row_num, counterparty, account, amounts, stmt)
+                    pending_cp = None
+                    i += 1
+                    txn.payment_code, purpose = self._collect_purpose(lines, i, txn_re, cp_line_re, amt_re)
+                    i = purpose[1]
+                    txn.purpose = purpose[0]
+                    self._auto_detect_fee(txn)
+                    txn_data.append((txn, saldo, needs_dir))
+                    continue
 
-            txn_data.append((txn, saldo, needs_direction))
+            pending_cp = None
+            i += 1
 
         # Determine debit/credit direction using running balance
+        self._resolve_directions(txn_data, stmt)
+
+        for txn, _, _ in txn_data:
+            stmt.transactions.append(txn)
+
+    def _build_txn(self, row_num, counterparty, account, amounts, stmt):
+        txn = ParsedTransaction(row_number=row_num)
+        txn.counterparty = counterparty
+        txn.counterparty_account = self.normalize_account(account)
+        txn.value_date = stmt.statement_date
+        txn.booking_date = stmt.statement_date
+
+        if len(amounts) >= 3:
+            txn.debit = amounts[0]
+            txn.credit = amounts[1]
+            return txn, amounts[2], False
+        elif len(amounts) == 2:
+            txn.debit = amounts[0]
+            txn.credit = Decimal("0")
+            return txn, amounts[1], True
+        else:
+            txn.debit = amounts[0]
+            txn.credit = Decimal("0")
+            return txn, None, True
+
+    def _collect_purpose(self, lines, i, txn_re, cp_line_re, amt_re):
+        """Collect purpose lines and payment code. Returns (purpose, (text, new_i))."""
+        purpose_lines = []
+        payment_code = None
+        while i < len(lines):
+            next_line = lines[i].strip()
+            if not next_line:
+                i += 1
+                continue
+            # Stop at next transaction, totals, or footer
+            if (txn_re.match(next_line)
+                or cp_line_re.match(next_line)
+                or next_line.startswith("UKUPNO:")
+                or "Prethodno stanje:" in next_line
+                or "Krajnje stanje:" in next_line
+                or next_line.startswith("Ovaj dokument")
+                or next_line.startswith("Rbr.")
+                or next_line.startswith("Raspoloživo")
+                or re.match(r"^Zapad banka AD\s*\(", next_line)):
+                break
+            # Row-number-only line = next split transaction
+            if re.match(r"^\s*\d+\.\s", next_line) and amt_re.search(next_line):
+                break
+            # Check for payment code (3 digits at start) on any line
+            m_code = re.match(r"^(\d{3})\s+(.*)", next_line)
+            if m_code and not payment_code:
+                payment_code = m_code.group(1)
+                rest_text = m_code.group(2).strip()
+                if rest_text:
+                    purpose_lines.append(rest_text)
+            elif next_line != "00":
+                purpose_lines.append(next_line)
+            i += 1
+        purpose = self.clean_text(" ".join(purpose_lines)) if purpose_lines else None
+        return payment_code, (purpose, i)
+
+    def _auto_detect_fee(self, txn):
+        if not txn.payment_code:
+            acct = txn.counterparty_account or ""
+            if acct.startswith("907") or (txn.purpose and (
+                "Fee for order" in txn.purpose or "Naknada" in txn.purpose)):
+                txn.payment_code = "221"
+
+    def _resolve_directions(self, txn_data, stmt):
+        """Determine debit/credit using running balance."""
         if stmt.opening_balance is not None and txn_data:
             running = stmt.opening_balance
             for txn, saldo, needs_direction in txn_data:
@@ -254,7 +317,6 @@ class ZapadParser(BankParser):
                 if saldo is not None:
                     running = saldo
         else:
-            # Fallback: use totals
             if (stmt.total_credit is not None
                     and stmt.total_credit == Decimal("0")):
                 for txn, _, needs_dir in txn_data:
@@ -266,9 +328,6 @@ class ZapadParser(BankParser):
                     if needs_dir:
                         txn.credit = txn.debit
                         txn.debit = Decimal("0")
-
-        for txn, _, _ in txn_data:
-            stmt.transactions.append(txn)
 
     # ----------------------------------------------------------------
     # Period statement format (English)

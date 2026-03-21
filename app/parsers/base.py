@@ -132,3 +132,32 @@ class BankParser(ABC):
         if not text:
             return ""
         return " ".join(text.split()).strip()
+
+    @staticmethod
+    def normalize_account(acct: str) -> str:
+        """Normalize Montenegrin account to 18 digits.
+
+        BBB-NNNNNNNNNNNNN-CC → BBB + N(13 zero-padded) + CC = 18 digits.
+        Strips IBAN prefix ME25, dashes, spaces.
+        """
+        if not acct:
+            return ""
+        s = acct.strip()
+        # Strip IBAN prefix
+        if s.upper().startswith("ME") and len(s) > 4 and s[2:4].isdigit():
+            s = s[4:]
+        # Remove non-digits except dashes (needed for parsing)
+        s = re.sub(r"[^\d\-]", "", s)
+        # Try dash-separated: BBB-N...N-CC
+        m = re.match(r"^(\d{3})-(\d+)-(\d{2})$", s)
+        if m:
+            bank, number, check = m.group(1), m.group(2), m.group(3)
+            return bank + number.zfill(13) + check
+        # Remove remaining dashes
+        digits = s.replace("-", "")
+        if len(digits) == 18:
+            return digits
+        # Pad: first 3 = bank, last 2 = check, middle = zero-pad to 13
+        if len(digits) > 5:
+            return digits[:3] + digits[3:-2].zfill(13) + digits[-2:]
+        return digits

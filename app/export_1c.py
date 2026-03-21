@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 from datetime import datetime
 from decimal import Decimal
@@ -47,10 +49,12 @@ def _extract_rule(rule: dict, is_debit: bool) -> dict:
 
 
 def _get_operation_info(counterparty_account: str, payment_code: str,
-                        is_debit: bool) -> dict:
+                        is_debit: bool, purpose: str = "",
+                        counterparty: str = "") -> dict:
     """Determine operation type and related fields from config rules.
 
-    Priority: 1) account pattern, 2) payment code, 3) default, 4) hardcoded.
+    Priority: 1) account pattern, 2) code + keyword, 3) payment code,
+              4) purpose keyword, 5) counterparty keyword, 6) default.
     """
     cfg = _load_config()
     acct = _fmt_account(counterparty_account)
@@ -61,17 +65,34 @@ def _get_operation_info(counterparty_account: str, payment_code: str,
         if pattern and acct and re.match(pattern, acct):
             return _extract_rule(rule, is_debit)
 
-    # 2) Match by payment code
+    # 2) Match by payment code + keyword in purpose
+    purpose_lower = (purpose or "").lower()
+    for rule in cfg.get("шифры_по_назначению", []):
+        if payment_code == rule.get("шифра", "") and rule.get("слово", "").lower() in purpose_lower:
+            return _extract_rule(rule, is_debit)
+
+    # 3) Match by payment code
     code_rules = cfg.get("шифры", {})
     if payment_code and payment_code in code_rules:
         return _extract_rule(code_rules[payment_code], is_debit)
 
-    # 3) Default from config
+    # 4) Match by keyword in purpose only (no code required)
+    for rule in cfg.get("по_назначению", []):
+        if rule.get("слово", "").lower() in purpose_lower:
+            return _extract_rule(rule, is_debit)
+
+    # 5) Match by counterparty name keyword
+    cp_lower = (counterparty or "").lower()
+    for rule in cfg.get("по_контрагенту", []):
+        if rule.get("слово", "").lower() in cp_lower:
+            return _extract_rule(rule, is_debit)
+
+    # 6) Default from config
     default = cfg.get("дефолт", {})
     if default:
         return _extract_rule(default, is_debit)
 
-    # 4) Fallback from hardcoded cash flow items
+    # 5) Fallback from hardcoded cash flow items
     cash_flow = _CASH_FLOW_ITEM.get((payment_code, is_debit), "")
     if cash_flow:
         return {"статья_ддс": cash_flow}
@@ -333,7 +354,8 @@ def generate_1c_file(statement: Statement, output_dir: Path) -> Path:
 
         # Operation info from config
         op_info = _get_operation_info(
-            tx.counterparty_account, tx.payment_code, is_debit)
+            tx.counterparty_account, tx.payment_code, is_debit, tx.purpose,
+            tx.counterparty)
 
         # Номер документа = номер выписки
         doc_num = stmt_num_str or str(tx.row_number)
