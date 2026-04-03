@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using Microsoft.Extensions.Logging;
 
 // ──────────────────────────────────────────────────────────────
@@ -11,7 +13,8 @@ public partial class Com1CConnector
 {
     // ВидОперации mapping: our Russian name → 1C enum value name
     // Enums: ВидыОперацийСписаниеДенежныхСредств / ВидыОперацийПоступлениеДенежныхСредств
-    private static readonly Dictionary<string, (string DebitEnum, string CreditEnum)> _opTypeMap = new()
+    // Loaded from op_types.json (hot-reloadable), with hardcoded fallback
+    private static readonly Dictionary<string, (string DebitEnum, string CreditEnum)> _defaultOpTypeMap = new()
     {
         ["Уплата налога"]       = ("ПеречислениеНалога", "ВозвратНалога"),
         ["Комиссия банка"]      = ("КомиссияБанка", "ПрочееПоступление"),
@@ -23,15 +26,51 @@ public partial class Com1CConnector
         ["Перечисление заработной платы по ведомостям"] = ("ПеречислениеЗП", "ПрочееПоступление"),
         ["Перевод на другой счёт организации"] = ("ПереводНаДругойСчет", "ПереводСДругогоСчета"),
         ["Возврат от поставщика"] = ("ОплатаПоставщику", "ВозвратОтПоставщика"),
+        ["Инкассация"] = ("Инкассация", "Инкассация"),
     };
+
+    private static Dictionary<string, (string DebitEnum, string CreditEnum)>? _opTypeMapCached;
+    private static DateTime _opTypeMapMtime;
+    private static string _opTypeMapPath = Path.Combine(AppContext.BaseDirectory, "op_types.json");
+
+    private static Dictionary<string, (string DebitEnum, string CreditEnum)> _opTypeMap
+    {
+        get
+        {
+            try
+            {
+                if (!File.Exists(_opTypeMapPath))
+                    return _opTypeMapCached ?? _defaultOpTypeMap;
+                var mtime = File.GetLastWriteTimeUtc(_opTypeMapPath);
+                if (_opTypeMapCached != null && mtime == _opTypeMapMtime)
+                    return _opTypeMapCached;
+                var json = File.ReadAllText(_opTypeMapPath, System.Text.Encoding.UTF8);
+                var raw = JsonSerializer.Deserialize<Dictionary<string, string[]>>(json) ?? new();
+                var map = new Dictionary<string, (string, string)>();
+                foreach (var kvp in raw)
+                {
+                    if (kvp.Value.Length >= 2)
+                        map[kvp.Key] = (kvp.Value[0], kvp.Value[1]);
+                }
+                _opTypeMapCached = map;
+                _opTypeMapMtime = mtime;
+                return map;
+            }
+            catch
+            {
+                return _opTypeMapCached ?? _defaultOpTypeMap;
+            }
+        }
+    }
 
     /// <summary>Returns true if document was created.</summary>
     private bool CreateDocument(dynamic conn, BankDocument doc,
         dynamic bankAcct, dynamic org, bool isDebit,
         string ourAccount = "")
     {
-        _logger.LogInformation("  >> Doc: {Amount} {Op} {Purpose}",
-            doc.Amount, doc.OperationType, doc.Purpose?.Substring(0, Math.Min(40, doc.Purpose?.Length ?? 0)));
+        _logger.LogInformation("  >> Doc: {Amount} {Op} DebitAcct={DebitAcct} CashFlow={CashFlow} Purpose={Purpose}",
+            doc.Amount, doc.OperationType, doc.DebitAccount, doc.CashFlowItem,
+            doc.Purpose?.Substring(0, Math.Min(40, doc.Purpose?.Length ?? 0)));
 
         // Parse date
         DateTime docDate = DateTime.ParseExact(doc.Date, "dd.MM.yyyy",
@@ -97,8 +136,8 @@ public partial class Com1CConnector
         // Bank account of our organization
         try { newDoc.СчетОрганизации = bankAcct; } catch { }
 
-        // СчетБанк — the accounting account (план счетов), e.g. "51"
-        string acctCode = "51";
+        // СчетБанк — the accounting account (план счетов), e.g. "51" or "55.04" for card accounts
+        string acctCode = !string.IsNullOrWhiteSpace(doc.CreditAccount) ? doc.CreditAccount : "51";
         try
         {
             dynamic chartAcct = conn.ПланыСчетов.Хозрасчетный.НайтиПоКоду(acctCode);
@@ -387,9 +426,25 @@ public partial class Com1CConnector
             catch { }
         }
 
-        // Note: СчетДебета/СчетКредита are NOT document properties in 1C:Бухгалтерия.
-        // Accounting accounts are determined by the operation type during posting.
-        // We set ВидОперации which controls which accounts are used.
+        // --- СчетУчетаРасчетовСКонтрагентом (e.g. 67.03 for loans) ---
+        if (!string.IsNullOrWhiteSpace(doc.DebitAccount))
+        {
+            try
+            {
+                dynamic acctPlan = conn.ПланыСчетов.Хозрасчетный;
+                dynamic acctRef = acctPlan.НайтиПоКоду(doc.DebitAccount);
+                if (!acctRef.Пустая())
+                {
+                    newDoc.СчетУчетаРасчетовСКонтрагентом = acctRef;
+                    _logger.LogInformation("    СчетРасчетов: {Acct}", doc.DebitAccount);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning("    Failed to set СчетРасчетов '{Acct}': {Err}",
+                    doc.DebitAccount, ex.Message);
+            }
+        }
 
         // --- СтатьяДвиженияДенежныхСредств ---
         if (!string.IsNullOrWhiteSpace(doc.CashFlowItem))
@@ -400,7 +455,12 @@ public partial class Com1CConnector
                     .СтатьиДвиженияДенежныхСредств
                     .НайтиПоНаименованию(doc.CashFlowItem, true);
                 if (!item.Пустая())
+                {
                     newDoc.СтатьяДвиженияДенежныхСредств = item;
+                    _logger.LogInformation("    СтатьяДДС: {Item}", doc.CashFlowItem);
+                }
+                else
+                    _logger.LogWarning("    СтатьяДДС NOT FOUND: '{Item}'", doc.CashFlowItem);
             }
             catch (Exception ex)
             {
@@ -600,8 +660,10 @@ public partial class Com1CConnector
         // НомерВходящегоДокумента / ДатаВходящегоДокумента — optional, set later if needed
 
         // Write without posting (Записать, не Провести)
+        // ОбменДанными.Загрузка bypasses ПередЗаписью handlers that reset fields
         try
         {
+            newDoc.ОбменДанными.Загрузка = true;
             newDoc.Записать();
         }
         catch (Exception writeEx)
@@ -609,6 +671,9 @@ public partial class Com1CConnector
             _logger.LogError("    WRITE FAILED: {Err}\n{Stack}", writeEx.Message, writeEx.ToString());
             throw;
         }
+
+        // Note: for "Получение займа" operation type, 1C form resets
+        // СтатьяДДС and СчетРасчетов — accountant fills them manually.
 
         _logger.LogInformation("  Created {Type} #{Number} {Date} {Amount:F2} {Op} {Counterparty}",
             isDebit ? "Debit" : "Credit",
@@ -717,16 +782,22 @@ public partial class Com1CConnector
                     catch { }
                 }
 
-                if (counterpartyRef == null && !string.IsNullOrWhiteSpace(name))
+                // For physical persons, search by clean name (no address)
+                string searchName = IsCompanyName(name) ? name : ExtractPersonName(name);
+
+                if (counterpartyRef == null && !string.IsNullOrWhiteSpace(searchName))
                 {
                     try
                     {
                         dynamic found = conn.Справочники.Контрагенты
-                            .НайтиПоНаименованию(name, true);
+                            .НайтиПоНаименованию(searchName, true);
                         if (!found.Пустая() && !(bool)found.ПометкаУдаления)
                             counterpartyRef = found;
                     }
                     catch { }
+                    // Also try with swapped word order for persons
+                    if (counterpartyRef == null && !IsCompanyName(name))
+                        counterpartyRef = FindCounterpartyByName(conn, searchName);
                 }
 
                 // Fallback: for companies, search by name without DOO/AD suffix
@@ -781,8 +852,10 @@ public partial class Com1CConnector
                     }
 
                     bool isCompany = IsCompanyName(name);
+                    // For physical persons, strip address after comma and keep first+last name
+                    string createName = isCompany ? name : ExtractPersonName(name);
                     _logger.LogInformation("    Creating {Type}: {Name}",
-                        isCompany ? "company" : "physical person", name);
+                        isCompany ? "company" : "physical person", createName);
 
                     if (isCompany)
                     {
@@ -808,12 +881,12 @@ public partial class Com1CConnector
                     {
                         // Physical person: create ФизическоеЛицо + Контрагент
                         dynamic newPhys = conn.Справочники.ФизическиеЛица.СоздатьЭлемент();
-                        newPhys.Наименование = name;
+                        newPhys.Наименование = createName;
                         newPhys.Записать();
-                        _logger.LogInformation("    Created ФизическоеЛицо: {Name}", name);
+                        _logger.LogInformation("    Created ФизическоеЛицо: {Name}", createName);
 
                         dynamic newCp = conn.Справочники.Контрагенты.СоздатьЭлемент();
-                        newCp.Наименование = name;
+                        newCp.Наименование = createName;
                         try
                         {
                             dynamic enumMgr = conn.Перечисления.ЮрФизЛицо;

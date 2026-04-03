@@ -14,7 +14,6 @@ public class LoaderWorker : BackgroundService
     private readonly LoaderConfig _config;
     private readonly Com1CConnector _com;
     private readonly ILogger<LoaderWorker> _logger;
-    private readonly HashSet<string> _processedFiles = new();
 
     public LoaderWorker(LoaderConfig config, Com1CConnector com,
         ILogger<LoaderWorker> logger)
@@ -28,31 +27,17 @@ public class LoaderWorker : BackgroundService
     {
         _logger.LogInformation("Loader1C service starting...");
 
-        // Always scan databases on startup to refresh mapping
-        await Task.Run(() => _com.ScanDatabases(), stoppingToken);
-
-        // Track already processed files
-        var loadedDir = _config.LoadedDir;
-        Directory.CreateDirectory(loadedDir);
-
-        // Scan loaded dir to know what's already done
-        if (Directory.Exists(loadedDir))
+        // Use cached mapping for fast start; rescan databases in the background
+        bool hasCached = _com.LoadCachedMapping();
+        if (hasCached)
         {
-            foreach (var f in Directory.GetFiles(loadedDir, "*.txt",
-                         SearchOption.AllDirectories))
-                _processedFiles.Add(Path.GetFileName(f));
+            _logger.LogInformation("Using cached mapping, rescan will run in background");
+            _ = Task.Run(() => { try { _com.ScanDatabases(); } catch (Exception ex) { _logger.LogError(ex, "Background rescan failed"); } }, stoppingToken);
         }
-
-        // Also check for .loaded marker files in output dir
-        if (Directory.Exists(_config.OutputDir))
+        else
         {
-            foreach (var f in Directory.GetFiles(_config.OutputDir, "*.txt.loaded",
-                         SearchOption.AllDirectories))
-            {
-                // marker "xxx.txt.loaded" means "xxx.txt" was processed
-                var originalName = Path.GetFileNameWithoutExtension(f); // strips .loaded → xxx.txt
-                _processedFiles.Add(originalName);
-            }
+            _logger.LogInformation("No cached mapping, scanning databases...");
+            await Task.Run(() => _com.ScanDatabases(), stoppingToken);
         }
 
         _logger.LogInformation("Watching {Dir} (interval: {Sec}s)",
@@ -83,13 +68,15 @@ public class LoaderWorker : BackgroundService
         foreach (var filePath in txtFiles)
         {
             var fileName = Path.GetFileName(filePath);
-            if (_processedFiles.Contains(fileName)) continue;
 
             // Skip files that look like garbage (unknown_*)
             if (fileName.StartsWith("unknown_")) continue;
 
-            // Skip if .loaded marker exists (already processed)
+            // Only skip if .loaded marker exists — delete marker to re-process
             if (File.Exists(filePath + ".loaded")) continue;
+
+            // Re-check file exists (may have been moved between GetFiles and now)
+            if (!File.Exists(filePath)) continue;
 
             _logger.LogInformation("New file: {File}", filePath);
 
@@ -99,7 +86,6 @@ public class LoaderWorker : BackgroundService
                 if (parsed.Documents.Count == 0)
                 {
                     _logger.LogWarning("No documents in {File}, skipping", fileName);
-                    _processedFiles.Add(fileName);
                     continue;
                 }
 
@@ -107,13 +93,13 @@ public class LoaderWorker : BackgroundService
 
                 if (result.Created > 0)
                 {
-                    _logger.LogInformation("Loaded {File}: {Created} documents created",
-                        fileName, result.Created);
+                    _logger.LogInformation("Loaded {File}: {Created} created, {Skipped} skipped",
+                        fileName, result.Created, result.Skipped);
 
-                    // Write .loaded marker FIRST (survives crash/restart)
+                    // Write .loaded marker (delete this file to re-process)
                     File.WriteAllText(filePath + ".loaded",
                         $"Loaded: {DateTime.Now:yyyy-MM-dd HH:mm:ss}, " +
-                        $"Documents: {result.Created}");
+                        $"Created: {result.Created}, Skipped: {result.Skipped}");
 
                     // Move to loaded dir (preserve subfolder structure)
                     var relDir = Path.GetRelativePath(_config.OutputDir,
@@ -128,18 +114,32 @@ public class LoaderWorker : BackgroundService
                             Path.GetExtension(fileName));
                     File.Move(filePath, destPath);
                 }
+                else if (result.Skipped > 0 && result.Error == null)
+                {
+                    // All documents already exist in 1C — mark as loaded, don't retry
+                    _logger.LogInformation("All {Skipped} docs in {File} already exist, marking as loaded",
+                        result.Skipped, fileName);
+                    File.WriteAllText(filePath + ".loaded",
+                        $"AllSkipped: {DateTime.Now:yyyy-MM-dd HH:mm:ss}, " +
+                        $"Skipped: {result.Skipped}");
+                }
+                else if (result.Error != null)
+                {
+                    // Real error — rename to .error so we don't retry forever
+                    _logger.LogWarning("Error loading {File}: {Error}", fileName, result.Error);
+                    try { File.Move(filePath, filePath + ".error"); } catch { }
+                }
                 else
                 {
-                    _logger.LogWarning("Failed to load {File}: {Error}",
-                        fileName, result.Error);
+                    // Created=0, Skipped=0, no error — empty result, skip
+                    _logger.LogWarning("No result for {File}, skipping", fileName);
+                    File.WriteAllText(filePath + ".loaded",
+                        $"Empty: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
                 }
-
-                _processedFiles.Add(fileName);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error processing {File}", filePath);
-                _processedFiles.Add(fileName); // don't retry endlessly
             }
         }
     }

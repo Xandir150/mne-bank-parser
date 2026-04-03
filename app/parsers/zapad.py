@@ -76,8 +76,8 @@ class ZapadParser(BankParser):
 
     def _parse_daily_header(self, text: str, stmt: ParsedStatement,
                             eu_fmt: bool) -> None:
-        # Statement number: "IZVOD RAČUNA - broj 2"
-        m = re.search(r"IZVOD\s+RAČUNA\s*-\s*broj\s+(\d+)", text)
+        # Statement number: "IZVOD RAČUNA - broj 2" or "broj 273/1"
+        m = re.search(r"IZVOD\s+RAČUNA\s*-\s*broj\s+([\d/]+)", text)
         if m:
             stmt.statement_number = m.group(1)
 

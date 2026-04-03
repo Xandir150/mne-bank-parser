@@ -107,7 +107,7 @@ class HipotekarnaParser(BankParser):
     # x >= 1450: reclamation data (col 8)
     _COL_COUNTERPARTY = 150
     _COL_DEBIT = 600
-    _COL_CREDIT = 800
+    _COL_CREDIT = 750
     _COL_PURPOSE = 880
     _COL_REF = 1200
     _COL_RECLAM = 1450
@@ -151,8 +151,8 @@ class HipotekarnaParser(BankParser):
                 # Could be line 2 of a transaction or summary
                 cp_text = " ".join(cols.get("counterparty", []))
 
-                if pending_txn and re.match(r"(\d{18}|\d{3}-\d{5}-\d{2})", cp_text):
-                    # Line 2: account, purpose, reference, reclamation
+                if pending_txn and re.match(r"(\d{6,18}|\d{3}-\d{5}-\d{2})", cp_text):
+                    # Line 2: account or branch code, purpose, reference, reclamation
                     pending_txn.counterparty_account = cp_text.split()[0]
                     pending_txn.purpose = self.clean_text(" ".join(cols.get("purpose", [])))
                     ref_text = " ".join(cols.get("reference", []))

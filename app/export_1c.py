@@ -18,16 +18,22 @@ if TYPE_CHECKING:
 
 _CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.yaml"
 _config_cache = None
+_config_mtime = 0.0
 
 
 def _load_config() -> dict:
-    global _config_cache
-    if _config_cache is None:
+    global _config_cache, _config_mtime
+    try:
+        mtime = _CONFIG_PATH.stat().st_mtime
+    except OSError:
+        mtime = 0.0
+    if _config_cache is None or mtime != _config_mtime:
         if _CONFIG_PATH.exists():
             with open(_CONFIG_PATH, encoding="utf-8") as f:
                 _config_cache = yaml.safe_load(f) or {}
         else:
             _config_cache = {}
+        _config_mtime = mtime
     return _config_cache
 
 
@@ -42,7 +48,7 @@ def _extract_rule(rule: dict, is_debit: bool) -> dict:
         result["вид_операции"] = rule.get("вид_операции") or rule.get("вид_операции_кредит", "")
         result["статья_ддс"] = rule.get("статья_ддс") or rule.get("статья_ддс_кредит", "")
         result["счет_дебета"] = rule.get("счет_дебета") or rule.get("счет_дебета_кредит", "")
-    for key in ("вид_налога", "вид_обязательства", "статья_расходов"):
+    for key in ("вид_налога", "вид_обязательства", "статья_расходов", "счет_учета"):
         if key in rule:
             result[key] = rule[key]
     return result
@@ -50,14 +56,17 @@ def _extract_rule(rule: dict, is_debit: bool) -> dict:
 
 def _get_operation_info(counterparty_account: str, payment_code: str,
                         is_debit: bool, purpose: str = "",
-                        counterparty: str = "") -> dict:
+                        counterparty: str = "",
+                        our_account: str = "") -> dict:
     """Determine operation type and related fields from config rules.
 
-    Priority: 1) account pattern, 2) code + keyword, 3) payment code,
+    Priority: 0) our account, 1) counterparty account pattern,
+              2) code + keyword, 3) payment code,
               4) purpose keyword, 5) counterparty keyword, 6) default.
     """
     cfg = _load_config()
     acct = _fmt_account(counterparty_account)
+    our_acct = _fmt_account(our_account)
 
     # 1) Match by counterparty account pattern
     for rule in cfg.get("операции", []):
@@ -87,7 +96,13 @@ def _get_operation_info(counterparty_account: str, payment_code: str,
         if rule.get("слово", "").lower() in cp_lower:
             return _extract_rule(rule, is_debit)
 
-    # 6) Default from config
+    # 6) Match by our own account (per-account default, before global default)
+    for rule in cfg.get("по_нашему_счёту", []):
+        pattern = rule.get("account_pattern", "")
+        if pattern and our_acct and re.match(pattern, our_acct):
+            return _extract_rule(rule, is_debit)
+
+    # 7) Default from config
     default = cfg.get("дефолт", {})
     if default:
         return _extract_rule(default, is_debit)
@@ -309,9 +324,9 @@ def generate_1c_file(statement: Statement, output_dir: Path) -> Path:
     company_dir = output_dir / company_dir_name
     company_dir.mkdir(parents=True, exist_ok=True)
 
-    # Filename: account_stmtN_date.txt
+    # Filename: account_stmtN_date.txt (slash in stmt number replaced with dash)
     acct = _fmt_account(statement.account_number) or "unknown"
-    stmt_num = statement.statement_number or str(statement.id)
+    stmt_num = (statement.statement_number or str(statement.id)).replace("/", "-")
     date_str = statement.statement_date.strftime("%Y%m%d") if statement.statement_date else "nodate"
     filename = f"{acct}_{stmt_num}_{date_str}.txt"
     output_path = company_dir / filename
@@ -355,7 +370,7 @@ def generate_1c_file(statement: Statement, output_dir: Path) -> Path:
         # Operation info from config
         op_info = _get_operation_info(
             tx.counterparty_account, tx.payment_code, is_debit, tx.purpose,
-            tx.counterparty)
+            tx.counterparty, statement.account_number)
 
         # Номер документа = номер выписки
         doc_num = stmt_num_str or str(tx.row_number)
@@ -369,8 +384,8 @@ def generate_1c_file(statement: Statement, output_dir: Path) -> Path:
         lines.append(f"ДатаВыписки={_fmt_date(statement.statement_date)}")
         lines.append(f"НомерВыписки={statement.statement_number or ''}")
 
-        # Счёт учёта (кредит — расчётный счёт)
-        lines.append(f"СчетУчета={счет_учета}")
+        # Счёт учёта (кредит — расчётный счёт, может быть переопределён правилом)
+        lines.append(f"СчетУчета={op_info.get('счет_учета', счет_учета)}")
 
         # Счёт дебета (из правил конфига)
         счет_дебета = op_info.get("счет_дебета", "")

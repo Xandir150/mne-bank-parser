@@ -27,16 +27,22 @@ if TYPE_CHECKING:
 
 _CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.yaml"
 _config_cache = None
+_config_mtime = 0.0
 
 
 def _load_config() -> dict:
-    global _config_cache
-    if _config_cache is None:
+    global _config_cache, _config_mtime
+    try:
+        mtime = _CONFIG_PATH.stat().st_mtime
+    except OSError:
+        mtime = 0.0
+    if _config_cache is None or mtime != _config_mtime:
         if _CONFIG_PATH.exists():
             with open(_CONFIG_PATH, encoding="utf-8") as f:
                 _config_cache = yaml.safe_load(f) or {}
         else:
             _config_cache = {}
+        _config_mtime = mtime
     return _config_cache
 
 

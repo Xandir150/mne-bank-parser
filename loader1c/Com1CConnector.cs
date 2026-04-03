@@ -40,15 +40,30 @@ public partial class Com1CConnector : IDisposable
 
     public IReadOnlyDictionary<string, AccountMapping> AccountMap => _accountMap;
 
+    // Cached COM connector (reused across connections)
+    private dynamic? _comConnector;
+
     /// <summary>Connect to a specific database.</summary>
     private dynamic Connect(string database)
     {
-        var connectorType = Type.GetTypeFromProgID("V83.COMConnector")
-            ?? throw new Exception("V83.COMConnector not registered");
-        dynamic connector = Activator.CreateInstance(connectorType)!;
+        if (_comConnector == null)
+        {
+            var connectorType = Type.GetTypeFromProgID("V83.COMConnector")
+                ?? throw new Exception("V83.COMConnector not registered");
+            _comConnector = Activator.CreateInstance(connectorType)!;
+        }
         var connStr = $"Srvr=\"{_config.Server}\";Ref=\"{database}\";" +
                       $"Usr=\"{_config.User}\";Pwd=\"{_config.Password}\"";
-        return connector.Connect(connStr);
+        return _comConnector.Connect(connStr);
+    }
+
+    /// <summary>Release COM objects and force GC to prevent memory leaks.</summary>
+    public static void CleanupCom(dynamic conn)
+    {
+        try { Marshal.ReleaseComObject(conn); } catch { }
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
     }
 
     /// <summary>Scan all databases and build account→database mapping.</summary>
@@ -64,30 +79,32 @@ public partial class Com1CConnector : IDisposable
                 _logger.LogInformation("Scanning {Database}...", db);
                 dynamic conn = Connect(db);
 
-                // Read bank accounts with owner organization
-                dynamic acctSel = conn.Справочники.БанковскиеСчета.Выбрать();
-                while (acctSel.Следующий())
+                // Read bank accounts owned by Organizations only (not Counterparties)
+                dynamic query = conn.NewObject("Запрос");
+                query.Текст = @"ВЫБРАТЬ
+                    БанковскиеСчета.НомерСчета КАК НомерСчета,
+                    БанковскиеСчета.Владелец.Наименование КАК ОргНаименование,
+                    БанковскиеСчета.Владелец.ИНН КАК ОргИНН
+                ИЗ
+                    Справочник.БанковскиеСчета КАК БанковскиеСчета
+                ГДЕ
+                    БанковскиеСчета.ПометкаУдаления = ЛОЖЬ
+                    И ТИПЗНАЧЕНИЯ(БанковскиеСчета.Владелец) = ТИП(Справочник.Организации)";
+
+                dynamic qResult = query.Выполнить();
+                dynamic sel = qResult.Выбрать();
+                while (sel.Следующий())
                 {
                     try
                     {
-                        bool deleted = acctSel.ПометкаУдаления;
-                        if (deleted) continue;
-
-                        string acctNo = acctSel.НомерСчета ?? "";
+                        string acctNo = (string)(sel.НомерСчета ?? "");
                         if (string.IsNullOrWhiteSpace(acctNo)) continue;
 
-                        // Normalize: strip IBAN prefix, dashes, spaces
                         string normalized = NormalizeAccount(acctNo);
                         if (normalized.Length < 10) continue;
 
-                        string orgName = "";
-                        string inn = "";
-                        try
-                        {
-                            orgName = acctSel.Владелец.Наименование ?? "";
-                            inn = acctSel.Владелец.ИНН ?? "";
-                        }
-                        catch { /* owner might not be an organization */ }
+                        string orgName = (string)(sel.ОргНаименование ?? "");
+                        string inn = (string)(sel.ОргИНН ?? "");
 
                         if (!map.ContainsKey(normalized))
                         {
@@ -105,7 +122,7 @@ public partial class Com1CConnector : IDisposable
                     }
                 }
 
-                Marshal.ReleaseComObject(conn);
+                CleanupCom(conn);
             }
             catch (Exception ex)
             {
@@ -203,7 +220,7 @@ public partial class Com1CConnector : IDisposable
             dynamic bankAcct = FindBankAccount(conn, file.Account);
             if (bankAcct == null)
             {
-                Marshal.ReleaseComObject(conn);
+                CleanupCom(conn);
                 return new LoadResult
                 {
                     Success = false,
@@ -317,7 +334,7 @@ public partial class Com1CConnector : IDisposable
                     var salaryPhysMap = new List<(dynamic? PhysRef, BankDocument Doc)>();
                     foreach (var salDoc in salaryDocs)
                     {
-                        string empName = salDoc.RecipientName ?? "";
+                        string empName = ExtractPersonName(salDoc.RecipientName ?? "");
                         string empAcct = NormalizeAccount(salDoc.RecipientAccount ?? "");
                         dynamic? physRef = null;
 
@@ -432,8 +449,8 @@ public partial class Com1CConnector : IDisposable
                 {
                     bool isDebit = doc.IsDebit(file.Account);
                     string cpAcct = isDebit ? doc.RecipientAccount : doc.PayerAccount;
-                    // Key: doc date + amount + direction (with counting for identical ops)
-                    string key = $"{doc.Date}|{doc.Amount.ToString("F2", CultureInfo.InvariantCulture)}|{(isDebit ? "D" : "C")}";
+                    // Key: date + amount + direction + doc number + counterparty account
+                    string key = $"{doc.Date}|{doc.Amount.ToString("F2", CultureInfo.InvariantCulture)}|{(isDebit ? "D" : "C")}|{doc.Number}|{NormalizeAccount(cpAcct)}";
                     _logger.LogInformation("  File doc key={Key}, existing count={Count}", key, existingCounts.GetValueOrDefault(key));
 
                     if (existingCounts.TryGetValue(key, out int remaining) && remaining > 0)
@@ -458,7 +475,7 @@ public partial class Com1CConnector : IDisposable
                 }
             }
 
-            Marshal.ReleaseComObject(conn);
+            CleanupCom(conn);
 
             return new LoadResult
             {
@@ -515,6 +532,20 @@ public partial class Com1CConnector : IDisposable
         return null;
     }
 
+    /// <summary>Extract person name: strip address after comma, keep first 2 words.</summary>
+    private static string ExtractPersonName(string raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw)) return "";
+        // Strip everything after first comma (address)
+        int comma = raw.IndexOf(',');
+        if (comma > 0) raw = raw[..comma];
+        // Keep only first 2 words (first name + last name)
+        var words = raw.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        return words.Length <= 2
+            ? string.Join(" ", words)
+            : $"{words[0]} {words[1]}";
+    }
+
     private static string NormalizeAccount(string acct)
     {
         if (string.IsNullOrEmpty(acct)) return "";
@@ -525,13 +556,12 @@ public partial class Com1CConnector : IDisposable
         return s;
     }
 
-    /// <summary>Count existing documents in 1C grouped by (stmtNum,stmtDate,amount,cpAcct,direction).</summary>
+    /// <summary>Count existing documents in 1C grouped by (docNum,date,amount,cpAcct,direction).</summary>
     private Dictionary<string, int> CountExistingDocs(dynamic conn, BankExchangeFile file)
     {
         var counts = new Dictionary<string, int>();
         try
         {
-            // Get date range from file
             var dates = file.Documents
                 .Select(d => DateTime.ParseExact(d.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture))
                 .ToList();
@@ -539,24 +569,36 @@ public partial class Com1CConnector : IDisposable
             DateTime minDate = dates.Min().Date;
             DateTime maxDate = dates.Max().Date.AddDays(1).AddSeconds(-1);
 
-            foreach (var docType in new[] { ("СписаниеСРасчетногоСчета", "D"), ("ПоступлениеНаРасчетныйСчет", "C") })
+            // Use queries instead of selection to avoid COM memory leaks
+            foreach (var (docType, dir) in new[] { ("СписаниеСРасчетногоСчета", "D"), ("ПоступлениеНаРасчетныйСчет", "C") })
             {
                 try
                 {
-                    dynamic mgr = conn.Документы.GetType().InvokeMember(
-                        docType.Item1, System.Reflection.BindingFlags.GetProperty,
-                        null, (object)conn.Документы, null);
-                    dynamic selection = mgr.Выбрать(minDate, maxDate);
+                    dynamic query = conn.NewObject("Запрос");
+                    query.Текст = $@"ВЫБРАТЬ
+                        Док.СуммаДокумента КАК Сумма,
+                        Док.Дата КАК Дата,
+                        Док.НомерВходящегоДокумента КАК НомерВх,
+                        Док.СчетКонтрагента.НомерСчета КАК СчетКП
+                    ИЗ
+                        Документ.{docType} КАК Док
+                    ГДЕ
+                        Док.Дата МЕЖДУ &Дата1 И &Дата2
+                        И НЕ Док.ПометкаУдаления";
+                    query.УстановитьПараметр("Дата1", minDate);
+                    query.УстановитьПараметр("Дата2", maxDate);
 
-                    while (selection.Следующий())
+                    dynamic result = query.Выполнить();
+                    dynamic sel = result.Выбрать();
+                    while (sel.Следующий())
                     {
                         try
                         {
-                            if ((bool)selection.ПометкаУдаления) continue;
-
-                            decimal amt = (decimal)selection.СуммаДокумента;
-                            DateTime dt = ((DateTime)selection.Дата).Date;
-                            string key = $"{dt:dd.MM.yyyy}|{amt.ToString("F2", CultureInfo.InvariantCulture)}|{docType.Item2}";
+                            decimal amt = (decimal)sel.Сумма;
+                            DateTime dt = ((DateTime)sel.Дата).Date;
+                            string docNum = (string)(sel.НомерВх ?? "");
+                            string cpAcct = NormalizeAccount((string)(sel.СчетКП ?? ""));
+                            string key = $"{dt:dd.MM.yyyy}|{amt.ToString("F2", CultureInfo.InvariantCulture)}|{dir}|{docNum}|{cpAcct}";
                             counts[key] = counts.GetValueOrDefault(key) + 1;
                             _logger.LogInformation("    1C existing: key={Key}", key);
                         }
