@@ -629,6 +629,120 @@ public partial class Com1CConnector : IDisposable
     /// <summary>Path to the human-editable config file (for diagnostics/CLI).</summary>
     public string AccountConfigPath => _accountConfigFile;
 
+    /// <summary>Query one 1C database for organizations whose name contains <paramref name="nameFilter"/>
+    /// (case-insensitive). Returns a multi-line human report + a JSON snippet ready to paste into
+    /// accounts.config.json. Used by both the CLI command and the worker's trigger handler so the
+    /// query always runs under the service account (which has 1C COM permissions).</summary>
+    public string LookupOrg(string database, string nameFilter)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"Lookup: '{nameFilter}' in {database}");
+        sb.AppendLine($"Time:   {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+        sb.AppendLine();
+
+        dynamic? conn = null;
+        dynamic? query = null;
+        dynamic? result = null;
+        dynamic? sel = null;
+        try
+        {
+            conn = Connect(database);
+
+            query = conn.NewObject("Запрос");
+            query.Текст = @"ВЫБРАТЬ
+                БанковскиеСчета.НомерСчета КАК НомерСчета,
+                БанковскиеСчета.ПометкаУдаления КАК Удалён,
+                БанковскиеСчета.Владелец.Наименование КАК ОргНаименование,
+                БанковскиеСчета.Владелец.ИНН КАК ОргИНН,
+                БанковскиеСчета.Владелец.ПометкаУдаления КАК ОргУдалён
+            ИЗ
+                Справочник.БанковскиеСчета КАК БанковскиеСчета
+            ГДЕ
+                ТИПЗНАЧЕНИЯ(БанковскиеСчета.Владелец) = ТИП(Справочник.Организации)
+                И ВРЕГ(БанковскиеСчета.Владелец.Наименование) ПОДОБНО &ИмяОрг
+            УПОРЯДОЧИТЬ ПО
+                БанковскиеСчета.Владелец.Наименование,
+                БанковскиеСчета.НомерСчета";
+            query.УстановитьПараметр("ИмяОрг", "%" + nameFilter.ToUpper() + "%");
+
+            result = query.Выполнить();
+            sel = result.Выбрать();
+
+            var found = new Dictionary<string, (string Inn, bool OrgDeleted, List<(string Acct, bool Deleted)> Accts)>();
+            while (sel.Следующий())
+            {
+                try
+                {
+                    string orgName = ((string)(sel.ОргНаименование ?? "")).Trim();
+                    string inn = ((string)(sel.ОргИНН ?? "")).Trim();
+                    bool orgDel = false; try { orgDel = (bool)sel.ОргУдалён; } catch { }
+                    string acct = ((string)(sel.НомерСчета ?? "")).Trim();
+                    bool acctDel = false; try { acctDel = (bool)sel.Удалён; } catch { }
+                    if (string.IsNullOrWhiteSpace(orgName)) continue;
+
+                    if (!found.ContainsKey(orgName))
+                        found[orgName] = (inn, orgDel, new List<(string, bool)>());
+                    found[orgName].Accts.Add((acct, acctDel));
+                }
+                catch (Exception ex) { sb.AppendLine($"  row error: {ex.Message}"); }
+            }
+
+            if (found.Count == 0)
+            {
+                sb.AppendLine($"No organizations matching '{nameFilter}' found in {database}.");
+                return sb.ToString();
+            }
+
+            foreach (var kvp in found)
+            {
+                sb.AppendLine($"=== {kvp.Key}{(kvp.Value.OrgDeleted ? "  [ОРГ. ПОМЕЧЕНА НА УДАЛЕНИЕ!]" : "")}");
+                sb.AppendLine($"    ИНН: {(string.IsNullOrEmpty(kvp.Value.Inn) ? "(пусто)" : kvp.Value.Inn)}");
+                sb.AppendLine($"    Счетов: {kvp.Value.Accts.Count}");
+                foreach (var (acct, del) in kvp.Value.Accts)
+                {
+                    var norm = NormalizeAccount(acct);
+                    string flag = del ? "  [удалён]" : "";
+                    string lenWarn = norm.Length != 18 && !del ? $"  [⚠ длина {norm.Length}, ожидалось 18]" : "";
+                    sb.AppendLine($"      {acct,-22} → norm: {norm}{flag}{lenWarn}");
+                }
+                sb.AppendLine();
+            }
+
+            // Ready-to-paste JSON snippet (skips deleted accounts and deleted orgs)
+            sb.AppendLine("--- Сниппет для accounts.config.json ---");
+            sb.AppendLine($"  \"{database}\": [");
+            var rows = new List<string>();
+            foreach (var kvp in found)
+            {
+                if (kvp.Value.OrgDeleted) continue;
+                foreach (var (acct, del) in kvp.Value.Accts)
+                {
+                    if (del) continue;
+                    var norm = NormalizeAccount(acct);
+                    if (string.IsNullOrWhiteSpace(norm)) continue;
+                    var esc = kvp.Key.Replace("\\", "\\\\").Replace("\"", "\\\"");
+                    rows.Add($"    {{ \"account\": \"{norm}\", \"org\": \"{esc}\", \"inn\": \"{kvp.Value.Inn}\" }}");
+                }
+            }
+            sb.AppendLine(string.Join(",\n", rows));
+            sb.AppendLine("  ],");
+        }
+        catch (Exception ex)
+        {
+            sb.AppendLine($"ERROR: {ex.Message}");
+            sb.AppendLine(ex.ToString());
+        }
+        finally
+        {
+            SafeRelease(sel);
+            SafeRelease(result);
+            SafeRelease(query);
+            if (conn != null) try { CleanupCom(conn); } catch { }
+        }
+
+        return sb.ToString();
+    }
+
     /// <summary>Find which database an account belongs to (exact match only).</summary>
     public AccountMapping? FindAccount(string account)
     {
@@ -1013,7 +1127,7 @@ public partial class Com1CConnector : IDisposable
             : $"{words[0]} {words[1]}";
     }
 
-    private static string NormalizeAccount(string acct)
+    public static string NormalizeAccount(string acct)
     {
         if (string.IsNullOrEmpty(acct)) return "";
         // Strip IBAN prefix (ME25), dashes, spaces

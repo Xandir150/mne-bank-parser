@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Extensions.Configuration;
@@ -778,6 +780,19 @@ public class Program
                 loggerFactory.CreateLogger("COM"));
             com.ScanDatabases();
             Console.WriteLine($"Mapping saved. {com.AccountMap.Count} accounts found.");
+            return;
+        }
+
+        if (command == "lookup-org" && args.Length > 2)
+        {
+            // Usage: Loader1C.exe lookup-org <db> <substring>
+            // NOTE: must run under the same account as the service (USR1CV8) for 1C COM access.
+            string db = args[1];
+            string nameFilter = args[2];
+            Console.OutputEncoding = Encoding.UTF8;
+            using var loggerFactory = LoggerFactory.Create(b => b.AddConsole());
+            var com = new Com1CConnector(loaderConfig, loggerFactory.CreateLogger("COM"));
+            Console.WriteLine(com.LookupOrg(db, nameFilter));
             return;
         }
 

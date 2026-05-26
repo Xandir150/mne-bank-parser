@@ -115,12 +115,73 @@ public class LoaderWorker : BackgroundService
         catch { return false; }
     }
 
+    /// <summary>If the user dropped a <c>lookup.trigger</c> file with content
+    /// "<c>&lt;db&gt; &lt;name_substring&gt;</c>", run a targeted org lookup in 1C and
+    /// write the result to <c>lookup.result.txt</c>. Used to bypass the COM permission
+    /// barrier — only the service account (USR1CV8) can talk to 1C, so external admins
+    /// trigger via filesystem.</summary>
+    private bool CheckLookupTrigger()
+    {
+        try
+        {
+            var dataDir = Path.GetDirectoryName(_config.OutputDir);
+            if (string.IsNullOrEmpty(dataDir)) return false;
+            var trigger = Path.Combine(dataDir, "lookup.trigger");
+            if (!File.Exists(trigger)) return false;
+
+            string content;
+            try { content = File.ReadAllText(trigger, System.Text.Encoding.UTF8).Trim(); }
+            catch (Exception ex)
+            {
+                _logger.LogWarning("lookup.trigger: can't read — {Err}", ex.Message);
+                return false;
+            }
+            try { File.Delete(trigger); } catch { }
+
+            var parts = content.Split(new[] { ' ', '\t', '\r', '\n' },
+                2, StringSplitOptions.RemoveEmptyEntries);
+            var resultFile = Path.Combine(dataDir, "lookup.result.txt");
+            if (parts.Length < 2)
+            {
+                var msg = $"lookup.trigger: expected '<db> <name_substring>', got '{content}'";
+                _logger.LogWarning(msg);
+                try { File.WriteAllText(resultFile, msg, System.Text.Encoding.UTF8); } catch { }
+                return false;
+            }
+
+            string db = parts[0];
+            string nameFilter = parts[1];
+            _logger.LogInformation("Lookup triggered: db={Db} name='{Name}'", db, nameFilter);
+
+            // End any active session first so the lookup gets a fresh connection
+            try { _com.EndSession(); } catch { }
+
+            Task.Run(() => {
+                try
+                {
+                    var report = _com.LookupOrg(db, nameFilter);
+                    File.WriteAllText(resultFile, report, System.Text.Encoding.UTF8);
+                    _logger.LogInformation("Lookup result written to {File}", resultFile);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Lookup failed");
+                    try { File.WriteAllText(resultFile, $"ERROR: {ex.Message}\n{ex}",
+                        System.Text.Encoding.UTF8); } catch { }
+                }
+            });
+            return true;
+        }
+        catch { return false; }
+    }
+
     private void ScanAndLoad()
     {
         if (!Directory.Exists(_config.OutputDir)) return;
 
-        // Check for admin-initiated rescan
+        // Check for admin-initiated triggers
         CheckRescanTrigger();
+        CheckLookupTrigger();
 
         var rawFiles = Directory.GetFiles(_config.OutputDir, "*.txt",
             SearchOption.AllDirectories);
