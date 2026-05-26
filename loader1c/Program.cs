@@ -781,6 +781,26 @@ public class Program
             return;
         }
 
+        if (command == "seed-config")
+        {
+            // Generate human-editable accounts.config.json from the current auto-generated
+            // mapping so the admin has a starting point. Does NOT touch 1C — just reads
+            // the existing account_mapping.json (or accounts.config.json if already present).
+            Console.OutputEncoding = Encoding.UTF8;
+            using var loggerFactory = LoggerFactory.Create(b => b.AddConsole());
+            var com = new Com1CConnector(loaderConfig,
+                loggerFactory.CreateLogger("COM"));
+            if (!com.LoadCachedMapping())
+            {
+                Console.WriteLine("No mapping to seed from. Run 'scan' first to bootstrap.");
+                return;
+            }
+            com.SaveAccountConfig();
+            Console.WriteLine($"Saved {com.AccountMap.Count} accounts to {com.AccountConfigPath}");
+            Console.WriteLine("Edit this file manually then restart the service to apply changes.");
+            return;
+        }
+
         if (command == "test" && args.Length > 1)
         {
             // Test parse a file (dry run, no loading)
@@ -842,12 +862,18 @@ public class Program
         // Configure logging: console + file
         builder.Logging.ClearProviders();
         builder.Logging.AddConsole();
+
+        // Parse minimum log level from config
+        if (!Enum.TryParse<LogLevel>(loaderConfig.LogLevel ?? "Information", true, out var minLevel))
+            minLevel = LogLevel.Information;
+        builder.Logging.SetMinimumLevel(minLevel);
+
         if (!string.IsNullOrEmpty(loaderConfig.LogFile))
         {
             var logDir = Path.GetDirectoryName(loaderConfig.LogFile);
             if (!string.IsNullOrEmpty(logDir))
                 Directory.CreateDirectory(logDir);
-            builder.Logging.AddProvider(new FileLoggerProvider(loaderConfig.LogFile));
+            builder.Logging.AddProvider(new FileLoggerProvider(loaderConfig.LogFile, minLevel));
         }
 
         var host = builder.Build();

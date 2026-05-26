@@ -44,15 +44,27 @@ class UCBParser(BankParser):
                     name = name[:idx].strip()
             stmt.client_name = self.clean_text(name)
 
-        # Account number from "Broj partije: 560-0000000002903-42"
+        # Account number from "Broj partije: 560-0000000002903-42" or footer "za racun 560-..."
         m = re.search(r"Broj\s+partije:\s*([\d\-]+)", text)
+        if not m:
+            m = re.search(r"za\s+racun\s+(\d{3}-\d+-\d{2})", text)
+        if not m:
+            m = re.search(r"(560-\d{13}-\d{2})", text)
         if m:
-            stmt.account_number = re.sub(r"\D", "", m.group(1))
+            stmt.account_number = self.normalize_account(m.group(1))
 
-        # Statement number: "Izvod broj : 8"
-        m = re.search(r"Izvod\s+broj\s*:\s*(\d+)", text)
+        # Statement number: "Izvod broj : 8" or "IZVOD 28" or "Izvod broj 28 za racun"
+        m = re.search(r"Izvod\s+broj\s*:?\s*(\d+)", text)
+        if not m:
+            m = re.search(r"IZVOD\s+(\d+)\b", text)
         if m:
             stmt.statement_number = m.group(1)
+
+        # Client name fallback: line before "STANJE maticni broj" — "BUREVESTNIK MONTENEGRO DOO Tivat 560-..."
+        if not stmt.client_name:
+            m = re.search(r"\n([A-ZČĆŠĐŽ][^\n]+?)\s+\d{3}-\d+-\d{2}\s*\n\s*STANJE\b", text)
+            if m:
+                stmt.client_name = self.clean_text(m.group(1))
 
         # Statement date: "STANJE I PROMJENE SREDSTAVA NA DAN DD.MM.YYYY"
         m = re.search(r"NA\s+DAN\s+(\d{2})\.(\d{2})\.(\d{4})", text)
@@ -62,26 +74,29 @@ class UCBParser(BankParser):
             except ValueError:
                 pass
 
-        # PIB — use "Poreski broj" (client's), not "PIB" (bank's header)
-        m = re.search(r"Poreski\s+broj:\s*(\d+)", text)
+        # PIB — use "Poreski broj" / "poreski broj" (client's), not "PIB" (bank's header)
+        m = re.search(r"[Pp]oreski\s+broj:?\s*(\d+)", text)
         if m:
             stmt.client_pib = m.group(1)
 
-        # Balances from the summary table
+        # Balances from the summary table — scan all tables for the row of 4+ amounts
         tables = page.extract_tables()
-        if tables:
-            # First table is the summary: Prethodno stanje, Duguje, Potrazuje, Novo stanje
-            summary = tables[0]
+        for summary in tables:
+            found = False
             for row in summary:
-                if row and row[0] and re.match(r"[\d,]+\.\d{2}", row[0].strip()):
+                if row and row[0] and re.match(r"^[\d,]+\.\d{2}$", row[0].strip()):
                     stmt.opening_balance = self.parse_amount_us(row[0])
-                    if len(row) > 1:
-                        stmt.total_debit = self.parse_amount_us(row[1])
-                    if len(row) > 2:
-                        stmt.total_credit = self.parse_amount_us(row[2])
-                    if len(row) > 3:
-                        stmt.closing_balance = self.parse_amount_us(row[3])
+                    # Skip None cells for layouts where columns are split differently
+                    nums = [c for c in row if c and re.match(r"^[\d,]+\.\d{2}$", c.strip())]
+                    if len(nums) >= 4:
+                        stmt.opening_balance = self.parse_amount_us(nums[0])
+                        stmt.total_debit = self.parse_amount_us(nums[1])
+                        stmt.total_credit = self.parse_amount_us(nums[2])
+                        stmt.closing_balance = self.parse_amount_us(nums[3])
+                    found = True
                     break
+            if found:
+                break
 
     def _parse_transactions(self, page, stmt: ParsedStatement) -> None:
         tables = page.extract_tables()
@@ -89,8 +104,8 @@ class UCBParser(BankParser):
             for row in table:
                 if not row or not row[0]:
                     continue
-                rb = row[0].strip()
-                # Transaction rows start with a number (RB)
+                rb = row[0].strip().rstrip(".")
+                # Transaction rows start with a number (RB), possibly with trailing dot
                 if not rb.isdigit():
                     # Check for "Ukupno EUR:" totals row
                     if "Ukupno" in rb:
@@ -106,11 +121,16 @@ class UCBParser(BankParser):
                 if len(row) > 1 and row[1]:
                     self._parse_counterparty(row[1], txn)
 
-                # Column 2: Origin + date (e.g. "00-Podgorica/ 2026.02.02")
+                # Column 2: Origin + date — accept YYYY.MM.DD or DD.MM.YYYY
                 if len(row) > 2 and row[2]:
                     m = re.search(r"(\d{4}\.\d{2}\.\d{2})", row[2])
                     if m:
                         txn.booking_date = self.parse_date_ymd(m.group(1))
+                    else:
+                        m = re.search(r"(\d{2}\.\d{2}\.\d{4})", row[2])
+                        if m:
+                            txn.booking_date = self.parse_date_dmy(m.group(1))
+                    if txn.booking_date:
                         txn.value_date = txn.booking_date
 
                 # Column 3: Debit amount
@@ -153,12 +173,12 @@ class UCBParser(BankParser):
         if not lines:
             return
 
-        # Account number is the last long digit string (15-18 digits)
+        # Account number is the last digit-and-dash string (BBB-N...-CC or 15-18 digits)
         account = None
         for line in lines:
-            m = re.search(r"(\d{15,18})\s*$", line)
+            m = re.search(r"(\d{3}-\d+-\d{2}|\d{15,18})\s*$", line)
             if m:
-                account = m.group(1)
+                account = self.normalize_account(m.group(1))
 
         txn.counterparty_account = account
         # First line: "Name, Address..." — name is always before the first comma

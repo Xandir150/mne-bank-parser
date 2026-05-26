@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 
@@ -140,8 +141,8 @@ public partial class Com1CConnector
         string acctCode = !string.IsNullOrWhiteSpace(doc.CreditAccount) ? doc.CreditAccount : "51";
         try
         {
-            dynamic chartAcct = conn.ПланыСчетов.Хозрасчетный.НайтиПоКоду(acctCode);
-            if (!chartAcct.Пустая())
+            dynamic? chartAcct = GetChartAccount(conn, acctCode);
+            if (chartAcct != null)
                 newDoc.СчетБанк = chartAcct;
             else
                 _logger.LogWarning("    Chart account '{Code}' not found", acctCode);
@@ -154,13 +155,9 @@ public partial class Com1CConnector
         // ВалютаДокумента = EUR
         try
         {
-            dynamic eur = conn.Справочники.Валюты.НайтиПоНаименованию("EUR", true);
-            if (!eur.Пустая())
-            {
+            dynamic? eur = GetEur(conn);
+            if (eur != null)
                 newDoc.ВалютаДокумента = eur;
-                _logger.LogInformation("    ВалютаДокумента = {Name} (code={Code})",
-                    (string)(eur.Наименование ?? ""), (string)(eur.Код ?? ""));
-            }
             else
                 _logger.LogWarning("    Currency EUR not found");
         }
@@ -199,23 +196,11 @@ public partial class Com1CConnector
                 else
                     enumName = isDebit ? "ПрочееСписание" : "ПрочееПоступление";
 
-                // COM enum access: use reflection since dynamic indexer doesn't work
-                if (isDebit)
-                {
-                    dynamic enumMgr = conn.Перечисления.ВидыОперацийСписаниеДенежныхСредств;
-                    var enumVal = enumMgr.GetType().InvokeMember(
-                        enumName, System.Reflection.BindingFlags.GetProperty,
-                        null, (object)enumMgr, null);
-                    newDoc.ВидОперации = enumVal;
-                }
-                else
-                {
-                    dynamic enumMgr = conn.Перечисления.ВидыОперацийПоступлениеДенежныхСредств;
-                    var enumVal = enumMgr.GetType().InvokeMember(
-                        enumName, System.Reflection.BindingFlags.GetProperty,
-                        null, (object)enumMgr, null);
-                    newDoc.ВидОперации = enumVal;
-                }
+                string enumType = isDebit
+                    ? "ВидыОперацийСписаниеДенежныхСредств"
+                    : "ВидыОперацийПоступлениеДенежныхСредств";
+                var enumVal = GetEnumValue(conn, enumType, enumName);
+                if (enumVal != null) newDoc.ВидОперации = enumVal;
 
                 _logger.LogInformation("    ВидОперации: {Op} → {Enum}",
                     doc.OperationType, enumName);
@@ -259,14 +244,11 @@ public partial class Com1CConnector
             // СчетУчетаРасчетовСКонтрагентом = 57.01
             try
             {
-                dynamic transitAcct = conn.ПланыСчетов.Хозрасчетный.НайтиПоКоду("57.01");
-                if (!transitAcct.Пустая())
+                dynamic? transitAcct = GetChartAccount(conn, "57.01");
+                if (transitAcct != null)
                 {
-                    string foundCode = (string)(transitAcct.Код ?? "");
-                    string foundName = (string)(transitAcct.Наименование ?? "");
-                    _logger.LogInformation("    НайтиПоКоду(57.01) → code={Code}, name={Name}", foundCode, foundName);
                     newDoc.СчетУчетаРасчетовСКонтрагентом = transitAcct;
-                    _logger.LogInformation("    СчетУчетаРасчетовСКонтрагентом set OK");
+                    _logger.LogInformation("    СчетУчетаРасчетовСКонтрагентом = 57.01");
                 }
             }
             catch (Exception ex) { _logger.LogWarning("    Failed to set transit account: {Err}", ex.Message); }
@@ -326,21 +308,32 @@ public partial class Com1CConnector
                 catch (Exception ex) { _logger.LogWarning("    Bank account owner lookup error: {Err}", ex.Message); }
             }
 
-            // 2) By INN
+            // 2) By INN (cached)
             if (!counterpartySet && !string.IsNullOrWhiteSpace(counterpartyInn))
             {
-                try
+                if (_cacheCounterpartyByInn.TryGetValue(counterpartyInn, out var cachedInn) && cachedInn != null)
                 {
-                    dynamic found = conn.Справочники.Контрагенты
-                        .НайтиПоРеквизиту("ИНН", counterpartyInn);
-                    if (!found.Пустая() && !(bool)found.ПометкаУдаления)
-                    {
-                        newDoc.Контрагент = found;
-                        counterpartySet = true;
-                        _logger.LogInformation("    Counterparty found by INN: {Inn}", counterpartyInn);
-                    }
+                    newDoc.Контрагент = cachedInn;
+                    counterpartySet = true;
+                    _logger.LogInformation("    Counterparty found by INN (cached): {Inn}", counterpartyInn);
                 }
-                catch { }
+                else
+                {
+                    try
+                    {
+                        dynamic found = conn.Справочники.Контрагенты
+                            .НайтиПоРеквизиту("ИНН", counterpartyInn);
+                        if (!found.Пустая() && !(bool)found.ПометкаУдаления)
+                        {
+                            newDoc.Контрагент = found;
+                            counterpartySet = true;
+                            _cacheCounterpartyByInn[counterpartyInn] = found;
+                            TrackCom(found);
+                            _logger.LogInformation("    Counterparty found by INN: {Inn}", counterpartyInn);
+                        }
+                    }
+                    catch { }
+                }
             }
 
             // 3) By name (with word-order swap for persons)
@@ -375,11 +368,11 @@ public partial class Com1CConnector
                 dynamic cpRef = newDoc.Контрагент;
                 if (cpRef != null && !cpRef.Пустая())
                 {
-                    // НайтиПоНаименованию with prefix "BB" for contract named "BB ..."
-                    // Or select by owner: Выбрать(owner)
+                    // Primary path: Выбрать(null, cpRef) — filtered by owner (cheap)
+                    dynamic? contractSel = null;
                     try
                     {
-                        dynamic contractSel = conn.Справочники.ДоговорыКонтрагентов
+                        contractSel = conn.Справочники.ДоговорыКонтрагентов
                             .GetType().InvokeMember("Выбрать",
                                 System.Reflection.BindingFlags.InvokeMethod,
                                 null, conn.Справочники.ДоговорыКонтрагентов,
@@ -388,6 +381,7 @@ public partial class Com1CConnector
                         {
                             if ((bool)contractSel.ПометкаУдаления) continue;
                             contractRef = contractSel.Ссылка;
+                            TrackCom(contractRef);
                             string cName = (string)(contractSel.Наименование ?? "");
                             newDoc.ДоговорКонтрагента = contractRef;
                             _logger.LogInformation("    ДоговорКонтрагента = '{0}'", cName);
@@ -396,31 +390,11 @@ public partial class Com1CConnector
                     }
                     catch
                     {
-                        // Fallback: simple select and filter
-                        dynamic contractSel = conn.Справочники.ДоговорыКонтрагентов.Выбрать();
-                        while (contractSel.Следующий())
-                        {
-                            try
-                            {
-                                if ((bool)contractSel.ПометкаУдаления) continue;
-                                dynamic owner = contractSel.Владелец;
-                                if (owner != null && !owner.Пустая())
-                                {
-                                    string ownerName = (string)(owner.Наименование ?? "");
-                                    string cpName2 = (string)(cpRef.Наименование ?? "");
-                                    if (ownerName == cpName2)
-                                    {
-                                        contractRef = contractSel.Ссылка;
-                                        string cName = (string)(contractSel.Наименование ?? "");
-                                        newDoc.ДоговорКонтрагента = contractRef;
-                                        _logger.LogInformation("    ДоговорКонтрагента = '{0}'", cName);
-                                        break;
-                                    }
-                                }
-                            }
-                            catch { }
-                        }
+                        // Fallback skipped: full Выбрать() over all contracts is too expensive.
+                        // If owner-filtered Выбрать failed, leave ДоговорКонтрагента unset —
+                        // accountant can fill it manually. This was a major memory hog.
                     }
+                    finally { SafeRelease(contractSel); }
                 }
             }
             catch { }
@@ -431,9 +405,8 @@ public partial class Com1CConnector
         {
             try
             {
-                dynamic acctPlan = conn.ПланыСчетов.Хозрасчетный;
-                dynamic acctRef = acctPlan.НайтиПоКоду(doc.DebitAccount);
-                if (!acctRef.Пустая())
+                dynamic? acctRef = GetChartAccount(conn, doc.DebitAccount);
+                if (acctRef != null)
                 {
                     newDoc.СчетУчетаРасчетовСКонтрагентом = acctRef;
                     _logger.LogInformation("    СчетРасчетов: {Acct}", doc.DebitAccount);
@@ -451,10 +424,8 @@ public partial class Com1CConnector
         {
             try
             {
-                dynamic item = conn.Справочники
-                    .СтатьиДвиженияДенежныхСредств
-                    .НайтиПоНаименованию(doc.CashFlowItem, true);
-                if (!item.Пустая())
+                dynamic? item = GetCashFlowItem(conn, doc.CashFlowItem);
+                if (item != null)
                 {
                     newDoc.СтатьяДвиженияДенежныхСредств = item;
                     _logger.LogInformation("    СтатьяДДС: {Item}", doc.CashFlowItem);
@@ -494,20 +465,19 @@ public partial class Com1CConnector
         {
             try
             {
-                dynamic enumMgr = conn.Перечисления.ВидыПлатежейВГосБюджет;
-                var enumVal = enumMgr.GetType().InvokeMember(
-                    doc.ObligationType, System.Reflection.BindingFlags.GetProperty,
-                    null, (object)enumMgr, null);
-                // Set both the document property AND the subconto
-                try { newDoc.ВидНалоговогоОбязательства = enumVal; } catch { }
-                try
+                var enumVal = GetEnumValue(conn, "ВидыПлатежейВГосБюджет", doc.ObligationType);
+                if (enumVal != null)
                 {
-                    newDoc.СубконтоДт1 = enumVal;
-                    _logger.LogInformation("    СубконтоДт1 (ВидыПлатежейВГосБюджет) = {0}", doc.ObligationType);
-                }
-                catch (Exception ex2)
-                {
-                    _logger.LogWarning("    СубконтоДт1 failed: {0}", ex2.Message);
+                    try { newDoc.ВидНалоговогоОбязательства = enumVal; } catch { }
+                    try
+                    {
+                        newDoc.СубконтоДт1 = enumVal;
+                        _logger.LogInformation("    СубконтоДт1 (ВидыПлатежейВГосБюджет) = {0}", doc.ObligationType);
+                    }
+                    catch (Exception ex2)
+                    {
+                        _logger.LogWarning("    СубконтоДт1 failed: {0}", ex2.Message);
+                    }
                 }
             }
             catch (Exception ex)
@@ -521,8 +491,8 @@ public partial class Com1CConnector
         {
             try
             {
-                dynamic chartAcct = conn.ПланыСчетов.Хозрасчетный.НайтиПоКоду(doc.DebitAccount);
-                if (!chartAcct.Пустая())
+                dynamic? chartAcct = GetChartAccount(conn, doc.DebitAccount);
+                if (chartAcct != null)
                 {
                     newDoc.СчетУчетаРасчетовСКонтрагентом = chartAcct;
                     _logger.LogInformation("    СчетУчетаРасчетовСКонтрагентом = {0}", doc.DebitAccount);
@@ -584,20 +554,16 @@ public partial class Com1CConnector
                 // СпособПогашенияЗадолженности = Автоматически
                 try
                 {
-                    dynamic enumMgr = conn.Перечисления.СпособыПогашенияЗадолженности;
-                    var auto = enumMgr.GetType().InvokeMember("Автоматически",
-                        System.Reflection.BindingFlags.GetProperty, null, (object)enumMgr, null);
-                    row.СпособПогашенияЗадолженности = auto;
+                    var auto = GetEnumValue(conn, "СпособыПогашенияЗадолженности", "Автоматически");
+                    if (auto != null) row.СпособПогашенияЗадолженности = auto;
                 }
                 catch { }
 
                 // НДС 21% (enum НДС20 = переименован в 21% в этой конфигурации)
                 try
                 {
-                    dynamic enumMgr = conn.Перечисления.СтавкиНДС;
-                    var nds = enumMgr.GetType().InvokeMember("НДС20",
-                        System.Reflection.BindingFlags.GetProperty, null, (object)enumMgr, null);
-                    row.СтавкаНДС = nds;
+                    var nds = GetEnumValue(conn, "СтавкиНДС", "НДС20");
+                    if (nds != null) row.СтавкаНДС = nds;
                     // Сумма НДС = amount * 21 / 121
                     row.СуммаНДС = Math.Round(doc.Amount * 21m / 121m, 2);
                 }
@@ -612,11 +578,8 @@ public partial class Com1CConnector
                 {
                     try
                     {
-                        dynamic item = conn.Справочники
-                            .СтатьиДвиженияДенежныхСредств
-                            .НайтиПоНаименованию(doc.CashFlowItem, true);
-                        if (!item.Пустая())
-                            row.СтатьяДвиженияДенежныхСредств = item;
+                        dynamic? item = GetCashFlowItem(conn, doc.CashFlowItem);
+                        if (item != null) row.СтатьяДвиженияДенежныхСредств = item;
                     }
                     catch { }
                 }
@@ -624,18 +587,16 @@ public partial class Com1CConnector
                 // СчетУчетаРасчетовСКонтрагентом = 60.01 (Расчеты с поставщиками)
                 try
                 {
-                    dynamic acct60 = conn.ПланыСчетов.Хозрасчетный.НайтиПоКоду("60.01");
-                    if (!acct60.Пустая())
-                        row.СчетУчетаРасчетовСКонтрагентом = acct60;
+                    dynamic? acct60 = GetChartAccount(conn, "60.01");
+                    if (acct60 != null) row.СчетУчетаРасчетовСКонтрагентом = acct60;
                 }
                 catch { }
 
                 // СчетУчетаРасчетовПоАвансам = 60.02
                 try
                 {
-                    dynamic acct6002 = conn.ПланыСчетов.Хозрасчетный.НайтиПоКоду("60.02");
-                    if (!acct6002.Пустая())
-                        row.СчетУчетаРасчетовПоАвансам = acct6002;
+                    dynamic? acct6002 = GetChartAccount(conn, "60.02");
+                    if (acct6002 != null) row.СчетУчетаРасчетовПоАвансам = acct6002;
                 }
                 catch { }
             }
@@ -680,6 +641,9 @@ public partial class Com1CConnector
             doc.Number, doc.Date, doc.Amount,
             doc.OperationType,
             counterpartyName);
+
+        // Release document COM object to prevent memory buildup
+        try { Marshal.FinalReleaseComObject(newDoc); } catch { }
         return true;
     }
 
@@ -772,14 +736,25 @@ public partial class Com1CConnector
 
                 if (!string.IsNullOrWhiteSpace(inn))
                 {
-                    try
+                    if (_cacheCounterpartyByInn.TryGetValue(inn, out var cachedByInn) && cachedByInn != null)
                     {
-                        dynamic found = conn.Справочники.Контрагенты
-                            .НайтиПоРеквизиту("ИНН", inn);
-                        if (!found.Пустая() && !(bool)found.ПометкаУдаления)
-                            counterpartyRef = found;
+                        counterpartyRef = cachedByInn;
                     }
-                    catch { }
+                    else
+                    {
+                        try
+                        {
+                            dynamic found = conn.Справочники.Контрагенты
+                                .НайтиПоРеквизиту("ИНН", inn);
+                            if (!found.Пустая() && !(bool)found.ПометкаУдаления)
+                            {
+                                counterpartyRef = found;
+                                _cacheCounterpartyByInn[inn] = found;
+                                TrackCom(found);
+                            }
+                        }
+                        catch { }
+                    }
                 }
 
                 // For physical persons, search by clean name (no address)
@@ -787,14 +762,25 @@ public partial class Com1CConnector
 
                 if (counterpartyRef == null && !string.IsNullOrWhiteSpace(searchName))
                 {
-                    try
+                    if (_cacheCounterpartyByName.TryGetValue(searchName, out var cachedByName) && cachedByName != null)
                     {
-                        dynamic found = conn.Справочники.Контрагенты
-                            .НайтиПоНаименованию(searchName, true);
-                        if (!found.Пустая() && !(bool)found.ПометкаУдаления)
-                            counterpartyRef = found;
+                        counterpartyRef = cachedByName;
                     }
-                    catch { }
+                    else
+                    {
+                        try
+                        {
+                            dynamic found = conn.Справочники.Контрагенты
+                                .НайтиПоНаименованию(searchName, true);
+                            if (!found.Пустая() && !(bool)found.ПометкаУдаления)
+                            {
+                                counterpartyRef = found;
+                                _cacheCounterpartyByName[searchName] = found;
+                                TrackCom(found);
+                            }
+                        }
+                        catch { }
+                    }
                     // Also try with swapped word order for persons
                     if (counterpartyRef == null && !IsCompanyName(name))
                         counterpartyRef = FindCounterpartyByName(conn, searchName);
@@ -807,10 +793,11 @@ public partial class Com1CConnector
                     if (!string.IsNullOrWhiteSpace(stripped) && stripped != name)
                     {
                         _logger.LogInformation("    Trying stripped name: '{Stripped}'", stripped);
+                        dynamic? sel = null;
                         try
                         {
                             // НайтиПоНаименованию with exact=false does prefix search
-                            dynamic sel = conn.Справочники.Контрагенты.Выбрать();
+                            sel = conn.Справочники.Контрагенты.Выбрать();
                             while (sel.Следующий())
                             {
                                 try
@@ -821,6 +808,7 @@ public partial class Com1CConnector
                                     if (cpStripped.Equals(stripped, StringComparison.OrdinalIgnoreCase))
                                     {
                                         counterpartyRef = sel.Ссылка;
+                                        TrackCom(counterpartyRef);
                                         _logger.LogInformation("    Matched by stripped name: '{Name1C}'", cpName1c);
                                         break;
                                     }
@@ -829,6 +817,7 @@ public partial class Com1CConnector
                             }
                         }
                         catch { }
+                        finally { SafeRelease(sel); }
                     }
                 }
 
@@ -867,14 +856,13 @@ public partial class Com1CConnector
                         }
                         try
                         {
-                            dynamic enumMgr = conn.Перечисления.ЮрФизЛицо;
-                            var val = enumMgr.GetType().InvokeMember("ЮрЛицо",
-                                System.Reflection.BindingFlags.GetProperty, null, (object)enumMgr, null);
-                            newCp.ЮрФизЛицо = val;
+                            var val = GetEnumValue(conn, "ЮрФизЛицо", "ЮрЛицо");
+                            if (val != null) newCp.ЮрФизЛицо = val;
                         }
                         catch { }
                         newCp.Записать();
                         counterpartyRef = newCp.Ссылка;
+                        TrackCom(counterpartyRef);
                         _logger.LogInformation("    Created company: {Name}", name);
                     }
                     else
@@ -889,14 +877,13 @@ public partial class Com1CConnector
                         newCp.Наименование = createName;
                         try
                         {
-                            dynamic enumMgr = conn.Перечисления.ЮрФизЛицо;
-                            var val = enumMgr.GetType().InvokeMember("ФизЛицо",
-                                System.Reflection.BindingFlags.GetProperty, null, (object)enumMgr, null);
-                            newCp.ЮрФизЛицо = val;
+                            var val = GetEnumValue(conn, "ЮрФизЛицо", "ФизЛицо");
+                            if (val != null) newCp.ЮрФизЛицо = val;
                         }
                         catch { }
                         newCp.Записать();
                         counterpartyRef = newCp.Ссылка;
+                        TrackCom(counterpartyRef);
                         _logger.LogInformation("    Created person: {Name}", name);
                     }
                 }
@@ -913,28 +900,7 @@ public partial class Com1CConnector
                     try
                     {
                         string bankCode = normAcct.Length >= 3 ? normAcct.Substring(0, 3) : "";
-                        dynamic? bankRef = null;
-                        if (!string.IsNullOrWhiteSpace(bankCode))
-                        {
-                            try
-                            {
-                                dynamic bankSel = conn.Справочники.Банки.Выбрать();
-                                while (bankSel.Следующий())
-                                {
-                                    try
-                                    {
-                                        string code = ((string)(bankSel.Код ?? "")).Trim();
-                                        if (code == bankCode)
-                                        {
-                                            bankRef = bankSel.Ссылка;
-                                            break;
-                                        }
-                                    }
-                                    catch { }
-                                }
-                            }
-                            catch { }
-                        }
+                        dynamic? bankRef = GetBankByCode(conn, bankCode);
 
                         dynamic newBankAcct = conn.Справочники.БанковскиеСчета.СоздатьЭлемент();
                         newBankAcct.НомерСчета = normAcct;
@@ -943,9 +909,7 @@ public partial class Com1CConnector
                         {
                             try {
                                 newBankAcct.Банк = bankRef;
-                                string bankName = "";
-                                try { bankName = (string)(bankRef.Наименование ?? ""); } catch { }
-                                _logger.LogInformation("    Bank set: {Code} ({Name})", bankCode, bankName);
+                                _logger.LogInformation("    Bank set: {Code}", bankCode);
                             } catch (Exception ex) {
                                 _logger.LogWarning("    Failed to set bank: {Err}", ex.Message);
                             }
@@ -956,37 +920,32 @@ public partial class Com1CConnector
                         }
                         try
                         {
-                            dynamic eur = conn.Справочники.Валюты.НайтиПоНаименованию("EUR", true);
-                            if (!eur.Пустая())
-                                newBankAcct.ВалютаДенежныхСредств = eur;
+                            dynamic? eur = GetEur(conn);
+                            if (eur != null) newBankAcct.ВалютаДенежныхСредств = eur;
                         }
                         catch { }
 
-                        // ВидСчета = copy from existing bank account (Расчетный)
+                        // ВидСчета = copy from existing bank account (Расчетный) — cached once per file
                         try
                         {
-                            dynamic goodSel = conn.Справочники.БанковскиеСчета.Выбрать();
-                            while (goodSel.Следующий())
+                            dynamic? sampleVid = GetSampleVidSchets(conn);
+                            if (sampleVid != null)
                             {
-                                try
-                                {
-                                    if ((bool)goodSel.ПометкаУдаления) continue;
-                                    dynamic goodObj = goodSel.Ссылка.ПолучитьОбъект();
-                                    dynamic goodVid = goodObj.ВидСчета;
-                                    string vidStr = goodVid?.ToString() ?? "";
-                                    if (!string.IsNullOrWhiteSpace(vidStr) && vidStr != "System.__ComObject")
-                                    {
-                                        newBankAcct.ВидСчета = goodVid;
-                                        _logger.LogInformation("    ВидСчета = {Vid}", vidStr);
-                                        break;
-                                    }
-                                }
-                                catch { }
+                                newBankAcct.ВидСчета = sampleVid;
+                                _logger.LogInformation("    ВидСчета set from cached sample");
                             }
                         }
                         catch (Exception ex) { _logger.LogWarning("    Failed to set ВидСчета: {Err}", ex.Message); }
 
                         newBankAcct.Записать();
+                        // Cache the newly created bank account so doc loop finds it
+                        try
+                        {
+                            dynamic newRef = newBankAcct.Ссылка;
+                            _cacheBankAcctsByNumber[normAcct] = newRef;
+                            TrackCom(newRef);
+                        }
+                        catch { }
                         _logger.LogInformation("    Created bank account {Acct} for {Name}", normAcct, name);
                     }
                     catch (Exception ex)

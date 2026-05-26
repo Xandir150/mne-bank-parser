@@ -18,13 +18,267 @@ public partial class Com1CConnector : IDisposable
 
     // Account number → mapping
     private Dictionary<string, AccountMapping> _accountMap = new();
-    private readonly string _mappingFile;
+    private readonly string _mappingFile;        // auto-generated, machine-only
     private readonly string _reportFile;
+    private readonly string _accountConfigFile;  // human-edited, authoritative when present
+    // True when the active mapping was loaded from the human-edited config (skip auto-scan).
+    public bool IsConfigBased { get; private set; }
 
     // Shared payroll document reference for current file being loaded
     private dynamic? _currentPayrollRef;
     private dynamic? _cachedDeptRef;
     private string _cachedDeptName = "";
+
+    // ── Per-session COM caches (persist across files within the same database) ──
+    // The connection + caches live for as long as consecutive files target the same DB.
+    // Goal: reuse 1C session and catalog lookups instead of re-querying per file.
+    private readonly Dictionary<string, dynamic?> _cacheChartAccts = new();
+    private readonly Dictionary<string, dynamic?> _cacheBankAcctsByNumber = new();
+    private readonly Dictionary<string, dynamic?> _cacheCounterpartyByInn = new();
+    private readonly Dictionary<string, dynamic?> _cacheCounterpartyByName = new();
+    private readonly Dictionary<string, dynamic?> _cacheBankRefByCode = new();
+    private readonly Dictionary<string, dynamic?> _cacheEnumValues = new();
+    private readonly Dictionary<string, dynamic?> _cacheCashFlowItems = new();
+    // org name → (deptRef, deptName); cached per session (org membership is DB-wide)
+    private readonly Dictionary<string, (dynamic? Ref, string Name)> _cacheDeptByOrg = new();
+    private dynamic? _cacheEur;
+    private dynamic? _cacheVidSchets;
+    private bool _cacheVidSchetsAttempted;
+    // RCWs scheduled for release at end of session
+    private readonly List<object> _comToRelease = new();
+    // Lock for _comConnector to avoid double-init from background ScanDatabases vs LoadFile
+    private readonly object _connectorLock = new();
+
+    // ── Active session ──
+    // Reused across multiple LoadFile calls when they target the same database.
+    private dynamic? _sessionConn;
+    private string? _sessionDatabase;
+
+    private void TrackCom(object? obj)
+    {
+        if (obj != null) _comToRelease.Add(obj);
+    }
+
+    private static void SafeRelease(object? obj)
+    {
+        if (obj == null) return;
+        try { Marshal.FinalReleaseComObject(obj); } catch { }
+    }
+
+    /// <summary>Reset all session-level caches (called on DB switch or end of batch).</summary>
+    private void ResetSessionCache()
+    {
+        foreach (var r in _comToRelease) SafeRelease(r);
+        _comToRelease.Clear();
+        _cacheChartAccts.Clear();
+        _cacheBankAcctsByNumber.Clear();
+        _cacheCounterpartyByInn.Clear();
+        _cacheCounterpartyByName.Clear();
+        _cacheBankRefByCode.Clear();
+        _cacheEnumValues.Clear();
+        _cacheCashFlowItems.Clear();
+        _cacheDeptByOrg.Clear();
+        _cacheEur = null;
+        _cacheVidSchets = null;
+        _cacheVidSchetsAttempted = false;
+    }
+
+    /// <summary>End the current session: release connection + clear caches.
+    /// Called by the worker between scan cycles or when no more files to process.</summary>
+    public void EndSession()
+    {
+        ResetSessionCache();
+        _currentPayrollRef = null;
+        _cachedDeptRef = null;
+        _cachedDeptName = "";
+        if (_sessionConn != null)
+        {
+            try { CleanupCom(_sessionConn); } catch { }
+            _sessionConn = null;
+            _sessionDatabase = null;
+        }
+    }
+
+    /// <summary>Cached lookup for ПодразделениеОрганизации by org name.</summary>
+    private (dynamic? Ref, string Name) GetDeptByOrg(dynamic conn, string orgName)
+    {
+        if (_cacheDeptByOrg.TryGetValue(orgName, out var cached)) return cached;
+
+        dynamic? sel = null;
+        dynamic? deptRef = null;
+        string deptName = "";
+        try
+        {
+            sel = conn.Справочники.ПодразделенияОрганизаций.Выбрать();
+            while (sel.Следующий())
+            {
+                if ((bool)sel.ПометкаУдаления) continue;
+                try
+                {
+                    string ownerName = (string)(sel.Владелец?.Наименование ?? "");
+                    if (ownerName == orgName)
+                    {
+                        deptRef = sel.Ссылка;
+                        TrackCom(deptRef);
+                        deptName = (string)(sel.Наименование ?? "");
+                        break;
+                    }
+                }
+                catch { }
+            }
+        }
+        catch { }
+        finally { SafeRelease(sel); }
+
+        var result = (deptRef, deptName);
+        _cacheDeptByOrg[orgName] = result;
+        return result;
+    }
+
+    /// <summary>Cached lookup for plan account code (e.g. "51", "60.01").</summary>
+    internal dynamic? GetChartAccount(dynamic conn, string code)
+    {
+        if (string.IsNullOrWhiteSpace(code)) return null;
+        if (_cacheChartAccts.TryGetValue(code, out var cached)) return cached;
+        dynamic? result = null;
+        try
+        {
+            dynamic acct = conn.ПланыСчетов.Хозрасчетный.НайтиПоКоду(code);
+            if (!acct.Пустая())
+            {
+                result = acct;
+                TrackCom(acct);
+            }
+        }
+        catch { }
+        _cacheChartAccts[code] = result;
+        return result;
+    }
+
+    /// <summary>Cached lookup for EUR currency.</summary>
+    internal dynamic? GetEur(dynamic conn)
+    {
+        if (_cacheEur != null) return _cacheEur;
+        try
+        {
+            dynamic eur = conn.Справочники.Валюты.НайтиПоНаименованию("EUR", true);
+            if (!eur.Пустая())
+            {
+                _cacheEur = eur;
+                TrackCom(eur);
+            }
+        }
+        catch { }
+        return _cacheEur;
+    }
+
+    /// <summary>Cached lookup for enum value: Перечисления.{enumType}.{valueName}.</summary>
+    internal dynamic? GetEnumValue(dynamic conn, string enumType, string valueName)
+    {
+        string key = enumType + "." + valueName;
+        if (_cacheEnumValues.TryGetValue(key, out var cached)) return cached;
+        dynamic? val = null;
+        try
+        {
+            dynamic enumMgr = conn.Перечисления.GetType().InvokeMember(
+                enumType, System.Reflection.BindingFlags.GetProperty,
+                null, (object)conn.Перечисления, null);
+            val = enumMgr.GetType().InvokeMember(valueName,
+                System.Reflection.BindingFlags.GetProperty, null, (object)enumMgr, null);
+            if (val != null) TrackCom(val);
+        }
+        catch { }
+        _cacheEnumValues[key] = val;
+        return val;
+    }
+
+    /// <summary>Cached lookup for СтатьяДвиженияДенежныхСредств by name.</summary>
+    internal dynamic? GetCashFlowItem(dynamic conn, string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return null;
+        if (_cacheCashFlowItems.TryGetValue(name, out var cached)) return cached;
+        dynamic? result = null;
+        try
+        {
+            dynamic item = conn.Справочники.СтатьиДвиженияДенежныхСредств
+                .НайтиПоНаименованию(name, true);
+            if (!item.Пустая())
+            {
+                result = item;
+                TrackCom(item);
+            }
+        }
+        catch { }
+        _cacheCashFlowItems[name] = result;
+        return result;
+    }
+
+    /// <summary>Get a sample ВидСчета value to copy to new bank accounts. Caches once per file.</summary>
+    internal dynamic? GetSampleVidSchets(dynamic conn)
+    {
+        if (_cacheVidSchetsAttempted) return _cacheVidSchets;
+        _cacheVidSchetsAttempted = true;
+
+        dynamic? sel = null;
+        try
+        {
+            sel = conn.Справочники.БанковскиеСчета.Выбрать();
+            while (sel.Следующий())
+            {
+                dynamic? obj = null;
+                try
+                {
+                    if ((bool)sel.ПометкаУдаления) continue;
+                    obj = sel.Ссылка.ПолучитьОбъект();
+                    dynamic vid = obj.ВидСчета;
+                    string vidStr = vid?.ToString() ?? "";
+                    if (!string.IsNullOrWhiteSpace(vidStr) && vidStr != "System.__ComObject")
+                    {
+                        _cacheVidSchets = vid;
+                        TrackCom(vid);
+                        return _cacheVidSchets;
+                    }
+                }
+                catch { }
+                finally { SafeRelease(obj); }
+            }
+        }
+        catch { }
+        finally { SafeRelease(sel); }
+        return null;
+    }
+
+    /// <summary>Cached lookup for Банк by 3-digit code (first 3 digits of account).</summary>
+    internal dynamic? GetBankByCode(dynamic conn, string bankCode)
+    {
+        if (string.IsNullOrWhiteSpace(bankCode)) return null;
+        if (_cacheBankRefByCode.TryGetValue(bankCode, out var cached)) return cached;
+
+        dynamic? sel = null;
+        dynamic? result = null;
+        try
+        {
+            sel = conn.Справочники.Банки.Выбрать();
+            while (sel.Следующий())
+            {
+                try
+                {
+                    string code = ((string)(sel.Код ?? "")).Trim();
+                    if (code == bankCode)
+                    {
+                        result = sel.Ссылка;
+                        TrackCom(result);
+                        break;
+                    }
+                }
+                catch { }
+            }
+        }
+        catch { }
+        finally { SafeRelease(sel); }
+        _cacheBankRefByCode[bankCode] = result;
+        return result;
+    }
 
     public Com1CConnector(LoaderConfig config, ILogger logger)
     {
@@ -36,9 +290,24 @@ public partial class Com1CConnector : IDisposable
             : AppContext.BaseDirectory;
         _mappingFile = Path.Combine(dataDir, "account_mapping.json");
         _reportFile = Path.Combine(dataDir, "account_mapping.txt");
+        _accountConfigFile = Path.Combine(dataDir, "accounts.config.json");
     }
 
     public IReadOnlyDictionary<string, AccountMapping> AccountMap => _accountMap;
+
+    /// <summary>Age of the cached mapping file in hours (double.MaxValue if not present).</summary>
+    public double MappingAgeHours
+    {
+        get
+        {
+            try
+            {
+                if (!File.Exists(_mappingFile)) return double.MaxValue;
+                return (DateTime.Now - File.GetLastWriteTime(_mappingFile)).TotalHours;
+            }
+            catch { return double.MaxValue; }
+        }
+    }
 
     // Cached COM connector (reused across connections)
     private dynamic? _comConnector;
@@ -46,41 +315,59 @@ public partial class Com1CConnector : IDisposable
     /// <summary>Connect to a specific database.</summary>
     private dynamic Connect(string database)
     {
-        if (_comConnector == null)
+        lock (_connectorLock)
         {
-            var connectorType = Type.GetTypeFromProgID("V83.COMConnector")
-                ?? throw new Exception("V83.COMConnector not registered");
-            _comConnector = Activator.CreateInstance(connectorType)!;
+            if (_comConnector == null)
+            {
+                var connectorType = Type.GetTypeFromProgID("V83.COMConnector")
+                    ?? throw new Exception("V83.COMConnector not registered");
+                _comConnector = Activator.CreateInstance(connectorType)!;
+            }
         }
         var connStr = $"Srvr=\"{_config.Server}\";Ref=\"{database}\";" +
                       $"Usr=\"{_config.User}\";Pwd=\"{_config.Password}\"";
         return _comConnector.Connect(connStr);
     }
 
-    /// <summary>Release COM objects and force GC to prevent memory leaks.</summary>
+    /// <summary>Release COM connection and aggressively collect all COM wrappers.</summary>
     public static void CleanupCom(dynamic conn)
     {
-        try { Marshal.ReleaseComObject(conn); } catch { }
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
-        GC.Collect();
+        try { while (Marshal.FinalReleaseComObject(conn) > 0) { } } catch { }
+        // Multiple GC passes to release nested COM RCW chains
+        for (int i = 0; i < 3; i++)
+        {
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
+            GC.WaitForPendingFinalizers();
+        }
     }
 
-    /// <summary>Scan all databases and build account→database mapping.</summary>
+    /// <summary>Scan all databases and build account→database mapping.
+    /// Additive: if a DB scan fails, existing entries for that DB are preserved.
+    /// The mapping file is only overwritten when at least one DB was scanned successfully.</summary>
     public void ScanDatabases()
     {
         _logger.LogInformation("Scanning {Count} databases...", _config.Databases.Count);
-        var map = new Dictionary<string, AccountMapping>();
+
+        // Start from existing mapping as baseline — we'll only replace entries for successfully-scanned DBs.
+        var map = new Dictionary<string, AccountMapping>(_accountMap);
+        var successfullyScanned = new HashSet<string>();
+        int failedCount = 0;
 
         foreach (var db in _config.Databases)
         {
+            dynamic? conn = null;
+            dynamic? query = null;
+            dynamic? qResult = null;
+            dynamic? sel = null;
+            var dbAccounts = new Dictionary<string, AccountMapping>();
+            bool dbOk = false;
             try
             {
                 _logger.LogInformation("Scanning {Database}...", db);
-                dynamic conn = Connect(db);
+                conn = Connect(db);
 
                 // Read bank accounts owned by Organizations only (not Counterparties)
-                dynamic query = conn.NewObject("Запрос");
+                query = conn.NewObject("Запрос");
                 query.Текст = @"ВЫБРАТЬ
                     БанковскиеСчета.НомерСчета КАК НомерСчета,
                     БанковскиеСчета.Владелец.Наименование КАК ОргНаименование,
@@ -91,8 +378,8 @@ public partial class Com1CConnector : IDisposable
                     БанковскиеСчета.ПометкаУдаления = ЛОЖЬ
                     И ТИПЗНАЧЕНИЯ(БанковскиеСчета.Владелец) = ТИП(Справочник.Организации)";
 
-                dynamic qResult = query.Выполнить();
-                dynamic sel = qResult.Выбрать();
+                qResult = query.Выполнить();
+                sel = qResult.Выбрать();
                 while (sel.Следующий())
                 {
                     try
@@ -106,9 +393,9 @@ public partial class Com1CConnector : IDisposable
                         string orgName = (string)(sel.ОргНаименование ?? "");
                         string inn = (string)(sel.ОргИНН ?? "");
 
-                        if (!map.ContainsKey(normalized))
+                        if (!dbAccounts.ContainsKey(normalized))
                         {
-                            map[normalized] = new AccountMapping
+                            dbAccounts[normalized] = new AccountMapping
                             {
                                 Database = db,
                                 OrgName = orgName,
@@ -121,17 +408,44 @@ public partial class Com1CConnector : IDisposable
                         _logger.LogWarning("Error reading account: {Error}", ex.Message);
                     }
                 }
-
-                CleanupCom(conn);
+                dbOk = true;
             }
             catch (Exception ex)
             {
+                failedCount++;
                 _logger.LogError("Failed to scan {Database}: {Error}", db, ex.Message);
+            }
+            finally
+            {
+                SafeRelease(sel);
+                SafeRelease(qResult);
+                SafeRelease(query);
+                if (conn != null) CleanupCom(conn);
+            }
+
+            if (dbOk)
+            {
+                // Remove old entries for this DB (account may have been deleted in 1C)
+                var stale = map.Where(kvp => kvp.Value.Database == db).Select(kvp => kvp.Key).ToList();
+                foreach (var k in stale) map.Remove(k);
+                // Add freshly-scanned entries
+                foreach (var kvp in dbAccounts) map[kvp.Key] = kvp.Value;
+                successfullyScanned.Add(db);
             }
         }
 
         _accountMap = map;
-        _logger.LogInformation("Scan complete: {Count} accounts mapped", map.Count);
+        _logger.LogInformation("Scan complete: {Count} accounts mapped, {Ok}/{Total} DBs scanned successfully",
+            map.Count, successfullyScanned.Count, _config.Databases.Count);
+
+        // Refuse to persist a mapping that was clobbered by mass failures.
+        // Heuristic: require at least 1 successful DB AND non-empty result.
+        if (successfullyScanned.Count == 0 || map.Count == 0)
+        {
+            _logger.LogWarning("Mapping file NOT saved — {Failed} DBs failed, no successful scans. Existing file preserved.",
+                failedCount);
+            return;
+        }
 
         // Save JSON mapping
         var json = JsonSerializer.Serialize(map, new JsonSerializerOptions
@@ -165,16 +479,24 @@ public partial class Com1CConnector : IDisposable
         File.WriteAllText(_reportFile, sb.ToString(), Encoding.UTF8);
     }
 
-    /// <summary>Load mapping from cached file.</summary>
+    /// <summary>Load account mapping. Prefers the human-edited config file
+    /// (accounts.config.json) when present, otherwise falls back to the auto-generated
+    /// account_mapping.json from a previous scan.</summary>
     public bool LoadCachedMapping()
     {
+        // 1) Human-edited config takes priority — it's the source of truth.
+        if (LoadAccountConfig()) return true;
+
+        // 2) Fall back to auto-generated mapping (legacy / pre-config path).
         if (!File.Exists(_mappingFile)) return false;
         try
         {
             var json = File.ReadAllText(_mappingFile, Encoding.UTF8);
             _accountMap = JsonSerializer.Deserialize<Dictionary<string, AccountMapping>>(json)
                           ?? new();
-            _logger.LogInformation("Loaded cached mapping: {Count} accounts", _accountMap.Count);
+            IsConfigBased = false;
+            _logger.LogInformation("Loaded auto-generated mapping: {Count} accounts (from account_mapping.json)",
+                _accountMap.Count);
             return _accountMap.Count > 0;
         }
         catch
@@ -182,6 +504,130 @@ public partial class Com1CConnector : IDisposable
             return false;
         }
     }
+
+    /// <summary>Entry in the human-edited accounts.config.json.</summary>
+    public class AccountConfigEntry
+    {
+        public string Account { get; set; } = "";
+        public string Org { get; set; } = "";
+        public string Inn { get; set; } = "";
+    }
+
+    /// <summary>Load accounts.config.json (JSONC: comments + trailing commas allowed).
+    /// Structure: <c>{ "db_name": [ { "account": "...", "org": "...", "inn": "..." } ] }</c>.
+    /// Returns true if loaded successfully and contains at least one account.</summary>
+    public bool LoadAccountConfig()
+    {
+        if (!File.Exists(_accountConfigFile)) return false;
+        try
+        {
+            var raw = File.ReadAllText(_accountConfigFile, Encoding.UTF8);
+            var opts = new JsonSerializerOptions
+            {
+                ReadCommentHandling = JsonCommentHandling.Skip,
+                AllowTrailingCommas = true,
+                PropertyNameCaseInsensitive = true,
+            };
+            var grouped = JsonSerializer.Deserialize<Dictionary<string, List<AccountConfigEntry>>>(raw, opts);
+            if (grouped == null) return false;
+
+            var map = new Dictionary<string, AccountMapping>();
+            int dups = 0;
+            foreach (var (db, entries) in grouped)
+            {
+                // Skip keys starting with _ — reserved for metadata/comments
+                if (db.StartsWith("_")) continue;
+                if (entries == null) continue;
+                foreach (var e in entries)
+                {
+                    if (string.IsNullOrWhiteSpace(e.Account)) continue;
+                    var norm = NormalizeAccount(e.Account);
+                    if (norm.Length < 10) continue;
+                    if (map.ContainsKey(norm))
+                    {
+                        dups++;
+                        _logger.LogWarning("Duplicate account {Acct} in config (db={Old} vs db={New}) — keeping first",
+                            norm, map[norm].Database, db);
+                        continue;
+                    }
+                    map[norm] = new AccountMapping
+                    {
+                        Database = db,
+                        OrgName = e.Org ?? "",
+                        Inn = e.Inn ?? ""
+                    };
+                }
+            }
+            if (map.Count == 0) return false;
+            _accountMap = map;
+            IsConfigBased = true;
+            _logger.LogInformation("Loaded {Count} accounts from accounts.config.json{Dup}",
+                map.Count, dups > 0 ? $" ({dups} duplicates skipped)" : "");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Failed to read accounts.config.json: {Err}", ex.Message);
+            return false;
+        }
+    }
+
+    /// <summary>Save current mapping as a human-editable accounts.config.json file,
+    /// grouped by database. Use to seed the config from a previous auto-scan.</summary>
+    public void SaveAccountConfig()
+    {
+        var grouped = _accountMap
+            .GroupBy(kvp => kvp.Value.Database)
+            .OrderBy(g => g.Key)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Select(kvp => new AccountConfigEntry
+                {
+                    Account = kvp.Key,
+                    Org = kvp.Value.OrgName,
+                    Inn = kvp.Value.Inn
+                })
+                .OrderBy(e => e.Org)
+                .ThenBy(e => e.Account)
+                .ToList()
+            );
+
+        var opts = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        };
+        var body = JsonSerializer.Serialize(grouped, opts);
+
+        var header = string.Join('\n', new[]
+        {
+            "// ┌──────────────────────────────────────────────────────────────────────────┐",
+            "// │  accounts.config.json  —  ручной маппинг счетов 1С                       │",
+            "// │                                                                          │",
+            "// │  Формат: { \"<имя_базы_1С>\": [ { account, org, inn }, ... ] }             │",
+            "// │  • account — номер счёта, 18 цифр (без ME25 и тире)                      │",
+            "// │  • org     — название организации (свободный текст, для удобства поиска) │",
+            "// │  • inn     — ИНН, 8 цифр                                                 │",
+            "// │                                                                          │",
+            "// │  ПОДДЕРЖИВАЮТСЯ комментарии (//) и trailing commas.                      │",
+            "// │  ПОСЛЕ правок ОБЯЗАТЕЛЬНО перезапустите сервис:                          │",
+            "// │      sc stop Loader1C && sc start Loader1C                               │",
+            "// │                                                                          │",
+            "// │  При наличии этого файла авто-скан 1С на старте НЕ запускается.          │",
+            "// │  Удалите файл и rescan.trigger чтобы вернуться к авто-сканированию.      │",
+            "// └──────────────────────────────────────────────────────────────────────────┘",
+            "",
+            ""
+        });
+
+        File.WriteAllText(_accountConfigFile, header + body, new UTF8Encoding(false));
+        _logger.LogInformation("Saved {Count} accounts across {Dbs} databases to {File}",
+            _accountMap.Count, grouped.Count, _accountConfigFile);
+    }
+
+    /// <summary>Path to the human-editable config file (for diagnostics/CLI).</summary>
+    public string AccountConfigPath => _accountConfigFile;
 
     /// <summary>Find which database an account belongs to (exact match only).</summary>
     public AccountMapping? FindAccount(string account)
@@ -209,18 +655,38 @@ public partial class Com1CConnector : IDisposable
         _logger.LogInformation("Loading {File} into {Database} ({Org})",
             Path.GetFileName(file.FilePath), mapping.Database, mapping.OrgName);
 
+        // Reuse session if same DB; otherwise close old + open new
+        if (_sessionDatabase != mapping.Database || _sessionConn == null)
+        {
+            EndSession();
+            try
+            {
+                _sessionConn = Connect(mapping.Database);
+                _sessionDatabase = mapping.Database;
+                _logger.LogInformation("Opened new 1C session for {Db}", mapping.Database);
+            }
+            catch (Exception ex)
+            {
+                return new LoadResult { Success = false, Error = $"Connect failed: {ex.Message}" };
+            }
+        }
+
+        // Per-file state reset (caches stay alive)
+        _currentPayrollRef = null;
+        _cachedDeptRef = null;
+        _cachedDeptName = "";
+
+        dynamic conn = _sessionConn!;
         try
         {
-            dynamic conn = Connect(mapping.Database);
             int created = 0;
             int skipped = 0;
             var errors = new List<string>();
 
-            // Find our bank account ref
-            dynamic bankAcct = FindBankAccount(conn, file.Account);
+            // Find our bank account ref (cached across files)
+            dynamic? bankAcct = FindBankAccount(conn, file.Account);
             if (bankAcct == null)
             {
-                CleanupCom(conn);
                 return new LoadResult
                 {
                     Success = false,
@@ -231,28 +697,13 @@ public partial class Com1CConnector : IDisposable
             // Get organization from bank account
             dynamic org = bankAcct.Владелец;
 
-            // Find department once for this organization
-            _cachedDeptRef = null;
-            _cachedDeptName = "";
+            // Department is cached by org name across files (persists in session)
             try
             {
                 string orgName = (string)(org.Наименование ?? "");
-                dynamic deptSel = conn.Справочники.ПодразделенияОрганизаций.Выбрать();
-                while (deptSel.Следующий())
-                {
-                    if ((bool)deptSel.ПометкаУдаления) continue;
-                    try
-                    {
-                        string ownerName = (string)(deptSel.Владелец?.Наименование ?? "");
-                        if (ownerName == orgName)
-                        {
-                            _cachedDeptRef = deptSel.Ссылка;
-                            _cachedDeptName = (string)(deptSel.Наименование ?? "");
-                            break;
-                        }
-                    }
-                    catch { }
-                }
+                var dept = GetDeptByOrg(conn, orgName);
+                _cachedDeptRef = dept.Ref;
+                _cachedDeptName = dept.Name;
             }
             catch { }
 
@@ -294,33 +745,24 @@ public partial class Com1CConnector : IDisposable
                     payroll.ПериодРегистрации = new DateTime(payrollDate.Year, payrollDate.Month, 1);
 
                     // --- Enum fields via reflection ---
-                    // ВидМестаВыплаты = БанковскийСчет
                     try
                     {
-                        dynamic enumMgr = conn.Перечисления.ВидыМестВыплатыЗарплаты;
-                        var val = enumMgr.GetType().InvokeMember("БанковскийСчет",
-                            System.Reflection.BindingFlags.GetProperty, null, (object)enumMgr, null);
-                        payroll.ВидМестаВыплаты = val;
+                        var val = GetEnumValue(conn, "ВидыМестВыплатыЗарплаты", "БанковскийСчет");
+                        if (val != null) payroll.ВидМестаВыплаты = val;
                     }
                     catch (Exception ex) { _logger.LogWarning("  ВидМестаВыплаты failed: {0}", ex.Message); }
 
-                    // СпособРасчетов = ОплатаТруда
                     try
                     {
-                        dynamic enumMgr = conn.Перечисления.СпособыРасчетовСФизическимиЛицами;
-                        var val = enumMgr.GetType().InvokeMember("ОплатаТруда",
-                            System.Reflection.BindingFlags.GetProperty, null, (object)enumMgr, null);
-                        payroll.СпособРасчетов = val;
+                        var val = GetEnumValue(conn, "СпособыРасчетовСФизическимиЛицами", "ОплатаТруда");
+                        if (val != null) payroll.СпособРасчетов = val;
                     }
                     catch (Exception ex) { _logger.LogWarning("  СпособРасчетов failed: {0}", ex.Message); }
 
-                    // ВидДоходаИсполнительногоПроизводства = ЗарплатаВознаграждения
                     try
                     {
-                        dynamic enumMgr = conn.Перечисления.ВидыДоходовИсполнительногоПроизводства;
-                        var val = enumMgr.GetType().InvokeMember("ЗарплатаВознаграждения",
-                            System.Reflection.BindingFlags.GetProperty, null, (object)enumMgr, null);
-                        payroll.ВидДоходаИсполнительногоПроизводства = val;
+                        var val = GetEnumValue(conn, "ВидыДоходовИсполнительногоПроизводства", "ЗарплатаВознаграждения");
+                        if (val != null) payroll.ВидДоходаИсполнительногоПроизводства = val;
                     }
                     catch (Exception ex) { _logger.LogWarning("  ВидДоходаИсполнительногоПроизводства failed: {0}", ex.Message); }
 
@@ -404,10 +846,8 @@ public partial class Com1CConnector : IDisposable
                                 newCp.Наименование = empName;
                                 try
                                 {
-                                    dynamic enumMgr = conn.Перечисления.ЮрФизЛицо;
-                                    var val = enumMgr.GetType().InvokeMember("ФизЛицо",
-                                        System.Reflection.BindingFlags.GetProperty, null, (object)enumMgr, null);
-                                    newCp.ЮрФизЛицо = val;
+                                    var val = GetEnumValue(conn, "ЮрФизЛицо", "ФизЛицо");
+                                    if (val != null) newCp.ЮрФизЛицо = val;
                                 }
                                 catch { }
                                 newCp.Записать();
@@ -433,8 +873,11 @@ public partial class Com1CConnector : IDisposable
 
                     payroll.Записать();
                     _currentPayrollRef = payroll.Ссылка;
+                    TrackCom(_currentPayrollRef);
                     _logger.LogInformation("  ВедомостьНаВыплатуЗарплаты created, {Count} rows, total {Total:F2}",
                         salaryDocs.Count, totalSalary);
+                    // Release the document object itself (we only need the reference now)
+                    SafeRelease(payroll);
                 }
                 catch (Exception ex)
                 {
@@ -451,7 +894,7 @@ public partial class Com1CConnector : IDisposable
                     string cpAcct = isDebit ? doc.RecipientAccount : doc.PayerAccount;
                     // Key: date + amount + direction + doc number + counterparty account
                     string key = $"{doc.Date}|{doc.Amount.ToString("F2", CultureInfo.InvariantCulture)}|{(isDebit ? "D" : "C")}|{doc.Number}|{NormalizeAccount(cpAcct)}";
-                    _logger.LogInformation("  File doc key={Key}, existing count={Count}", key, existingCounts.GetValueOrDefault(key));
+                    _logger.LogDebug("  File doc key={Key}, existing count={Count}", key, existingCounts.GetValueOrDefault(key));
 
                     if (existingCounts.TryGetValue(key, out int remaining) && remaining > 0)
                     {
@@ -475,8 +918,6 @@ public partial class Com1CConnector : IDisposable
                 }
             }
 
-            CleanupCom(conn);
-
             return new LoadResult
             {
                 Success = errors.Count == 0,
@@ -489,17 +930,30 @@ public partial class Com1CConnector : IDisposable
         }
         catch (Exception ex)
         {
+            // On COM error the session may be broken (e.g. 1C killed it). Tear it down so
+            // the next file gets a fresh connection.
+            try { EndSession(); } catch { }
             return new LoadResult
             {
                 Success = false,
                 Error = $"COM error: {ex.Message}"
             };
         }
+        finally
+        {
+            // Per-file teardown: drop transient refs but keep session caches alive.
+            _currentPayrollRef = null;
+            // _cachedDeptRef stays in _cacheDeptByOrg; just clear the per-file shortcut
+            _cachedDeptRef = null;
+            _cachedDeptName = "";
+        }
     }
 
     private dynamic? FindBankAccount(dynamic conn, string account)
     {
         string normalized = NormalizeAccount(account);
+        if (_cacheBankAcctsByNumber.TryGetValue(normalized, out var cached) && cached != null)
+            return cached;
         // Try without IBAN prefix, then with ME25 prefix
         foreach (var variant in new[] { normalized, "ME25" + normalized })
         {
@@ -508,7 +962,11 @@ public partial class Com1CConnector : IDisposable
                 dynamic found = conn.Справочники.БанковскиеСчета
                     .НайтиПоРеквизиту("НомерСчета", variant);
                 if (!found.Пустая() && !(bool)found.ПометкаУдаления)
+                {
+                    _cacheBankAcctsByNumber[normalized] = found;
+                    TrackCom(found);
                     return found;
+                }
             }
             catch { }
         }
@@ -518,6 +976,10 @@ public partial class Com1CConnector : IDisposable
     private dynamic? FindBankAccountByNumber(dynamic conn, string account)
     {
         string normalized = NormalizeAccount(account);
+        if (string.IsNullOrEmpty(normalized)) return null;
+        if (_cacheBankAcctsByNumber.TryGetValue(normalized, out var cached) && cached != null)
+            return cached;
+
         foreach (var variant in new[] { normalized, "ME25" + normalized })
         {
             try
@@ -525,10 +987,15 @@ public partial class Com1CConnector : IDisposable
                 dynamic found = conn.Справочники.БанковскиеСчета
                     .НайтиПоРеквизиту("НомерСчета", variant);
                 if (!found.Пустая() && !(bool)found.ПометкаУдаления)
+                {
+                    _cacheBankAcctsByNumber[normalized] = found;
+                    TrackCom(found);
                     return found;
+                }
             }
             catch { }
         }
+        // Don't cache misses — bank accounts may be created during EnsureCounterparties
         return null;
     }
 
@@ -572,9 +1039,12 @@ public partial class Com1CConnector : IDisposable
             // Use queries instead of selection to avoid COM memory leaks
             foreach (var (docType, dir) in new[] { ("СписаниеСРасчетногоСчета", "D"), ("ПоступлениеНаРасчетныйСчет", "C") })
             {
+                dynamic? query = null;
+                dynamic? result = null;
+                dynamic? sel = null;
                 try
                 {
-                    dynamic query = conn.NewObject("Запрос");
+                    query = conn.NewObject("Запрос");
                     query.Текст = $@"ВЫБРАТЬ
                         Док.СуммаДокумента КАК Сумма,
                         Док.Дата КАК Дата,
@@ -588,8 +1058,8 @@ public partial class Com1CConnector : IDisposable
                     query.УстановитьПараметр("Дата1", minDate);
                     query.УстановитьПараметр("Дата2", maxDate);
 
-                    dynamic result = query.Выполнить();
-                    dynamic sel = result.Выбрать();
+                    result = query.Выполнить();
+                    sel = result.Выбрать();
                     while (sel.Следующий())
                     {
                         try
@@ -600,12 +1070,18 @@ public partial class Com1CConnector : IDisposable
                             string cpAcct = NormalizeAccount((string)(sel.СчетКП ?? ""));
                             string key = $"{dt:dd.MM.yyyy}|{amt.ToString("F2", CultureInfo.InvariantCulture)}|{dir}|{docNum}|{cpAcct}";
                             counts[key] = counts.GetValueOrDefault(key) + 1;
-                            _logger.LogInformation("    1C existing: key={Key}", key);
+                            _logger.LogDebug("    1C existing: key={Key}", key);
                         }
                         catch { }
                     }
                 }
                 catch { }
+                finally
+                {
+                    SafeRelease(sel);
+                    SafeRelease(result);
+                    SafeRelease(query);
+                }
             }
         }
         catch (Exception ex)
@@ -669,6 +1145,8 @@ public partial class Com1CConnector : IDisposable
     public dynamic? FindCounterpartyByName(dynamic conn, string name)
     {
         if (string.IsNullOrWhiteSpace(name)) return null;
+        if (_cacheCounterpartyByName.TryGetValue(name, out var cached) && cached != null)
+            return cached;
 
         // Try exact first
         try
@@ -676,7 +1154,11 @@ public partial class Com1CConnector : IDisposable
             dynamic found = conn.Справочники.Контрагенты
                 .НайтиПоНаименованию(name, true);
             if (!found.Пустая() && !(bool)found.ПометкаУдаления)
+            {
+                _cacheCounterpartyByName[name] = found;
+                TrackCom(found);
                 return found;
+            }
         }
         catch { }
 
@@ -697,10 +1179,15 @@ public partial class Com1CConnector : IDisposable
                 dynamic found = conn.Справочники.Контрагенты
                     .НайтиПоНаименованию(variant, false);
                 if (!found.Пустая() && !(bool)found.ПометкаУдаления)
+                {
+                    _cacheCounterpartyByName[name] = found;
+                    TrackCom(found);
                     return found;
+                }
             }
             catch { }
         }
+        // Don't cache misses — may be created later
         return null;
     }
 

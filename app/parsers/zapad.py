@@ -34,7 +34,14 @@ class ZapadParser(BankParser):
 
         with pdfplumber.open(file_path) as pdf:
             first_text = (pdf.pages[0].extract_text() or "")[:500]
-            if "ACCOUNT STATEMENT" in first_text:
+            if re.search(r"IZVOD\s+BR\.\s*\d+\s+ZA\s+RA[ČC]UN", first_text):
+                self._parse_upp(pdf, stmt)
+                if stmt.transactions:
+                    return stmt
+                # Fallback to legacy daily parse if UPP extraction failed
+                stmt = ParsedStatement(bank_code=self.bank_code, bank_name=self.bank_name)
+                self._parse_daily(pdf, stmt)
+            elif "ACCOUNT STATEMENT" in first_text:
                 self._parse_period(pdf, stmt)
             elif "PROMET RAČUNA" in first_text:
                 self._parse_promet(pdf, stmt)
@@ -44,6 +51,215 @@ class ZapadParser(BankParser):
                 self._parse_daily(pdf, stmt)
 
         return stmt
+
+    # ----------------------------------------------------------------
+    # UPP daily statement format ("IZVOD BR. N ZA RAČUN <18 digits>")
+    # ----------------------------------------------------------------
+    def _parse_upp(self, pdf, stmt: ParsedStatement) -> None:
+        full_text = ""
+        for page in pdf.pages:
+            full_text += (page.extract_text() or "") + "\n"
+        self._parse_upp_header(full_text, stmt)
+        for page in pdf.pages:
+            self._parse_upp_transactions(page.extract_text(layout=True) or "", stmt)
+
+    def _parse_upp_header(self, text: str, stmt: ParsedStatement) -> None:
+        m = re.search(r"IZVOD\s+BR\.\s*([\d/]+)\s+ZA\s+RAČUN\s+(\d+)", text)
+        if m:
+            stmt.statement_number = m.group(1)
+            stmt.account_number = self.normalize_account(m.group(2))
+
+        m = re.search(r"ZA\s+DAN\s+(\d{1,2}\.\d{1,2}\.\d{4})", text)
+        if m:
+            stmt.statement_date = self.parse_date_dmy(m.group(1))
+
+        m = re.search(r"Klijent:\s*(.+?)\s{2,}Matični", text)
+        if m:
+            stmt.client_name = self.clean_text(m.group(1))
+        else:
+            m = re.search(r"Klijent:\s*(.+?)(?:\n|Matični)", text)
+            if m:
+                stmt.client_name = self.clean_text(m.group(1))
+
+        m = re.search(r"Matični\s+broj:\s*(\d+)", text)
+        if m:
+            stmt.client_pib = m.group(1)
+
+        m = re.search(r"Valuta:\s*(\w+)", text)
+        if m:
+            stmt.currency = m.group(1)
+
+        amt = r"(\d[\d.]*,\d{2})"
+        # Two amounts on one line (opening, closing), then debit/credit totals on next line
+        m = re.search(
+            rf"{amt}\s+{amt}\s*\n\s*{amt}\s+{amt}", text
+        )
+        if m:
+            stmt.opening_balance = self.parse_amount_eu(m.group(1))
+            stmt.closing_balance = self.parse_amount_eu(m.group(2))
+            stmt.total_debit = self.parse_amount_eu(m.group(3))
+            stmt.total_credit = self.parse_amount_eu(m.group(4))
+
+    def _parse_upp_transactions(self, text: str, stmt: ParsedStatement) -> None:
+        lines = text.split("\n")
+        n = len(lines)
+
+        amt = r"\d[\d.]*,\d{2}"
+        # Row line: <row_num> <stuff: opt cp + opt value_date> <trans_no> <debit> <credit> [naknada] [svrha tail]
+        row_re = re.compile(
+            rf"^\s*(\d+)\s+(.*?)\s*(\d{{4,}})\s+({amt})\s+({amt})(?:\s+({amt}))?(.*)$"
+        )
+        date_only_re = re.compile(r"\b(\d{1,2}\.\d{1,2}\.\d{4})\b")
+        preamble_re = re.compile(r"^(Plaćanje|Podizanje|Prenos|prenos|Naplata|SP\s*:)")
+
+        def date_in_col(line: str) -> Optional[str]:
+            md = date_only_re.search(line)
+            if md:
+                pos = line.find(md.group(1))
+                if 20 <= pos < 60:
+                    return md.group(1)
+            return None
+
+        def is_right_only(line: str) -> bool:
+            if not line.strip():
+                return False
+            return (len(line) - len(line.lstrip())) >= 60
+
+        row_indices = [i for i in range(n) if row_re.match(lines[i])]
+
+        for k, i in enumerate(row_indices):
+            m = row_re.match(lines[i])
+            row_num = int(m.group(1))
+            stuff = m.group(2) or ""
+            debit = self.parse_amount_eu(m.group(4))
+            credit = self.parse_amount_eu(m.group(5))
+            inline_svrha = (m.group(7) or "").strip()
+
+            inline_value_date = None
+            inline_cp = None
+            md = date_only_re.search(stuff)
+            if md:
+                inline_value_date = md.group(1)
+                stuff = (stuff[:md.start()] + stuff[md.end():]).strip()
+            if stuff.strip():
+                inline_cp = stuff.strip()
+
+            prev_row = row_indices[k - 1] if k > 0 else -1
+            next_row = row_indices[k + 1] if k + 1 < len(row_indices) else n
+
+            booking_date = None
+            booking_date_idx = None
+            for j in range(i - 1, prev_row, -1):
+                d = date_in_col(lines[j])
+                if d:
+                    booking_date = self.parse_date_dmy(d)
+                    booking_date_idx = j
+                    break
+
+            value_date = None
+            value_date_idx = None
+            if inline_value_date:
+                value_date = self.parse_date_dmy(inline_value_date)
+            else:
+                for j in range(i + 1, next_row):
+                    d = date_in_col(lines[j])
+                    if d:
+                        value_date = self.parse_date_dmy(d)
+                        value_date_idx = j
+                        break
+
+            block_start = booking_date_idx if booking_date_idx is not None else i
+            block_end = value_date_idx if value_date_idx is not None else i
+
+            # Extend block_start UP: include right-only Plaćanje/etc preamble lines
+            preamble_top = block_start
+            for j in range(block_start - 1, prev_row, -1):
+                if not is_right_only(lines[j]):
+                    break
+                preamble_top = j
+                if preamble_re.match(lines[j].strip()):
+                    break
+                if (block_start - preamble_top) > 4:
+                    break
+            has_marker = any(
+                preamble_re.match(lines[j].strip())
+                for j in range(preamble_top, block_start)
+            )
+            if has_marker:
+                block_start = preamble_top
+
+            # Extend block_end DOWN: right-only continuation, stop before next preamble or date
+            for j in range(block_end + 1, next_row):
+                if not is_right_only(lines[j]):
+                    break
+                if preamble_re.match(lines[j].strip()):
+                    break
+                block_end = j
+
+            cp_parts: list[str] = []
+            acct: Optional[str] = None
+            svrha_parts: list[str] = []
+            if inline_cp:
+                cp_parts.append(inline_cp)
+
+            for j in range(block_start, block_end + 1):
+                if j == i:
+                    if inline_svrha:
+                        svrha_parts.append(inline_svrha)
+                    continue
+                line = lines[j]
+                stripped = line.strip()
+                if not stripped:
+                    continue
+
+                first_nonspace = len(line) - len(line.lstrip())
+                if first_nonspace >= 60:
+                    left = ""
+                    right = stripped
+                else:
+                    gap = re.search(r"\s{2,}", line[first_nonspace:])
+                    if gap:
+                        split_at = first_nonspace + gap.start()
+                        left = line[:split_at].strip()
+                        right = line[split_at:].strip()
+                    else:
+                        left = stripped
+                        right = ""
+
+                if re.fullmatch(r"\d{1,2}\.\d{1,2}\.\d{4}", left):
+                    left = ""
+                if re.fullmatch(r"\d{1,2}\.\d{1,2}\.\d{4}", right):
+                    right = ""
+
+                if left:
+                    if re.fullmatch(r"[A-Z]{2}\d{15,30}|\d{15,18}|\d{3}-\d+-\d{2}", left):
+                        acct = self.normalize_account(left) if not left[:2].isalpha() else left
+                    else:
+                        cp_parts.append(left)
+                if right:
+                    svrha_parts.append(right)
+
+            counterparty = self.clean_text(" ".join(cp_parts)) if cp_parts else None
+            svrha = " ".join(svrha_parts)
+
+            payment_code = None
+            mc = re.search(r"SP\s*:\s*(\d+)", svrha)
+            if mc:
+                payment_code = mc.group(1)
+                svrha = re.sub(r"\s*SP\s*:\s*\d+\s*", " ", svrha).strip()
+
+            txn = ParsedTransaction(
+                row_number=row_num,
+                value_date=value_date or booking_date or stmt.statement_date,
+                booking_date=booking_date or stmt.statement_date,
+                debit=debit,
+                credit=credit,
+                counterparty=counterparty,
+                counterparty_account=acct,
+                purpose=self.clean_text(svrha) if svrha else None,
+                payment_code=payment_code,
+            )
+            stmt.transactions.append(txn)
 
     # ----------------------------------------------------------------
     # Helpers

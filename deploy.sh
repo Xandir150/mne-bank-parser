@@ -72,7 +72,10 @@ deploy_loader() {
     scp_cmd "$PROJECT_DIR/loader1c/op_types.json" "$SSH_HOST:$LOADER_DIR/op_types.json"
 
     log "Stopping Loader1C service ..."
-    ssh_cmd "sc stop Loader1C 2>nul & timeout /t 5 >nul & taskkill /F /IM Loader1C.exe 2>nul & timeout /t 2 >nul & ver >nul" || true
+    ssh_cmd "sc stop Loader1C 2>nul & ver >nul" || true
+    sleep 3
+    ssh_cmd "taskkill /F /IM Loader1C.exe 2>nul & ver >nul" || true
+    sleep 2
 
     log "Building loader1c ..."
     ssh_cmd "cmd /c \"cd /d $LOADER_DIR && dotnet publish Loader1C.csproj -c Release -o $LOADER_DIR --nologo -v quiet <nul\""

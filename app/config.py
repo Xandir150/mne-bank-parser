@@ -14,6 +14,7 @@ class Settings(BaseSettings):
 
     # Bank code -> bank name mapping
     bank_names: dict[str, str] = {
+        "510": "CKB Banka",
         "520": "Hipotekarna Banka",
         "530": "NLB Banka",
         "535": "Prva Banka CG",
@@ -28,6 +29,7 @@ class Settings(BaseSettings):
     # Supported file extensions per bank code
     # 540 (Erste) also accepts .htm/.html
     supported_extensions: dict[str, list[str]] = {
+        "510": [".pdf"],
         "520": [".pdf"],
         "530": [".pdf"],
         "535": [".pdf"],

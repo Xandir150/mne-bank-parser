@@ -11,6 +11,7 @@ BANK_PARSERS: dict[str, type[BankParser]] = {}
 
 # Text markers for bank detection (case-insensitive, checked in order)
 _BANK_TEXT_MARKERS: list[tuple[str, list[str]]] = [
+    ("510", ["crnogorska komercijalna", "ckb"]),
     ("520", ["hipotekarna"]),
     ("530", ["nlb banka", "nlb "]),
     ("535", ["prva banka"]),

@@ -4,36 +4,66 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 
 // ──────────────────────────────────────────────────────────────
-// Simple file logger (no external dependencies)
+// File logger with persistent stream (no per-line file open/close).
 // ──────────────────────────────────────────────────────────────
 public class FileLoggerProvider : ILoggerProvider
 {
     private readonly string _filePath;
+    private readonly LogLevel _minLevel;
+    private readonly StreamWriter _writer;
     private readonly object _lock = new();
+    private bool _disposed;
 
-    public FileLoggerProvider(string filePath) => _filePath = filePath;
+    public FileLoggerProvider(string filePath, LogLevel minLevel = LogLevel.Information)
+    {
+        _filePath = filePath;
+        _minLevel = minLevel;
+        var dir = Path.GetDirectoryName(filePath);
+        if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
+        var fs = new FileStream(filePath, FileMode.Append, FileAccess.Write,
+            FileShare.Read, bufferSize: 4096, useAsync: false);
+        _writer = new StreamWriter(fs, new UTF8Encoding(false)) { AutoFlush = true };
+    }
 
     public ILogger CreateLogger(string categoryName) =>
-        new FileLogger(_filePath, categoryName, _lock);
+        new FileLogger(this, categoryName);
 
-    public void Dispose() { }
+    internal void Write(string line)
+    {
+        lock (_lock)
+        {
+            if (_disposed) return;
+            try { _writer.WriteLine(line); } catch { }
+        }
+    }
+
+    internal LogLevel MinLevel => _minLevel;
+
+    public void Dispose()
+    {
+        lock (_lock)
+        {
+            if (_disposed) return;
+            _disposed = true;
+            try { _writer.Flush(); } catch { }
+            try { _writer.Dispose(); } catch { }
+        }
+    }
 }
 
 public class FileLogger : ILogger
 {
-    private readonly string _filePath;
+    private readonly FileLoggerProvider _provider;
     private readonly string _category;
-    private readonly object _lock;
 
-    public FileLogger(string filePath, string category, object lockObj)
+    public FileLogger(FileLoggerProvider provider, string category)
     {
-        _filePath = filePath;
+        _provider = provider;
         _category = category;
-        _lock = lockObj;
     }
 
     public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
-    public bool IsEnabled(LogLevel logLevel) => logLevel >= LogLevel.Information;
+    public bool IsEnabled(LogLevel logLevel) => logLevel >= _provider.MinLevel;
 
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state,
         Exception? exception, Func<TState, Exception?, string> formatter)
@@ -42,9 +72,6 @@ public class FileLogger : ILogger
         var msg = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} [{logLevel}] {_category}: {formatter(state, exception)}";
         if (exception != null)
             msg += Environment.NewLine + exception;
-        lock (_lock)
-        {
-            File.AppendAllText(_filePath, msg + Environment.NewLine, Encoding.UTF8);
-        }
+        _provider.Write(msg);
     }
 }

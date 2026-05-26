@@ -1,0 +1,560 @@
+﻿Маппинг счетов → базы 1С (обновлено: 09.03.2026 14:15)
+========================================================================================================================
+Счёт                      Организация                              ИНН          База 1С             
+------------------------------------------------------------------------------------------------------------------------
+510000000000000000        ALLIANZ INVEST DOO                       02657058     allianz_group       
+510000000001499951        ALLIANZ KAPITAL DOO                      02650606     allianz_group       
+510000000001571440        ALLIANZ STROY DOO                        02657066     allianz_group       
+510000000001239603        BEST MONTENEGRO INVESTMENT DOO           02465043     allianz_group       
+BIZNESKARTA               BEST MONTENEGRO INVESTMENT DOO           02465043     allianz_group       
+5101096819                BEL DOO                                               astrasoft           
+52061010068               BEL DOO                                               astrasoft           
+560000000000290342        DOO ASTRASOFT                            03339645     astrasoft           
+56000501000000010086      DOO ASTRASOFT                            03339645     astrasoft           
+565000000002145048        DOO ASTRASOFT                            03339645     astrasoft           
+570111001123810           DOO ASTRASOFT                            03339645     astrasoft           
+565500000000135622        DOO ASTRASOFT                            03339645     astrasoft           
+570000111001123810        DOO ASTRASOFT                            03339645     astrasoft           
+52086910038               DR-TRADE DOO                                          astrasoft           
+5302522013                EURO DOM                                              astrasoft           
+5108928405                FAB LIVE DOO                                          astrasoft           
+5103164568                SOFA BED DOO                                          astrasoft           
+5201950260                SOFA BED DOO                                          astrasoft           
+9075700131                ZAPAD BANKA                                           astrasoft           
+565000000002221484        в отдельной базе BALKAN ART DOO          03487652     base_ab             
+56550000000219721         в отдельной базе BALKAN ART DOO          03487652     base_ab             
+575000000000226907        в отдельной базе BALKAN ART DOO          03487652     base_ab             
+03100643000000018500      МИ ФНС России по управлению долгом       7727406020   base_ab             
+570000111001413355        хххALVEST DOO                            03430367     base_ab             
+570000121000181406KARTICA хххALVEST DOO                            03430367     base_ab             
+570117000300076           хххANDAVIS DOO                           03446557     base_ab             
+5352170454                хххAPPTEK DOO                            03479170     base_ab             
+5352253389                хххAT LABS DOO                           03513769     base_ab             
+570111001176481           хххBIK DOO                               03350053     base_ab             
+570000111001222653        хххBONANZA2021 DOO                       03375331     base_ab             
+570111000875005           хххBRISNA DOO                            03277623     base_ab             
+520000000004100556        ABF GROUP DOO                            03523675     base_ab             
+535000000002392584        ABSOLUTE RENOVATIONS DOO                 03670104     base_ab             
+510000000016544166        ALESKANIYA REALTY DOO                    03451046     base_ab             
+520000000004096870        ALESKANIYA REALTY DOO                    03451046     base_ab             
+52000400000371191         ALESKANIYA REALTY DOO                    03451046     base_ab             
+5352554283                ANTRAKT DOO                              03759032     base_ab             
+535005010009148529        ANTRAKT DOO                              03759032     base_ab             
+25535005010008130708      APELSIN MONTE DOO                        03547752     base_ab             
+535000000002265611        APELSIN MONTE DOO                        03547752     base_ab             
+51010239651               ARALIA DOO                               03164683     base_ab             
+570000111001433628        ASQUE DOO                                03426718     base_ab             
+570121000188196           ASQUE DOO                                03426718     base_ab             
+570000321000875237        BALKIN VIACHESLAV                                     base_ab             
+5352202367                BIG DATA REALTY DOO                      03486575     base_ab             
+535005010007562579        BIG DATA REALTY DOO                      03486575     base_ab             
+4280000000000000000000    BUREVESTNIK MONTENEGRO DOO               03002292     base_ab             
+4280000000000000000001    BUREVESTNIK MONTENEGRO DOO               03002292     base_ab             
+540000000000713289        BUREVESTNIK MONTENEGRO DOO               03002292     base_ab             
+560000000000226710        BUREVESTNIK MONTENEGRO DOO               03002292     base_ab             
+540000007300195604        BUREVESTNIK MONTENEGRO DOO               03002292     base_ab             
+560005010000864283        BUREVESTNIK MONTENEGRO DOO               03002292     base_ab             
+580011000000107017        BUREVESTNIK MONTENEGRO DOO               03002292     base_ab             
+580420000000167077        BUREVESTNIK MONTENEGRO DOO               03002292     base_ab             
+555900180336878           CAPITAL PLAZA DOO                                     base_ab             
+5203719540                DATIKA DOO                                            base_ab             
+5302459060                DATIKA DOO                                            base_ab             
+5101435543                EDUCO CENTAR DOO                                      base_ab             
+5101199736                EXPRESS COURIER DOO                                   base_ab             
+580022000000039343        GIDULIANOV KOSTIANTYN                                 base_ab             
+535040030005761478        IVANNIKOV INNOKENTII                                  base_ab             
+5203228817                KERNEL CO DOO                                         base_ab             
+530040030007002527        KRYNYCHNYY ARKADIY                                    base_ab             
+535040030005114488        LIASHEVYCH PAVLO                                      base_ab             
+530000130000501933        LYASHEVYCH YURIY                                      base_ab             
+570000111000814000        NAVUS DOO                                             base_ab             
+5401249020                NOTAR VLADAN BEKAN                                    base_ab             
+5501246145                NOTAR VUKICEVIC BRANISLAV                             base_ab             
+520032000010983919        NOVIKOV ROMAN                            121198625000 base_ab             
+565032000001027269        PETROVA VERONIKA                                      base_ab             
+510121142661              PISKLOVA MARGARITA                                    base_ab             
+535040030005179963        RYZHENKO ANDREI                                       base_ab             
+565032000001027657        SOKOLOV ANDREI                                        base_ab             
+535040030004775958        SYRKOVSKII ALEKSEI                                    base_ab             
+5104450012                TELEMACH DOO                                          base_ab             
+510000000009295938        TELETEH DOO                                           base_ab             
+535040030005070935        TOLSTOV DANIIL                                        base_ab             
+5302322387                TRANSFER COMPANY DOO                                  base_ab             
+535040030005071711        TSAPLEVA ANNA                                         base_ab             
+0050100139097EUR          VELGO PRO DOO                            03323099     base_ab             
+0050100139097USD          VELGO PRO DOO                            03323099     base_ab             
+5302907297                VELGO PRO DOO                            03323099     base_ab             
+535000000002160463        xxxAV GROUP MONTE DOO                    03440664     base_ab             
+570000111001180167        xxxBASSHIPPING DOO                       03353915     base_ab             
+570000111000716992        хххCONTINENTAL BEVERAGES DOO             03204073     base_cd             
+5651225197                хххDEPOSIT SERVIS DOO                    03491633     base_cd             
+0050100072588EUR          хххDEV4X DOO                             03470547     base_cd             
+5352158232                хххDEV4X DOO                             03470547     base_cd             
+570000111001587858        хххDEVTECHFX DOO                         03483576     base_cd             
+570000121000228063        хххDEVTECHFX DOO                         03483576     base_cd             
+00000000000000000         хххDORONIN COMPANY DOO                   03555909     base_cd             
+510200356353              BOLJEVIC INA                                          base_cd             
+530310030000025397        BORISENKOV ANDREY                                     base_cd             
+5303040760                CANOPUS INNOVATIVE TECHNOLOGIES LIMITED DOO 03397297     base_cd             
+5303040769                CANOPUS INNOVATIVE TECHNOLOGIES LIMITED DOO 03397297     base_cd             
+IVNT04190961100003        CANOPUS INNOVATIVE TECHNOLOGIES LIMITED DOO 03397297     base_cd             
+535000000002166962        CBROOK DOO                               03470083     base_cd             
+535040030004741426        CHEBOTAREV ALEXANDER                                  base_cd             
+535000000002127871        CIVITAS SOLIS DOO                        03416119     base_cd             
+0462400014993BK           CROSSLINK SERVICES DOO                   03286541     base_cd             
+5351930185                CROSSLINK SERVICES DOO                   03286541     base_cd             
+535005010006357063        CROSSLINK SERVICES DOO                   03286541     base_cd             
+520042000002007136        DAGO DOO                                 03563707     base_cd             
+5205023511                DAGO DOO                                 03563707     base_cd             
+570000117000088422        DAGO DOO                                 03563707     base_cd             
+570000117000292995        DGMA LOGISTIC COMPANY DOO                03630633     base_cd             
+57000000005700131         DIGITAL CONTENT PRODUCTION DOO           03556123     base_cd             
+570117000158650           DIGITAL CONTENT PRODUCTION DOO           03556123     base_cd             
+570117000158650ME         DIGITAL CONTENT PRODUCTION DOO           03556123     base_cd             
+570000117000158650        DIGITAL CONTENT PRODUCTION DOO           03556123     base_cd             
+0050100071107             DUBKI939 DOO                             03441601     base_cd             
+5352136310                DUBKI939 DOO                             03441601     base_cd             
+535005010007110753        DUBKI939 DOO                             03441601     base_cd             
+5403211896252             EFIMKIN DMITRII                                       base_cd             
+565020020000464686        EFIMKINA IRINA                                        base_cd             
+535040030005375903        KIRKOVSKAIA MARIIA                                    base_cd             
+535040030005428380        KOMENDATENKO ALINA                                    base_cd             
+535040030004991395        KULIKOV EVGENY                                        base_cd             
+565020020000668192        SHABADAEV ALEKSANDR                                   base_cd             
+520032000012675211        SKOROV ALEXEY                                         base_cd             
+535040030003637469        SMIRNOV ALEXEY                                        base_cd             
+575030020001774206        SMIRNOV VASILII                                       base_cd             
+0050100075404             xxxCODE HEADED TECHNOLOGIES DOO          03511693     base_cd             
+535000000002198584        xxxCODE HEADED TECHNOLOGIES DOO          03511693     base_cd             
+535005010007540463        xxxCODE HEADED TECHNOLOGIES DOO          03511693     base_cd             
+5352129423                xxxCOSMOIT DOO                           03417069     base_cd             
+9075650176                xxxCYAN DOO                              03723160     base_cd             
+535000000002595314        xxxDESA DRN DOO                          03752160     base_cd             
+5203617981                xxxDIAGNOZAVTO DOO                       03152430     base_cd             
+570000111001432852        xxxDL TECHNOLOGIES DOO                   03433153     base_cd             
+570121000187032           xxxDL TECHNOLOGIES DOO                   03433153     base_cd             
+50100073126               xxxDOOT DOO                              03469247     base_cd             
+5352165798                xxxDOOT DOO                              03469247     base_cd             
+535040030005146207        ZOTKIN EGOR                                           base_cd             
+56500000002209553         хххFERROX DOO                            03422984     base_eghij          
+565500000000214774        хххFERROX DOO                            03422984     base_eghij          
+570111001389978           хххFERROX DOO                            03422984     base_eghij          
+570000111001389978        хххFERROX DOO                            03422984     base_eghij          
+5352133982                хххGUESSSERVICE DOO                      03430880     base_eghij          
+535040030005165995        BELOUSOV ALEKSEI                                      base_eghij          
+520032000012608960        DADAEV MIKHAIL                                        base_eghij          
+565032000000032825        DADAEVA ANASTASIIA                                    base_eghij          
+520032000010771586        DRAGOVIC JOVANA                                       base_eghij          
+5652066478                ENISEY CONSULTING DOO                    03437337     base_eghij          
+570000111001450409        ENISEY CONSULTING DOO                    03437337     base_eghij          
+570000121000194986        ENISEY CONSULTING DOO                    03437337     base_eghij          
+5352160366                ESTMED DOO                               03458539     base_eghij          
+570000117000766937        EUROPEAN SHIPPING AND CREWING COMPANY DOO 03787630     base_eghij          
+530000130000438107        EVDOKIMOVA MARINA                                     base_eghij          
+5652114008                FORM & SPACE DOO                         03501566     base_eghij          
+565500000000113215        FORM & SPACE DOO                         03501566     base_eghij          
+56550000000113215         FORM & SPACE DOO                         03501566     base_eghij          
+4200100520042000001802466 FSTR DOO                                 03424804     base_eghij          
+520004000000213566KARTICA FSTR DOO                                 03424804     base_eghij          
+520042000001802466        FSTR DOO                                 03424804     base_eghij          
+5204307069                FSTR DOO                                 03424804     base_eghij          
+5204307069TRANSIT         FSTR DOO                                 03424804     base_eghij          
+520000000005405303        GEM HOUSE DOO                            03782484     base_eghij          
+5352503067                GLOBAL VISIONS DOO                       03731618     base_eghij          
+565000000001003164        GUSTUS DOO                               03435873     base_eghij          
+25570000111001480091      HEALTH CLINIC DOO                        03435989     base_eghij          
+570000111001480091        HEALTH CLINIC DOO                        03435989     base_eghij          
+5204263419                IMONTE GROUP DOO                         03371271     base_eghij          
+520042000001527471        IMONTE GROUP DOO                         03371271     base_eghij          
+570117000239839           INVICTUS GROUP DOO                       03618129     base_eghij          
+570000117000239839        INVICTUS GROUP DOO                       03618129     base_eghij          
+5352131266                JEDITOOLS DOO                            03427790     base_eghij          
+535005010007077191        JEDITOOLS DOO                            03427790     base_eghij          
+530080030005866015        KHRAPOV VIKTOR                                        base_eghij          
+52510006957126            KOROLEV DENIS                                         base_eghij          
+570000321001404469        MASHKO OLGA                                           base_eghij          
+565032000000013425        OSTRIKOV ILYA                                         base_eghij          
+535040030005417807        PERVUSHKIN DMITRII                                    base_eghij          
+535040030004955796        PLIUSHCHENKOV NIKOLAI                                 base_eghij          
+565032000001055205        POLENOVA NATALIA                                      base_eghij          
+530000030011340039        POZDNIAKOV EVGENII                                    base_eghij          
+565032000000042525        SAIDULAEV ROMAN                                       base_eghij          
+535040030004954923        SHABATKO EKATERINA                                    base_eghij          
+565032000000063962        TUKA IZABELLA                                         base_eghij          
+530000130000163306        UDUTOVA ALENA                                         base_eghij          
+535040030004688464        UTOCHKIN MIKHAIL                                      base_eghij          
+520032000012387412        VETROV ARTEM                                          base_eghij          
+535040030005164055        VOLKOV IURII                                          base_eghij          
+565000000000392646        xxxEFEMACH DOO                           03510344     base_eghij          
+565500000000202261        xxxEFEMACH DOO                           03510344     base_eghij          
+57000000111001489112      xxxHOMEGE DOO                            03439569     base_eghij          
+5651221511                xxxIRIDATECH DOO                         03435288     base_eghij          
+570000321001326966        ZAEV ANDREI                                           base_eghij          
+565032000000069103        ZHUKOV KONSTANTIN                                     base_eghij          
+565032000000064156        ZHUKOVA MARIIA                                        base_eghij          
+565032000000060761        ZHUPANIK EVGENY                                       base_eghij          
+535040030004728719        ZIGAR ARTEM                                           base_eghij          
+570000111001404334        хххKABANAV DOO                           03428800     base_kl             
+570000111001516951        хххKIT MONTE DOO                         03454380     base_kl             
+0050100012119             хххKOMOŠEVINA DOO                        03466175     base_kl             
+580000000000132108        хххKOMOŠEVINA DOO                        03466175     base_kl             
+5352156292                хххKUZNETSOV VS DOO                      03433960     base_kl             
+DR565500000000702490      хххLEPRECHAUN DOO                        03485714     base_kl             
+ZR565000000002601433      хххLEPRECHAUN DOO                        03485714     base_kl             
+535000000002224192        хххLIVIA KARTER INC DOO                  03456919     base_kl             
+5352158620                KARIKASHOP DOO                           03424880     base_kl             
+535005010007262655        KARIKASHOP DOO                           03424880     base_kl             
+570000117000848514        KOMISSAROV PLUS DOO                       03545997    base_kl             
+535040030004893328        KOSTYUKOV ROMAN                                       base_kl             
+535040030004980822        KUZNETSOV VLADIMIR                                    base_kl             
+570000111001543141        L&L MED DOO                              03469182     base_kl             
+25570000111002028335EUR   LAIKA TRAVEL MONTENEGRO DOO              03650383     base_kl             
+570000111002028335        LAIKA TRAVEL MONTENEGRO DOO              03650383     base_kl             
+570117000439368           LAS BROKERS DOO                          03671275     base_kl             
+570000117000439368        LAS BROKERS DOO                          03671275     base_kl             
+5352179281                LICENTIA DOO                             03475441     base_kl             
+565000000001507855        LIGRAIN DOO                              03537170     base_kl             
+565500000001406710        LIGRAIN DOO                              03537170     base_kl             
+580000000000121682        LIGRAIN DOO                              03537170     base_kl             
+LT953500010017615172      LIGRAIN DOO                              03537170     base_kl             
+570000321000760971        LIYA MOROHOVSKA                          250697599502 base_kl             
+530000000005417172        NAVUS                                                 base_kl             
+820000000003000074        PORESKA UPRAVA                                        base_kl             
+520000000093910043        PRIVREDNA KOMORA                                      base_kl             
+535040030005313920        SHALYGINA VALENTINA                                   base_kl             
+5352202076                xxxKOTJA & PARTNERS DOO                  03486621     base_kl             
+535000000002245047        xxxLUNKWILL DOO                          03530949     base_kl             
+535005010007722920        xxxLUNKWILL DOO                          03530949     base_kl             
+570000000005700131        Zapad banka AD                                        base_kl             
+907000000005700131        Zapad banka AD                                        base_kl             
+535000000002297524        хххMANISSA DOO                           03512487     base_m              
+570111001219549           хххMEDOED DOO                            03374807     base_m              
+570000111001219549        хххMEDOED DOO                            03374807     base_m              
+570111000520276           хххMG AGRO INVEST DOO                    03154238     base_m              
+570000111001429748        хххMONTENEGRO HOLDING INTL DOO            03432955    base_m              
+570000321001664817        BASHKIRTSEV SERGEI                                    base_m              
+535040030004773242        BESPALOV VASILII                                      base_m              
+570000321001538329        BONDARENKO ROMAN                                      base_m              
+520032000006747638        BUSHIKHINA ANNA                                       base_m              
+530000110006189529        DELETIĆ GORAN                                         base_m              
+520032000004774464        EMELIANOVA MARIJA                                     base_m              
+570000321001539105        ESAULOVA EKATERINA                                    base_m              
+5403210670657             GALENKO DMITRII                                       base_m              
+535040030004873928        GARAFUTDINOVA ELMIRA                                  base_m              
+535040030005247766        GUROV SERGEI                                          base_m              
+575010020001735242        ISAKOVA EKATERINA                                     base_m              
+570000321001629121        KODOLOV VIKTOR                                        base_m              
+535040030005037761        KONOVALOVA EVGENIIA                                   base_m              
+520032000011572709        KOSHCHIENKO GALINA                                    base_m              
+520032000012492366        KOSHCHIENKO MARIA                                     base_m              
+570000321001688194        KOSTOV IVAN                                           base_m              
+570000321001703423        LAVRENYUK DENIS                                       base_m              
+570000117000175625        M-GRAIN DOO                              03592588     base_m              
+520151000000623607        MALINA BEAUTY DOO                        03391507     base_m              
+5204090468                MALINA BEAUTY DOO                        03391507     base_m              
+4200730520042000001140344 MALINA NAIL DOO                          03206602     base_m              
+4200730520042000001140344TRANZIT MALINA NAIL DOO                          03206602     base_m              
+520004000000353731        MALINA NAIL DOO                          03206602     base_m              
+ZR520000000003794909      MALINA NAIL DOO                          03206602     base_m              
+520032000012541836        MALYSHEV DMITRII                                      base_m              
+565000000001236449        MANKRIK DOO                              03454517     base_m              
+570111001483486           MANKRIK DOO                              03454517     base_m              
+570121000208663           MANKRIK DOO                              03454517     base_m              
+570000111001483486        MANKRIK DOO                              03454517     base_m              
+5205595132                MAXIM PLUS DOO                           03739112     base_m              
+580011000000030775        MD EUROPE DOO                            03473040     base_m              
+580011000000030872        MD GLOBAL DOO                            03473023     base_m              
+580040000000068804        MD GLOBAL DOO                            03473023     base_m              
+580420000000133903        MD GLOBAL DOO                            03473023     base_m              
+tranziteuro               MD GLOBAL DOO                            03473023     base_m              
+4200105520004200000302505 MDM PRODUCTION DOO                       03437949     base_m              
+5204392332                MDM PRODUCTION DOO                       03437949     base_m              
+25570000111001629956      MEANDER DOO                              03446069     base_m              
+57000000000000005700131   MEANDER DOO                              03446069     base_m              
+580000000000171005        MINDER DOO                               03435814     base_m              
+80420000000189581         MINDER DOO                               03435814     base_m              
+570000111000980444        MONTEOPS DOO                             03306941     base_m              
+570111001459624           MOVCHAN INFORMATION MANAGEMENT DOO       03442624     base_m              
+70000121000196150         MOVCHAN INFORMATION MANAGEMENT DOO       03442624     base_m              
+570000111001459624        MOVCHAN INFORMATION MANAGEMENT DOO       03442624     base_m              
+570000321001631449        PRONKIN DMITRII                                       base_m              
+570321001024035           ROMANOVA IULIIA                                       base_m              
+535040030004714751        SKLIFASOVSKAIA MARIIA                                 base_m              
+535040030005220509        SKLIFASOVSKII VLADISLAV                               base_m              
+570000321001323668        TATONKIN YAUHENI                                      base_m              
+565070010002221621        TKACHENKO KATERYNA                                    base_m              
+565070020002473966        VOLODINA OLGA                                         base_m              
+570111001381539           xxxMAVA TECH DOO                         03420949     base_m              
+kartica570111001381539    xxxMAVA TECH DOO                         03420949     base_m              
+5352152994                xxxMCWAY DOO                             03462129     base_m              
+570000111001581941        xxxMEDUNARODNI INSTITUT ZA GESTALT DOO   03458580     base_m              
+570000121000227966        xxxMEDUNARODNI INSTITUT ZA GESTALT DOO   03458580     base_m              
+4200105520042000001525046 xxxMILLHOUSE DOO                         03306224     base_m              
+520000000004261673        xxxMILLHOUSE DOO                         03306224     base_m              
+520004000000491665BK      xxxMILLHOUSE DOO                         03306224     base_m              
+570111000964439           xxxMILLHOUSE DOO                         03306224     base_m              
+535040030004872085        ZHDANOVICH KONSTANTIN                                 base_m              
+0050100076397EUR          хххPERFETTO TRADE DOO                    03520714     base_nop            
+0050100076397USD          хххPERFETTO TRADE DOO                    03520714     base_nop            
+5350000000000000000002214298 хххPERFETTO TRADE DOO                    03520714     base_nop            
+570000111001427226        хххPRUDNIKOV V DOO                       03429164     base_nop            
+565032000000326735        ALEKSANDROV ALEKSEI                                   base_nop            
+565032000000058821        BUKHTOIAROV IAROSLAV                                  base_nop            
+580022000000060489        CHILIKIN ALEXEY                                       base_nop            
+565032000000327123        ERMOLAEVA ANASTASIIA                                  base_nop            
+565032000000059306        KUNIKHINA OKSANA                                      base_nop            
+535000000002402381        NEOMON MONTENEGRO DOO                    03652998     base_nop            
+255700000111001827642     NICKFORSE DOO                            03507661     base_nop            
+56000000000415763         NORSTANDART DOO                          03741621     base_nop            
+560005010001646782        NORSTANDART DOO                          03741621     base_nop            
+5303015355                NURBAN DOO                               03349357     base_nop            
+535000000002396367        ONLINE SOCIETY OF COMMUNICATION ARTS DOO 03548155     base_nop            
+0050100071344EUR          PAPER UNICORN PRODUCTION DOO             03435628     base_nop            
+0050100071344TRANZIT      PAPER UNICORN PRODUCTION DOO             03435628     base_nop            
+0050100071344USD          PAPER UNICORN PRODUCTION DOO             03435628     base_nop            
+5352141257                PAPER UNICORN PRODUCTION DOO             03435628     base_nop            
+570000117000056703        PHARMA STAR MDA DOO                      03548848     base_nop            
+25570000117000730271      POLYLINK DOO                             03771849     base_nop            
+570000117000730271        POLYLINK DOO                             03771849     base_nop            
+520032000012611773        PONOMAREVA ANNA                          131099321801 base_nop            
+520012000000000154        PRISTANISTE NVO                          11081827     base_nop            
+520012000000000154TRANZIT PRISTANISTE NVO                          11081827     base_nop            
+570000111001453707        PRISTANISTE NVO                          11081827     base_nop            
+570111001453707           PRISTANISTE NVO                          11081827     base_nop            
+520042000001787916        PRISTANISTE NVO                          11081827     base_nop            
+0050100075145EUR          PROGRAMSIO DOO                           03423034     base_nop            
+535000000002194995        PROGRAMSIO DOO                           03423034     base_nop            
+570000111001410930        PROGRAMSIO DOO                           03423034     base_nop            
+5352183646                PSYCHOLOG-MIRINOVSKAYA DOO               03446344     base_nop            
+565032000000926777        SHAIDULLINA SOFIIA 1507994245008                      base_nop            
+530000110005363962        VUJOSEVIC BOGDAN                                      base_nop            
+570000117000247890        xxxNOVIKOVA2023 DOO                      03548864     base_nop            
+535000000002209254        xxxPHOTOMIR DOO                          03491188     base_nop            
+570000111001398708        xxxPOSKRIAKOV DEVELOPMENT DOO            03427803     base_nop            
+570121000189263           xxxPOSKRIAKOV DEVELOPMENT DOO            03427803     base_nop            
+5352131363                xxxPOWER DIGITAL DOO                     03433820     base_nop            
+57000011001651490         xxxPREPARO DOO                           03433781     base_nop            
+5352118074                xxxPUPPETS AND TECH DOO                  03414604     base_nop            
+5352118074TRANZIT         xxxPUPPETS AND TECH DOO                  03414604     base_nop            
+EURME25535005010007014335 xxxPUPPETS AND TECH DOO                  03414604     base_nop            
+USDME25535005010007014335 xxxPUPPETS AND TECH DOO                  03414604     base_nop            
+0050100075110             RACODEIQ DOO                             03423425     base_rs             
+535000000002858572        RACODEIQ DOO                             03423425     base_rs             
+5700001110001406080       RACODEIQ DOO                             03423425     base_rs             
+570000111001406080        RACODEIQ DOO                             03423425     base_rs             
+0050100084764             RNC LEGAL DOO                            03645053     base_rs             
+535000000002408977        RNC LEGAL DOO                            03645053     base_rs             
+1170300625988866          ROMAX TRADING DOO                        03349098     base_rs             
+1176303137076883          ROMAX TRADING DOO                        03349098     base_rs             
+1176303137077011          ROMAX TRADING DOO                        03349098     base_rs             
+570000111001149806        ROMAX TRADING DOO                        03349098     base_rs             
+540000000001506555        ROSE BEAUTY DOO                          03679314     base_rs             
+4200100520042000001804988 SATUS DOO                                03434478     base_rs             
+520000000004310464        SATUS DOO                                03434478     base_rs             
+565000000002231087        SAVE THE DATE DOO                        03599493     base_rs             
+0462400018077             SMART EV DOO                             03451186     base_rs             
+535000000002152121        SMART EV DOO                             03451186     base_rs             
+520000000004175052        SMART&RICH DOO                           03234851     base_rs             
+530000000002821355        SMART&RICH DOO                           03234851     base_rs             
+510000000016224163        SOKOL MONTENEGRO DOO                     03428389     base_rs             
+570000111001478733        SOKOL MONTENEGRO DOO                     03428389     base_rs             
+570000121000232622        SOKOL MONTENEGRO DOO                     03428389     base_rs             
+25570000127000133284      SOLVED LTD DOO                           03612619     base_rs             
+570000117000469923        SOLVED LTD DOO                           03612619     base_rs             
+540000000001422553        STASSI ATHLETICS DOO                     03626652     base_rs             
+BK570000121000186935      STRATUS MONTE DOO                        03425916     base_rs             
+DR570000111001395410      STRATUS MONTE DOO                        03425916     base_rs             
+ZR570000111001395410      STRATUS MONTE DOO                        03425916     base_rs             
+5302159233                SUITE 382 DOO                            02923068     base_rs             
+530045010010215985        SUITE 382 DOO                            02923068     base_rs             
+520000000004309882        xxxRASKOPINA FASHION DOO                 03425576     base_rs             
+520042000001804503        xxxRASKOPINA FASHION DOO                 03425576     base_rs             
+5204216083                xxxREHAB.MNE DOO                         03367126     base_rs             
+zr530000000002969086      xxxSECER BALKAN DOO                      03353770     base_rs             
+005010073673              xxxSIDORIUK MONTE DOO                    03459179     base_rs             
+5352174431                xxxSIDORIUK MONTE DOO                    03459179     base_rs             
+5352190145                xxxSINOLECT DOO                          03503330     base_rs             
+5302901477                xxxSKY SPORT DOO                         03321746     base_rs             
+5352163858                xxxSLOVO DOO                             03454304     base_rs             
+5204017718                xxxSTANDMILL SRO DOO                     03257606     base_rs             
+570111001416847           хххTAPNETIC DOO                          03417093     base_tuvwxy         
+570000117000198129        хххTECHNO TALKIES DOOххх                 03556620     base_tuvwxy         
+0050100073207             хххTETABYTE DOO                          03472086     base_tuvwxy         
+5352167059                хххTETABYTE DOO                          03472086     base_tuvwxy         
+570111001426450           хххUKRPELLETS DOO                        03435776     base_tuvwxy         
+570000111001426450        хххUKRPELLETS DOO                        03435776     base_tuvwxy         
+5352183937                хххUNITED CREATORS DOO                   03493253     base_tuvwxy         
+0450100187421             хххVERTIKAL MONT DOO                     03396177     base_tuvwxy         
+5303036695                хххVERTIKAL MONT DOO                     03396177     base_tuvwxy         
+570000117000084154        хххVERY GOOD SOFTWARE DEVELOPMENT COMPANY DOO 03519694     base_tuvwxy         
+00565000000000623991      хххVIANO DOO                             03289826     base_tuvwxy         
+565005010002714042        хххVIANO DOO                             03289826     base_tuvwxy         
+0050100073924232560840    хххXMEMO NM DOO                          03414701     base_tuvwxy         
+0050100073924232560978    хххXMEMO NM DOO                          03414701     base_tuvwxy         
+5352177729                хххXMEMO NM DOO                          03414701     base_tuvwxy         
+0050100073894232560840    хххYAKAMOZ MONTE DOO                     03478815     base_tuvwxy         
+0050100073894232560978    хххYAKAMOZ MONTE DOO                     03478815     base_tuvwxy         
+535000000002177341        хххYAKAMOZ MONTE DOO                     03478815     base_tuvwxy         
+570000111001456132        хххYOLO SCIENTIFIC DOO                   03439917     base_tuvwxy         
+570121000195083           хххYOLO SCIENTIFIC DOO                   03439917     base_tuvwxy         
+565000000002114202        хххYOUR PSYCHOLOGIST DOO                 03479307     base_tuvwxy         
+540000000001386663        хххYURIIP DOO                            03465616     base_tuvwxy         
+535040030005186171        AIUSHEEV BORIS 1004972213054                          base_tuvwxy         
+565032000000234294        AKSENOV YURY 0108981210323                            base_tuvwxy         
+5403210745250             BACKOVIC MARIJA                                       base_tuvwxy         
+535040030004710483        BOIKO DMITRII 0902991210052                           base_tuvwxy         
+535040030004887993        BRIAZGUNOV ALEKSANDR 2309971210069                    base_tuvwxy         
+535040030005091111        BUIANOV MIKHAIL 2006994213038                         base_tuvwxy         
+535040030005096252        GAMBURG NATALIA 0306985215032                         base_tuvwxy         
+565032000001326126        GRIGOREV GRIGORII 1603989233009                       base_tuvwxy         
+535040030004760050        IVANOV ANDREI 0902991210060                           base_tuvwxy         
+535040030005088104        KARPYCHEV KIRILL 2204990213013                        base_tuvwxy         
+535040030005454279        KRIUKOV DENIS 2811984210332                           base_tuvwxy         
+535040030005453406        KRIUKOVA SVETLANA 0507985218029                       base_tuvwxy         
+535040030004774018        LAZUTIN IVAN 1803995210060                            base_tuvwxy         
+535040030005438080        LENSKII SERGEI 0607985210383                          base_tuvwxy         
+565032000001024262        MASLENNIKOVA MARIA 1805986239016                      base_tuvwxy         
+565032000000234003        MOKROUSOV KONSTANTIN 2301999211035                    base_tuvwxy         
+535040030005345736        NECHAEV SERGEI 3009986210103                          base_tuvwxy         
+565032000000233906        OSINTSEVA MARIIA 2210000216056                        base_tuvwxy         
+535040030005040768        OVSIANNIKOV IGOR 1401989213022                        base_tuvwxy         
+535040030005123315        SANNIKOV ALEKSEI 2603995210049                        base_tuvwxy         
+565032000000938320        Serdotetskiy Andrey                                   base_tuvwxy         
+565070020004018109        STETSIUK ALEKSANDR 1401991234010                      base_tuvwxy         
+535040030005262025        STRELNIKOVA EKATERINA 2309994215068                   base_tuvwxy         
+535040030005221382        SUKHOTSKAIA ALEKSANDRA 1207988218011                  base_tuvwxy         
+535000000002373378        TRANSLATORS.IO DOO                       03420175     base_tuvwxy         
+0050100071204             TRANSLOGISTICA DOO                       03452590     base_tuvwxy         
+535000000002137862        TRANSLOGISTICA DOO                       03452590     base_tuvwxy         
+570117000602425           TRANSLOGISTICA DOO                       03452590     base_tuvwxy         
+570000117000602425        TRANSLOGISTICA DOO                       03452590     base_tuvwxy         
+565032000000234197        TSAREV DENIS 0806988213033                            base_tuvwxy         
+535040030004756267        ULIAKHINA ANNA 2608987218016                          base_tuvwxy         
+5352137474                UNDEAD FOX STUDIO  DOO                   03432513     base_tuvwxy         
+535005010007117446        UNDEAD FOX STUDIO  DOO                   03432513     base_tuvwxy         
+535040030004864034        VASILEV MAKSIM 0302991213003                          base_tuvwxy         
+0050100070801             VICMAN.ME DOO                            03432599     base_tuvwxy         
+535000000002131460        VICMAN.ME DOO                            03432599     base_tuvwxy         
+570117000704663           VICMAN.ME DOO                            03432599     base_tuvwxy         
+570000117000704663        VICMAN.ME DOO                            03432599     base_tuvwxy         
+570111001533732           VITALINK DIGITAL DOO                     03456846     base_tuvwxy         
+520000000004312986        VIVA PALMA DOO                           03440702     base_tuvwxy         
+52000400000217931         VIVA PALMA DOO                           03440702     base_tuvwxy         
+520042000001807122        VIVA PALMA DOO                           03440702     base_tuvwxy         
+570000111001424898        VLADICOM ME DOO                          03425347     base_tuvwxy         
+570117000301822           VORONOI2024 DOO                          03628990     base_tuvwxy         
+570000117000301822        VORONOI2024 DOO                          03628990     base_tuvwxy         
+570000117000608148        VORTEX TRADING DOO                       03733025     base_tuvwxy         
+520000000003734478        WYKIWYL MONTENEGRO DOO                   03324494     base_tuvwxy         
+42001005804200000000356809 YUST EUROPA DOO                          03683818     base_tuvwxy         
+580011000000061427        YUST EUROPA DOO                          03683818     base_tuvwxy         
+520000000005028555        DOO "FOOD V."                            03671429     food-v              
+520004000000638426KARTICA DOO "FOOD V."                            03671429     food-v              
+520151000001728243terminal DOO "FOOD V."                            03671429     food-v              
+520152000000008771        DOO "FOOD V."                            03671429     food-v              
+580000000000242688        DOO "FOOD V."                            03671429     food-v              
+520042000002011889        DOO "FOOD V."                            03671429     food-v              
+580420000000328582        DOO "FOOD V."                            03671429     food-v              
+190000000004661031        Intercosmetic Europe DOO                 113730284    intercosmetic       
+RS35190007010006457848    Intercosmetic Europe DOO                 113730284    intercosmetic       
+565000000000613515        DOO "JERA PLUS"                          03208206     jera_plus           
+5700001110000720872       DOO "JERA PLUS"                          03208206     jera_plus           
+570111000720872           DOO "JERA PLUS"                          03208206     jera_plus           
+KARTA570121000079944      DOO "JERA PLUS"                          03208206     jera_plus           
+570000111000720872        DOO "JERA PLUS"                          03208206     jera_plus           
+4200210580420000000181627 ADRIATIC REŽEVIĆI DOO                    03485641     komosevina          
+580000000000131332        ADRIATIC REŽEVIĆI DOO                    03485641     komosevina          
+510000000017718254        DM LORDS DOO                             03606619     lardaux             
+520000000004531527        DM LORDS DOO                             03606619     lardaux             
+520420000000016226        DM LORDS DOO                             03606619     lardaux             
+565000000000856985        ENERGING DOO                             03081737     monte_technology    
+53000010009081395         LABOVIC NIKOLA                                        monte_technology    
+0450100105522             MONTE TECHNOLOGY DOO                     02950120     monte_technology    
+530000000002208606        MONTE TECHNOLOGY DOO                     02950120     monte_technology    
+5106944561                Agencija Kvalitet doo                                 navus               
+5300020100009880000       ALEKSANDRA BOGOJEVIC                                  navus               
+530000010020927000        ANA PONOS - TUMAC ZA ENGLESKI JEZIK                   navus               
+570000111001209946        ARSENIS DOO                                           navus               
+51013394382               BAGSY DOO                                             navus               
+5102165856                BASIC DOO                                             navus               
+5401004968                BASIC DOO                                             navus               
+570000111001180000        BASSHIPPING DOO                                       navus               
+570111001222653           BONANZA2021 DOO                                       navus               
+570000111000875000        BRISNA DOO                                            navus               
+540730019564              BUREVESTNIK MONTENEGRO DOO                            navus               
+570111000716992           CONTINENTAL BEVERAGE DOO                              navus               
+535000000001930185        CROSSLINK SERVICES DOO                                navus               
+5102031802                CUBIKO DOO                                            navus               
+530000000000179269        DAJKOVIC CO NAMOS DOO                                 navus               
+510000000114669000        DARINKA JOVANOVIC                                     navus               
+145000000003099028        DOO "NAVUS"                              03244822     navus               
+25570000111000814574      DOO "NAVUS"                              03244822     navus               
+2929050050100185242       DOO "NAVUS"                              03244822     navus               
+351450070100041667        DOO "NAVUS"                              03244822     navus               
+57011100000000814574      DOO "NAVUS"                              03244822     navus               
+570121000096046           DOO "NAVUS"                              03244822     navus               
+520032000007449142        ĐUROVIĆ SANJA 0811988259991                           navus               
+52033410561               ENERGOMONT DOO                                        navus               
+5302145071                ESTIMA DOO                                            navus               
+52016510057               FAXIMILE DOO                                          navus               
+5301920322                FAXIMILE DOO                                          navus               
+51010117722               FOLDANA DEBT COLLECTION CRNA GORA DOO                 navus               
+5501575945                GARDEN DESIGN DOO                                     navus               
+510000000102763295        GERASIMOVA NATALIA                                    navus               
+5203948848                GLOBAL QUALITY STANDARDS MNE                          navus               
+52040210552               INSTITUT RACUNOVODJA I REVIZORA                       navus               
+5700001110007208          JERA PLUS DOO                                         navus               
+535040030004803894        KALOSHYTS ANASTASIYA 2804993215022                    navus               
+565070020002466691        KIRIENKO OLGA 0608973225020                           navus               
+535040030003338321        KORNEEVA KIRA EVGENIJ 3008987215579                   navus               
+9075300103                LALIC NADA, SUDSKI TUMAC ZA RUSKI JEZIK               navus               
+535040030005351168        LUCHINKINA NATALIA 2803986215045                      navus               
+5203794909                MALINA NAIL DOO                                       navus               
+51010117431               MDMN DOO                                              navus               
+51013512431               MELLISH TRADE                                         navus               
+570000111000520000        MG AGRO INVEST DOO                                    navus               
+5501605530                MONTE PRINT DOO                                       navus               
+5301388180                MTEL DOO                                              navus               
+520032000000936077        NESKOVIC DRAGO                                        navus               
+520032000012555998        NIKOLAEV ALEXANDER 1205968234026                      navus               
+565030010001811371        NIKOLAEVA KSENIA 1806997216073                        navus               
+510150796702501000        OKSANA RAICEVIC - SUDSKI TUMAC                        navus               
+540110003240240000        PODGORICKI LUX DOO                                    navus               
+510000000113877652        POPOVIĆ OLENA 2001987215600                           navus               
+5501236930                PURIC TRADE DOO                                       navus               
+520032000012590045        PUTII DAIANA 2708991245014                            navus               
+510000000001075479        RASTER OFFICE DOO                                     navus               
+520000000000136651        ROYALTY FC DOO                                        navus               
+535040010110133770        ŠČEPILOVA ALEKSANDRA 1607983275163                    navus               
+5302969086                SECER BALKAN DOO                                      navus               
+5104084128                SEQUOIA DOO                                           navus               
+5302030417                SIBO DOO                                              navus               
+570111000068838           SONJA RADOVIC NOTAR                                   navus               
+510290598328801416        STOJOVIC DRAGANA 2905983288014                        navus               
+5302189233                SUITE 382 DOO                                         navus               
+5203499738                TEAM 3 DOO                                            navus               
+565032000000227310        TSAREV DENIS 3004975234017                            navus               
+570000321000232000        VICTOR SAZHIN                                         navus               
+525510010001195000        VILLA LEV DOO                                         navus               
+520032000001531075        VLADANA MITROVIC TUMAC                                navus               
+5204081059                VOROBEVA DOO                                          navus               
+9075550169                ZEKOVIC NATASA, SUDSKI TUMAC                          navus               
+580011000000042997        OLIVE PARK DOO                           03469972     olive_park          
+580420000000145446        OLIVE PARK DOO                           03469972     olive_park          
+520032000008291878        PAVIĆEVIĆ MILICA                                      olive_park          
+5204312986                VIVA PALMA DOO                                        olive_park          
+111000712821TRANZIT       DOO "OLLIVER MANAGEMENT"                 03200388     olliver             
+570111000712821           DOO "OLLIVER MANAGEMENT"                 03200388     olliver             
+570000111000712821        DOO "OLLIVER MANAGEMENT"                 03200388     olliver             
+145000000003204758        GLOBAL ZIP DOO BEOGRAD (NOVI BEOGRAD)    114943459    rewise              
+170003006255600092        REWISE S DOO BEOGRAD                     113419617    rewise              
+RS35170003006255600189    REWISE S DOO BEOGRAD                     113419617    rewise              
+570117000853267           DOO "TDC"                                03803082     top_detailing       
+570000117000853267        DOO "TDC"                                03803082     top_detailing       
+4200100580420000000311898 DOO "TOP DETAILING CENTAR"               03655997     top_detailing       
+510000000019390243        DOO "TOP DETAILING CENTAR"               03655997     top_detailing       
+580000000000230951        DOO "TOP DETAILING CENTAR"               03655997     top_detailing       
+570111001008574           DOO "TRAMAR"                             03314219     tramar              
+570000111001008574        DOO "TRAMAR"                             03314219     tramar              
+========================================================================================================================
+Всего счетов: 554

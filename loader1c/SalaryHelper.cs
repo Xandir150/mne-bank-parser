@@ -22,58 +22,39 @@ public partial class Com1CConnector
         newBankAcct.НомерСчета = normAcct;
         newBankAcct.Владелец = ownerRef;
 
-        // Bank by code (first 3 digits)
-        if (!string.IsNullOrWhiteSpace(bankCode))
-        {
-            try
-            {
-                dynamic bankSel = conn.Справочники.Банки.Выбрать();
-                while (bankSel.Следующий())
-                {
-                    string code = ((string)(bankSel.Код ?? "")).Trim();
-                    if (code == bankCode)
-                    {
-                        newBankAcct.Банк = bankSel.Ссылка;
-                        break;
-                    }
-                }
-            }
-            catch { }
-        }
-
-        // Currency = EUR
+        // Bank by code (first 3 digits) — cached
         try
         {
-            dynamic eur = conn.Справочники.Валюты.НайтиПоНаименованию("EUR", true);
-            if (!eur.Пустая())
-                newBankAcct.ВалютаДенежныхСредств = eur;
+            dynamic? bankRef = GetBankByCode(conn, bankCode);
+            if (bankRef != null) newBankAcct.Банк = bankRef;
         }
         catch { }
 
-        // ВидСчета = copy from existing
+        // Currency = EUR — cached
         try
         {
-            dynamic goodSel = conn.Справочники.БанковскиеСчета.Выбрать();
-            while (goodSel.Следующий())
-            {
-                try
-                {
-                    if ((bool)goodSel.ПометкаУдаления) continue;
-                    dynamic goodObj = goodSel.Ссылка.ПолучитьОбъект();
-                    dynamic goodVid = goodObj.ВидСчета;
-                    string vidStr = goodVid?.ToString() ?? "";
-                    if (!string.IsNullOrWhiteSpace(vidStr) && vidStr != "System.__ComObject")
-                    {
-                        newBankAcct.ВидСчета = goodVid;
-                        break;
-                    }
-                }
-                catch { }
-            }
+            dynamic? eur = GetEur(conn);
+            if (eur != null) newBankAcct.ВалютаДенежныхСредств = eur;
+        }
+        catch { }
+
+        // ВидСчета = copy from cached sample
+        try
+        {
+            dynamic? sampleVid = GetSampleVidSchets(conn);
+            if (sampleVid != null) newBankAcct.ВидСчета = sampleVid;
         }
         catch { }
 
         newBankAcct.Записать();
+        // Cache the newly created bank account
+        try
+        {
+            dynamic newRef = newBankAcct.Ссылка;
+            _cacheBankAcctsByNumber[normAcct] = newRef;
+            TrackCom(newRef);
+        }
+        catch { }
         _logger.LogInformation("    Created bank account {Acct} for {Name}", normAcct, ownerName);
     }
 }
