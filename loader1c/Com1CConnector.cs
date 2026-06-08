@@ -629,6 +629,213 @@ public partial class Com1CConnector : IDisposable
     /// <summary>Path to the human-editable config file (for diagnostics/CLI).</summary>
     public string AccountConfigPath => _accountConfigFile;
 
+    private List<Dictionary<string, object>> RunQueryRows(object connObj, string queryText,
+        Func<dynamic, Dictionary<string, object>> rowMapper)
+    {
+        dynamic conn = connObj;
+        var rows = new List<Dictionary<string, object>>();
+        dynamic? q = null; dynamic? r = null; dynamic? s = null;
+        try
+        {
+            q = conn.NewObject("Запрос");
+            q.Текст = queryText;
+            r = q.Выполнить();
+            s = r.Выбрать();
+            while (s.Следующий())
+            {
+                try { rows.Add(rowMapper(s)); } catch { }
+            }
+        }
+        finally
+        {
+            SafeRelease(s); SafeRelease(r); SafeRelease(q);
+        }
+        return rows;
+    }
+
+    /// <summary>Read-only audit of every configured database. Dumps, per DB:
+    /// the currency catalog, all organization bank accounts (with currency/bank/flags),
+    /// and budget/tax counterparty accounts (number starts with 8). Writes a JSON report
+    /// to <paramref name="outPath"/> for offline analysis. Never modifies anything.</summary>
+    public void AuditAll(string outPath, IEnumerable<string>? onlyDbs = null)
+    {
+        var dbs = (onlyDbs ?? _config.Databases).ToList();
+        _logger.LogInformation("AUDIT: scanning {Count} databases (read-only)...", dbs.Count);
+        var report = new Dictionary<string, object>();
+
+        foreach (var db in dbs)
+        {
+            var dbReport = new Dictionary<string, object>();
+            dynamic? conn = null;
+            try
+            {
+                _logger.LogInformation("AUDIT: {Db}...", db);
+                conn = Connect(db);
+
+                // 1) Currency catalog — use selection (Выбрать) for robustness across configs
+                try
+                {
+                    var curList = new List<Dictionary<string, object>>();
+                    dynamic? csel = null;
+                    try
+                    {
+                        csel = conn.Справочники.Валюты.Выбрать();
+                        while (csel.Следующий())
+                        {
+                            try
+                            {
+                                string code = ""; try { code = (string)(csel.Код ?? ""); } catch { }
+                                string name = ""; try { name = (string)(csel.Наименование ?? ""); } catch { }
+                                bool del = false; try { del = (bool)csel.ПометкаУдаления; } catch { }
+                                curList.Add(new Dictionary<string, object>
+                                {
+                                    ["code"] = code, ["name"] = name, ["deleted"] = del,
+                                });
+                            }
+                            catch { }
+                        }
+                    }
+                    finally { SafeRelease(csel); }
+                    dbReport["currencies"] = curList;
+                }
+                catch (Exception ex) { dbReport["currenciesError"] = ex.Message; }
+
+                // 2) Organization bank accounts
+                try
+                {
+                    dbReport["orgAccounts"] = RunQueryRows((object)conn,
+                        @"ВЫБРАТЬ
+                            БС.НомерСчета КАК Счет,
+                            БС.Владелец.Наименование КАК Орг,
+                            БС.Владелец.ИНН КАК ИНН,
+                            БС.ВалютаДенежныхСредств.Наименование КАК Валюта,
+                            БС.ВалютаДенежныхСредств.Код КАК ВалютаКод,
+                            БС.Банк.Код КАК БанкКод,
+                            БС.Банк.Наименование КАК БанкИмя,
+                            БС.ПометкаУдаления КАК Удалён
+                          ИЗ Справочник.БанковскиеСчета КАК БС
+                          ГДЕ ТИПЗНАЧЕНИЯ(БС.Владелец) = ТИП(Справочник.Организации)",
+                        s => new Dictionary<string, object>
+                        {
+                            ["account"] = (string)(s.Счет ?? ""),
+                            ["org"] = (string)(s.Орг ?? ""),
+                            ["inn"] = (string)(s.ИНН ?? ""),
+                            ["currency"] = (string)(s.Валюта ?? ""),
+                            ["currencyCode"] = (string)(s.ВалютаКод ?? ""),
+                            ["bankCode"] = (string)(s.БанкКод ?? ""),
+                            ["bankName"] = (string)(s.БанкИмя ?? ""),
+                            ["deleted"] = (bool)s.Удалён,
+                        });
+                }
+                catch (Exception ex) { dbReport["orgAccountsError"] = ex.Message; }
+
+                // 3) Budget/tax counterparty accounts (number starts with 8 — gov budget)
+                try
+                {
+                    dbReport["taxAccounts"] = RunQueryRows((object)conn,
+                        @"ВЫБРАТЬ
+                            БС.НомерСчета КАК Счет,
+                            БС.Владелец.Наименование КАК Влад,
+                            БС.ВалютаДенежныхСредств.Наименование КАК Валюта,
+                            БС.ПометкаУдаления КАК Удалён
+                          ИЗ Справочник.БанковскиеСчета КАК БС
+                          ГДЕ БС.НомерСчета ПОДОБНО ""8%"" ИЛИ БС.НомерСчета ПОДОБНО ""ME258%""",
+                        s => new Dictionary<string, object>
+                        {
+                            ["account"] = (string)(s.Счет ?? ""),
+                            ["owner"] = (string)(s.Влад ?? ""),
+                            ["currency"] = (string)(s.Валюта ?? ""),
+                            ["deleted"] = (bool)s.Удалён,
+                        });
+                }
+                catch (Exception ex) { dbReport["taxAccountsError"] = ex.Message; }
+            }
+            catch (Exception ex)
+            {
+                dbReport["error"] = ex.Message;
+                _logger.LogError("AUDIT: {Db} failed: {Err}", db, ex.Message);
+            }
+            finally
+            {
+                if (conn != null) { try { CleanupCom(conn); } catch { } }
+            }
+            report[db] = dbReport;
+        }
+
+        var json = JsonSerializer.Serialize(report, new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        });
+        File.WriteAllText(outPath, json, new UTF8Encoding(false));
+        _logger.LogInformation("AUDIT: written to {Path}", outPath);
+    }
+
+    /// <summary>Safely change the НомерСчета of an organization's bank account in one DB.
+    /// Guards: the source account must exist (exact match) and be unique; the target number
+    /// must NOT already exist (collision guard). 1C references the account by internal GUID,
+    /// so documents/registers keep pointing to it — only the displayed number changes.
+    /// Returns a human-readable before/after report. Read-then-verify; aborts on any doubt.</summary>
+    public string FixAccountNumber(string db, string oldAcct, string newAcct)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"FIX [{db}]: '{oldAcct}' -> '{newAcct}'  @ {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+
+        if (string.IsNullOrWhiteSpace(oldAcct) || string.IsNullOrWhiteSpace(newAcct))
+        { sb.AppendLine("  ABORT: empty account"); return sb.ToString(); }
+        if (oldAcct == newAcct)
+        { sb.AppendLine("  ABORT: old == new"); return sb.ToString(); }
+
+        dynamic? conn = null;
+        try
+        {
+            conn = Connect(db);
+
+            // Source must exist (exact match on НомерСчета)
+            dynamic found = conn.Справочники.БанковскиеСчета.НайтиПоРеквизиту("НомерСчета", oldAcct);
+            if ((bool)found.Пустая())
+            { sb.AppendLine("  ABORT: source account NOT found by exact НомерСчета"); return sb.ToString(); }
+
+            string owner = ""; try { owner = (string)(found.Владелец.Наименование ?? ""); } catch { }
+            bool del = false; try { del = (bool)found.ПометкаУдаления; } catch { }
+            sb.AppendLine($"  source found: owner='{owner}' deleted={del}");
+
+            // Collision guard: target number must not already exist
+            dynamic existing = conn.Справочники.БанковскиеСчета.НайтиПоРеквизиту("НомерСчета", newAcct);
+            if (!(bool)existing.Пустая())
+            {
+                string exOwner = ""; try { exOwner = (string)(existing.Владелец.Наименование ?? ""); } catch { }
+                sb.AppendLine($"  ABORT: target number ALREADY EXISTS (owner='{exOwner}') — collision, no change");
+                return sb.ToString();
+            }
+
+            // Apply
+            dynamic obj = found.ПолучитьОбъект();
+            string before = (string)(obj.НомерСчета ?? "");
+            obj.НомерСчета = newAcct;
+            obj.Записать();
+
+            // Verify by re-finding under the new number
+            dynamic check = conn.Справочники.БанковскиеСчета.НайтиПоРеквизиту("НомерСчета", newAcct);
+            bool ok = !(bool)check.Пустая();
+            // And the old number should no longer resolve
+            dynamic oldCheck = conn.Справочники.БанковскиеСчета.НайтиПоРеквизиту("НомерСчета", oldAcct);
+            bool oldGone = (bool)oldCheck.Пустая();
+
+            sb.AppendLine($"  before='{before}'  written='{newAcct}'  verify_new_found={ok}  old_gone={oldGone}");
+            sb.AppendLine(ok && oldGone ? "  SUCCESS" : "  WARNING: verification incomplete — check manually");
+        }
+        catch (Exception ex)
+        {
+            sb.AppendLine($"  ERROR: {ex.Message}");
+        }
+        finally
+        {
+            if (conn != null) { try { CleanupCom(conn); } catch { } }
+        }
+        return sb.ToString();
+    }
+
     /// <summary>Query one 1C database for organizations whose name contains <paramref name="nameFilter"/>
     /// (case-insensitive). Returns a multi-line human report + a JSON snippet ready to paste into
     /// accounts.config.json. Used by both the CLI command and the worker's trigger handler so the

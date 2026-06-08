@@ -175,6 +175,86 @@ public class LoaderWorker : BackgroundService
         catch { return false; }
     }
 
+    /// <summary>If the user dropped an <c>audit.trigger</c> file, run a read-only audit of all
+    /// databases (or only those listed in the trigger, space/comma-separated) and write
+    /// <c>audit.json</c>. Runs under the service account so 1C COM is available.</summary>
+    private bool CheckAuditTrigger()
+    {
+        try
+        {
+            var dataDir = Path.GetDirectoryName(_config.OutputDir);
+            if (string.IsNullOrEmpty(dataDir)) return false;
+            var trigger = Path.Combine(dataDir, "audit.trigger");
+            if (!File.Exists(trigger)) return false;
+
+            string content = "";
+            try { content = File.ReadAllText(trigger, System.Text.Encoding.UTF8).Trim(); } catch { }
+            try { File.Delete(trigger); } catch { }
+
+            List<string>? onlyDbs = null;
+            if (!string.IsNullOrWhiteSpace(content))
+                onlyDbs = content.Split(new[] { ' ', ',', '\t', '\r', '\n' },
+                    StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            var outPath = Path.Combine(dataDir, "audit.json");
+            _logger.LogInformation("audit.trigger detected — running read-only audit ({Scope})",
+                onlyDbs == null ? "all DBs" : string.Join(",", onlyDbs));
+
+            try { _com.EndSession(); } catch { }
+            Task.Run(() => {
+                try { _com.AuditAll(outPath, onlyDbs); }
+                catch (Exception ex) { _logger.LogError(ex, "Audit failed"); }
+            });
+            return true;
+        }
+        catch { return false; }
+    }
+
+    /// <summary>If the user dropped a <c>fix.trigger</c> file, apply account-number fixes.
+    /// Each non-empty, non-'#' line is "<c>db|oldAccount|newAccount</c>". Writes a detailed
+    /// before/after report to <c>fix.result.txt</c>. Each fix is collision-guarded and verified.</summary>
+    private bool CheckFixTrigger()
+    {
+        try
+        {
+            var dataDir = Path.GetDirectoryName(_config.OutputDir);
+            if (string.IsNullOrEmpty(dataDir)) return false;
+            var trigger = Path.Combine(dataDir, "fix.trigger");
+            if (!File.Exists(trigger)) return false;
+
+            string content = "";
+            try { content = File.ReadAllText(trigger, System.Text.Encoding.UTF8); } catch { }
+            try { File.Delete(trigger); } catch { }
+
+            var lines = content.Split('\n')
+                .Select(l => l.Trim())
+                .Where(l => l.Length > 0 && !l.StartsWith("#"))
+                .ToList();
+            var resultFile = Path.Combine(dataDir, "fix.result.txt");
+            _logger.LogInformation("fix.trigger detected — {Count} fix line(s)", lines.Count);
+
+            try { _com.EndSession(); } catch { }
+            Task.Run(() => {
+                var sb = new System.Text.StringBuilder();
+                foreach (var line in lines)
+                {
+                    var p = line.Split('|');
+                    if (p.Length != 3)
+                    {
+                        sb.AppendLine($"SKIP malformed line: '{line}'  (expected db|old|new)");
+                        continue;
+                    }
+                    try { sb.AppendLine(_com.FixAccountNumber(p[0].Trim(), p[1].Trim(), p[2].Trim())); }
+                    catch (Exception ex) { sb.AppendLine($"ERROR on '{line}': {ex.Message}"); }
+                }
+                try { File.WriteAllText(resultFile, sb.ToString(), System.Text.Encoding.UTF8); } catch { }
+                _logger.LogInformation("fix.result written to {File}", resultFile);
+            });
+            return true;
+        }
+        catch { return false; }
+    }
+
     private void ScanAndLoad()
     {
         if (!Directory.Exists(_config.OutputDir)) return;
@@ -182,6 +262,8 @@ public class LoaderWorker : BackgroundService
         // Check for admin-initiated triggers
         CheckRescanTrigger();
         CheckLookupTrigger();
+        CheckAuditTrigger();
+        CheckFixTrigger();
 
         var rawFiles = Directory.GetFiles(_config.OutputDir, "*.txt",
             SearchOption.AllDirectories);

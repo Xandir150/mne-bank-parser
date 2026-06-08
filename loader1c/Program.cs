@@ -783,6 +783,21 @@ public class Program
             return;
         }
 
+        if (command == "audit")
+        {
+            // Read-only audit of all DBs → audit.json. Usage: audit [db1 db2 ...]
+            // Must run under USR1CV8 (COM access).
+            Console.OutputEncoding = Encoding.UTF8;
+            using var loggerFactory = LoggerFactory.Create(b => b.AddConsole());
+            var com = new Com1CConnector(loaderConfig, loggerFactory.CreateLogger("AUDIT"));
+            var only = args.Length > 1 ? args[1..].ToList() : null;
+            var dataDir = Path.GetDirectoryName(loaderConfig.OutputDir) ?? AppContext.BaseDirectory;
+            var outPath = Path.Combine(dataDir, "audit.json");
+            com.AuditAll(outPath, only);
+            Console.WriteLine($"Audit written to {outPath}");
+            return;
+        }
+
         if (command == "lookup-org" && args.Length > 2)
         {
             // Usage: Loader1C.exe lookup-org <db> <substring>
