@@ -836,6 +836,70 @@ public partial class Com1CConnector : IDisposable
         return sb.ToString();
     }
 
+    /// <summary>Safely rename and/or re-code a currency in Справочник.Валюты.
+    /// Finds the currency by exact current name; if renaming, guards against a name collision
+    /// with an existing currency. 1C references the currency by GUID, so documents and exchange-rate
+    /// history stay attached — only the displayed Наименование/Код change. Read-then-verify; aborts on doubt.</summary>
+    public string FixCurrency(string db, string curName, string newName, string newCode)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"FIXCUR [{db}]: name '{curName}' -> '{newName}', code -> '{newCode}'  @ {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+        if (string.IsNullOrWhiteSpace(curName) || string.IsNullOrWhiteSpace(newName))
+        { sb.AppendLine("  ABORT: empty name"); return sb.ToString(); }
+
+        dynamic? conn = null;
+        try
+        {
+            conn = Connect(db);
+            dynamic found = conn.Справочники.Валюты.НайтиПоНаименованию(curName, true);
+            if ((bool)found.Пустая())
+            { sb.AppendLine($"  ABORT: currency '{curName}' NOT found by exact name"); return sb.ToString(); }
+
+            string oldCode = ""; try { oldCode = (string)(found.Код ?? ""); } catch { }
+            bool del = false; try { del = (bool)found.ПометкаУдаления; } catch { }
+            sb.AppendLine($"  source found: name='{curName}' code='{oldCode}' deleted={del}");
+
+            // Collision guard on rename: target name must not already exist (distinct element)
+            if (newName != curName)
+            {
+                dynamic existing = conn.Справочники.Валюты.НайтиПоНаименованию(newName, true);
+                if (!(bool)existing.Пустая())
+                {
+                    string exCode = ""; try { exCode = (string)(existing.Код ?? ""); } catch { }
+                    sb.AppendLine($"  ABORT: target name '{newName}' ALREADY EXISTS (code='{exCode}') — collision, no change");
+                    return sb.ToString();
+                }
+            }
+
+            dynamic obj = found.ПолучитьОбъект();
+            string beforeName = (string)(obj.Наименование ?? "");
+            string beforeCode = ""; try { beforeCode = (string)(obj.Код ?? ""); } catch { }
+            obj.Наименование = newName;
+            if (!string.IsNullOrWhiteSpace(newCode))
+            {
+                try { obj.Код = newCode; }
+                catch (Exception ex) { sb.AppendLine($"  WARN: setting Код failed: {ex.Message}"); }
+            }
+            try { obj.Записать(); }
+            catch (Exception ex) { sb.AppendLine($"  ABORT on Записать(): {ex.Message}"); return sb.ToString(); }
+
+            dynamic check = conn.Справочники.Валюты.НайтиПоНаименованию(newName, true);
+            bool ok = !(bool)check.Пустая();
+            string vcode = ""; try { vcode = (string)(check.Код ?? ""); } catch { }
+            sb.AppendLine($"  before: name='{beforeName}' code='{beforeCode}'  ->  after: name='{newName}' code='{vcode}'  verify_found={ok}");
+            sb.AppendLine(ok ? "  SUCCESS" : "  FAILED verify");
+        }
+        catch (Exception ex)
+        {
+            sb.AppendLine($"  ERROR: {ex.Message}");
+        }
+        finally
+        {
+            if (conn != null) { try { CleanupCom(conn); } catch { } }
+        }
+        return sb.ToString();
+    }
+
     /// <summary>Query one 1C database for organizations whose name contains <paramref name="nameFilter"/>
     /// (case-insensitive). Returns a multi-line human report + a JSON snippet ready to paste into
     /// accounts.config.json. Used by both the CLI command and the worker's trigger handler so the

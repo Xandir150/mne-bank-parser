@@ -255,6 +255,51 @@ public class LoaderWorker : BackgroundService
         catch { return false; }
     }
 
+    /// <summary>If the user dropped a <c>fixcur.trigger</c> file, apply currency rename/recode fixes.
+    /// Each non-empty, non-'#' line is "<c>db|currentName|newName|newCode</c>". Writes a detailed
+    /// before/after report to <c>fixcur.result.txt</c>. Each fix is collision-guarded and verified.</summary>
+    private bool CheckFixCurrencyTrigger()
+    {
+        try
+        {
+            var dataDir = Path.GetDirectoryName(_config.OutputDir);
+            if (string.IsNullOrEmpty(dataDir)) return false;
+            var trigger = Path.Combine(dataDir, "fixcur.trigger");
+            if (!File.Exists(trigger)) return false;
+
+            string content = "";
+            try { content = File.ReadAllText(trigger, System.Text.Encoding.UTF8); } catch { }
+            try { File.Delete(trigger); } catch { }
+
+            var lines = content.Split('\n')
+                .Select(l => l.Trim())
+                .Where(l => l.Length > 0 && !l.StartsWith("#"))
+                .ToList();
+            var resultFile = Path.Combine(dataDir, "fixcur.result.txt");
+            _logger.LogInformation("fixcur.trigger detected — {Count} fix line(s)", lines.Count);
+
+            try { _com.EndSession(); } catch { }
+            Task.Run(() => {
+                var sb = new System.Text.StringBuilder();
+                foreach (var line in lines)
+                {
+                    var p = line.Split('|');
+                    if (p.Length != 4)
+                    {
+                        sb.AppendLine($"SKIP malformed line: '{line}'  (expected db|curName|newName|newCode)");
+                        continue;
+                    }
+                    try { sb.AppendLine(_com.FixCurrency(p[0].Trim(), p[1].Trim(), p[2].Trim(), p[3].Trim())); }
+                    catch (Exception ex) { sb.AppendLine($"ERROR on '{line}': {ex.Message}"); }
+                }
+                try { File.WriteAllText(resultFile, sb.ToString(), System.Text.Encoding.UTF8); } catch { }
+                _logger.LogInformation("fixcur.result written to {File}", resultFile);
+            });
+            return true;
+        }
+        catch { return false; }
+    }
+
     private void ScanAndLoad()
     {
         if (!Directory.Exists(_config.OutputDir)) return;
@@ -264,6 +309,7 @@ public class LoaderWorker : BackgroundService
         CheckLookupTrigger();
         CheckAuditTrigger();
         CheckFixTrigger();
+        CheckFixCurrencyTrigger();
 
         var rawFiles = Directory.GetFiles(_config.OutputDir, "*.txt",
             SearchOption.AllDirectories);
