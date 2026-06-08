@@ -46,6 +46,12 @@ public class BankDocument
         return NormalizeAccount(PayerAccount) == NormalizeAccount(ourAccount);
     }
 
+    /// <summary>Document date with fallback: some bank parsers (e.g. PRVA card-fee rows)
+    /// leave Дата empty but fill ДатаВыписки. Use the statement date in that case so the
+    /// document still loads instead of crashing on an empty DateTime parse.</summary>
+    public string EffectiveDate =>
+        !string.IsNullOrWhiteSpace(Date) ? Date : StatementDate;
+
     static string NormalizeAccount(string a) =>
         (a ?? "").Replace("-", "").Replace(" ", "").TrimStart('0');
 }

@@ -73,8 +73,11 @@ public partial class Com1CConnector
             doc.Amount, doc.OperationType, doc.DebitAccount, doc.CashFlowItem,
             doc.Purpose?.Substring(0, Math.Min(40, doc.Purpose?.Length ?? 0)));
 
-        // Parse date
-        DateTime docDate = DateTime.ParseExact(doc.Date, "dd.MM.yyyy",
+        // Parse date (fall back to statement date when the doc date is empty)
+        string dateStr = doc.EffectiveDate;
+        if (string.IsNullOrWhiteSpace(dateStr))
+            throw new Exception($"Doc #{doc.Number}: both Дата and ДатаВыписки are empty");
+        DateTime docDate = DateTime.ParseExact(dateStr, "dd.MM.yyyy",
             CultureInfo.InvariantCulture);
 
         dynamic newDoc;

@@ -842,8 +842,8 @@ public partial class Com1CConnector : IDisposable
                     _logger.LogInformation("  Creating shared ВедомостьНаВыплатуЗарплаты for {Count} salary docs", salaryDocs.Count);
                     dynamic payroll = conn.Документы.ВедомостьНаВыплатуЗарплаты.СоздатьДокумент();
 
-                    // Date from first salary doc
-                    DateTime payrollDate = DateTime.ParseExact(salaryDocs[0].Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                    // Date from first salary doc (fall back to statement date if empty)
+                    DateTime payrollDate = DateTime.ParseExact(salaryDocs[0].EffectiveDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
                     payroll.Дата = payrollDate;
                     payroll.Организация = org;
 
@@ -1006,8 +1006,10 @@ public partial class Com1CConnector : IDisposable
                 {
                     bool isDebit = doc.IsDebit(file.Account);
                     string cpAcct = isDebit ? doc.RecipientAccount : doc.PayerAccount;
-                    // Key: date + amount + direction + doc number + counterparty account
-                    string key = $"{doc.Date}|{doc.Amount.ToString("F2", CultureInfo.InvariantCulture)}|{(isDebit ? "D" : "C")}|{doc.Number}|{NormalizeAccount(cpAcct)}";
+                    // Key: date + amount + direction + doc number + counterparty account.
+                    // Use EffectiveDate so the key matches the date actually stored in 1C
+                    // (CreateDocument writes EffectiveDate when Дата is empty).
+                    string key = $"{doc.EffectiveDate}|{doc.Amount.ToString("F2", CultureInfo.InvariantCulture)}|{(isDebit ? "D" : "C")}|{doc.Number}|{NormalizeAccount(cpAcct)}";
                     _logger.LogDebug("  File doc key={Key}, existing count={Count}", key, existingCounts.GetValueOrDefault(key));
 
                     if (existingCounts.TryGetValue(key, out int remaining) && remaining > 0)
@@ -1144,7 +1146,8 @@ public partial class Com1CConnector : IDisposable
         try
         {
             var dates = file.Documents
-                .Select(d => DateTime.ParseExact(d.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture))
+                .Where(d => !string.IsNullOrWhiteSpace(d.EffectiveDate))
+                .Select(d => DateTime.ParseExact(d.EffectiveDate, "dd.MM.yyyy", CultureInfo.InvariantCulture))
                 .ToList();
             if (dates.Count == 0) return counts;
             DateTime minDate = dates.Min().Date;
