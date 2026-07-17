@@ -99,36 +99,63 @@ public partial class Com1CConnector : IDisposable
         }
     }
 
-    /// <summary>Cached lookup for ПодразделениеОрганизации by org name.</summary>
+    /// <summary>Cached lookup for ПодразделениеОрганизации by org name.
+    /// Uses an indexed query (ВЫБРАТЬ ПЕРВЫЕ 1) instead of walking the whole
+    /// catalog; falls back to the full selection if the query fails.</summary>
     private (dynamic? Ref, string Name) GetDeptByOrg(dynamic conn, string orgName)
     {
         if (_cacheDeptByOrg.TryGetValue(orgName, out var cached)) return cached;
 
-        dynamic? sel = null;
         dynamic? deptRef = null;
         string deptName = "";
+
+        dynamic? q = null; dynamic? r = null; dynamic? s = null;
         try
         {
-            sel = conn.Справочники.ПодразделенияОрганизаций.Выбрать();
-            while (sel.Следующий())
+            q = conn.NewObject("Запрос");
+            q.Текст = @"ВЫБРАТЬ ПЕРВЫЕ 1
+                ПО.Ссылка КАК Ссылка,
+                ПО.Наименование КАК Имя
+            ИЗ Справочник.ПодразделенияОрганизаций КАК ПО
+            ГДЕ ПО.Владелец.Наименование = &Имя И НЕ ПО.ПометкаУдаления";
+            q.УстановитьПараметр("Имя", orgName);
+            r = q.Выполнить();
+            s = r.Выбрать();
+            if (s.Следующий())
             {
-                if ((bool)sel.ПометкаУдаления) continue;
-                try
-                {
-                    string ownerName = (string)(sel.Владелец?.Наименование ?? "");
-                    if (ownerName == orgName)
-                    {
-                        deptRef = sel.Ссылка;
-                        TrackCom(deptRef);
-                        deptName = (string)(sel.Наименование ?? "");
-                        break;
-                    }
-                }
-                catch { }
+                deptRef = s.Ссылка;
+                TrackCom(deptRef);
+                deptName = (string)(s.Имя ?? "");
             }
         }
-        catch { }
-        finally { SafeRelease(sel); }
+        catch
+        {
+            // Query failed (config differences) — fall back to the full selection.
+            dynamic? sel = null;
+            try
+            {
+                sel = conn.Справочники.ПодразделенияОрганизаций.Выбрать();
+                while (sel.Следующий())
+                {
+                    if ((bool)sel.ПометкаУдаления) continue;
+                    try
+                    {
+                        string ownerName = (string)(sel.Владелец?.Наименование ?? "");
+                        if (ownerName == orgName)
+                        {
+                            deptRef = sel.Ссылка;
+                            TrackCom(deptRef);
+                            deptName = (string)(sel.Наименование ?? "");
+                            break;
+                        }
+                    }
+                    catch { }
+                }
+            }
+            catch { }
+            finally { SafeRelease(sel); }
+        }
+        finally { SafeRelease(s); SafeRelease(r); SafeRelease(q); }
 
         var result = (deptRef, deptName);
         _cacheDeptByOrg[orgName] = result;
@@ -561,6 +588,8 @@ public partial class Com1CConnector : IDisposable
             if (map.Count == 0) return false;
             _accountMap = map;
             IsConfigBased = true;
+            try { _accountConfigMtime = File.GetLastWriteTimeUtc(_accountConfigFile); } catch { }
+            _accountConfigGen++;
             _logger.LogInformation("Loaded {Count} accounts from accounts.config.json{Dup}",
                 map.Count, dups > 0 ? $" ({dups} duplicates skipped)" : "");
             return true;
@@ -570,6 +599,194 @@ public partial class Com1CConnector : IDisposable
             _logger.LogError("Failed to read accounts.config.json: {Err}", ex.Message);
             return false;
         }
+    }
+
+    // Hot-reload state for accounts.config.json (mirrors the op_types.json pattern)
+    private DateTime _accountConfigMtime;
+    private long _accountConfigGen;
+
+    /// <summary>Bumps every time the account mapping is (re)loaded from config.
+    /// Used by callers to invalidate caches keyed to the mapping (e.g. discovery misses).</summary>
+    public long AccountConfigGeneration => _accountConfigGen;
+
+    /// <summary>One hit from a discovery sweep: where an unknown account was found.</summary>
+    public class DiscoveryHit
+    {
+        public string Account = "";   // normalized number as stored in 1C
+        public string Database = "";
+        public string OrgName = "";
+        public string Inn = "";
+    }
+
+    /// <summary>Search all configured DBs for the given (normalized) account numbers.
+    /// One connection + ONE indexed query per DB, covering all accounts at once
+    /// (both bare and ME25-prefixed variants). Only org-owned, non-deleted accounts
+    /// count. Returns every hit — the same account found in two DBs produces two
+    /// hits (callers must treat that as ambiguous). Expensive-ish (a connect per
+    /// DB), so callers rate-limit via the negative cache.</summary>
+    public List<DiscoveryHit> TryDiscoverAccounts(IReadOnlyCollection<string> accounts)
+    {
+        var hits = new List<DiscoveryHit>();
+        if (accounts.Count == 0) return hits;
+
+        // Build the search list: normalized + ME25-prefixed variants
+        var variants = new List<string>();
+        foreach (var a in accounts)
+        {
+            var n = NormalizeAccount(a);
+            if (string.IsNullOrWhiteSpace(n)) continue;
+            variants.Add(n);
+            variants.Add("ME25" + n);
+        }
+        if (variants.Count == 0) return hits;
+
+        _logger.LogInformation("DISCOVERY: sweeping {DbCount} DBs for {AcctCount} unknown account(s)...",
+            _config.Databases.Count, accounts.Count);
+
+        foreach (var db in _config.Databases)
+        {
+            dynamic? conn = null;
+            dynamic? q = null; dynamic? r = null; dynamic? s = null;
+            dynamic? valueList = null;
+            try
+            {
+                conn = Connect(db);
+                q = conn.NewObject("Запрос");
+                q.Текст = @"ВЫБРАТЬ
+                    БС.НомерСчета КАК Счет,
+                    БС.Владелец.Наименование КАК Орг,
+                    БС.Владелец.ИНН КАК ИНН
+                ИЗ Справочник.БанковскиеСчета КАК БС
+                ГДЕ БС.НомерСчета В(&Список)
+                    И НЕ БС.ПометкаУдаления
+                    И ТИПЗНАЧЕНИЯ(БС.Владелец) = ТИП(Справочник.Организации)";
+                valueList = conn.NewObject("СписокЗначений");
+                foreach (var v in variants) valueList.Добавить(v);
+                q.УстановитьПараметр("Список", valueList);
+                r = q.Выполнить();
+                s = r.Выбрать();
+                while (s.Следующий())
+                {
+                    try
+                    {
+                        hits.Add(new DiscoveryHit
+                        {
+                            Account = NormalizeAccount((string)(s.Счет ?? "")),
+                            Database = db,
+                            OrgName = (string)(s.Орг ?? ""),
+                            Inn = (string)(s.ИНН ?? ""),
+                        });
+                    }
+                    catch { }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning("DISCOVERY: {Db} failed: {Err}", db, ex.Message);
+            }
+            finally
+            {
+                SafeRelease(s); SafeRelease(r); SafeRelease(valueList); SafeRelease(q);
+                if (conn != null) { try { CleanupCom(conn); } catch { } }
+            }
+        }
+
+        _logger.LogInformation("DISCOVERY: sweep done — {Hits} hit(s)", hits.Count);
+        return hits;
+    }
+
+    /// <summary>Append one discovered account into accounts.config.json WITHOUT
+    /// re-serializing (human comments and layout survive). Inserts at the head of
+    /// the db section's array. Guards: .bak copy, mtime optimistic lock (a human
+    /// editing concurrently aborts the append), atomic replace, post-validation
+    /// parse (restores .bak on failure). Returns true when the entry landed and
+    /// the in-memory mapping was reloaded.</summary>
+    public bool AppendAccountConfigEntry(string db, string account, string org, string inn)
+    {
+        try
+        {
+            if (!File.Exists(_accountConfigFile)) return false;
+            var mtimeBefore = File.GetLastWriteTimeUtc(_accountConfigFile);
+            var text = File.ReadAllText(_accountConfigFile, Encoding.UTF8);
+            if (text.Contains($"\"{account}\"")) return false; // already there
+
+            var esc = (org ?? "").Replace("\\", "\\\\").Replace("\"", "\\\"");
+            var entry = $"    {{ \"account\": \"{account}\", \"org\": \"{esc}\", \"inn\": \"{inn}\" }},  // auto-discovered {DateTime.Now:yyyy-MM-dd}";
+
+            var rx = new System.Text.RegularExpressions.Regex(
+                "(\"" + System.Text.RegularExpressions.Regex.Escape(db) + "\"\\s*:\\s*\\[)");
+            string newText;
+            if (rx.IsMatch(text))
+            {
+                newText = rx.Replace(text, "$1\n" + entry, 1);
+            }
+            else
+            {
+                // DB section absent — insert a new section right after the opening {
+                int brace = text.IndexOf('{');
+                if (brace < 0) return false;
+                var section = $"\n  \"{db}\": [\n{entry}\n  ],";
+                newText = text.Substring(0, brace + 1) + section + text.Substring(brace + 1);
+            }
+
+            // Optimistic lock: a human saved the file while we were working — abort.
+            if (File.GetLastWriteTimeUtc(_accountConfigFile) != mtimeBefore)
+            {
+                _logger.LogWarning("DISCOVERY: config changed during append — aborting (will suggest instead)");
+                return false;
+            }
+
+            File.Copy(_accountConfigFile, _accountConfigFile + ".bak", overwrite: true);
+            var tmp = _accountConfigFile + ".tmp";
+            File.WriteAllText(tmp, newText, new UTF8Encoding(false));
+            File.Replace(tmp, _accountConfigFile, null);
+
+            // Validate by reloading; on failure restore the backup.
+            if (!LoadAccountConfig())
+            {
+                File.Copy(_accountConfigFile + ".bak", _accountConfigFile, overwrite: true);
+                LoadAccountConfig();
+                _logger.LogError("DISCOVERY: append produced invalid config — restored .bak");
+                return false;
+            }
+            _logger.LogWarning("DISCOVERY: auto-added {Acct} → {Db} ({Org}) to accounts.config.json",
+                account, db, org);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("DISCOVERY: append failed: {Err}", ex.Message);
+            return false;
+        }
+    }
+
+    /// <summary>Pick up edits to accounts.config.json without a service restart.
+    /// Called once per scan cycle. Returns true when the mapping was reloaded.
+    /// Safe on a bad edit: LoadAccountConfig keeps the old in-memory map on parse
+    /// failure, and the failure is logged once per edit (not every cycle).</summary>
+    public bool ReloadAccountConfigIfChanged()
+    {
+        if (!IsConfigBased) return false;
+        if (!File.Exists(_accountConfigFile)) return false;
+        DateTime mtime;
+        try { mtime = File.GetLastWriteTimeUtc(_accountConfigFile); }
+        catch { return false; }
+        if (mtime == _accountConfigMtime) return false;
+        // Debounce: the file may still be mid-save (editor/scp) — wait a cycle.
+        if (DateTime.UtcNow - mtime < TimeSpan.FromSeconds(3)) return false;
+
+        bool ok = LoadAccountConfig();
+        if (ok)
+        {
+            _logger.LogInformation("accounts.config.json reloaded: {Count} accounts (gen {Gen})",
+                _accountMap.Count, _accountConfigGen);
+        }
+        else
+        {
+            // Remember the mtime anyway so the parse error logs once, not every 30s.
+            _accountConfigMtime = mtime;
+        }
+        return ok;
     }
 
     /// <summary>Save current mapping as a human-editable accounts.config.json file,
@@ -611,8 +828,8 @@ public partial class Com1CConnector : IDisposable
             "// │  • inn     — ИНН, 8 цифр                                                 │",
             "// │                                                                          │",
             "// │  ПОДДЕРЖИВАЮТСЯ комментарии (//) и trailing commas.                      │",
-            "// │  ПОСЛЕ правок ОБЯЗАТЕЛЬНО перезапустите сервис:                          │",
-            "// │      sc stop Loader1C && sc start Loader1C                               │",
+            "// │  Правки подхватываются АВТОМАТИЧЕСКИ в течение ~30 секунд —              │",
+            "// │  перезапуск службы НЕ нужен.                                             │",
             "// │                                                                          │",
             "// │  При наличии этого файла авто-скан 1С на старте НЕ запускается.          │",
             "// │  Удалите файл и rescan.trigger чтобы вернуться к авто-сканированию.      │",
@@ -1097,7 +1314,7 @@ public partial class Com1CConnector : IDisposable
 
             // Build duplicate counters: count existing docs in 1C per (date,amount,cpAcct,isDebit)
             Dictionary<string, int> existingCounts = CountExistingDocs(conn, file);
-            _logger.LogInformation("  Existing documents in 1C: {Count} unique keys", existingCounts.Count);
+            _logger.LogDebug("  Existing documents in 1C: {Count} unique keys", existingCounts.Count);
 
             // --- Create shared ВедомостьНаВыплатуЗарплаты for salary (code 151) docs ---
             _currentPayrollRef = null;
@@ -1180,7 +1397,7 @@ public partial class Com1CConnector : IDisposable
                                         string ownerName = (string)(owner.Наименование ?? "");
                                         physRef = FindPhysicalPerson(conn, ownerName);
                                         if (physRef != null)
-                                            _logger.LogInformation("    {Name}: found via bank account → {Found}",
+                                            _logger.LogDebug("    {Name}: found via bank account → {Found}",
                                                 empName, ownerName);
                                     }
                                 }
@@ -1196,7 +1413,7 @@ public partial class Com1CConnector : IDisposable
                             {
                                 string foundName = "";
                                 try { foundName = (string)(physRef.Наименование ?? ""); } catch { }
-                                _logger.LogInformation("    {Name}: found by name → {Found}", empName, foundName);
+                                _logger.LogDebug("    {Name}: found by name → {Found}", empName, foundName);
 
                                 // Add new bank account — find matching Контрагент as owner
                                 if (!string.IsNullOrWhiteSpace(empAcct))
@@ -1286,7 +1503,7 @@ public partial class Com1CConnector : IDisposable
                     if (existingCounts.TryGetValue(key, out int remaining) && remaining > 0)
                     {
                         existingCounts[key] = remaining - 1;
-                        _logger.LogInformation("  SKIP (exists): {0} {1} {2}",
+                        _logger.LogDebug("  SKIP (exists): {0} {1} {2}",
                             doc.Date, doc.Amount, NormalizeAccount(cpAcct));
                         skipped++;
                         continue;

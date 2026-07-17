@@ -69,7 +69,7 @@ public partial class Com1CConnector
         dynamic bankAcct, dynamic org, bool isDebit,
         string ourAccount = "")
     {
-        _logger.LogInformation("  >> Doc: {Amount} {Op} DebitAcct={DebitAcct} CashFlow={CashFlow} Purpose={Purpose}",
+        _logger.LogDebug("  >> Doc: {Amount} {Op} DebitAcct={DebitAcct} CashFlow={CashFlow} Purpose={Purpose}",
             doc.Amount, doc.OperationType, doc.DebitAccount, doc.CashFlowItem,
             doc.Purpose?.Substring(0, Math.Min(40, doc.Purpose?.Length ?? 0)));
 
@@ -116,7 +116,7 @@ public partial class Com1CConnector
                     isInternalTransfer = true;
                     doc.OperationType = "Перевод на другой счёт организации";
                     doc.CashFlowItem = "Внутреннее перемещение денежных средств";
-                    _logger.LogInformation("    Internal transfer detected: {Our} → {Cp}",
+                    _logger.LogDebug("    Internal transfer detected: {Our} → {Cp}",
                         ourAccount, cpAcctCheck);
                 }
                 else if (cpAcctCheck == ourNorm && isDebit
@@ -131,7 +131,7 @@ public partial class Com1CConnector
                     doc.CashFlowItem = "Внутреннее перемещение денежных средств";
                     if (isDebit) doc.RecipientAccount = "ME25" + ourNorm;
                     else doc.PayerAccount = "ME25" + ourNorm;
-                    _logger.LogInformation("    International transfer detected: {Our} → ME25{Our}",
+                    _logger.LogDebug("    International transfer detected: {Our} → ME25{Our}",
                         ourAccount, ourNorm);
                 }
             }
@@ -205,7 +205,7 @@ public partial class Com1CConnector
                 var enumVal = GetEnumValue(conn, enumType, enumName);
                 if (enumVal != null) newDoc.ВидОперации = enumVal;
 
-                _logger.LogInformation("    ВидОперации: {Op} → {Enum}",
+                _logger.LogDebug("    ВидОперации: {Op} → {Enum}",
                     doc.OperationType, enumName);
             }
             catch (Exception ex)
@@ -231,7 +231,7 @@ public partial class Com1CConnector
                     if (cpBankAcct != null)
                     {
                         try { newDoc.СчетКонтрагента = cpBankAcct;
-                              _logger.LogInformation("    Destination bank account (СчетКонтрагента): {Acct}", counterpartyAcct);
+                              _logger.LogDebug("    Destination bank account (СчетКонтрагента): {Acct}", counterpartyAcct);
                         } catch (Exception ex) {
                             _logger.LogWarning("    Failed to set СчетКонтрагента: {Err}", ex.Message);
                         }
@@ -251,7 +251,7 @@ public partial class Com1CConnector
                 if (transitAcct != null)
                 {
                     newDoc.СчетУчетаРасчетовСКонтрагентом = transitAcct;
-                    _logger.LogInformation("    СчетУчетаРасчетовСКонтрагентом = 57.01");
+                    _logger.LogDebug("    СчетУчетаРасчетовСКонтрагентом = 57.01");
                 }
             }
             catch (Exception ex) { _logger.LogWarning("    Failed to set transit account: {Err}", ex.Message); }
@@ -260,7 +260,7 @@ public partial class Com1CConnector
             if (_cachedDeptRef != null)
             {
                 try { newDoc.ПодразделениеДт = _cachedDeptRef;
-                      _logger.LogInformation("    ПодразделениеДт = '{0}'", _cachedDeptName);
+                      _logger.LogDebug("    ПодразделениеДт = '{0}'", _cachedDeptName);
                 } catch { }
             }
         }
@@ -273,11 +273,11 @@ public partial class Com1CConnector
             {
                 try
                 {
-                    _logger.LogInformation("    Looking for bank account: {Acct}", counterpartyAcct);
+                    _logger.LogDebug("    Looking for bank account: {Acct}", counterpartyAcct);
                     cpBankAcctRef = FindBankAccountByNumber(conn, counterpartyAcct);
                     if (cpBankAcctRef != null)
                     {
-                        _logger.LogInformation("    Found bank account: {Acct}", counterpartyAcct);
+                        _logger.LogDebug("    Found bank account: {Acct}", counterpartyAcct);
                         try { newDoc.СчетКонтрагента = cpBankAcctRef; } catch { }
                     }
                     else
@@ -304,7 +304,7 @@ public partial class Com1CConnector
                     {
                         newDoc.Контрагент = owner;
                         counterpartySet = true;
-                        _logger.LogInformation("    Counterparty from bank account: {Name}",
+                        _logger.LogDebug("    Counterparty from bank account: {Name}",
                             (string)(owner.Наименование ?? ""));
                     }
                 }
@@ -318,7 +318,7 @@ public partial class Com1CConnector
                 {
                     newDoc.Контрагент = cachedInn;
                     counterpartySet = true;
-                    _logger.LogInformation("    Counterparty found by INN (cached): {Inn}", counterpartyInn);
+                    _logger.LogDebug("    Counterparty found by INN (cached): {Inn}", counterpartyInn);
                 }
                 else
                 {
@@ -332,7 +332,7 @@ public partial class Com1CConnector
                             counterpartySet = true;
                             _cacheCounterpartyByInn[counterpartyInn] = found;
                             TrackCom(found);
-                            _logger.LogInformation("    Counterparty found by INN: {Inn}", counterpartyInn);
+                            _logger.LogDebug("    Counterparty found by INN: {Inn}", counterpartyInn);
                         }
                     }
                     catch { }
@@ -342,13 +342,13 @@ public partial class Com1CConnector
             // 3) By name (with word-order swap for persons)
             if (!counterpartySet && !string.IsNullOrWhiteSpace(counterpartyName))
             {
-                _logger.LogInformation("    Searching counterparty by name: '{Name}'", counterpartyName);
+                _logger.LogDebug("    Searching counterparty by name: '{Name}'", counterpartyName);
                 dynamic? found = FindCounterpartyByName(conn, counterpartyName);
                 if (found != null)
                 {
                     newDoc.Контрагент = found;
                     counterpartySet = true;
-                    _logger.LogInformation("    Counterparty found by name: '{Name}'", counterpartyName);
+                    _logger.LogDebug("    Counterparty found by name: '{Name}'", counterpartyName);
                 }
                 else
                 {
@@ -387,7 +387,7 @@ public partial class Com1CConnector
                             TrackCom(contractRef);
                             string cName = (string)(contractSel.Наименование ?? "");
                             newDoc.ДоговорКонтрагента = contractRef;
-                            _logger.LogInformation("    ДоговорКонтрагента = '{0}'", cName);
+                            _logger.LogDebug("    ДоговорКонтрагента = '{0}'", cName);
                             break;
                         }
                     }
@@ -412,7 +412,7 @@ public partial class Com1CConnector
                 if (acctRef != null)
                 {
                     newDoc.СчетУчетаРасчетовСКонтрагентом = acctRef;
-                    _logger.LogInformation("    СчетРасчетов: {Acct}", doc.DebitAccount);
+                    _logger.LogDebug("    СчетРасчетов: {Acct}", doc.DebitAccount);
                 }
             }
             catch (Exception ex)
@@ -431,7 +431,7 @@ public partial class Com1CConnector
                 if (item != null)
                 {
                     newDoc.СтатьяДвиженияДенежныхСредств = item;
-                    _logger.LogInformation("    СтатьяДДС: {Item}", doc.CashFlowItem);
+                    _logger.LogDebug("    СтатьяДДС: {Item}", doc.CashFlowItem);
                 }
                 else
                     _logger.LogWarning("    СтатьяДДС NOT FOUND: '{Item}'", doc.CashFlowItem);
@@ -475,7 +475,7 @@ public partial class Com1CConnector
                     try
                     {
                         newDoc.СубконтоДт1 = enumVal;
-                        _logger.LogInformation("    СубконтоДт1 (ВидыПлатежейВГосБюджет) = {0}", doc.ObligationType);
+                        _logger.LogDebug("    СубконтоДт1 (ВидыПлатежейВГосБюджет) = {0}", doc.ObligationType);
                     }
                     catch (Exception ex2)
                     {
@@ -498,7 +498,7 @@ public partial class Com1CConnector
                 if (chartAcct != null)
                 {
                     newDoc.СчетУчетаРасчетовСКонтрагентом = chartAcct;
-                    _logger.LogInformation("    СчетУчетаРасчетовСКонтрагентом = {0}", doc.DebitAccount);
+                    _logger.LogDebug("    СчетУчетаРасчетовСКонтрагентом = {0}", doc.DebitAccount);
                 }
                 else
                     _logger.LogWarning("    Chart account not found: '{0}'", doc.DebitAccount);
@@ -523,7 +523,7 @@ public partial class Com1CConnector
                     if (!item.Пустая())
                     {
                         newDoc.СубконтоДт1 = item;
-                        _logger.LogInformation("    СубконтоДт1 = Благотворительность");
+                        _logger.LogDebug("    СубконтоДт1 = Благотворительность");
                     }
                 }
                 catch { }
@@ -534,7 +534,7 @@ public partial class Com1CConnector
         if (_cachedDeptRef != null)
         {
             try { newDoc.ПодразделениеОрганизации = _cachedDeptRef;
-                  _logger.LogInformation("    ПодразделениеОрганизации = '{0}'", _cachedDeptName);
+                  _logger.LogDebug("    ПодразделениеОрганизации = '{0}'", _cachedDeptName);
             } catch { }
         }
 
@@ -613,7 +613,7 @@ public partial class Com1CConnector
             try
             {
                 newDoc.ПлатежнаяВедомость = _currentPayrollRef;
-                _logger.LogInformation("    ПлатежнаяВедомость linked");
+                _logger.LogDebug("    ПлатежнаяВедомость linked");
             }
             catch (Exception ex)
             {
@@ -728,11 +728,11 @@ public partial class Com1CConnector
                 dynamic? bankAcctRef = FindBankAccountByNumber(conn, acct);
                 if (bankAcctRef != null)
                 {
-                    _logger.LogInformation("    {Acct} — bank account exists", normAcct);
+                    _logger.LogDebug("    {Acct} — bank account exists", normAcct);
                     continue;
                 }
 
-                _logger.LogInformation("    {Acct} ({Name}) — bank account NOT found", normAcct, name);
+                _logger.LogDebug("    {Acct} ({Name}) — bank account NOT found", normAcct, name);
 
                 // Step 2: find counterparty by INN or name
                 dynamic? counterpartyRef = null;
@@ -795,7 +795,7 @@ public partial class Com1CConnector
                     string stripped = StripCompanySuffix(name);
                     if (!string.IsNullOrWhiteSpace(stripped) && stripped != name)
                     {
-                        _logger.LogInformation("    Trying stripped name: '{Stripped}'", stripped);
+                        _logger.LogDebug("    Trying stripped name: '{Stripped}'", stripped);
                         dynamic? sel = null;
                         try
                         {
@@ -812,7 +812,7 @@ public partial class Com1CConnector
                                     {
                                         counterpartyRef = sel.Ссылка;
                                         TrackCom(counterpartyRef);
-                                        _logger.LogInformation("    Matched by stripped name: '{Name1C}'", cpName1c);
+                                        _logger.LogDebug("    Matched by stripped name: '{Name1C}'", cpName1c);
                                         break;
                                     }
                                 }
@@ -838,7 +838,7 @@ public partial class Com1CConnector
 
                     if (!shouldCreate)
                     {
-                        _logger.LogInformation("    Skipping counterparty creation (non-payment op): {Name}", name);
+                        _logger.LogDebug("    Skipping counterparty creation (non-payment op): {Name}", name);
                         // Don't create counterparty, but still can't create bank account without owner
                         continue;
                     }
@@ -894,7 +894,7 @@ public partial class Com1CConnector
                 {
                     string cpNameFound = "";
                     try { cpNameFound = (string)(counterpartyRef.Наименование ?? ""); } catch { }
-                    _logger.LogInformation("    Found counterparty: {Name}", cpNameFound);
+                    _logger.LogDebug("    Found counterparty: {Name}", cpNameFound);
                 }
 
                 // Step 4: create bank account for the counterparty
@@ -912,7 +912,7 @@ public partial class Com1CConnector
                         {
                             try {
                                 newBankAcct.Банк = bankRef;
-                                _logger.LogInformation("    Bank set: {Code}", bankCode);
+                                _logger.LogDebug("    Bank set: {Code}", bankCode);
                             } catch (Exception ex) {
                                 _logger.LogWarning("    Failed to set bank: {Err}", ex.Message);
                             }
@@ -935,7 +935,7 @@ public partial class Com1CConnector
                             if (sampleVid != null)
                             {
                                 newBankAcct.ВидСчета = sampleVid;
-                                _logger.LogInformation("    ВидСчета set from cached sample");
+                                _logger.LogDebug("    ВидСчета set from cached sample");
                             }
                         }
                         catch (Exception ex) { _logger.LogWarning("    Failed to set ВидСчета: {Err}", ex.Message); }

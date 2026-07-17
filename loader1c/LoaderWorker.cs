@@ -18,12 +18,67 @@ public class LoaderWorker : BackgroundService
     private readonly Com1CConnector _com;
     private readonly ILogger<LoaderWorker> _logger;
 
+    // Per-file transient-retry state (in-memory: a service restart resets it,
+    // which only means a file starts again from attempt 0 — never loses data,
+    // retries are idempotent thanks to CountExistingDocs dedupe).
+    private readonly Dictionary<string, (int Attempts, DateTime NextTry)> _retryState = new();
+
+    // Discovery caches: accounts that a full sweep failed to find (with TTL),
+    // and accounts already suggested to the human (waiting for a config edit).
+    // Both reset when accounts.config.json changes or discover.trigger is dropped.
+    private readonly Dictionary<string, DateTime> _discoveryMisses = new();
+    private readonly HashSet<string> _discoverySuggested = new();
+    private long _discoverySeenGen = -1;
+
     public LoaderWorker(LoaderConfig config, Com1CConnector com,
         ILogger<LoaderWorker> logger)
     {
         _config = config;
         _com = com;
         _logger = logger;
+    }
+
+    /// <summary>Move a file to .error and write the cause sidecar (.error.info)
+    /// used later by auto-requeue and by humans diagnosing the failure.</summary>
+    private void MarkPermanentError(string filePath, string error)
+    {
+        _logger.LogWarning("Error loading {File}: {Error}", Path.GetFileName(filePath), error);
+        try { File.Move(filePath, filePath + ".error"); } catch { }
+        try
+        {
+            File.WriteAllText(filePath + ".error.info",
+                $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\n{error}\nrequeued: 0\n",
+                System.Text.Encoding.UTF8);
+        }
+        catch { }
+        _retryState.Remove(filePath);
+    }
+
+    /// <summary>Handle a failed load: transient errors stay .txt and back off
+    /// exponentially; permanent errors (or exhausted retries) go to .error.</summary>
+    private void HandleLoadError(string filePath, string error)
+    {
+        bool transient = _config.MaxTransientAttempts > 0 && ErrorClassifier.IsTransient(error);
+        if (!transient)
+        {
+            MarkPermanentError(filePath, error);
+            return;
+        }
+
+        var (attempts, _) = _retryState.TryGetValue(filePath, out var st) ? st : (0, DateTime.MinValue);
+        attempts++;
+        if (attempts >= _config.MaxTransientAttempts)
+        {
+            MarkPermanentError(filePath,
+                $"{error}\n(gave up after {attempts} transient attempts)");
+            return;
+        }
+
+        int cycles = Math.Min(1 << attempts, _config.MaxRetryBackoffCycles);
+        var nextTry = DateTime.Now.AddSeconds((double)_config.ScanIntervalSec * cycles);
+        _retryState[filePath] = (attempts, nextTry);
+        _logger.LogWarning("Transient error on {File} (attempt {N}/{Max}), retry after {Next:HH:mm:ss}: {Error}",
+            Path.GetFileName(filePath), attempts, _config.MaxTransientAttempts, nextTry, error);
     }
 
     /// <summary>Force a thorough GC including LOH compaction. Helps return memory to OS
@@ -45,7 +100,9 @@ public class LoaderWorker : BackgroundService
         if (hasCached && _com.IsConfigBased)
         {
             _logger.LogInformation("Mapping loaded from human-edited config — auto-scan disabled. " +
-                "Edit accounts.config.json and restart to apply changes.");
+                (_config.ConfigReloadEnabled
+                    ? $"Edits to accounts.config.json are picked up automatically within ~{_config.ScanIntervalSec}s."
+                    : "Edit accounts.config.json and restart to apply changes."));
         }
         else if (hasCached)
         {
@@ -101,7 +158,7 @@ public class LoaderWorker : BackgroundService
             if (_com.IsConfigBased)
             {
                 _logger.LogWarning("rescan.trigger ignored — mapping is config-based. " +
-                    "Edit accounts.config.json and restart the service to apply changes.");
+                    "Edit accounts.config.json — changes are picked up automatically.");
                 return false;
             }
             _logger.LogInformation("rescan.trigger detected — starting background DB rescan");
@@ -304,12 +361,18 @@ public class LoaderWorker : BackgroundService
     {
         if (!Directory.Exists(_config.OutputDir)) return;
 
+        // Pick up accounts.config.json edits without restart; on change, put
+        // .error files whose account became mapped back into the queue.
+        if (_config.ConfigReloadEnabled && _com.ReloadAccountConfigIfChanged())
+            RequeueErrorFiles();
+
         // Check for admin-initiated triggers
         CheckRescanTrigger();
         CheckLookupTrigger();
         CheckAuditTrigger();
         CheckFixTrigger();
         CheckFixCurrencyTrigger();
+        CheckDiscoverTrigger();
 
         var rawFiles = Directory.GetFiles(_config.OutputDir, "*.txt",
             SearchOption.AllDirectories);
@@ -321,6 +384,23 @@ public class LoaderWorker : BackgroundService
             .OrderBy(x => x.Db ?? "~~unmapped")
             .Select(x => x.Path)
             .ToArray();
+
+        // Discovery caches follow the mapping generation: a config edit means the
+        // human may have added accounts in 1C too — start fresh.
+        if (_discoverySeenGen != _com.AccountConfigGeneration)
+        {
+            _discoverySeenGen = _com.AccountConfigGeneration;
+            _discoveryMisses.Clear();
+            _discoverySuggested.Clear();
+        }
+        // TTL expiry for negative cache
+        var missTtl = TimeSpan.FromHours(Math.Max(1, _config.DiscoveryNegativeCacheHours));
+        foreach (var k in _discoveryMisses.Where(kv => DateTime.Now - kv.Value > missTtl)
+                     .Select(kv => kv.Key).ToList())
+            _discoveryMisses.Remove(k);
+
+        // Unknown accounts collected this cycle for a single discovery sweep
+        var pendingUnknown = new List<(string Acct, string FilePath, string Error)>();
 
         bool anyProcessed = false;
         foreach (var filePath in sortedFiles)
@@ -335,6 +415,10 @@ public class LoaderWorker : BackgroundService
 
             // Re-check file exists (may have been moved between GetFiles and now)
             if (!File.Exists(filePath)) continue;
+
+            // In transient-retry backoff? Skip silently until its next-try time.
+            if (_retryState.TryGetValue(filePath, out var retry) && retry.NextTry > DateTime.Now)
+                continue;
 
             _logger.LogInformation("New file: {File}", filePath);
 
@@ -351,6 +435,7 @@ public class LoaderWorker : BackgroundService
 
                 if (result.Created > 0)
                 {
+                    _retryState.Remove(filePath);
                     _logger.LogInformation("Loaded {File}: {Created} created, {Skipped} skipped",
                         fileName, result.Created, result.Skipped);
 
@@ -375,6 +460,7 @@ public class LoaderWorker : BackgroundService
                 else if (result.Skipped > 0 && result.Error == null)
                 {
                     // All documents already exist in 1C — mark as loaded, don't retry
+                    _retryState.Remove(filePath);
                     _logger.LogInformation("All {Skipped} docs in {File} already exist, marking as loaded",
                         result.Skipped, fileName);
                     File.WriteAllText(filePath + ".loaded",
@@ -383,13 +469,38 @@ public class LoaderWorker : BackgroundService
                 }
                 else if (result.Error != null)
                 {
-                    // Real error — rename to .error so we don't retry forever
-                    _logger.LogWarning("Error loading {File}: {Error}", fileName, result.Error);
-                    try { File.Move(filePath, filePath + ".error"); } catch { }
+                    bool isUnknownAccount = result.Error.Contains("not found in any database");
+                    if (isUnknownAccount && _config.AutoDiscovery != "off")
+                    {
+                        var acct = Com1CConnector.NormalizeAccount(parsed.Account);
+                        if (_discoverySuggested.Contains(acct))
+                        {
+                            MarkPermanentError(filePath, result.Error +
+                                "\n(предложение уже записано в discovered.accounts.txt — добавьте счёт в accounts.config.json)");
+                        }
+                        else if (_discoveryMisses.ContainsKey(acct))
+                        {
+                            MarkPermanentError(filePath, result.Error +
+                                "\n(discovery sweep по всем базам тоже не нашёл этот счёт)");
+                        }
+                        else
+                        {
+                            // Leave the file as .txt; sweep runs after the loop.
+                            pendingUnknown.Add((acct, filePath, result.Error));
+                            _logger.LogInformation("Unknown account {Acct} in {File} — queued for discovery sweep",
+                                acct, fileName);
+                        }
+                    }
+                    else
+                    {
+                        // Transient errors stay .txt with backoff; permanent go .error
+                        HandleLoadError(filePath, result.Error);
+                    }
                 }
                 else
                 {
                     // Created=0, Skipped=0, no error — empty result, skip
+                    _retryState.Remove(filePath);
                     _logger.LogWarning("No result for {File}, skipping", fileName);
                     File.WriteAllText(filePath + ".loaded",
                         $"Empty: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
@@ -397,7 +508,10 @@ public class LoaderWorker : BackgroundService
             }
             catch (Exception ex)
             {
+                // Parse/IO exceptions are treated as transient too: a half-copied
+                // file from the parser side often becomes readable a cycle later.
                 _logger.LogError(ex, "Error processing {File}", filePath);
+                HandleLoadError(filePath, "COM error: " + ex.Message);
             }
 
             anyProcessed = true;
@@ -426,6 +540,83 @@ public class LoaderWorker : BackgroundService
             try { _com.EndSession(); } catch { }
             DeepGC();
         }
+
+        // One discovery sweep per cycle for accounts unknown to the mapping.
+        if (pendingUnknown.Count > 0 && _config.MaxDiscoverySweepsPerCycle > 0)
+            RunDiscoverySweep(pendingUnknown);
+    }
+
+    /// <summary>discover.trigger: clear the discovery caches so unknown accounts are
+    /// swept again immediately (e.g. after the accountant added the account in 1C
+    /// without touching accounts.config.json).</summary>
+    private bool CheckDiscoverTrigger()
+    {
+        try
+        {
+            var dataDir = Path.GetDirectoryName(_config.OutputDir);
+            if (string.IsNullOrEmpty(dataDir)) return false;
+            var trigger = Path.Combine(dataDir, "discover.trigger");
+            if (!File.Exists(trigger)) return false;
+            try { File.Delete(trigger); } catch { }
+            _discoveryMisses.Clear();
+            _discoverySuggested.Clear();
+            _logger.LogInformation("discover.trigger detected — discovery caches cleared, unknown accounts will be swept again");
+            RequeueErrorFiles(requireMapped: false);
+            return true;
+        }
+        catch { return false; }
+    }
+
+    /// <summary>Sweep all DBs for the cycle's unknown accounts; per account either
+    /// write a config suggestion (suggest mode), auto-append (append mode), or
+    /// negative-cache the miss. Files stay .txt and resolve on a following cycle.</summary>
+    private void RunDiscoverySweep(List<(string Acct, string FilePath, string Error)> pending)
+    {
+        try
+        {
+            var accounts = pending.Select(p => p.Acct).Distinct().ToList();
+            var hits = _com.TryDiscoverAccounts(accounts);
+            var dataDir = Path.GetDirectoryName(_config.OutputDir) ?? "";
+            var suggestFile = Path.Combine(dataDir, "discovered.accounts.txt");
+
+            foreach (var acct in accounts)
+            {
+                var acctHits = hits.Where(h => h.Account == acct).ToList();
+                if (acctHits.Count == 0)
+                {
+                    _discoveryMisses[acct] = DateTime.Now;
+                    _logger.LogWarning("DISCOVERY: account {Acct} not found in any of {Count} DBs — will .error next cycle",
+                        acct, _config.Databases.Count);
+                    continue;
+                }
+
+                bool ambiguous = acctHits.Select(h => h.Database).Distinct().Count() > 1;
+                var lines = new List<string>
+                {
+                    $"// ─── {DateTime.Now:yyyy-MM-dd HH:mm:ss} " +
+                    (ambiguous ? "— НЕОДНОЗНАЧНО: счёт найден в нескольких базах, выберите одну ───"
+                               : "───"),
+                };
+                foreach (var h in acctHits)
+                    lines.Add($"  \"{h.Database}\": {{ \"account\": \"{h.Account}\", \"org\": \"{h.OrgName.Replace("\"", "\\\"")}\", \"inn\": \"{h.Inn}\" }}");
+                try { File.AppendAllLines(suggestFile, lines, System.Text.Encoding.UTF8); } catch { }
+
+                if (!ambiguous && _config.AutoDiscovery == "append")
+                {
+                    var h = acctHits[0];
+                    if (_com.AppendAccountConfigEntry(h.Database, h.Account, h.OrgName, h.Inn))
+                        continue; // mapped now — the .txt file loads next cycle
+                }
+
+                _discoverySuggested.Add(acct);
+                _logger.LogWarning("DISCOVERY: account {Acct} found in {Dbs} — снипет записан в discovered.accounts.txt, добавьте в accounts.config.json",
+                    acct, string.Join(",", acctHits.Select(h => h.Database).Distinct()));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Discovery sweep failed");
+        }
     }
 
     /// <summary>Quickly extract the account number from a 1C bank exchange file and
@@ -433,6 +624,14 @@ public class LoaderWorker : BackgroundService
     /// (file unreadable, account unmapped). Used only for sort ordering — failures are
     /// handled later by the actual load path.</summary>
     private string? TryFindDatabase(string filePath)
+    {
+        var acct = TryReadAccount(filePath);
+        return acct == null ? null : _com.FindAccount(acct)?.Database;
+    }
+
+    /// <summary>Extract РасчСчет from the first lines of a 1C bank exchange file.
+    /// Null on any failure. Works for .txt and .error files alike.</summary>
+    private static string? TryReadAccount(string filePath)
     {
         try
         {
@@ -442,13 +641,77 @@ public class LoaderWorker : BackgroundService
             while ((line = sr.ReadLine()) != null && n++ < 30)
             {
                 if (line.StartsWith("РасчСчет=", StringComparison.Ordinal))
-                {
-                    var acct = line.Substring("РасчСчет=".Length).Trim();
-                    return _com.FindAccount(acct)?.Database;
-                }
+                    return line.Substring("РасчСчет=".Length).Trim();
             }
         }
         catch { }
         return null;
+    }
+
+    /// <summary>After the account mapping changed, put matching .error files back
+    /// into the queue automatically. Only files whose failure cause was
+    /// "account not found" AND whose account is now mapped are re-queued;
+    /// each file is re-queued at most MaxAutoRequeues times (tracked in the
+    /// .error.info sidecar) to prevent .txt ↔ .error cycling.</summary>
+    private void RequeueErrorFiles(bool requireMapped = true)
+    {
+        if (!_config.AutoRequeueErrors) return;
+        try
+        {
+            foreach (var errFile in Directory.GetFiles(_config.OutputDir, "*.txt.error",
+                SearchOption.AllDirectories))
+            {
+                try
+                {
+                    var infoFile = errFile + ".info"; // <file>.txt.error.info
+                    string info = "";
+                    bool hasInfo = File.Exists(infoFile);
+                    if (hasInfo)
+                        info = File.ReadAllText(infoFile, System.Text.Encoding.UTF8);
+
+                    // Cause check: sidecar says unknown-account, or (no sidecar,
+                    // legacy .error file) — fall through to the account check directly.
+                    if (hasInfo && !info.Contains("not found in any database"))
+                        continue;
+
+                    // Requeue budget
+                    int requeued = 0;
+                    var m = System.Text.RegularExpressions.Regex.Match(info, @"requeued:\s*(\d+)");
+                    if (m.Success) requeued = int.Parse(m.Groups[1].Value);
+                    if (requeued >= _config.MaxAutoRequeues) continue;
+
+                    // Is the account mapped now? (discover.trigger re-queues even
+                    // unmapped ones so they go through a fresh discovery sweep)
+                    var acct = TryReadAccount(errFile);
+                    if (acct == null) continue;
+                    var mapping = _com.FindAccount(acct);
+                    if (mapping == null && requireMapped) continue;
+
+                    var txtPath = errFile.Substring(0, errFile.Length - ".error".Length);
+                    if (File.Exists(txtPath)) continue; // shouldn't happen; be safe
+                    File.Move(errFile, txtPath);
+                    try
+                    {
+                        var updated = m.Success
+                            ? System.Text.RegularExpressions.Regex.Replace(info,
+                                @"requeued:\s*\d+", $"requeued: {requeued + 1}")
+                            : info + $"\nrequeued: {requeued + 1}\n";
+                        File.WriteAllText(infoFile, updated, System.Text.Encoding.UTF8);
+                    }
+                    catch { }
+                    _logger.LogInformation("Re-queued {File} — account {Acct} {Why}",
+                        Path.GetFileName(txtPath), acct,
+                        mapping != null ? $"is now mapped to {mapping.Database}" : "will go through a fresh discovery sweep");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning("Requeue check failed for {File}: {Err}", errFile, ex.Message);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning("RequeueErrorFiles failed: {Err}", ex.Message);
+        }
     }
 }

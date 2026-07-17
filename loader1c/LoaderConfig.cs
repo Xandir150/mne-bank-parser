@@ -24,6 +24,32 @@ public class LoaderConfig
     /// New banks/orgs added in 1C will only be discovered after this period. Default 12h.
     /// Set to 0 to always rescan on startup.</summary>
     public int RescanAfterHours { get; set; } = 12;
+    /// <summary>How many times a file with a transient 1C error (session killed,
+    /// connection lost) is retried before giving up (.error). 0 = old behavior:
+    /// every error is permanent.</summary>
+    public int MaxTransientAttempts { get; set; } = 8;
+    /// <summary>Cap on the exponential backoff between transient retries, in scan
+    /// cycles (backoff = ScanIntervalSec × min(2^attempt, this)). Default 32 ≈ 16 min.</summary>
+    public int MaxRetryBackoffCycles { get; set; } = 32;
+    /// <summary>Pick up accounts.config.json edits automatically (mtime check each
+    /// scan cycle) — no service restart needed. false = load only at startup.</summary>
+    public bool ConfigReloadEnabled { get; set; } = true;
+    /// <summary>After the mapping changes, automatically re-queue .error files whose
+    /// account became mapped (rename back to .txt).</summary>
+    public bool AutoRequeueErrors { get; set; } = true;
+    /// <summary>Max automatic re-queues per file (tracked in .error.info) — prevents
+    /// .txt ↔ .error cycling when the mapped DB still lacks the bank account.</summary>
+    public int MaxAutoRequeues { get; set; } = 3;
+    /// <summary>What to do when a statement arrives for an account missing from the
+    /// mapping: "off" = just .error; "suggest" = search all DBs, write a ready-made
+    /// config snippet to discovered.accounts.txt; "append" = also add the entry to
+    /// accounts.config.json automatically (single unambiguous hit only).</summary>
+    public string AutoDiscovery { get; set; } = "suggest";
+    /// <summary>How long a failed discovery (account found nowhere) suppresses
+    /// repeat sweeps for the same account. Reset by config edits.</summary>
+    public int DiscoveryNegativeCacheHours { get; set; } = 12;
+    /// <summary>Max discovery sweeps per scan cycle (each sweep = 1 connect per DB).</summary>
+    public int MaxDiscoverySweepsPerCycle { get; set; } = 1;
     public List<string> Databases { get; set; } = new();
 }
 

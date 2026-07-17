@@ -97,9 +97,14 @@ public static class BankFileParser
                     currentDoc.Date = trimmed[5..];
                 else if (trimmed.StartsWith("Сумма="))
                 {
-                    if (decimal.TryParse(trimmed[6..], NumberStyles.Any,
+                    // A malformed amount must NOT silently become a 0.00 document —
+                    // throw so the worker retries (half-copied file) or .errors it.
+                    var amountStr = trimmed[6..].Trim();
+                    if (!decimal.TryParse(amountStr, NumberStyles.Any,
                             CultureInfo.InvariantCulture, out var a))
-                        currentDoc.Amount = a;
+                        throw new FormatException(
+                            $"Doc #{currentDoc.Number}: невозможно разобрать Сумма='{amountStr}'");
+                    currentDoc.Amount = a;
                 }
                 else if (trimmed.StartsWith("ПлательщикСчет="))
                     currentDoc.PayerAccount = trimmed[15..];
