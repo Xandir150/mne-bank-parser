@@ -1,3 +1,4 @@
+import logging
 import re
 from datetime import date
 from decimal import Decimal
@@ -8,6 +9,13 @@ import pdfplumber
 
 from app.parsers import register_parser
 from app.parsers.base import BankParser, ParsedStatement, ParsedTransaction
+
+logger = logging.getLogger(__name__)
+
+# Above this, an amount is physically implausible for a bank statement line
+# and is almost certainly a column-misclassification artifact (e.g. a
+# reference-number digit string parsed as an amount). See _parse_page.
+_MAX_PLAUSIBLE_AMOUNT = Decimal("10000000")
 
 
 @register_parser
@@ -97,7 +105,11 @@ class HipotekarnaParser(BankParser):
                         stmt.client_name = self.clean_text(t)
                         break
 
-    # Column x-boundaries (from PDF word positions):
+    # Fallback column x-boundaries, used only when a page doesn't carry the
+    # "1".."8" column-marker row that _find_column_boundaries looks for
+    # (see below). Calibrated against the 1755x1240pt single-statement
+    # export layout ("good_single.pdf" in bug reports) — that layout has no
+    # marker row, so this is what it actually runs on.
     # x < 150: date (col 1)
     # 150 <= x < 600: counterparty name / account (col 2)
     # 600 <= x < 800: debit amount (col 4)
@@ -105,32 +117,112 @@ class HipotekarnaParser(BankParser):
     # 880 <= x < 1200: payment code / purpose (col 6)
     # 1200 <= x < 1450: references (col 7)
     # x >= 1450: reclamation data (col 8)
-    _COL_COUNTERPARTY = 150
-    _COL_DEBIT = 600
-    _COL_CREDIT = 750
-    _COL_PURPOSE = 880
-    _COL_REF = 1200
-    _COL_RECLAM = 1450
+    _DEFAULT_BOUNDS = (150, 600, 750, 880, 1200, 1450)
 
-    def _classify_word(self, x: float) -> str:
-        if x < self._COL_COUNTERPARTY:
+    # A line consisting of exactly these 8 tokens, in order, is the
+    # numbered column-header row Hipotekarna prints above the transaction
+    # table on most (but not all — pages with zero transactions omit the
+    # table entirely) pages.
+    _MARKER_TOKENS = [str(n) for n in range(1, 9)]
+
+    def _find_column_boundaries(self, lines) -> Optional[tuple]:
+        """Locate the '1'..'8' column-marker row on a page and derive
+
+        column boundaries from it (midpoints between consecutive markers).
+        This makes column classification scale/DPI-invariant instead of
+        relying on pixel constants tuned for one specific page size.
+        Returns a 6-tuple (col_counterparty, col_debit, col_credit,
+        col_purpose, col_ref, col_reclam) boundary, or None if no such row
+        is found on this page (caller should fall back to _DEFAULT_BOUNDS).
+        """
+        for y, ws in lines:
+            texts = [w['text'].strip() for w in ws if w['text'].strip()]
+            if texts == self._MARKER_TOKENS:
+                xs = [w['x0'] for w in ws if w['text'].strip()]
+                return (
+                    (xs[0] + xs[1]) / 2,  # before col 2: counterparty+account
+                    (xs[2] + xs[3]) / 2,  # before col 4: debit
+                    (xs[3] + xs[4]) / 2,  # before col 5: credit
+                    (xs[4] + xs[5]) / 2,  # before col 6: payment code/purpose
+                    (xs[5] + xs[6]) / 2,  # before col 7: references
+                    (xs[6] + xs[7]) / 2,  # before col 8: reclamation
+                )
+        return None
+
+    def _classify_word(self, x: float, bounds: tuple) -> str:
+        col_counterparty, col_debit, col_credit, col_purpose, col_ref, col_reclam = bounds
+        if x < col_counterparty:
             return "date"
-        elif x < self._COL_DEBIT:
+        elif x < col_debit:
             return "counterparty"
-        elif x < self._COL_CREDIT:
+        elif x < col_credit:
             return "debit"
-        elif x < self._COL_PURPOSE:
+        elif x < col_purpose:
             return "credit"
-        elif x < self._COL_REF:
+        elif x < col_ref:
             return "purpose"
-        elif x < self._COL_RECLAM:
+        elif x < col_reclam:
             return "reference"
         else:
             return "reclamation"
 
+    def _validate_transaction(self, txn: ParsedTransaction, date_str: str) -> None:
+        """Defense-in-depth sanity check.
+
+        A physically implausible amount, or a counterparty field that looks
+        like it swallowed the debit/credit/payment-code columns, is a strong
+        signal that column classification went wrong somewhere (e.g. a
+        reference-number digit string misread as an amount) — regardless of
+        whether it's the dynamic marker-row detection or the hardcoded
+        fallback that produced the boundaries. Rather than silently export
+        bad numbers into 1C (as happened in production before this check
+        existed), raise loudly so the whole file is held back — see
+        worker._process_file, which catches this, marks the statement
+        status="error", and leaves the file in place for a human to review
+        and retry.
+        """
+        for label, amount in (("debit", txn.debit), ("credit", txn.credit)):
+            if amount is not None and amount > _MAX_PLAUSIBLE_AMOUNT:
+                raise ValueError(
+                    f"Hipotekarna parser: implausible {label} amount {amount} on "
+                    f"{date_str} (counterparty={txn.counterparty!r}) — likely column "
+                    f"misclassification (e.g. a reference number parsed as an "
+                    f"amount); aborting parse rather than exporting bad data"
+                )
+
+        cp = txn.counterparty or ""
+        decimal_numbers = re.findall(r"\d+[.,]\d{2}\b", cp)
+        payment_code_like = re.search(r"\b\d{3}\b", cp)
+        if len(decimal_numbers) >= 2 and payment_code_like:
+            raise ValueError(
+                f"Hipotekarna parser: counterparty field on {date_str} looks like "
+                f"it swallowed amount/payment-code columns ({cp!r}) — likely "
+                f"column misclassification; aborting parse rather than exporting "
+                f"bad data"
+            )
+
     def _parse_page(self, page, stmt: ParsedStatement) -> None:
         words = page.extract_words(keep_blank_chars=True, x_tolerance=3, y_tolerance=3)
         lines = self._group_by_y(words, tolerance=4)
+
+        bounds = self._find_column_boundaries(lines)
+        if bounds is None:
+            bounds = self._DEFAULT_BOUNDS
+            # Pages with no transactions at all (e.g. a "no activity that
+            # day" page in a bulk multi-day export) legitimately have no
+            # table and thus no marker row — the fallback is harmless there
+            # since there's no data to misclassify. Only warn when the page
+            # actually looks like it has transaction rows to parse.
+            has_txn_lines = any(
+                re.match(r"\d{2}\.\d{2}\.\d{4}", " ".join(w['text'].strip() for w in ws))
+                for _, ws in lines
+            )
+            if has_txn_lines:
+                logger.warning(
+                    "Hipotekarna page %s: no '1'..'8' column-marker row found — "
+                    "falling back to hardcoded column boundaries %s",
+                    getattr(page, "page_number", "?"), bounds,
+                )
 
         # Pair lines: line1 (date row) + line2 (account row)
         pending_txn = None
@@ -141,7 +233,7 @@ class HipotekarnaParser(BankParser):
                 text = w['text'].strip()
                 if not text:
                     continue
-                col = self._classify_word(w['x0'])
+                col = self._classify_word(w['x0'], bounds)
                 cols.setdefault(col, []).append(text)
 
             date_text = " ".join(cols.get("date", []))
@@ -213,6 +305,8 @@ class HipotekarnaParser(BankParser):
                 txn.reference_debit = ref_debit
             if reclam:
                 txn.reclamation_data = reclam
+
+            self._validate_transaction(txn, date_str)
 
             pending_txn = txn
 

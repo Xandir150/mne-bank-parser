@@ -26,6 +26,12 @@ class ZapadParser(BankParser):
     bank_code = "570"
     bank_name = "Zapad Banka"
 
+    # A bank export can bundle several complete "IZVOD BR. N" documents back
+    # to back in one PDF (e.g. a "whole period" export). Each such document
+    # starts with this header on its first page; pages without it continue
+    # the preceding statement.
+    _UPP_HEADER_RE = re.compile(r"IZVOD\s+BR\.\s*([\d/]+)\s+ZA\s+RAČUN\s+(\d+)")
+
     def parse(self, file_path: Path) -> ParsedStatement:
         stmt = ParsedStatement(
             bank_code=self.bank_code,
@@ -51,6 +57,35 @@ class ZapadParser(BankParser):
                 self._parse_daily(pdf, stmt)
 
         return stmt
+
+    def parse_multi(self, file_path: Path) -> list[ParsedStatement]:
+        with pdfplumber.open(file_path) as pdf:
+            first_text = (pdf.pages[0].extract_text() or "")[:500]
+            if not re.search(r"IZVOD\s+BR\.\s*\d+\s+ZA\s+RA[ČC]UN", first_text):
+                return [self.parse(file_path)]
+
+            header_pages = []
+            for idx, page in enumerate(pdf.pages):
+                text = (page.extract_text() or "")[:300]
+                if self._UPP_HEADER_RE.search(text):
+                    header_pages.append(idx)
+            if len(header_pages) <= 1:
+                return [self.parse(file_path)]
+
+            statements = []
+            for k, start in enumerate(header_pages):
+                end = header_pages[k + 1] if k + 1 < len(header_pages) else len(pdf.pages)
+                group = pdf.pages[start:end]
+                stmt = ParsedStatement(bank_code=self.bank_code, bank_name=self.bank_name)
+                full_text = "\n".join(p.extract_text() or "" for p in group)
+                self._parse_upp_header(full_text, stmt)
+                for page in group:
+                    self._parse_upp_transactions(page.extract_text(layout=True) or "", stmt)
+                statements.append(stmt)
+
+            if any(s.transactions for s in statements):
+                return statements
+            return [self.parse(file_path)]
 
     # ----------------------------------------------------------------
     # UPP daily statement format ("IZVOD BR. N ZA RAČUN <18 digits>")
@@ -104,8 +139,9 @@ class ZapadParser(BankParser):
         lines = text.split("\n")
         n = len(lines)
 
-        amt = r"\d[\d.]*,\d{2}"
+        amt = r"-?\d[\d.]*,\d{2}"
         # Row line: <row_num> <stuff: opt cp + opt value_date> <trans_no> <debit> <credit> [naknada] [svrha tail]
+        # Debit/credit may be negative ("Storno" fee-reversal entries print e.g. "-30,00").
         row_re = re.compile(
             rf"^\s*(\d+)\s+(.*?)\s*(\d{{4,}})\s+({amt})\s+({amt})(?:\s+({amt}))?(.*)$"
         )

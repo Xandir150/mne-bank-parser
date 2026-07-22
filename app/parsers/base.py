@@ -54,6 +54,15 @@ class BankParser(ABC):
         """Parse a bank statement file and return structured data."""
         ...
 
+    def parse_multi(self, file_path: Path) -> list[ParsedStatement]:
+        """Parse a file that may bundle multiple statements (e.g. a bank's
+
+        "export whole period" PDF containing several complete IZVOD documents
+        back-to-back). Default: treat the file as a single statement. Override
+        in parsers whose format is known to bundle multiple statements.
+        """
+        return [self.parse(file_path)]
+
     # --- Utility methods for subclasses ---
 
     @staticmethod

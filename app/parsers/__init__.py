@@ -124,6 +124,14 @@ def parse_file(file_path: Path, bank_code: str) -> ParsedStatement:
     return parser.parse(file_path)
 
 
+def parse_file_multi(file_path: Path, bank_code: str) -> list[ParsedStatement]:
+    """Parse a file that may bundle multiple statements. See BankParser.parse_multi."""
+    parser = get_parser(bank_code)
+    if not parser:
+        raise ValueError(f"No parser registered for bank code: {bank_code}")
+    return parser.parse_multi(file_path)
+
+
 def get_registered_banks() -> dict[str, str]:
     return {code: cls.bank_name for code, cls in BANK_PARSERS.items()}
 
