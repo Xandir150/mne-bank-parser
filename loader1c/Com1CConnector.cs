@@ -1053,6 +1053,85 @@ public partial class Com1CConnector : IDisposable
         return sb.ToString();
     }
 
+    /// <summary>Find (dryRun=true) or mark-for-deletion (dryRun=false) documents created from a
+    /// malformed source file: matched by exact bank account (СчетОрганизации.НомерСчета),
+    /// a minimum amount threshold (real transactions never reach it — safe against collisions),
+    /// and a date range. Checks both СписаниеСРасчетногоСчета and ПоступлениеНаРасчетныйСчет.
+    /// ПометкаУдаления is 1C's standard soft-delete — reversible via the accountant's UI until
+    /// a manual purge. Always run with dryRun=true first and verify the listed rows.</summary>
+    public string MarkDeleteGarbageDocs(string db, string bankAccount, decimal minAmount,
+        string dateFromStr, string dateToStr, bool dryRun)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"{(dryRun ? "DRY-RUN " : "")}MARK-DELETE GARBAGE [{db}]: account={bankAccount} " +
+            $"minAmount={minAmount} dates={dateFromStr}..{dateToStr}  @ {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+
+        dynamic? conn = null;
+        try
+        {
+            conn = Connect(db);
+            DateTime dateFrom = DateTime.ParseExact(dateFromStr, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+            DateTime dateTo = DateTime.ParseExact(dateToStr, "dd.MM.yyyy", CultureInfo.InvariantCulture)
+                .AddDays(1).AddSeconds(-1);
+
+            int total = 0;
+            foreach (var docType in new[] { "СписаниеСРасчетногоСчета", "ПоступлениеНаРасчетныйСчет" })
+            {
+                dynamic? q = null; dynamic? r = null; dynamic? s = null;
+                try
+                {
+                    q = conn.NewObject("Запрос");
+                    q.Текст = $@"ВЫБРАТЬ
+                            Док.Ссылка КАК Ссылка, Док.Номер КАК Номер, Док.Дата КАК Дата,
+                            Док.СуммаДокумента КАК Сумма, Док.НазначениеПлатежа КАК Назначение
+                        ИЗ
+                            Документ.{docType} КАК Док
+                        ГДЕ
+                            Док.СчетОрганизации.НомерСчета = &Счет
+                            И Док.Дата МЕЖДУ &ДатаНач И &ДатаКон
+                            И Док.СуммаДокумента >= &МинСумма
+                            И НЕ Док.ПометкаУдаления";
+                    q.УстановитьПараметр("Счет", bankAccount);
+                    q.УстановитьПараметр("ДатаНач", dateFrom);
+                    q.УстановитьПараметр("ДатаКон", dateTo);
+                    q.УстановитьПараметр("МинСумма", minAmount);
+                    r = q.Выполнить();
+                    s = r.Выбрать();
+                    while (s.Следующий())
+                    {
+                        string num = (string)(s.Номер ?? "");
+                        DateTime dt = (DateTime)s.Дата;
+                        decimal amt = (decimal)s.Сумма;
+                        string purpose = (string)(s.Назначение ?? "");
+                        if (purpose.Length > 60) purpose = purpose[..60] + "...";
+                        total++;
+                        if (dryRun)
+                        {
+                            sb.AppendLine($"  [{docType}] #{num} {dt:dd.MM.yyyy} {amt:F2}  purpose='{purpose}'");
+                        }
+                        else
+                        {
+                            dynamic obj = s.Ссылка.ПолучитьОбъект();
+                            obj.УстановитьПометкуУдаления(true);
+                            sb.AppendLine($"  [{docType}] #{num} {dt:dd.MM.yyyy} {amt:F2} -> MARKED FOR DELETION");
+                        }
+                    }
+                }
+                finally { SafeRelease(s); SafeRelease(r); SafeRelease(q); }
+            }
+            sb.AppendLine(dryRun ? $"  TOTAL found (not touched): {total}" : $"  TOTAL marked: {total}");
+        }
+        catch (Exception ex)
+        {
+            sb.AppendLine($"  ERROR: {ex.Message}");
+        }
+        finally
+        {
+            if (conn != null) { try { CleanupCom(conn); } catch { } }
+        }
+        return sb.ToString();
+    }
+
     /// <summary>Safely rename and/or re-code a currency in Справочник.Валюты.
     /// Finds the currency by exact current name; if renaming, guards against a name collision
     /// with an existing currency. 1C references the currency by GUID, so documents and exchange-rate

@@ -357,6 +357,54 @@ public class LoaderWorker : BackgroundService
         catch { return false; }
     }
 
+    /// <summary>markdelete.trigger: cleanup tool for documents created from a malformed source
+    /// file. Line format: "<c>db|bankAccount|minAmount|dateFrom|dateTo|dryrun</c>" (dryrun is
+    /// "true" or "false" — ALWAYS run true first and inspect the result before a real run).
+    /// Writes markdelete.result.txt.</summary>
+    private bool CheckMarkDeleteTrigger()
+    {
+        try
+        {
+            var dataDir = Path.GetDirectoryName(_config.OutputDir);
+            if (string.IsNullOrEmpty(dataDir)) return false;
+            var trigger = Path.Combine(dataDir, "markdelete.trigger");
+            if (!File.Exists(trigger)) return false;
+
+            string content = "";
+            try { content = File.ReadAllText(trigger, System.Text.Encoding.UTF8); } catch { }
+            try { File.Delete(trigger); } catch { }
+
+            var lines = content.Split('\n')
+                .Select(l => l.Trim())
+                .Where(l => l.Length > 0 && !l.StartsWith("#"))
+                .ToList();
+            var resultFile = Path.Combine(dataDir, "markdelete.result.txt");
+            _logger.LogInformation("markdelete.trigger detected — {Count} line(s)", lines.Count);
+
+            try { _com.EndSession(); } catch { }
+            Task.Run(() => {
+                var sb = new System.Text.StringBuilder();
+                foreach (var line in lines)
+                {
+                    var p = line.Split('|');
+                    if (p.Length != 6 || !decimal.TryParse(p[2].Trim(), System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.InvariantCulture, out var minAmount) ||
+                        !bool.TryParse(p[5].Trim(), out var dryRun))
+                    {
+                        sb.AppendLine($"SKIP malformed line: '{line}'  (expected db|account|minAmount|dateFrom|dateTo|dryrun)");
+                        continue;
+                    }
+                    try { sb.AppendLine(_com.MarkDeleteGarbageDocs(p[0].Trim(), p[1].Trim(), minAmount, p[3].Trim(), p[4].Trim(), dryRun)); }
+                    catch (Exception ex) { sb.AppendLine($"ERROR on '{line}': {ex.Message}"); }
+                }
+                try { File.WriteAllText(resultFile, sb.ToString(), System.Text.Encoding.UTF8); } catch { }
+                _logger.LogInformation("markdelete.result written to {File}", resultFile);
+            });
+            return true;
+        }
+        catch { return false; }
+    }
+
     private void ScanAndLoad()
     {
         if (!Directory.Exists(_config.OutputDir)) return;
@@ -373,6 +421,7 @@ public class LoaderWorker : BackgroundService
         CheckFixTrigger();
         CheckFixCurrencyTrigger();
         CheckDiscoverTrigger();
+        CheckMarkDeleteTrigger();
 
         var rawFiles = Directory.GetFiles(_config.OutputDir, "*.txt",
             SearchOption.AllDirectories);
