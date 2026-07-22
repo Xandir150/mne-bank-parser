@@ -130,6 +130,43 @@ def _insert_statement(db, parsed, file_path: Path) -> Statement:
     return stmt
 
 
+def _validate_balance(parsed) -> Optional[str]:
+    """Reconcile the statement's printed control figures against the parsed
+    transactions. The invariant `opening + credits - debits == closing` holds
+    for every real bank statement, so a mismatch means the parser mangled the
+    file (misaligned columns, lost rows, doubled rows) — such data must never
+    reach 1C. Returns an error description, or None when consistent or when
+    the parser didn't extract the control figures (nothing to check against).
+    """
+    if parsed.opening_balance is None or parsed.closing_balance is None:
+        return None
+
+    sum_debit = sum((t.debit or Decimal("0")) for t in parsed.transactions)
+    sum_credit = sum((t.credit or Decimal("0")) for t in parsed.transactions)
+    expected_closing = parsed.opening_balance + sum_credit - sum_debit
+    tolerance = Decimal("0.01")
+
+    if abs(expected_closing - parsed.closing_balance) > tolerance:
+        return (
+            f"balance mismatch: opening {parsed.opening_balance} + credits {sum_credit} "
+            f"- debits {sum_debit} = {expected_closing}, but statement says closing "
+            f"{parsed.closing_balance}"
+        )
+
+    # Secondary check when the statement also prints turnover totals
+    if parsed.total_debit is not None and abs(sum_debit - parsed.total_debit) > tolerance:
+        return (
+            f"debit turnover mismatch: transactions sum to {sum_debit}, "
+            f"statement says {parsed.total_debit}"
+        )
+    if parsed.total_credit is not None and abs(sum_credit - parsed.total_credit) > tolerance:
+        return (
+            f"credit turnover mismatch: transactions sum to {sum_credit}, "
+            f"statement says {parsed.total_credit}"
+        )
+    return None
+
+
 def _process_file(db, file_path: Path, bank_code: str) -> None:
     """Process a bank statement file. A file may bundle multiple statements
 
@@ -168,6 +205,17 @@ def _process_file(db, file_path: Path, bank_code: str) -> None:
                 "%s: %d of %d embedded statement(s) had no transactions and were skipped",
                 file_path.name, len(parsed_list) - len(usable), len(parsed_list),
             )
+
+        # Reconcile control figures before anything is written: one garbled
+        # embedded statement discredits the whole file, so fail it loudly
+        # (the except-branch records the error and moves the file to failed/).
+        for parsed in usable:
+            balance_err = _validate_balance(parsed)
+            if balance_err:
+                raise ValueError(
+                    f"izvod {parsed.statement_number} (account {parsed.account_number}, "
+                    f"date {parsed.statement_date}) in {file_path.name}: {balance_err}"
+                )
 
         created_ids = []
         skipped_dup_ids = []
@@ -252,6 +300,26 @@ def _process_file(db, file_path: Path, bank_code: str) -> None:
         )
         db.add(error_stmt)
         db.commit()
+
+        # Move the file out of input/ so it stops being re-parsed (and re-failing)
+        # on every scan cycle. It lands in processed/<bank>/failed/ for a human to
+        # review; if still present in input/ (e.g. moved away in the meantime by
+        # another process), that's fine — nothing left to do.
+        if file_path.exists():
+            try:
+                dest_dir = settings.processed_dir / bank_code / "failed"
+                dest_dir.mkdir(parents=True, exist_ok=True)
+                dest = dest_dir / file_path.name
+                if dest.exists():
+                    dest = dest_dir / f"{file_path.stem}_{error_stmt.id}{file_path.suffix}"
+                shutil.move(str(file_path), str(dest))
+                logger.info("Moved failed file %s -> %s", file_path.name, dest)
+            except Exception as move_err:
+                logger.error(
+                    "Could not move failed file %s to processed/%s/failed/: %s "
+                    "— it will be retried next scan cycle",
+                    file_path.name, bank_code, move_err,
+                )
 
 
 def scan_directories():

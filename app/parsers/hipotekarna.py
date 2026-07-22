@@ -22,10 +22,24 @@ _MAX_PLAUSIBLE_AMOUNT = Decimal("10000000")
 class HipotekarnaParser(BankParser):
     """Parser for Hipotekarna Banka (520) PDF statements.
 
-    Layout: text-only PDF (no vector lines). Header has client/bank info,
-    then IZVOD BR. line, then transaction rows, then summary.
-    8-column table: Valuta, Counterparty+account, Bank, Debit, Credit,
-    Payment code+purpose, References, Reclamation.
+    Two known export layouts:
+    - Single-statement export: text-only PDF (no vector lines). Header has
+      client/bank info, then IZVOD BR. line, then transaction rows, then
+      summary. Parsed via word x-position (_parse_page_words).
+    - Bulk "print whole period" export (one page per statement day): has
+      real vector table lines, so pages are parsed structurally via
+      pdfplumber's lattice extract_tables() (_parse_page_lattice). Note
+      parse() folds every embedded day's transactions into a single
+      ParsedStatement, matching the single-statement layout's shape —
+      BankParser.parse_multi() would be the more semantically correct API
+      for this bundle format (each page is its own dated mini-statement),
+      but isn't implemented here; see hipotekarna.py notes.
+
+    Both layouts share the same 8-column table: Valuta, Counterparty+account,
+    Bank, Debit, Credit, Payment code+purpose, References, Reclamation —
+    every page (in either layout) prints a "1".."8" marker row directly
+    above the transaction table, which both parsing strategies use to
+    locate/validate the table.
     Period decimal (1069.94). Date DD.MM.YYYY.
     """
 
@@ -202,6 +216,137 @@ class HipotekarnaParser(BankParser):
             )
 
     def _parse_page(self, page, stmt: ParsedStatement) -> None:
+        """Dispatch to the appropriate extraction strategy for this page.
+
+        Hipotekarna's bulk "print whole period" export (one page per
+        statement day) renders the transaction table with real vector
+        table lines — pdfplumber's lattice `extract_tables()` parses those
+        pages perfectly and structurally (no column-position guessing at
+        all). The older single-statement export has no vector lines at
+        all (text-only layout), so it can't use lattice extraction and
+        needs the word-position-based fallback below.
+        """
+        if page.lines:
+            self._parse_page_lattice(page, stmt)
+        else:
+            self._parse_page_words(page, stmt)
+
+    def _parse_page_lattice(self, page, stmt: ParsedStatement) -> None:
+        """Parse a page's transaction table via pdfplumber's lattice extraction.
+
+        Structurally identifies the transaction table by locating the
+        "1".."8" marker row within it (same anchor used by the word-based
+        fallback) and treats every row after it as a transaction, using
+        fixed column indices (0=date, 1=name+account, 2=bank,
+        3=debit, 4=credit, 5=payment code+purpose, 6=reference,
+        7=reclamation) — those indices are a structural property of the
+        table itself, not pixel positions, so they don't need per-page
+        calibration. Also parses the adjacent daily-summary table for
+        opening/closing balance and turnover totals.
+        """
+        tables = page.extract_tables()
+        txn_rows: list = []
+        summary_rows: Optional[list] = None
+
+        for table in tables:
+            marker_idx = None
+            for i, row in enumerate(table):
+                norm = [(c or "").strip() for c in row]
+                if norm == self._MARKER_TOKENS:
+                    marker_idx = i
+                    break
+            if marker_idx is not None:
+                txn_rows = table[marker_idx + 1:]
+                continue
+            if table and table[0] and (table[0][0] or "").strip() == "Previous state":
+                summary_rows = table
+
+        if not txn_rows:
+            logger.warning(
+                "Hipotekarna page %s: has vector table lines but no '1'..'8' "
+                "marker row was found in any extracted table — skipping "
+                "transaction extraction for this page",
+                getattr(page, "page_number", "?"),
+            )
+
+        for row in txn_rows:
+            date_text = (row[0] or "").strip()
+            if not re.match(r"\d{1,2}\.\d{1,2}\.\d{4}\.?$", date_text):
+                continue  # not a transaction row (e.g. a trailing blank row)
+
+            name_lines = (row[1] or "").split("\n")
+            counterparty = self.clean_text(name_lines[0]) if name_lines else ""
+            counterparty_account = (
+                self.clean_text(name_lines[1]) if len(name_lines) > 1 else ""
+            )
+
+            debit = self.parse_amount_us((row[3] or "").strip())
+            credit = self.parse_amount_us((row[4] or "").strip())
+            if debit == Decimal("0"):
+                debit = None
+            if credit == Decimal("0"):
+                credit = None
+            if debit is None and credit is None:
+                continue
+
+            code_lines = (row[5] or "").split("\n")
+            code_line = code_lines[0].strip() if code_lines else ""
+            code_match = re.match(r"^(\d{3})\b", code_line)
+            payment_code = code_match.group(1) if code_match else ""
+            if len(code_lines) > 1:
+                purpose = self.clean_text(code_lines[1])
+            else:
+                purpose = self.clean_text(re.sub(r"^\d+\s*", "", code_line))
+
+            ref_lines = (row[6] or "").split("\n")
+            reference_debit = self.clean_text(ref_lines[0]) if ref_lines and ref_lines[0].strip() else None
+            reference_credit = self.clean_text(ref_lines[1]) if len(ref_lines) > 1 and ref_lines[1].strip() else None
+
+            reclamation_data = self.clean_text(row[7]) if row[7] else None
+
+            txn = ParsedTransaction(row_number=len(stmt.transactions) + 1)
+            txn.value_date = self.parse_date_dmy(date_text)
+            txn.booking_date = txn.value_date
+            txn.counterparty = counterparty
+            txn.counterparty_account = counterparty_account
+            txn.payment_code = payment_code
+            txn.purpose = purpose
+            txn.debit = debit
+            txn.credit = credit
+            if reference_debit:
+                txn.reference_debit = reference_debit
+            if reference_credit:
+                txn.reference_credit = reference_credit
+            if reclamation_data:
+                txn.reclamation_data = reclamation_data
+
+            self._validate_transaction(txn, date_text)
+            stmt.transactions.append(txn)
+
+        if summary_rows and len(summary_rows) >= 2:
+            vals = summary_rows[1]
+            opening = self.parse_amount_us(vals[0]) if len(vals) > 0 else None
+            debit_total = self.parse_amount_us(vals[1]) if len(vals) > 1 else None
+            credit_total = self.parse_amount_us(vals[2]) if len(vals) > 2 else None
+            closing = self.parse_amount_us(vals[3]) if len(vals) > 3 else None
+
+            if stmt.opening_balance is None:
+                stmt.opening_balance = opening
+            if closing is not None:
+                stmt.closing_balance = closing  # last page processed wins
+            if debit_total is not None:
+                stmt.total_debit = (stmt.total_debit or Decimal("0")) + debit_total
+            if credit_total is not None:
+                stmt.total_credit = (stmt.total_credit or Decimal("0")) + credit_total
+
+    def _parse_page_words(self, page, stmt: ParsedStatement) -> None:
+        """Fallback parser for pages with no vector table lines (lattice
+
+        extraction isn't possible there) — classifies words into columns
+        by x-position, using dynamic per-page boundaries anchored on the
+        "1".."8" marker row when present, falling back to hardcoded
+        pixel constants (_DEFAULT_BOUNDS) otherwise.
+        """
         words = page.extract_words(keep_blank_chars=True, x_tolerance=3, y_tolerance=3)
         lines = self._group_by_y(words, tolerance=4)
 
