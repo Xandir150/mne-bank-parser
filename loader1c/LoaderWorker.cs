@@ -232,6 +232,106 @@ public class LoaderWorker : BackgroundService
         catch { return false; }
     }
 
+    /// <summary>diagnoseorg.trigger, content "&lt;db&gt; &lt;bankAccount&gt;" — runs
+    /// DiagnoseOrgWrite to check whether a bank account's Владелец is correctly typed as
+    /// Организация (writes+cleans up a throwaway test document). Writes diagnoseorg.result.txt.</summary>
+    private bool CheckDiagnoseOrgTrigger()
+    {
+        try
+        {
+            var dataDir = Path.GetDirectoryName(_config.OutputDir);
+            if (string.IsNullOrEmpty(dataDir)) return false;
+            var trigger = Path.Combine(dataDir, "diagnoseorg.trigger");
+            if (!File.Exists(trigger)) return false;
+
+            string content;
+            try { content = File.ReadAllText(trigger, System.Text.Encoding.UTF8).Trim(); }
+            catch { return false; }
+            try { File.Delete(trigger); } catch { }
+
+            var parts = content.Split(new[] { ' ', '\t', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var resultFile = Path.Combine(dataDir, "diagnoseorg.result.txt");
+            if (parts.Length != 2)
+            {
+                try { File.WriteAllText(resultFile, $"expected '<db> <account>', got '{content}'", System.Text.Encoding.UTF8); } catch { }
+                return false;
+            }
+
+            try { _com.EndSession(); } catch { }
+            Task.Run(() => {
+                try
+                {
+                    var report = _com.DiagnoseOrgWrite(parts[0], parts[1]);
+                    File.WriteAllText(resultFile, report, System.Text.Encoding.UTF8);
+                    _logger.LogInformation("diagnoseorg.result written to {File}", resultFile);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "diagnoseorg failed");
+                    try { File.WriteAllText(resultFile, $"ERROR: {ex.Message}\n{ex}", System.Text.Encoding.UTF8); } catch { }
+                }
+            });
+            return true;
+        }
+        catch { return false; }
+    }
+
+    /// <summary>inspect.trigger: content "&lt;db&gt; &lt;bankAccount&gt; &lt;dd.MM.yyyy&gt;" —
+    /// dumps the actual Организация/Контрагент/etc field values of documents matching that
+    /// bank account and date, so you can see why a loaded document "doesn't show up right"
+    /// in the 1C UI. Writes inspect.result.txt.</summary>
+    private bool CheckInspectTrigger()
+    {
+        try
+        {
+            var dataDir = Path.GetDirectoryName(_config.OutputDir);
+            if (string.IsNullOrEmpty(dataDir)) return false;
+            var trigger = Path.Combine(dataDir, "inspect.trigger");
+            if (!File.Exists(trigger)) return false;
+
+            string content;
+            try { content = File.ReadAllText(trigger, System.Text.Encoding.UTF8).Trim(); }
+            catch (Exception ex)
+            {
+                _logger.LogWarning("inspect.trigger: can't read — {Err}", ex.Message);
+                return false;
+            }
+            try { File.Delete(trigger); } catch { }
+
+            var parts = content.Split(new[] { ' ', '\t', '\r', '\n' },
+                StringSplitOptions.RemoveEmptyEntries);
+            var resultFile = Path.Combine(dataDir, "inspect.result.txt");
+            if (parts.Length != 3)
+            {
+                var msg = $"inspect.trigger: expected '<db> <bankAccount> <dd.MM.yyyy>', got '{content}'";
+                _logger.LogWarning(msg);
+                try { File.WriteAllText(resultFile, msg, System.Text.Encoding.UTF8); } catch { }
+                return false;
+            }
+
+            string db = parts[0], acct = parts[1], dateStr = parts[2];
+            _logger.LogInformation("Inspect triggered: db={Db} account={Acct} date={Date}", db, acct, dateStr);
+
+            try { _com.EndSession(); } catch { }
+            Task.Run(() => {
+                try
+                {
+                    var report = _com.InspectRecentDocs(db, acct, dateStr);
+                    File.WriteAllText(resultFile, report, System.Text.Encoding.UTF8);
+                    _logger.LogInformation("Inspect result written to {File}", resultFile);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Inspect failed");
+                    try { File.WriteAllText(resultFile, $"ERROR: {ex.Message}\n{ex}",
+                        System.Text.Encoding.UTF8); } catch { }
+                }
+            });
+            return true;
+        }
+        catch { return false; }
+    }
+
     /// <summary>If the user dropped an <c>audit.trigger</c> file, run a read-only audit of all
     /// databases (or only those listed in the trigger, space/comma-separated) and write
     /// <c>audit.json</c>. Runs under the service account so 1C COM is available.</summary>
@@ -417,6 +517,8 @@ public class LoaderWorker : BackgroundService
         // Check for admin-initiated triggers
         CheckRescanTrigger();
         CheckLookupTrigger();
+        CheckInspectTrigger();
+        CheckDiagnoseOrgTrigger();
         CheckAuditTrigger();
         CheckFixTrigger();
         CheckFixCurrencyTrigger();

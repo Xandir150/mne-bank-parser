@@ -1196,6 +1196,203 @@ public partial class Com1CConnector : IDisposable
         return sb.ToString();
     }
 
+    /// <summary>Diagnostic for the "loaded fine but Организация is blank" symptom: creates a
+    /// throwaway СписаниеСРасчетногоСчета document exactly the way CreateDocument does — sets
+    /// Организация from the given bank account's Владелец — and reports whether it survives
+    /// the round trip, plus the ACTUAL 1C catalog (Метаданные().ПолноеИмя()) that Владелец
+    /// points to. Root cause this catches: a bank account's Владелец field is a compound type
+    /// (Организация OR Контрагент in most 1C configs); if someone accidentally picked a
+    /// same-named Контрагент instead of the real Организация when setting up the account,
+    /// 1C silently drops the assignment (no exception) because the document's Организация
+    /// field only accepts Справочник.Организации — the fix is in 1C (correct the bank
+    /// account's Владелец), not in the loader. Marks the test document for deletion
+    /// immediately after (soft-delete, reversible) so nothing pollutes real accounting data.</summary>
+    public string DiagnoseOrgWrite(string db, string bankAccount)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"DIAGNOSE-ORG [{db}]: account={bankAccount}  @ {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+        dynamic? conn = null;
+        try
+        {
+            conn = Connect(db);
+            dynamic bankAcct = conn.Справочники.БанковскиеСчета.НайтиПоРеквизиту("НомерСчета", bankAccount);
+            if ((bool)bankAcct.Пустая())
+            { sb.AppendLine("  ABORT: bank account not found"); return sb.ToString(); }
+
+            dynamic org = bankAcct.Владелец;
+            string orgName = "(null/пусто)";
+            try { if (org != null && !(bool)org.Пустая()) orgName = (string)(org.Наименование ?? "?"); } catch { }
+            sb.AppendLine($"  bankAcct.Владелец (source org) = {orgName}");
+
+            // Ask 1C directly what catalog this reference actually belongs to — the most
+            // reliable way, avoids all COM RCW reference-equality/marshaling pitfalls.
+            try
+            {
+                dynamic md = org.Метаданные();
+                string fullName = (string)md.ПолноеИмя();
+                sb.AppendLine($"  bankAcct.Владелец ФАКТИЧЕСКИЙ ТИП (Метаданные().ПолноеИмя()) = {fullName}");
+            }
+            catch (Exception ex) { sb.AppendLine($"  metadata check failed: {ex.Message}"); }
+
+            dynamic newDoc = conn.Документы.СписаниеСРасчетногоСчета.СоздатьДокумент();
+            newDoc.Дата = DateTime.Today;
+            newDoc.Организация = org;
+
+            string readImmediate = "(null/пусто)";
+            try
+            {
+                dynamic check1 = newDoc.Организация;
+                if (check1 != null && !(bool)check1.Пустая()) readImmediate = (string)(check1.Наименование ?? "?");
+            }
+            catch (Exception ex) { readImmediate = $"ERROR: {ex.Message}"; }
+            sb.AppendLine($"  read immediately after assignment (same object) = {readImmediate}");
+
+            newDoc.СуммаДокумента = 0.01m;
+            newDoc.НазначениеПлатежа = "DIAGNOSTIC TEST — safe to delete";
+            try { newDoc.СчетОрганизации = bankAcct; } catch (Exception ex) { sb.AppendLine($"  СчетОрганизации set failed: {ex.Message}"); }
+
+            newDoc.ОбменДанными.Загрузка = true;
+            newDoc.Записать();
+
+            string readAfterWrite = "(null/пусто)";
+            try
+            {
+                dynamic check2 = newDoc.Организация;
+                if (check2 != null && !(bool)check2.Пустая()) readAfterWrite = (string)(check2.Наименование ?? "?");
+            }
+            catch (Exception ex) { readAfterWrite = $"ERROR: {ex.Message}"; }
+            sb.AppendLine($"  read immediately after Записать() (same object) = {readAfterWrite}");
+
+            dynamic freshRef = newDoc.Ссылка;
+            dynamic freshObj = freshRef.ПолучитьОбъект();
+            string readFresh = "(null/пусто)";
+            try
+            {
+                dynamic check3 = freshObj.Организация;
+                if (check3 != null && !(bool)check3.Пустая()) readFresh = (string)(check3.Наименование ?? "?");
+            }
+            catch (Exception ex) { readFresh = $"ERROR: {ex.Message}"; }
+            sb.AppendLine($"  read via FRESH ПолучитьОбъект() (like a human/UI would see) = {readFresh}");
+
+            // Clean up immediately — this was only a diagnostic write.
+            try
+            {
+                freshObj.УстановитьПометкуУдаления(true);
+                sb.AppendLine("  test document marked for deletion (cleanup OK)");
+            }
+            catch (Exception ex) { sb.AppendLine($"  CLEANUP FAILED, test doc left behind: {ex.Message}"); }
+        }
+        catch (Exception ex)
+        {
+            sb.AppendLine($"  ERROR: {ex.Message}\n{ex}");
+        }
+        finally
+        {
+            if (conn != null) { try { CleanupCom(conn); } catch { } }
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>Diagnostic: find documents in a database matching a bank account and a date,
+    /// and dump the actual field values (Организация, Контрагент, СчетОрганизации,
+    /// СчетКонтрагента, Сумма) as stored in 1C right now. Use this to see exactly what a
+    /// loaded document looks like when it "doesn't show up right" in the 1C UI — e.g. an
+    /// empty Контрагент, or an Организация that doesn't match what you expected.</summary>
+    public string InspectRecentDocs(string database, string bankAccount, string dateStr)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"INSPECT [{database}]: account={bankAccount} date={dateStr}  @ {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+
+        dynamic? conn = null;
+        try
+        {
+            conn = Connect(database);
+            DateTime date = DateTime.ParseExact(dateStr, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+            DateTime dateTo = date.AddDays(1).AddSeconds(-1);
+
+            foreach (var docType in new[] { "СписаниеСРасчетногоСчета", "ПоступлениеНаРасчетныйСчет" })
+            {
+                dynamic? q = null; dynamic? r = null; dynamic? s = null;
+                try
+                {
+                    q = conn.NewObject("Запрос");
+                    q.Текст = $@"ВЫБРАТЬ
+                            Док.Ссылка КАК Ссылка, Док.Номер КАК Номер, Док.Дата КАК Дата,
+                            Док.СуммаДокумента КАК Сумма
+                        ИЗ
+                            Документ.{docType} КАК Док
+                        ГДЕ
+                            Док.СчетОрганизации.НомерСчета = &Счет
+                            И Док.Дата МЕЖДУ &ДатаНач И &ДатаКон
+                            И НЕ Док.ПометкаУдаления";
+                    q.УстановитьПараметр("Счет", bankAccount);
+                    q.УстановитьПараметр("ДатаНач", date);
+                    q.УстановитьПараметр("ДатаКон", dateTo);
+                    r = q.Выполнить();
+                    s = r.Выбрать();
+                    int found = 0;
+                    while (s.Следующий())
+                    {
+                        found++;
+                        dynamic obj = s.Ссылка.ПолучитьОбъект();
+                        string num = "";
+                        try { num = (string)(obj.Номер ?? ""); } catch { }
+                        decimal amt = 0;
+                        try { amt = (decimal)obj.СуммаДокумента; } catch { }
+
+                        string orgName = "(пусто)";
+                        try
+                        {
+                            dynamic o = obj.Организация;
+                            if (o != null && !(bool)o.Пустая()) orgName = (string)(o.Наименование ?? "?");
+                        }
+                        catch (Exception ex) { orgName = $"ERROR: {ex.Message}"; }
+
+                        string cpName = "(пусто)";
+                        try
+                        {
+                            dynamic cp = obj.Контрагент;
+                            if (cp != null && !(bool)cp.Пустая())
+                                cpName = (string)(cp.Наименование ?? "?");
+                        }
+                        catch (Exception ex) { cpName = $"ERROR: {ex.Message}"; }
+
+                        string cpAcctStr = "(пусто)";
+                        try
+                        {
+                            dynamic cpAcct = obj.СчетКонтрагента;
+                            if (cpAcct != null && !(bool)cpAcct.Пустая())
+                                cpAcctStr = (string)(cpAcct.НомерСчета ?? "?");
+                        }
+                        catch (Exception ex) { cpAcctStr = $"ERROR: {ex.Message}"; }
+
+                        string purpose = "";
+                        try { purpose = (string)(obj.НазначениеПлатежа ?? ""); } catch { }
+                        if (purpose.Length > 70) purpose = purpose[..70] + "...";
+
+                        sb.AppendLine($"  [{docType}] #{num} {(DateTime)obj.Дата:dd.MM.yyyy} {amt:F2}");
+                        sb.AppendLine($"      Организация     = {orgName}");
+                        sb.AppendLine($"      Контрагент      = {cpName}");
+                        sb.AppendLine($"      СчетКонтрагента = {cpAcctStr}");
+                        sb.AppendLine($"      Назначение      = {purpose}");
+                    }
+                    if (found == 0) sb.AppendLine($"  [{docType}] ничего не найдено за эту дату/счёт");
+                }
+                catch (Exception ex) { sb.AppendLine($"  [{docType}] ERROR: {ex.Message}"); }
+                finally { SafeRelease(s); SafeRelease(r); SafeRelease(q); }
+            }
+        }
+        catch (Exception ex)
+        {
+            sb.AppendLine($"  ERROR: {ex.Message}");
+        }
+        finally
+        {
+            if (conn != null) { try { CleanupCom(conn); } catch { } }
+        }
+        return sb.ToString();
+    }
+
     /// <summary>Query one 1C database for organizations whose name contains <paramref name="nameFilter"/>
     /// (case-insensitive). Returns a multi-line human report + a JSON snippet ready to paste into
     /// accounts.config.json. Used by both the CLI command and the worker's trigger handler so the
