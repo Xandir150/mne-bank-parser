@@ -1,0 +1,472 @@
+﻿[
+ {
+  "code": "1",
+  "label": "Dobit poslovne godine",
+  "source": "fiPos:BilanUspjeha:244:1",
+  "note": "Rezultat prije oporezivanja iz bilansa uspjeha (r.br. 244), ako je > 0"
+ },
+ {
+  "code": "2",
+  "label": "Gubitak poslovne godine",
+  "source": "fiNeg:BilanUspjeha:244:1",
+  "note": "Isti red 244 sa suprotnim znakom, ako je < 0"
+ },
+ {
+  "code": "3",
+  "label": "Kapitalni dobici",
+  "source": "manual",
+  "note": "čl. 21, 22, 24 Zakona"
+ },
+ {
+  "code": "4",
+  "label": "Kapitalni gubici",
+  "source": "manual",
+  "note": "čl. 21, 22, 24 Zakona"
+ },
+ {
+  "code": "5",
+  "label": "Troškovi amortizacije iskazani u bilansu uspjeha",
+  "source": "fi:BilanUspjeha:210a:1"
+ },
+ {
+  "code": "6",
+  "label": "Troškovi amortizacije koji se priznaju u poreske svrhe",
+  "source": "oaSum:Iznos7",
+  "note": "Zbir kolone Amortizacija iz Obrasca OA (TČ СтрокиАмортизации)"
+ },
+ {
+  "code": "7",
+  "label": "Troškovi koji nijesu nastali u svrhu obavljanja poslovnih aktivnosti",
+  "source": "manual"
+ },
+ {
+  "code": "8",
+  "label": "Troškovi koji se ne mogu dokumentovati",
+  "source": "manual"
+ },
+ {
+  "code": "9",
+  "label": "Kamata za neblagovremeno plaćene poreze i doprinose",
+  "source": "manual"
+ },
+ {
+  "code": "10",
+  "label": "Kamata plaćena nerezidentima po stopi većoj od uobičajene komercijalne stope",
+  "source": "manual"
+ },
+ {
+  "code": "11",
+  "label": "Administrativni troškovi stalne poslovne jedinice prema nerezidentnoj centrali",
+  "source": "manual"
+ },
+ {
+  "code": "12",
+  "label": "Primanja zaposlenih ili drugih lica po osnovu raspodjele dobiti",
+  "source": "manual"
+ },
+ {
+  "code": "13",
+  "label": "Novčane kazne i penali",
+  "source": "manual"
+ },
+ {
+  "code": "14",
+  "label": "Ispravka vrijednosti potraživanja od lica kojima se istovremeno duguje",
+  "source": "manual"
+ },
+ {
+  "code": "15",
+  "label": "Ukupno (15a+15b)",
+  "source": "formula:15a+15b"
+ },
+ {
+  "code": "15a",
+  "label": "Prilozi dati političkim organizacijama",
+  "source": "manual"
+ },
+ {
+  "code": "15b",
+  "label": "Pokloni i drugi prenosi bez naknade",
+  "source": "manual"
+ },
+ {
+  "code": "16",
+  "label": "Troškovi zarada, autorskih naknada i sl. koji nijesu isplaćeni u poreskom periodu",
+  "source": "manual"
+ },
+ {
+  "code": "17",
+  "label": "Troškovi materijala i nabavna vrijednost robe iznad prosječne cijene / FIFO",
+  "source": "manual"
+ },
+ {
+  "code": "18",
+  "label": "Ukupno (18a+18b+18c)",
+  "source": "formula:18a+18b+18c"
+ },
+ {
+  "code": "18a",
+  "label": "Izdaci za zdravstvene, socijalne, obrazovne i sl. svrhe iznad 3,5% ukupnog prihoda",
+  "source": "manual"
+ },
+ {
+  "code": "18b",
+  "label": "Donacije u naučnoistraživačke projekte / inovacionu infrastrukturu",
+  "source": "manual",
+  "note": "Isti iznos se iskazuje i u r.br. 55b"
+ },
+ {
+  "code": "18c",
+  "label": "Rezervisano polje XSD (nema ga na zvaničnom obrascu) — vjerovatno izdaci za nacionalne sportske saveze iznad 5% ukupnog prihoda",
+  "source": "manual",
+  "note": "Nije potvrđeno prvoizvorom, v. research/pd_lines.md §5"
+ },
+ {
+  "code": "19",
+  "label": "Troškovi reprezentacije iznad 1% ukupnog prihoda",
+  "source": "manual"
+ },
+ {
+  "code": "20",
+  "label": "Članarine komorama, savezima i udruženjima iznad 0,1% ukupnog prihoda",
+  "source": "manual"
+ },
+ {
+  "code": "21",
+  "label": "Ukupno (21a+21b)",
+  "source": "formula:21a+21b"
+ },
+ {
+  "code": "21a",
+  "label": "Otpisana vrijednost sumnjivih potraživanja koja se ne priznaju u poreske svrhe",
+  "source": "manual"
+ },
+ {
+  "code": "21b",
+  "label": "Ispravka vrijednosti sumnjivih potraživanja koja se ne priznaju u poreske svrhe",
+  "source": "manual"
+ },
+ {
+  "code": "22",
+  "label": "Rezervisanja koja se ne priznaju u poreske svrhe",
+  "source": "manual"
+ },
+ {
+  "code": "23",
+  "label": "Kamate i troškovi prema povezanim licima iznad principa van dohvata ruke",
+  "source": "manual"
+ },
+ {
+  "code": "24",
+  "label": "Rashodi po osnovu obezvređivanja imovine koji se ne priznaju u poreske svrhe",
+  "source": "manual"
+ },
+ {
+  "code": "25",
+  "label": "Rashodi po osnovu prve primjene MRS/MSFI",
+  "source": "manual",
+  "note": "U formuli r.br. 38 se ODUZIMA (čl. 7 Zakona)"
+ },
+ {
+  "code": "26",
+  "label": "Obračunati troškovi primjenom transfernih cijena",
+  "source": "manual"
+ },
+ {
+  "code": "27",
+  "label": "Obračunati troškovi primjenom cijena van dohvata ruke",
+  "source": "manual"
+ },
+ {
+  "code": "28",
+  "label": "Razlika obračunatih troškova (26-27) > 0",
+  "source": "formulaPos:26-27"
+ },
+ {
+  "code": "29",
+  "label": "Porez po odbitku na dividende koji je platila nerezidentna filijala",
+  "source": "manual"
+ },
+ {
+  "code": "30",
+  "label": "Kamate prema povezanim licima manje od prihoda po kamati van dohvata ruke",
+  "source": "manual"
+ },
+ {
+  "code": "31",
+  "label": "Prihodi po osnovu prve primjene MRS/MSFI",
+  "source": "manual"
+ },
+ {
+  "code": "32",
+  "label": "Obračunati prihodi primjenom transfernih cijena",
+  "source": "manual"
+ },
+ {
+  "code": "33",
+  "label": "Obračunati prihodi primjenom cijena van dohvata ruke",
+  "source": "manual"
+ },
+ {
+  "code": "34",
+  "label": "Razlika obračunatih prihoda (33-32) > 0",
+  "source": "formulaPos:33-32"
+ },
+ {
+  "code": "35",
+  "label": "Prihod od naplaćenih sumnjivih potraživanja ranije nepriznatih kao rashod",
+  "source": "manual"
+ },
+ {
+  "code": "36",
+  "label": "Ranije nepriznati rashodi obezvređivanja imovine otuđene/oštećene u periodu",
+  "source": "manual"
+ },
+ {
+  "code": "37",
+  "label": "Ranije nepriznati troškovi zarada i sl. isplaćeni u periodu",
+  "source": "manual"
+ },
+ {
+  "code": "38",
+  "label": "Oporeziva dobit",
+  "source": "formulaPos:1-2-3+4+5-6+7+8+9+10+11+12+13+14+15+16+17+18+19+20+21+22+23+24-25+28+29+30+31+34-35-36-37",
+  "note": "Zvanična formula ne pominje r.br. 2; ovdje je dodato -2 jer su 1 i 2 međusobno isključivi"
+ },
+ {
+  "code": "39",
+  "label": "Gubitak",
+  "source": "formulaPos:-1+2+3-4-5+6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24+25-28-29-30-31-34+35+36+37",
+  "note": "Ogledalo formule r.br. 38"
+ },
+ {
+  "code": "40",
+  "label": "Gubitak iz prethodnih godina do visine oporezive dobiti",
+  "source": "formula:PG1_3"
+ },
+ {
+  "code": "41",
+  "label": "Ostatak oporezive dobiti (38-40) > 0",
+  "source": "formulaPos:38-40"
+ },
+ {
+  "code": "42",
+  "label": "Ukupni kapitalni dobici tekuće godine",
+  "source": "formula:3"
+ },
+ {
+  "code": "43",
+  "label": "Ukupni kapitalni gubici tekuće godine",
+  "source": "formula:4"
+ },
+ {
+  "code": "44",
+  "label": "Kapitalni dobici (42-43) > 0",
+  "source": "formulaPos:42-43"
+ },
+ {
+  "code": "45",
+  "label": "Kapitalni gubici (43-42) > 0",
+  "source": "formulaPos:43-42"
+ },
+ {
+  "code": "46",
+  "label": "Prenijeti kapitalni gubici iz ranijih godina do visine r.br. 44",
+  "source": "formula:PG2_3"
+ },
+ {
+  "code": "47",
+  "label": "Ostatak kapitalnog dobitka (44-46)",
+  "source": "formulaPos:44-46"
+ },
+ {
+  "code": "48",
+  "label": "Poreska osnovica (41 + 100% od 47)",
+  "source": "formulaPos:41+47"
+ },
+ {
+  "code": "49",
+  "label": "Ukupno (49a+49b)",
+  "source": "formula:49a+49b"
+ },
+ {
+  "code": "49a",
+  "label": "Prihodi po osnovu dividendi i udjela u dobiti rezidentnih pravnih lica",
+  "source": "manual"
+ },
+ {
+  "code": "49b",
+  "label": "Prihodi po osnovu likvidacionog ostatka",
+  "source": "manual"
+ },
+ {
+  "code": "50",
+  "label": "Poreska osnovica - oporeziva dobit (48-49) > 0",
+  "source": "formulaPos:48-49"
+ },
+ {
+  "code": "51",
+  "label": "Porez po progresivnoj skali (9% / 12% / 15%)",
+  "source": "taxScale:50"
+ },
+ {
+  "code": "51a",
+  "label": "9% na oporezivu dobit do 100.000 EUR",
+  "source": "taxScaleA:50"
+ },
+ {
+  "code": "51b",
+  "label": "12% na dio preko 100.000 EUR",
+  "source": "taxScaleB:50"
+ },
+ {
+  "code": "51c",
+  "label": "15% na dio preko 1.500.000 EUR",
+  "source": "taxScaleC:50"
+ },
+ {
+  "code": "52",
+  "label": "Ukupan iznos poreza (51a+51b+51c)",
+  "source": "formula:51a+51b+51c"
+ },
+ {
+  "code": "53",
+  "label": "Porez na dobit ostvarenu u nedovoljno razvijenim opštinama",
+  "source": "manual"
+ },
+ {
+  "code": "54",
+  "label": "Porez na dobit reinvestiranu u naučnoistraživačke / inovativne projekte",
+  "source": "manual"
+ },
+ {
+  "code": "55",
+  "label": "Ukupno (55a+55b+55c)",
+  "source": "formula:55a+55b+55c"
+ },
+ {
+  "code": "55a",
+  "label": "Ulaganja u udjele ili akcije startapova i spinofova",
+  "source": "manual"
+ },
+ {
+  "code": "55b",
+  "label": "Donacije naučnoistraživačkim ustanovama i subjektima inovacione infrastrukture",
+  "source": "manual"
+ },
+ {
+  "code": "55c",
+  "label": "Ulaganja u Fond za inovacije CG i druge investicione fondove",
+  "source": "manual"
+ },
+ {
+  "code": "56",
+  "label": "Utvrđena poreska obaveza (52-53-54-55)",
+  "source": "formulaPos:52-53-54-55"
+ },
+ {
+  "code": "56a",
+  "label": "Rezervisano polje XSD (nema ga na zvaničnom obrascu)",
+  "source": "manual"
+ },
+ {
+  "code": "56b",
+  "label": "Rezervisano polje XSD (nema ga na zvaničnom obrascu)",
+  "source": "manual"
+ },
+ {
+  "code": "57",
+  "label": "Iznos poreza plaćenog u drugoj državi",
+  "source": "manual"
+ },
+ {
+  "code": "58",
+  "label": "Ukupna poreska obaveza (56-57) > 0",
+  "source": "formulaPos:56-57"
+ },
+ {
+  "code": "59",
+  "label": "Rezervisano polje XSD (nema ga na zvaničnom obrascu)",
+  "source": "manual"
+ },
+ {
+  "code": "PG1_1",
+  "label": "PG1-1. Iznos dobiti iskazane pod r.br. 38",
+  "source": "formula:38"
+ },
+ {
+  "code": "PG1_2",
+  "label": "PG1-2. Iznos gubitka iz prethodnih pet godina - ukupno",
+  "source": "formula:PG1_21+PG1_22+PG1_23+PG1_24+PG1_25"
+ },
+ {
+  "code": "PG1_21",
+  "label": "PG1-2. Gubitak godine N-1",
+  "source": "manual"
+ },
+ {
+  "code": "PG1_22",
+  "label": "PG1-2. Gubitak godine N-2",
+  "source": "manual"
+ },
+ {
+  "code": "PG1_23",
+  "label": "PG1-2. Gubitak godine N-3",
+  "source": "manual"
+ },
+ {
+  "code": "PG1_24",
+  "label": "PG1-2. Gubitak godine N-4",
+  "source": "manual"
+ },
+ {
+  "code": "PG1_25",
+  "label": "PG1-2. Gubitak godine N-5",
+  "source": "manual"
+ },
+ {
+  "code": "PG1_3",
+  "label": "PG1-3. Iznos gubitka za pokriće (manji od PG1_1 i PG1_2)",
+  "source": "min:PG1_1,PG1_2"
+ },
+ {
+  "code": "PG2_1",
+  "label": "PG2-1. Iznos kapitalnog dobitka iskazan pod r.br. 44",
+  "source": "formula:44"
+ },
+ {
+  "code": "PG2_2",
+  "label": "PG2-2. Iznos kapitalnog gubitka iz prethodnih pet godina - ukupno",
+  "source": "formula:PG2_21+PG2_22+PG2_23+PG2_24+PG2_25"
+ },
+ {
+  "code": "PG2_21",
+  "label": "PG2-2. Kapitalni gubitak godine N-1",
+  "source": "manual"
+ },
+ {
+  "code": "PG2_22",
+  "label": "PG2-2. Kapitalni gubitak godine N-2",
+  "source": "manual"
+ },
+ {
+  "code": "PG2_23",
+  "label": "PG2-2. Kapitalni gubitak godine N-3",
+  "source": "manual"
+ },
+ {
+  "code": "PG2_24",
+  "label": "PG2-2. Kapitalni gubitak godine N-4",
+  "source": "manual"
+ },
+ {
+  "code": "PG2_25",
+  "label": "PG2-2. Kapitalni gubitak godine N-5",
+  "source": "manual"
+ },
+ {
+  "code": "PG2_3",
+  "label": "PG2-3. Iznos gubitka za pokriće (manji od PG2_1 i PG2_2)",
+  "source": "min:PG2_1,PG2_2"
+ }
+]

@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcssch="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.20">
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<Autofill>false</Autofill>
+		<ChildItems>
+			<Button name="КнопкаЗаполнить" id="146">
+				<CommandName>Form.Command.Заполнить</CommandName>
+				<ExtendedTooltip name="КнопкаЗаполнитьРасширеннаяПодсказка" id="147"/>
+			</Button>
+			<Button name="КнопкаПроверитьКонтроли" id="148">
+				<CommandName>Form.Command.ПроверитьКонтроли</CommandName>
+				<ExtendedTooltip name="КнопкаПроверитьКонтролиРасширеннаяПодсказка" id="149"/>
+			</Button>
+			<Button name="КнопкаВыгрузитьФИ" id="150">
+				<CommandName>Form.Command.ВыгрузитьФИ</CommandName>
+				<ExtendedTooltip name="КнопкаВыгрузитьФИРасширеннаяПодсказка" id="151"/>
+			</Button>
+			<Button name="КнопкаВыгрузитьПД" id="152">
+				<CommandName>Form.Command.ВыгрузитьПД</CommandName>
+				<ExtendedTooltip name="КнопкаВыгрузитьПДРасширеннаяПодсказка" id="153"/>
+			</Button>
+			<Button name="КнопкаВыгрузитьExcel" id="154">
+				<CommandName>Form.Command.ВыгрузитьExcel</CommandName>
+				<ExtendedTooltip name="КнопкаВыгрузитьExcelРасширеннаяПодсказка" id="155"/>
+			</Button>
+			<Button name="КнопкаВыгрузитьPDF" id="156">
+				<CommandName>Form.Command.ВыгрузитьPDF</CommandName>
+				<ExtendedTooltip name="КнопкаВыгрузитьPDFРасширеннаяПодсказка" id="157"/>
+			</Button>
+		</ChildItems>
+	</AutoCommandBar>
+	<Events>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<InputField name="ПолеОрганизация" id="1">
+			<DataPath>Объект.Организация</DataPath>
+			<ContextMenu name="ПолеОрганизацияКонтекстноеМеню" id="2"/>
+			<ExtendedTooltip name="ПолеОрганизацияРасширеннаяПодсказка" id="3"/>
+		</InputField>
+		<InputField name="ПолеГод" id="4">
+			<DataPath>Объект.Год</DataPath>
+			<ContextMenu name="ПолеГодКонтекстноеМеню" id="5"/>
+			<ExtendedTooltip name="ПолеГодРасширеннаяПодсказка" id="6"/>
+		</InputField>
+		<InputField name="ПолеКаталогВыгрузки" id="7">
+			<DataPath>Объект.КаталогВыгрузки</DataPath>
+			<ContextMenu name="ПолеКаталогВыгрузкиКонтекстноеМеню" id="8"/>
+			<ExtendedTooltip name="ПолеКаталогВыгрузкиРасширеннаяПодсказка" id="9"/>
+		</InputField>
+		<UsualGroup name="ГруппаЗаглавле" id="34">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заглавље</v8:content>
+				</v8:item>
+			</Title>
+			<Group>Vertical</Group>
+			<Behavior>Collapsible</Behavior>
+			<Representation>NormalSeparation</Representation>
+			<ShowTitle>true</ShowTitle>
+			<ExtendedTooltip name="ГруппаЗаглавлеРасширеннаяПодсказка" id="35"/>
+			<ChildItems>
+				<InputField name="ПолеСифраДелатности" id="10">
+					<DataPath>Объект.СифраДјелатности</DataPath>
+					<ContextMenu name="ПолеСифраДелатностиКонтекстноеМеню" id="11"/>
+					<ExtendedTooltip name="ПолеСифраДелатностиРасширеннаяПодсказка" id="12"/>
+				</InputField>
+				<InputField name="ПолеМатичниБрой" id="13">
+					<DataPath>Объект.МатичниБрој</DataPath>
+					<ContextMenu name="ПолеМатичниБройКонтекстноеМеню" id="14"/>
+					<ExtendedTooltip name="ПолеМатичниБройРасширеннаяПодсказка" id="15"/>
+				</InputField>
+				<InputField name="ПолеЛицеНазив" id="16">
+					<DataPath>Объект.ЛицеНазив</DataPath>
+					<ContextMenu name="ПолеЛицеНазивКонтекстноеМеню" id="17"/>
+					<ExtendedTooltip name="ПолеЛицеНазивРасширеннаяПодсказка" id="18"/>
+				</InputField>
+				<InputField name="ПолеЛицеJMBG" id="19">
+					<DataPath>Объект.ЛицеJMBG</DataPath>
+					<ContextMenu name="ПолеЛицеJMBGКонтекстноеМеню" id="20"/>
+					<ExtendedTooltip name="ПолеЛицеJMBGРасширеннаяПодсказка" id="21"/>
+				</InputField>
+				<InputField name="ПолеЛицеEmail" id="22">
+					<DataPath>Объект.ЛицеEmail</DataPath>
+					<ContextMenu name="ПолеЛицеEmailКонтекстноеМеню" id="23"/>
+					<ExtendedTooltip name="ПолеЛицеEmailРасширеннаяПодсказка" id="24"/>
+				</InputField>
+				<InputField name="ПолеОдгЛицеИме" id="25">
+					<DataPath>Объект.ОдгЛицеИме</DataPath>
+					<ContextMenu name="ПолеОдгЛицеИмеКонтекстноеМеню" id="26"/>
+					<ExtendedTooltip name="ПолеОдгЛицеИмеРасширеннаяПодсказка" id="27"/>
+				</InputField>
+				<InputField name="ПолеОдгЛицеПрезиме" id="28">
+					<DataPath>Объект.ОдгЛицеПрезиме</DataPath>
+					<ContextMenu name="ПолеОдгЛицеПрезимеКонтекстноеМеню" id="29"/>
+					<ExtendedTooltip name="ПолеОдгЛицеПрезимеРасширеннаяПодсказка" id="30"/>
+				</InputField>
+				<InputField name="ПолеОдгЛицеJMBG" id="31">
+					<DataPath>Объект.ОдгЛицеJMBG</DataPath>
+					<ContextMenu name="ПолеОдгЛицеJMBGКонтекстноеМеню" id="32"/>
+					<ExtendedTooltip name="ПолеОдгЛицеJMBGРасширеннаяПодсказка" id="33"/>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<SpreadSheetDocumentField name="ПолеТабДок" id="36">
+			<DataPath>ТабДок</DataPath>
+			<TitleLocation>None</TitleLocation>
+			<VerticalStretch>true</VerticalStretch>
+			<ContextMenu name="ПолеТабДокКонтекстноеМеню" id="37"/>
+			<ExtendedTooltip name="ПолеТабДокРасширеннаяПодсказка" id="38"/>
+		</SpreadSheetDocumentField>
+		<UsualGroup name="ГруппаТаблицаКорректировки" id="57">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Корекције</v8:content>
+				</v8:item>
+			</Title>
+			<Group>Vertical</Group>
+			<Behavior>Collapsible</Behavior>
+			<Representation>NormalSeparation</Representation>
+			<ShowTitle>true</ShowTitle>
+			<ExtendedTooltip name="ГруппаТаблицаКорректировкиРасширеннаяПодсказка" id="58"/>
+			<ChildItems>
+				<Table name="ТаблицаКорректировки" id="54">
+					<DataPath>Объект.Корректировки</DataPath>
+					<ContextMenu name="ТаблицаКорректировкиКонтекстноеМеню" id="55"/>
+					<ExtendedTooltip name="ТаблицаКорректировкиРасширеннаяПодсказка" id="56"/>
+					<ChildItems>
+					<InputField name="КорСекция" id="39">
+						<DataPath>Объект.Корректировки.Секция</DataPath>
+						<ContextMenu name="КорСекцияКонтекстноеМеню" id="40"/>
+						<ExtendedTooltip name="КорСекцияРасширеннаяПодсказка" id="41"/>
+					</InputField>
+					<InputField name="КорRedniBroj" id="42">
+						<DataPath>Объект.Корректировки.RedniBroj</DataPath>
+						<ContextMenu name="КорRedniBrojКонтекстноеМеню" id="43"/>
+						<ExtendedTooltip name="КорRedniBrojРасширеннаяПодсказка" id="44"/>
+					</InputField>
+					<InputField name="КорКолонка" id="45">
+						<DataPath>Объект.Корректировки.Колонка</DataPath>
+						<ContextMenu name="КорКолонкаКонтекстноеМеню" id="46"/>
+						<ExtendedTooltip name="КорКолонкаРасширеннаяПодсказка" id="47"/>
+					</InputField>
+					<InputField name="КорСумма" id="48">
+						<DataPath>Объект.Корректировки.Сумма</DataPath>
+						<ContextMenu name="КорСуммаКонтекстноеМеню" id="49"/>
+						<ExtendedTooltip name="КорСуммаРасширеннаяПодсказка" id="50"/>
+					</InputField>
+					<InputField name="КорКомментарий" id="51">
+						<DataPath>Объект.Корректировки.Комментарий</DataPath>
+						<ContextMenu name="КорКомментарийКонтекстноеМеню" id="52"/>
+						<ExtendedTooltip name="КорКомментарийРасширеннаяПодсказка" id="53"/>
+					</InputField>
+					</ChildItems>
+				</Table>
+			</ChildItems>
+		</UsualGroup>
+		<UsualGroup name="ГруппаТаблицаPDСтроки" id="74">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>PD</v8:content>
+				</v8:item>
+			</Title>
+			<Group>Vertical</Group>
+			<Behavior>Collapsible</Behavior>
+			<Representation>NormalSeparation</Representation>
+			<ShowTitle>true</ShowTitle>
+			<ExtendedTooltip name="ГруппаТаблицаPDСтрокиРасширеннаяПодсказка" id="75"/>
+			<ChildItems>
+				<Table name="ТаблицаPDСтроки" id="71">
+					<DataPath>Объект.PDСтроки</DataPath>
+					<ContextMenu name="ТаблицаPDСтрокиКонтекстноеМеню" id="72"/>
+					<ExtendedTooltip name="ТаблицаPDСтрокиРасширеннаяПодсказка" id="73"/>
+					<ChildItems>
+					<InputField name="PDКод" id="59">
+						<DataPath>Объект.PDСтроки.Код</DataPath>
+						<ContextMenu name="PDКодКонтекстноеМеню" id="60"/>
+						<ExtendedTooltip name="PDКодРасширеннаяПодсказка" id="61"/>
+					</InputField>
+					<InputField name="PDНаименование" id="62">
+						<DataPath>Объект.PDСтроки.Наименование</DataPath>
+						<ContextMenu name="PDНаименованиеКонтекстноеМеню" id="63"/>
+						<ExtendedTooltip name="PDНаименованиеРасширеннаяПодсказка" id="64"/>
+					</InputField>
+					<InputField name="PDСумма" id="65">
+						<DataPath>Объект.PDСтроки.Сумма</DataPath>
+						<ContextMenu name="PDСуммаКонтекстноеМеню" id="66"/>
+						<ExtendedTooltip name="PDСуммаРасширеннаяПодсказка" id="67"/>
+					</InputField>
+					<CheckBoxField name="PDАвто" id="68">
+						<DataPath>Объект.PDСтроки.Авто</DataPath>
+						<ContextMenu name="PDАвтоКонтекстноеМеню" id="69"/>
+						<ExtendedTooltip name="PDАвтоРасширеннаяПодсказка" id="70"/>
+					</CheckBoxField>
+					</ChildItems>
+				</Table>
+			</ChildItems>
+		</UsualGroup>
+		<UsualGroup name="ГруппаТаблицаСтрокиКапитала" id="115">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Капитал</v8:content>
+				</v8:item>
+			</Title>
+			<Group>Vertical</Group>
+			<Behavior>Collapsible</Behavior>
+			<Representation>NormalSeparation</Representation>
+			<ShowTitle>true</ShowTitle>
+			<ExtendedTooltip name="ГруппаТаблицаСтрокиКапиталаРасширеннаяПодсказка" id="116"/>
+			<ChildItems>
+				<Table name="ТаблицаСтрокиКапитала" id="112">
+					<DataPath>Объект.СтрокиКапитала</DataPath>
+					<ContextMenu name="ТаблицаСтрокиКапиталаКонтекстноеМеню" id="113"/>
+					<ExtendedTooltip name="ТаблицаСтрокиКапиталаРасширеннаяПодсказка" id="114"/>
+					<ChildItems>
+					<InputField name="КапПозиция" id="76">
+						<DataPath>Объект.СтрокиКапитала.Позиция</DataPath>
+						<ContextMenu name="КапПозицияКонтекстноеМеню" id="77"/>
+						<ExtendedTooltip name="КапПозицияРасширеннаяПодсказка" id="78"/>
+					</InputField>
+					<InputField name="КапОпис" id="79">
+						<DataPath>Объект.СтрокиКапитала.Опис</DataPath>
+						<ContextMenu name="КапОписКонтекстноеМеню" id="80"/>
+						<ExtendedTooltip name="КапОписРасширеннаяПодсказка" id="81"/>
+					</InputField>
+					<InputField name="КапIznos2" id="82">
+						<DataPath>Объект.СтрокиКапитала.Iznos2</DataPath>
+						<ContextMenu name="КапIznos2КонтекстноеМеню" id="83"/>
+						<ExtendedTooltip name="КапIznos2РасширеннаяПодсказка" id="84"/>
+					</InputField>
+					<InputField name="КапIznos3" id="85">
+						<DataPath>Объект.СтрокиКапитала.Iznos3</DataPath>
+						<ContextMenu name="КапIznos3КонтекстноеМеню" id="86"/>
+						<ExtendedTooltip name="КапIznos3РасширеннаяПодсказка" id="87"/>
+					</InputField>
+					<InputField name="КапIznos4" id="88">
+						<DataPath>Объект.СтрокиКапитала.Iznos4</DataPath>
+						<ContextMenu name="КапIznos4КонтекстноеМеню" id="89"/>
+						<ExtendedTooltip name="КапIznos4РасширеннаяПодсказка" id="90"/>
+					</InputField>
+					<InputField name="КапIznos5" id="91">
+						<DataPath>Объект.СтрокиКапитала.Iznos5</DataPath>
+						<ContextMenu name="КапIznos5КонтекстноеМеню" id="92"/>
+						<ExtendedTooltip name="КапIznos5РасширеннаяПодсказка" id="93"/>
+					</InputField>
+					<InputField name="КапIznos6" id="94">
+						<DataPath>Объект.СтрокиКапитала.Iznos6</DataPath>
+						<ContextMenu name="КапIznos6КонтекстноеМеню" id="95"/>
+						<ExtendedTooltip name="КапIznos6РасширеннаяПодсказка" id="96"/>
+					</InputField>
+					<InputField name="КапIznos7" id="97">
+						<DataPath>Объект.СтрокиКапитала.Iznos7</DataPath>
+						<ContextMenu name="КапIznos7КонтекстноеМеню" id="98"/>
+						<ExtendedTooltip name="КапIznos7РасширеннаяПодсказка" id="99"/>
+					</InputField>
+					<InputField name="КапIznos8" id="100">
+						<DataPath>Объект.СтрокиКапитала.Iznos8</DataPath>
+						<ContextMenu name="КапIznos8КонтекстноеМеню" id="101"/>
+						<ExtendedTooltip name="КапIznos8РасширеннаяПодсказка" id="102"/>
+					</InputField>
+					<InputField name="КапIznos9" id="103">
+						<DataPath>Объект.СтрокиКапитала.Iznos9</DataPath>
+						<ContextMenu name="КапIznos9КонтекстноеМеню" id="104"/>
+						<ExtendedTooltip name="КапIznos9РасширеннаяПодсказка" id="105"/>
+					</InputField>
+					<InputField name="КапIznos10" id="106">
+						<DataPath>Объект.СтрокиКапитала.Iznos10</DataPath>
+						<ContextMenu name="КапIznos10КонтекстноеМеню" id="107"/>
+						<ExtendedTooltip name="КапIznos10РасширеннаяПодсказка" id="108"/>
+					</InputField>
+					<InputField name="КапIznos11" id="109">
+						<DataPath>Объект.СтрокиКапитала.Iznos11</DataPath>
+						<ContextMenu name="КапIznos11КонтекстноеМеню" id="110"/>
+						<ExtendedTooltip name="КапIznos11РасширеннаяПодсказка" id="111"/>
+					</InputField>
+					</ChildItems>
+				</Table>
+			</ChildItems>
+		</UsualGroup>
+		<UsualGroup name="ГруппаТаблицаСтрокиАмортизации" id="144">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Амортизација</v8:content>
+				</v8:item>
+			</Title>
+			<Group>Vertical</Group>
+			<Behavior>Collapsible</Behavior>
+			<Representation>NormalSeparation</Representation>
+			<ShowTitle>true</ShowTitle>
+			<ExtendedTooltip name="ГруппаТаблицаСтрокиАмортизацииРасширеннаяПодсказка" id="145"/>
+			<ChildItems>
+				<Table name="ТаблицаСтрокиАмортизации" id="141">
+					<DataPath>Объект.СтрокиАмортизации</DataPath>
+					<ContextMenu name="ТаблицаСтрокиАмортизацииКонтекстноеМеню" id="142"/>
+					<ExtendedTooltip name="ТаблицаСтрокиАмортизацииРасширеннаяПодсказка" id="143"/>
+					<ChildItems>
+					<InputField name="АмGrupa" id="117">
+						<DataPath>Объект.СтрокиАмортизации.Grupa</DataPath>
+						<ContextMenu name="АмGrupaКонтекстноеМеню" id="118"/>
+						<ExtendedTooltip name="АмGrupaРасширеннаяПодсказка" id="119"/>
+					</InputField>
+					<InputField name="АмIznos2" id="120">
+						<DataPath>Объект.СтрокиАмортизации.Iznos2</DataPath>
+						<ContextMenu name="АмIznos2КонтекстноеМеню" id="121"/>
+						<ExtendedTooltip name="АмIznos2РасширеннаяПодсказка" id="122"/>
+					</InputField>
+					<InputField name="АмIznos3" id="123">
+						<DataPath>Объект.СтрокиАмортизации.Iznos3</DataPath>
+						<ContextMenu name="АмIznos3КонтекстноеМеню" id="124"/>
+						<ExtendedTooltip name="АмIznos3РасширеннаяПодсказка" id="125"/>
+					</InputField>
+					<InputField name="АмIznos4" id="126">
+						<DataPath>Объект.СтрокиАмортизации.Iznos4</DataPath>
+						<ContextMenu name="АмIznos4КонтекстноеМеню" id="127"/>
+						<ExtendedTooltip name="АмIznos4РасширеннаяПодсказка" id="128"/>
+					</InputField>
+					<InputField name="АмIznos5" id="129">
+						<DataPath>Объект.СтрокиАмортизации.Iznos5</DataPath>
+						<ContextMenu name="АмIznos5КонтекстноеМеню" id="130"/>
+						<ExtendedTooltip name="АмIznos5РасширеннаяПодсказка" id="131"/>
+					</InputField>
+					<InputField name="АмIznos6" id="132">
+						<DataPath>Объект.СтрокиАмортизации.Iznos6</DataPath>
+						<ContextMenu name="АмIznos6КонтекстноеМеню" id="133"/>
+						<ExtendedTooltip name="АмIznos6РасширеннаяПодсказка" id="134"/>
+					</InputField>
+					<InputField name="АмIznos7" id="135">
+						<DataPath>Объект.СтрокиАмортизации.Iznos7</DataPath>
+						<ContextMenu name="АмIznos7КонтекстноеМеню" id="136"/>
+						<ExtendedTooltip name="АмIznos7РасширеннаяПодсказка" id="137"/>
+					</InputField>
+					<InputField name="АмIznos8" id="138">
+						<DataPath>Объект.СтрокиАмортизации.Iznos8</DataPath>
+						<ContextMenu name="АмIznos8КонтекстноеМеню" id="139"/>
+						<ExtendedTooltip name="АмIznos8РасширеннаяПодсказка" id="140"/>
+					</InputField>
+					</ChildItems>
+				</Table>
+			</ChildItems>
+		</UsualGroup>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="164">
+			<Type>
+				<v8:Type>cfg:ExternalDataProcessorObject.FinIskaziCG</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+		</Attribute>
+		<Attribute name="ТабДок" id="165">
+			<Type>
+				<v8:Type>v8:SpreadsheetDocument</v8:Type>
+			</Type>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="Заполнить" id="158">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Попуни</v8:content>
+				</v8:item>
+			</Title>
+			<Action>Заполнить</Action>
+		</Command>
+		<Command name="ПроверитьКонтроли" id="159">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Провјери контроле</v8:content>
+				</v8:item>
+			</Title>
+			<Action>ПроверитьКонтроли</Action>
+		</Command>
+		<Command name="ВыгрузитьФИ" id="160">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>XML ФИ</v8:content>
+				</v8:item>
+			</Title>
+			<Action>ВыгрузитьФИ</Action>
+		</Command>
+		<Command name="ВыгрузитьПД" id="161">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>XML ПД</v8:content>
+				</v8:item>
+			</Title>
+			<Action>ВыгрузитьПД</Action>
+		</Command>
+		<Command name="ВыгрузитьExcel" id="162">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Excel</v8:content>
+				</v8:item>
+			</Title>
+			<Action>ВыгрузитьExcel</Action>
+		</Command>
+		<Command name="ВыгрузитьPDF" id="163">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>PDF</v8:content>
+				</v8:item>
+			</Title>
+			<Action>ВыгрузитьPDF</Action>
+		</Command>
+	</Commands>
+</Form>

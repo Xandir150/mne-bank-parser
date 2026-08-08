@@ -1,0 +1,1529 @@
+ACC	00	Активный/Пассивный	False	NEUPLACENI UPISANI KAPITAL
+ACC	01	Активный	False	NEMATERIJALNA ULAGANJA / НЕМАТЕРИАЛЬНЫЕ ИНВЕСТИЦИИ
+ACC	02	Активный	False	NEKRETNINE, POSTROJENJA, OPREMA I BIOLOSKA SREDSTVA Ы
+ACC	03	Активный/Пассивный	False	DUGOROCNI FINANSIJSKI PLASMANI / ДОЛГОСРОЧНЫЕ ФИНАНСОВЫЕ ВЛОЖЕНИЯ
+ACC	04	Активный/Пассивный	False	STALNA SREDSTVA NAMIJENJENA PRODAJI / ОСНОВНЫЕ СРЕДСТВА, ПРЕДНАЗНАЧЕННЫЕ ДЛЯ ПРОДАЖИ
+ACC	10	Активный	False	ZALIHE MATERIJALA / МАТЕРИАЛЫ
+ACC	11	Активный	False	NEDOVRSENA PROIZVODNJA / НЕЗАВЕРШЕННОЕ ПРОИЗВОДСТВО
+ACC	12	Активный	False	GOTOVI PROIZVODI / ГОТОВАЯ ПРОДУКЦИЯ
+ACC	13	Активный/Пассивный	False	ROBA / ТОВАРЫ
+ACC	15	Активный/Пассивный	False	DATI AVANSI / АВАНСЫ ВЫДАННЫЕ
+ACC	20	Активный/Пассивный	False	POTRAZIVANJA PO OSNOVU PRODAJE / ДЕБИТОРСКАЯ ЗАДОЛЖЕННОСТЬ НА ОСНОВЕ ПРОДАЖ
+ACC	21	Активный/Пассивный	False	POTRAZIVANJA IZ SPECIFICNIH POSLOVA / ДЕБИТОРСКАЯ ЗАДОЛЖЕННОСТЬ ПО ОСОБЫМ ОПЕРАЦИЯМ
+ACC	22	Активный/Пассивный	False	DRUGA POTRAZIVANJA / ПРОЧАЯ ДЕБИТОРСКАЯ ЗАДОЛЖЕННОСТЬ
+ACC	23	Активный/Пассивный	False	KRATKOROCNI FINANSIJSKI PLASMANI / КРАТКОСРОЧНЫЕ ФИНАНСОВЫЕ ИНВЕСТИЦИИ
+ACC	24	Активный/Пассивный	False	GOTOVINA I GOTOVINSKI EKVIVALENTI / НАЛИЧНЫЕ И НАЛИЧНЫЕ ЭКВИВАЛЕНТЫ
+ACC	27	Активный/Пассивный	False	POREZ NA DODATU VRIJEDNOST / НАЛОГ НА ДОБАВЛЕННУЮ СТОИМОСТЬ
+ACC	28	Активный/Пассивный	False	AKTIVNA VREMENSKA RAZGRANICENJA / АКТИВНЫЕ ВРЕМЕННЫЕ ПРЕДЕЛЫ
+ACC	30	Активный/Пассивный	False	OSNOVNI KAPITAL
+ACC	31	Активный/Пассивный	False	NEUPLACENI UPISANI KAPITAL / НЕПЛАЧЕННЫЙ ПОДПИСАННЫЙ КАПИТАЛ
+ACC	32	Активный/Пассивный	False	REZERVE / РЕЗЕРВЫ
+ACC	33	Активный/Пассивный	False	REVALORIZACIONE REZERVE I NEREALIZOVANI DOBICI I GUBICI / ОЦЕНКА РЕЗЕРВОВ И НЕРЕАЛИЗОВАННОЙ ПРИБЫЛИ И УБЫТКОВ
+ACC	34	Активный/Пассивный	False	NERASPOREDENI DOBITAK / НЕРАСПРЕДЕЛЕННАЯ ПРИБЫЛЬ
+ACC	35	Активный/Пассивный	False	GUBITAK / Убыток
+ACC	40	Активный/Пассивный	False	DUGOROCNA REZERVISANJA / ДОЛГОСРОЧНЫЕ ПОЛОЖЕНИЯ
+ACC	41	Активный/Пассивный	False	DUGOROCNE OBAVEZE / ДОЛГОСРОЧНЫЕ ОБЯЗАТЕЛЬСТВА
+ACC	42	Активный/Пассивный	False	KRATKOROCNE FINANSIJSKE OBAVEZE / КРАТКИЕ СРОКИ ФИНАНСОВЫХ ОБЯЗАТЕЛЬСТВ
+ACC	43	Пассивный	False	OBAVEZE IZ POSLOVANJA / ОПЕРАЦИОННЫЕ ОБЯЗАТЕЛЬСТВА
+ACC	44	Активный/Пассивный	False	OBAVEZE IZ SPECIFICNIH POSLOVA / ОСОБЫЕ ОПЕРАЦИОННЫЕ ОБЯЗАТЕЛЬСТВА
+ACC	45	Активный/Пассивный	False	OBAVEZE PO OSNOVU ZARADA
+ACC	46	Активный/Пассивный	False	OSTALE OBAVEZE
+ACC	47	Активный/Пассивный	False	OBAVEZE ZA POREZ NA DODATU VRIJEDNOST / ЗНАЧЕНИЕ ДОБАВЛЕННЫХ НАЛОГОВЫХ ОБЯЗАТЕЛЬСТВ
+ACC	48	Активный/Пассивный	False	OBAVEZE ZA OSTALE POREZE, DOPRINOSE I DRUGE DAZBINE / ОТВЕТСТВЕННОСТЬ ЗА ДРУГИЕ НАЛОГИ, ВЗНОСЫ И ДРУГИЕ ОБЯЗАННОСТИ
+ACC	49	Активный/Пассивный	False	PASIVNA VREMENSKA RAZGRANICENJA / ПАССИВНЫЕ ВРЕМЕННЫЕ ОГРАНИЧЕНИЯ
+ACC	50	Активный/Пассивный	False	NABAVNA VRIJEDNOST PRODATE ROBE / ПОКУПКА ЗНАЧЕНИЯ ПРОДАВАЕМЫХ ТОВАРОВ
+ACC	51	Активный	False	TROSKOVI MATERIJALA / СТОИМОСТЬ МАТЕРИАЛОВ
+ACC	52	Активный	False	TROSKOVI ZARADA, NAKNADA ZARADA
+ACC	53	Активный/Пассивный	False	TROSKOVI PROIZVODNIH USLUGA / СТОИМОСТЬ ПРОИЗВОДСТВЕННЫХ УСЛУГ
+ACC	54	Активный	False	TROSKOVI AMORTIZACIJE I REZERVISANJA / ЗАТРАТЫ НА УСТРОЙСТВО И ПРЕДОСТАВЛЕНИЕ
+ACC	55	Активный	False	NEMATERIJALNI TROSKOVI
+ACC	56	Активный	False	FINANSIJSKI RASHODI / ФИНАНСОВЫЕ РАСХОДЫ
+ACC	57	Активный/Пассивный	False	OSTALI RASHODI / ДРУГИЕ РАСХОДЫ
+ACC	58	Активный/Пассивный	False	RASHODI PO OSNOVU USKLADIVANJA VRIJEDNOSTI IMOVINE / РАСХОДЫ ОТ РЕГУЛИРОВАНИЯ ЗНАЧЕНИЯ НЕДВИЖИМОСТИ
+ACC	59	Активный/Пассивный	False	GUBITAK POSLOVANJA KOJE JE OBUSTAVLJENO, RASHODI IZ PRETHODNIH IZVJESTAJNIH PERIODA I PRENOS RASHODA / ПОТЕРЯ ПРЕКРАЩЕННЫХ ОПЕРАЦИЙ, РАСХОДОВ ИЗ ПРЕДЫДУЩИХ ОТЧЕТНЫХ ПЕРИОДОВ И ПЕРЕДАЧИ РАСХОДОВ
+ACC	60	Пассивный	False	PRIHODI OD PRODAJE ROBE / Выручка от продажи товаров
+ACC	61	Пассивный	False	PRIHODI OD PRODAJE PROIZVODA I USLUGA / Выручка от продажи продукции и услуг
+ACC	62	Активный/Пассивный	False	PRIHODI OD AKTIVIRANJA UCINAKA I ROBE / ДОХОДЫ ОТ АКТИВАЦИИ ТОВАРОВ И ЭФФЕКТОВ
+ACC	63	Активный/Пассивный	False	PROMJENA VRIJEDNOSTI ZALIHA UCINAKA / ИЗМЕНЕНИЕ СТОИМОСТИ ИНВЕНТАРНЫХ ЗАПАСОВ
+ACC	64	Активный/Пассивный	False	PRIHODI OD PREMIJA, SUBVENCIJA, DOTACIJA, DONACIJA I SL. / ДОХОДЫ ОТ ПРЕМИй, ПОДСКАЗКА, ДОТАЦИЯ, ПОЖЕРТВОВАНИЕ И ФИГ.
+ACC	65	Активный/Пассивный	False	DRUGI POSLOVNI PRIHODI / ДРУГИЕ ОПЕРАЦИОННЫЕ ДОХОДЫ
+ACC	66	Пассивный	False	FINANSIJSKI PRIHODI / ФИНАНСОВЫЙ ДОХОД
+ACC	67	Активный/Пассивный	False	OSTALI PRIHODI / ДРУГОЙ ДОХОД
+ACC	68	Активный/Пассивный	False	PRIHODI OD USKLADIVANJA VRIJEDNOSTI IMOVINE / ДОХОД ОТ РЕГУЛИРОВАНИЯ ЗНАЧЕНИЯ НЕДВИЖИМОСТИ
+ACC	69	Активный/Пассивный	False	DOBITAK POSLOVANJA KOJE JE OBUSTAVLJENO, RASHODI IZ PRETHODNIH IZVJESTAJNIH PERIODA I PRENOS PRIHODA / ДОХОДЫ ОТ ПРЕКРАЩЕННЫХ ОПЕРАЦИЙ, РАСХОДЫ ОТ ПРЕДЫДУЩИХ ОТЧЕТНЫХ ПЕРИОДОВ И ПЕРЕДАЧИ ДОХОДОВ
+ACC	70	Активный/Пассивный	False	OTVARANJE RACUNA GLAVNE KNJIGE FINANSIJSKOG KNJIGOVODSTVA / ОТКРЫТИЕ СЧЕТА ФИНАНСОВОЙ КНИГИ СЧЕТА
+ACC	71	Активный/Пассивный	False	ZAKLJUCAK RACUNA USPJEHA / ЗАКЛЮЧЕНИЕ УСПЕХА
+ACC	72	Активный/Пассивный	False	RACUN DOBITKA I GUBITKA / ПРИБЫЛЬ И УБЫТК
+ACC	73	Активный/Пассивный	False	ZAKLJUCAK RACUNA STANJA / ЗАКЛЮЧЕНИЕ БАЛАНСА
+ACC	74	Активный/Пассивный	False	SLOBODNA GRUPA / БЕСПЛАТНАЯ ГРУППА
+ACC	88	Активный/Пассивный	True	VANBILANSNA AKTIVA / ВНЕБАЛАНСОВЫЕ ЛИСТОВЫЕ АКТИВЫ
+ACC	89	Активный/Пассивный	True	VANBILANSNA PASIVA / ВНЕБАЛАНСОВЫЕ ЛИСТОВЫЕ ОБЯЗАТЕЛЬСТВА
+ACC	90	Активный/Пассивный	True	RACUNI ODNOSA S FINANSIJSKIM KNJIGOVODSTVOM / ФИНАНСОВАЯ БУХГАЛТЕРСКАЯ ОТЧЕТНОСТЬ
+ACC	91	Активный/Пассивный	True	MATERIJAL I ROBA / МАТЕРИАЛЫ И ТОВАРЫ
+ACC	92	Активный/Пассивный	True	RACUNI MJESTA TROSKOVA NABAVKE, TEHNICKE UPRAVE I POMOCNIH DJELATNOSTI / СЧЕТА МЕСТА ПОКУПКИ, ТЕХНИЧЕСКОГО АДМИНИСТРАЦИИ И ДОПОЛНИТЕЛЬНОЙ ДЕЯТЕЛЬНОСТИ
+ACC	93	Активный/Пассивный	True	RACUNI GLAVNIH PROIZVODNIH MJESTA TROSKOVA / УЧЕТ ОСНОВНЫХ ПРОИЗВОДСТВЕННЫХ ЗАТРАТ
+ACC	94	Активный/Пассивный	True	RACUNI MJESTA TROSKOVA UPRAVE, PRODAJE I SLICNIH AKTIVNOSTI / РАСХОДЫ НА АДМИНИСТРАТИВНЫЕ РАСХОДЫ, ПРОДАЖИ И ПОДОБНАЯ ДЕЯТЕЛЬНОСТЬ
+ACC	95	Активный/Пассивный	True	NOSIOCI TROSKOVA / СТОИМОСТЬ ПЕРЕВОЗКИ
+ACC	96	Активный/Пассивный	True	GOTOVI PROIZVODI / КОНЕЧНЫЙ ПРОДУКТ
+ACC	97	Активный/Пассивный	True	SLOBODNA GRUPA / БЕСПЛАТНАЯ ГРУППА
+ACC	98	Активный/Пассивный	True	RASHODI I PRIHODI / РАСХОДЫ И ДОХОДЫ
+ACC	99	Активный/Пассивный	True	RACUNI DOBITKA, GUBITKA I ZAKLJUCKA / ПРИБЫЛЬ, УБЫТКИ И ЗАКЛЮЧИТЕЛЬНЫЕ СЧЕТА
+ACC	000	Активный/Пассивный	False	Вспомогательный
+ACC	001	Активный/Пассивный	False	Neuplaceni upisani udjeli
+ACC	010	Активный	False	Ulaganja u razvoj / Инвестиции в развитие
+ACC	011	Активный	False	Koncesije, patenti, licence i slicna prava / Концессии, патенты, лицензии и аналогичные права
+ACC	012	Активный	False	Goodwill / Гудвилл
+ACC	014	Активный	False	Ostala nematerijalna ulaganja / Прочие нематериальные активы
+ACC	015	Активный	False	Nematerijalna ulaganja u pripremi / Нематериальные активы в стадии подготовки
+ACC	016	Активный	False	Avansi za nematerijalna ulaganja / Авансы на нематериальные активы
+ACC	020	Активный	False	Zemljista 
+ACC	021	Активный	False	Sume i visegodisnji zasadi 
+ACC	022	Активный	False	Gradevinski objekti 
+ACC	023	Активный	False	Postrojenja i oprema
+ACC	024	Активный	False	Investicione nekretnine
+ACC	025	Активный	False	Osnovno stado
+ACC	026	Активный	False	Ostale nekretnine, postrojenja i oprema 
+ACC	027	Активный	False	Nekretnine, postrojenja, oprema i bioloska sredstva u pripremi
+ACC	028	Активный	False	Avansi za nekretnine, postrojenja, opremu i bioloska sredstva 
+ACC	029	Активный	False	Ulaganja na tudim nekretninama, postrojenjima i opremi 
+ACC	030	Активный	False	Ucesca u kapitalu zavisnih pravnih lica / Доли в капитале дочерних компаний
+ACC	031	Активный	False	Ucesca u kapitalu pridruzenih pravnih lica / Доли в капитале ассоциированных юридических лиц
+ACC	032	Активный	False	Ucesca u kapitalu ostalih pravnih lica i druge hartije od vrijednosti raspolozive za prodaju / Доли в капитале других юридических лиц и иные ценные бумаги, имеющиеся в наличии для продажи
+ACC	033	Активный	False	Dugorocni krediti maticnim, zavisnim i ostalim povezanim pravnim licima / Долгосрочные займы материнским, дочерним и другим связанным юридическим лицам
+ACC	034	Активный	False	Dugorocni krediti u zemlji / Долгосрочные займы в стране
+ACC	035	Активный	False	Dugorocni krediti u inostranstvu / Долгосрочные займы за рубежом
+ACC	036	Активный/Пассивный	False	Hartije od vrijednosti koje se drze do dospijeca / Ценные бумаги, удерживаемые до погашения
+ACC	038	Активный	False	Ostali dugorocni finansijski plasmani / Прочие долгосрочные финансовые вложения
+ACC	039	Активный	False	Ispravka vrijednosti dugorocnih finansijskih plasmana / Обесценение долгосрочных финансовых вложений
+ACC	040	Активный	False	Nematerijalna ulaganja namijenjena prodaji / Нематериальные активы, предназначенные для продажи
+ACC	041	Активный	False	Zemljiste namijenjeno prodaji / Земельные участки предназначенные для продажи
+ACC	042	Активный	False	Gradevinski objekti namijenjeni prodaji / Строительные объекты, предназначенные для продажи
+ACC	043	Активный	False	Investicione nekretnine namijenjene prodaji / Инвестиционная недвижимость, предназначенная для продажи
+ACC	044	Активный	False	Sume i visegodisnji zasadi namijenjeni prodaji / Леса и многолетние насаждения, предназначенные для продажи
+ACC	045	Активный	False	Postrojenja i oprema namijenjena prodaji / 045 Продажа растений и оборудования
+ACC	046	Активный	False	Bioloska sredstva namijenjena prodaji / Биологические активы, предназначенные для продажи
+ACC	047	Активный	False	Sredstva poslovanja koje je obustavljeno / Основные средства законсервированные
+ACC	049	Активный	False	Ostala sredstva namijenjena prodaji / Прочие активы, предназначенные для продажи
+ACC	100	Активный	False	Obracun nabavke zaliha materijala, rezervnih djelova, alata i inventara / Закупка поставок материалов, запасных частей, инструментов и инвентаря
+ACC	101	Активный	False	Materijal / Материалы
+ACC	102	Активный	False	Rezervni djelovi / Запасные части
+ACC	103	Активный	False	Alat i inventar / Инструменты и инвентарь
+ACC	109	Активный	False	Ispravka vrijednosti zaliha materijala / Корректировка инвентаризационной стоимости материалов
+ACC	110	Активный	False	Nedovrsena proizvodnja / Незавершенное производство
+ACC	111	Активный	False	Nedovrsene usluge / Незавершенные услуги
+ACC	120	Активный	False	Gotovi proizvodi / Готовая продукция
+ACC	130	Активный	False	Obracun nabavke robe / Заготовление и приобретение товаров
+ACC	131	Активный	False	Roba u magacinu / Товары на складе
+ACC	132	Активный	False	Roba u prometu na veliko / Товары в оптовой тороговле
+ACC	133	Активный	False	Roba u skladistu, stovaristu i prodavnicama kod drugih pravnih lica / Товары на складе и в магазинах у других юридических лиц
+ACC	134	Активный	False	Roba u prometu na malo / Товары в розничной торговле
+ACC	135	Активный	False	Roba u obradi, doradi i manipulaciji / Товары в переработке
+ACC	136	Активный	False	Roba u tranzitu / Товары в пути
+ACC	137	Активный	False	Roba na putu / Товары в пути
+ACC	139	Активный	False	Ispravka vrijednosti robe / Корректировка стоимости товара
+ACC	150	Активный	False	Dati avansi za zalihe i usluge / Авансы, выданные за товары и услуги
+ACC	159	Активный	False	Ispravka vrijednosti datih avansa za zalihe i usluge / Корректировка стоимости авансов, выданных на товары и услуги
+ACC	200	Активный	False	Kupci – maticna i zavisna pravna lica / Покупатели - материнские и дочерние юридические лица
+ACC	201	Активный	False	Kupci – ostala povezana pravna lica / Покупатели - другие связанные юридические лица
+ACC	202	Активный	False	Kupci u zemlji / Покупатели в стране
+ACC	203	Активный	False	Kupci u inostranstvu / Покупатели за границей
+ACC	209	Активный	False	Ispravka vrijednosti potrazivanja od kupaca / Корректировка стоимости дебиторской задолженности покупателей
+ACC	210	Активный	False	Potrazivanja od izvoznika / Дебиторская задолженность экспортеров
+ACC	211	Активный	False	Potrazivanja po osnovu uvoza za tudi racun / Дебиторская задолженность по импорту
+ACC	212	Активный	False	Potrazivanja iz komisione i konsignacione prodaje / Дебиторская задолженность по комиссионным продажам
+ACC	218	Активный	False	Ostala potrazivanja iz specificnih poslova / Другая дебиторская задолженность
+ACC	219	Активный	False	Ispravka vrijednosti potrazivanja iz specificnih poslova / Корректировка стоимости дебиторской задолженности
+ACC	220	Активный	False	Potrazivanja za kamatu i dividende / Проценты к получению и дивиденды
+ACC	221	Активный	False	Potrazivanja od zaposlenih / Дебиторская задолженность по расчетам с сотрудниками
+ACC	222	Активный	False	Potrazivanja od drzavnih organa i organizacija / Дебиторская задолженность государственных органов и организаций
+ACC	223	Активный	False	Potrazivanja za vise placeni porez na dobit / Дебиторская задолженность по излишне уплаченному подоходному налогу
+ACC	224	Активный	False	Potrazivanja po osnovu preplacenih ostalih poreza i doprinosa / Дебиторская задолженность по излишне уплаченным прочим налогам и взносам
+ACC	228	Активный	False	Ostala potrazivanja / Прочая дебиторская задолженность
+ACC	229	Активный	False	Ispravka vrijednosti drugih potrazivanja / Обесценение прочей дебиторской задолженности
+ACC	230	Активный	False	Kratkorocni krediti i plasmani – maticna i zavisna pravna lica / Краткосрочные кредиты и займы - материнские и дочерние компании
+ACC	231	Активный	False	Kratkorocni krediti i plasmani – ostala povezana pravna lica / Краткосрочные кредиты и займы - прочие связанные юридические лица
+ACC	232	Активный	False	Kratkorocni krediti u zemlji / Краткосрочные займы в стране
+ACC	233	Активный	False	Kratkorocni krediti u inostranstvu / Краткосрочные займы за рубежом
+ACC	234	Активный	False	Dio dugorocnih finansijskih plasmana koji dospijeva do jedne godine / Часть долгосрочных финансовых размещений со сроком погашения до одного года
+ACC	235	Активный	False	Hartije od vrijednosti koje se drze do dospijeca – dio koji dospijeva do jedne godine / Ценные бумаги, удерживаемые до погашения – часть со сроком погашения в течение одного года.
+ACC	236	Активный	False	Hartije od vrijednosti kojima se trguje / Ценные бумаги в обращении
+ACC	237	Активный	False	Otkupljene sopstvene akcije i otkupljeni sopstveni udjeli namijenjeni prodaji ili ponistavanju / Приобретенные приобретенные собственные акции, предназначенные для продажи или аннулирования
+ACC	238	Активный/Пассивный	False	Ostali kratkorocni finansijski plasmani / Другие краткосрочные финансовые размещения
+ACC	239	Активный	False	Ispravka vrijednosti kratkorocnih finansijskih plasmana / Обесценение краткосрочных финансовых вложений
+ACC	240	Активный	False	Hartije od vrijednosti – gotovinski ekvivalenti / Ценные бумаги - денежные эквиваленты
+ACC	241	Активный	False	Tekuci (poslovni) racuni / Расчетные счета в банках
+ACC	242	Активный	False	Izdvojena novcana sredstva i akreditivi / Специальные счета в банках и аккредитивы
+ACC	243	Активный	False	Blagajna / Касса
+ACC	244	Активный	False	Devizni racun / Валютные счета
+ACC	245	Активный	False	Devizni akreditivi / Валютные аккредитивы
+ACC	246	Активный	False	Devizna blagajna / Иностранная валюта
+ACC	248	Активный	False	Ostala novcana sredstva / Другие денежные средства
+ACC	249	Активный	False	Novcana sredstva cije je koriscenje ograniceno ili je vrijednost umanjena / Денежные активы, использование которых ограничено или стоимость которых снижена
+ACC	270	Активный	False	Porez na dodatu vrijednost u primljenim fakturama po opstoj stopi (osim placenih avansa) / Налог на добавленную стоимость в полученных счетах-фактурах по общей ставке (кроме выплаченных авансов)
+ACC	271	Активный	False	Porez na dodatu vrijednost u primljenim fakturama po snizenoj stopi (osim placenih avansa) / Налог на добавленную стоимость в полученных счетах-фактурах по сниженной ставке (кроме выплаченных авансов)
+ACC	272	Активный	False	Porez na dodatu vrijednost u datim avansima po opstoj stopi / Налог на добавленную стоимость по выданным авансам по общей ставке
+ACC	273	Активный	False	Porez na dodatu vrijednost u datim avansima po snizenoj stopi / Налог на добавленную стоимость по выданным авансам по сниженной ставке
+ACC	274	Активный	False	Porez na dodatu vrijednost placen pri uvozu sredstava po opstoj stopi / Налог на добавленную стоимость, уплачиваемый при ввозе имущества по общей ставке
+ACC	275	Активный	False	Porez na dodatu vrijednost placen pri uvozu sredstava po snizenoj stopi / Налог на добавленную стоимость, уплачиваемый при ввозе имущества по сниженной ставке
+ACC	276	Активный	False	Porez na dodatu vrijednost obracunat na usluge inostranih lica / Налог на добавленную стоимость, исчисленный по услугам иностранных лиц
+ACC	277	Активный	False	Naknadno vracen porez na dodatu vrijednost kupcima – stranim drzavljanima / Налог на добавленную стоимость впоследствии возвращается покупателям - иностранным гражданам
+ACC	279	Активный	False	Potrazivanja za vise placeni porez na dodatu vrijednost / Дебиторская задолженность по излишне уплаченному налогу на добавленную стоимость
+ACC	280	Активный/Пассивный	False	Unaprijed placeni troskovi / Расходы будущих периодов
+ACC	281	Активный/Пассивный	False	Potrazivanja za nefakturisani prihod / Дебиторская задолженность по неотфактурованным доходам
+ACC	282	Активный/Пассивный	False	Razgraniceni troskovi po osnovu obaveza / Начисленные расходы по обязательствам
+ACC	287	Активный/Пассивный	False	Razgraniceni porez na dodatu vrijednost / Отложенный налог на добавленную стоимость
+ACC	288	Активный/Пассивный	False	Odlozena poreska sredstva / Отложенные налоговые активы
+ACC	289	Активный/Пассивный	False	Ostala aktivna vremenska razgranicenja / Другие активные ограничения по времени
+ACC	300	Пассивный	False	Akcijski kapital / Уставный капитал акционерных обществ
+ACC	301	Пассивный	False	Udjeli drustava sa ogranicenom odgovornoscu
+ACC	302	Пассивный	False	Ulozi / Роли
+ACC	303	Пассивный	False	Drzavni kapital / Уставный капитал государственных организаций
+ACC	309	Пассивный	False	Ostali osnovni kapital / Другой акционерный капитал
+ACC	310	Пассивный	False	Neuplacene upisane akcije / Неоплаченные именные акции
+ACC	311	Пассивный	False	Neuplaceni upisani udjeli / Неоплаченные доли
+ACC	320	Пассивный	False	Emisiona premija / Эмиссионная премия
+ACC	321	Пассивный	False	Zakonske rezerve / Резервы созданные в соответствии с законодательством
+ACC	322	Пассивный	False	Statutarne i druge rezerve / Уставные и другие резервы
+ACC	330	Пассивный	False	Revalorizacione rezerve / Добавочный капитал, резервы переоценки
+ACC	331	Пассивный	False	Nerealizovani dobici po osnovu preracuna finansijskih izvjestaja prikazanih u drugoj valuti prikazivanja / Нерапределенная прибыль, полученная в результате пересчета финансовой отчетности, представлен
+ACC	332	Активный	False	Nerealizovani gubici po osnovu preracuna finansijskih izvjestaja prikazanih u drugoj valuti prikazivanja / Непокрытый убыток, возникший в результате пересчета финансовой отчетности, представленной в д
+ACC	333	Пассивный	False	Nerealizovani dobici po osnovu hartija od vrijednosti raspolozivih za prodaju / Нерапределенная прибыль по ценным бумагам, имеющимся в наличии для продажи
+ACC	334	Активный	False	Nerealizovani gubici po osnovu hartija od vrijednosti raspolozivih za prodaju / Непокрытый убыток по ценным бумагам, имеющимся в наличии для продажи
+ACC	340	Пассивный	False	Nerasporedeni dobitak ranijih godina (po godinama) / Нераспределенная прибыль прошлых лет (по годам)
+ACC	341	Пассивный	False	Nerasporedeni dobitak tekuce godine / Нераспределенная прибыль за текущий год
+ACC	350	Активный	False	Gubitak ranijih godina (po godinama) / Убыток прошлых лет (по годам)
+ACC	351	Активный	False	Gubitak tekuce godine / Убыток текущего года
+ACC	400	Активный/Пассивный	False	Rezervisanja za troskove u garantnom roku / Резервы на покрытие расходов в течение гарантийного срока
+ACC	401	Активный/Пассивный	False	Rezervisanja za troskove obnavljanja prirodnih bogatstava / Резервы на покрытие затрат на восстановление природных ресурсов
+ACC	402	Активный/Пассивный	False	Rezervisanja za zadrzane kaucije i depozite / Резервы под нераспределенные поручительсва и депозиты
+ACC	403	Активный/Пассивный	False	Rezervisanja za troskove restrukturiranja / Резервы на реструктуризацию
+ACC	404	Активный/Пассивный	False	Rezervisanja za naknade i druge beneficije zaposlenih / Резервы на выплаты и прочие вознаграждения работникам
+ACC	409	Активный/Пассивный	False	Ostala dugorocna rezervisanja / Прочие долгосрочные резервы
+ACC	410	Пассивный	False	Obaveze koje se mogu konvertovati u kapital / Обязательства, которые можно конвертировать в капитал
+ACC	411	Пассивный	False	Obaveze prema maticnim i zavisnim pravnim licima / Обязательства перед головными и дочерними юридическими лицами
+ACC	412	Пассивный	False	Obaveze prema ostalim povezanim pravnim licima / Обязательства перед другими связанными юридическими лицами
+ACC	413	Пассивный	False	Obaveze po emitovanim hartijama od vrijednosti u peridu duzem od godinu dana / Обязательства по ценным бумагам, выпущенным на срок более одного года
+ACC	414	Пассивный	False	Dugorocni krediti u zemlji / Долгосрочные полученные кредиты и займы в стране
+ACC	415	Пассивный	False	Dugorocni krediti u inostranstvu / Долгосрочные полученные кредиты за рубежом
+ACC	419	Пассивный	False	Ostale dugorocne obaveze / Прочие долгосрочные обязательства
+ACC	420	Пассивный	False	Kratkorocni krediti od maticnih i zavisnih pravnih lica / Краткосрочные полученные займы от материнских и дочерних юридических лиц
+ACC	421	Пассивный	False	Kratkorocni krediti od ostalih povezanih pravnih lica / Краткосрочные полученные займы от других связанных юридических лиц
+ACC	422	Пассивный	False	Kratkorocni krediti u zemlji / Краткосрочные полученные кредиты и займы в стране
+ACC	423	Пассивный	False	Kratkorocni krediti u inostranstvu / Краткосрочные полученные кредиты и займы за рубежом
+ACC	424	Пассивный	False	Dio dugorocnih kredita koji dospijeva do jedne godine / Часть долгосрочных полученных кредитов со сроком погашения в один год
+ACC	425	Пассивный	False	Dio ostalih dugorocnih obaveza koje dospijevaju do jedne godine / Часть других долгосрочных полученных обязательств со сроком погашения в один год
+ACC	426	Пассивный	False	Obaveze po kratkorocnim hartijama od vrijednosti / Обязательства по краткосрочным ценным бумагам
+ACC	427	Пассивный	False	Obaveze po osnovu stalnih sredstava i sredstava obustavljenog poslovanja namijenjenih prodaji / Обязательства по основным средствам и активам прекращенной деятельности, предназначенным для продажи
+ACC	429	Пассивный	False	Ostale kratkorocne finansijske obaveze / Прочие краткосрочные финансовые обязательства
+ACC	430	Пассивный	False	Primljeni avansi, depoziti i kaucije / Авансы полученные, депозиты и залог
+ACC	431	Пассивный	False	Dobavljaci – maticna i zavisna pravna lica / Поставщики - материнские и дочерние юридические лица
+ACC	432	Пассивный	False	Dobavljaci – ostala povezana pravna lica / Поставщики - другие связанные юридические лица
+ACC	433	Пассивный	False	Dobavljaci u zemlji / Поставщики в стране
+ACC	434	Пассивный	False	Dobavljaci u inostranstvu / Поставщики за рубежом
+ACC	439	Пассивный	False	Ostale obaveze iz poslovanja / Прочие обязательства
+ACC	440	Пассивный	False	Obaveze prema uvozniku / Обязательства перед импортером
+ACC	441	Пассивный	False	Obaveze po osnovu izvoza za tud racun / Обязательства, основанные на экспорте товаров
+ACC	442	Пассивный	False	Obaveze po osnovu komisione i konsignacione prodaje / Обязательства перед комитентом по комиссионной тороговле
+ACC	449	Пассивный	False	Ostale obaveze iz specificnih poslova / Прочие обязательства
+ACC	450	Активный/Пассивный	False	Obaveze za neto zarade i naknade zarada, osim naknada koje se refundiraju
+ACC	451	Активный/Пассивный	False	Obaveze za porez na zarade i naknade zarada na teret zaposlenog
+ACC	452	Активный/Пассивный	False	Obaveze za doprinose na zarade i naknade zarada na teret zaposlenog
+ACC	453	Активный/Пассивный	False	Obaveze za poreze i doprinose na zarade i naknade zarada na teret poslodavca
+ACC	454	Активный/Пассивный	False	Obaveze za neto naknade zarada koje se refundiraju
+ACC	455	Активный/Пассивный	False	Obaveze za poreze i doprinose na naknade zarada na teret zaposlenog koje se refundiraju
+ACC	456	Активный/Пассивный	False	Obaveze za poreze i doprinose na naknade zarada na teret poslodavca koje se refundiraju
+ACC	459	Активный/Пассивный	False	Obaveze za poreze i doprinose na naknade zarada na teret poslodavca koje se refundiraju
+ACC	460	Активный/Пассивный	False	Obaveze po osnovu kamata i troskova finansiranja / Обязательства по начисленным процентам
+ACC	461	Активный/Пассивный	False	Obaveze za dividende / Обязательства по дивидендам
+ACC	462	Активный/Пассивный	False	Obaveze za ucesce u dobitku / Обязательства по долевому участию перед партнерами
+ACC	463	Активный/Пассивный	False	Obaveze prema zaposlenima / Обязательства перед работниками
+ACC	464	Активный/Пассивный	False	Obaveze prema clanovima upravnog i nadzornog odbora / Обязательства перед членами Правления и Наблюдательного Совета
+ACC	465	Активный/Пассивный	False	Obaveze prema fizickim licima za naknade po ugovorima / Обязательства перед физическими лицами по вознаграждению по договорам
+ACC	469	Активный/Пассивный	False	Ostale obaveze
+ACC	470	Активный	False	Obaveze za porez na dodatu vrijednost po izdatim fakturama po opstoj stopi (osim primljenih avansa) / Обязательства по НДС по счетам, выставленным по общей ставке (исключая полученные авансы)
+ACC	471	Активный	False	Obaveze za porez na dodatu vrijednost po izdatim fakturama po snizenoj stopi (osim primljenih avansa) / Обязательства по НДС по выставленным счетам по сниженной ставке (за исключением полученных аванс
+ACC	472	Активный/Пассивный	False	Obaveze za porez na dodatu vrijednost po primljenim avansima po opstoj stopi / Обязательства по НДС по авансам, полученным по общей ставке
+ACC	473	Активный/Пассивный	False	Obaveze za porez na dodatu vrijednost po primljenim avansima po snizenoj stopi / Обязательства по НДС по авансам, полученным по сниженной ставке
+ACC	474	Активный/Пассивный	False	Obaveze za porez na dodatu vrijednost po osnovu sopstvene potrosnje po opstoj stopi / Обязательства по НДС на основе собственного потребления по общей ставке
+ACC	475	Активный/Пассивный	False	Obaveze za porez na dodatu vrijednost po osnovu sopstvene potrosnje po snizenoj stopi / Обязательства по НДС на основе собственного потребления по сниженной ставке
+ACC	476	Активный/Пассивный	False	Obaveze za porez na dodatu vrijednost po osnovu prodaje za gotovinu / Обязательства по НДС при реализации за наличный расчет
+ACC	479	Активный/Пассивный	False	Obaveze za porez na dodatu vrijednost po osnovu razlike obracunatog poreza na dodatu vrijednost i prethodnog poreza / Обязательства по НДС, основанные на разнице между рассчитанным налогом на добавлен
+ACC	480	Активный/Пассивный	False	Obaveze za akcize / Акцизы
+ACC	481	Активный/Пассивный	False	Obaveze za porez iz rezultata / Налоговые обязательства по результатам
+ACC	482	Активный/Пассивный	False	Obaveze za poreze, carine i druge dazbine iz nabavke ili na teret troskova / Обязательства по налогам, таможенным сборам и другим сборам от закупок или расходов
+ACC	483	Активный/Пассивный	False	Obaveze za doprinose koji terete troskove / Обязательства по взносам, взимающий с расходов
+ACC	489	Активный/Пассивный	False	Ostale obaveze za poreze, doprinose i druge dazbine / Другие обязательства по налогам, взносам и пошлинам
+ACC	490	Активный/Пассивный	False	Unaprijed obracunati troskovi / Предварительно рассчитанные затраты
+ACC	491	Активный/Пассивный	False	Obracunati prihodi buduceg perioda / Расчетный доход будущего периода
+ACC	494	Активный/Пассивный	False	Razgraniceni zavisni troskovi nabavke / Отсроченные зависимые затраты на закупки
+ACC	495	Активный/Пассивный	False	Odlozeni prihodi i primljene donacije / Отложенный доход и полученные пожертвования
+ACC	496	Активный/Пассивный	False	Razgraniceni prihodi po osnovu potrazivanja / Начисленный доход на основе дебиторской задолженности
+ACC	497	Активный/Пассивный	False	Razgranicene obaveze za porez na dodatu vrijednost / Отложенное обязательство по налогу на добавленную стоимость
+ACC	498	Активный/Пассивный	False	Odlozene poreske obaveze / Отложенные налоговые обязательства
+ACC	499	Активный/Пассивный	False	Ostala pasivna vremenska razgranicenja / Другие пассивные временные разграничения
+ACC	500	Активный/Пассивный	False	Nabavka robe / Основное производство
+ACC	501	Активный/Пассивный	False	Nabavna vrijednost prodate robe / Покупная стоимость товаров
+ACC	502	Активный/Пассивный	False	Nabavna vrijednost prodatih nekretnina pribavljenih radi prodaje / Стоимость проданной недвижимости, приобретенной для продажи
+ACC	510	Активный/Пассивный	False	Nabavka materijala / Закупка материалов
+ACC	511	Активный/Пассивный	False	Troskovi materijala za izradu / Стоимость изготовления материалов
+ACC	512	Активный	False	Troskovi ostalog materijala (rezijskog) / Затраты на другие материалы
+ACC	513	Активный	False	Troskovi goriva i energije / Расходы на топливо и энергию
+ACC	520	Активный	False	Troskovi zarada i naknada zarada (bruto)
+ACC	521	Активный	False	Troskovi poreza na zarade i naknade zarada na teret poslodavca
+ACC	522	Активный	False	Troskovi naknada po ugovoru o delu
+ACC	523	Активный/Пассивный	False	Troskovi naknada po autorskim ugovorima
+ACC	524	Активный/Пассивный	False	Troskovi naknada po ugovoru o privremenim i povremenim poslovima
+ACC	525	Активный/Пассивный	False	Troskovi naknada fizickim licima po osnovu ostalih ugovora
+ACC	526	Активный/Пассивный	False	Troskovi naknada clanovima upravnog i nadzornog odbora
+ACC	529	Активный/Пассивный	False	Ostali licni rashodi i naknade
+ACC	530	Активный/Пассивный	False	TROSKOVI PROIZVODNIH USLUGA / СТОИМОСТЬ ПРОИЗВОДСТВЕННЫХ УСЛУГ
+ACC	531	Активный/Пассивный	False	Troskovi transportnih usluga / Расходы на транспортные услуги
+ACC	532	Активный/Пассивный	False	Troskovi usluga odrzavanja / Расходы на услуги по техническому обслуживанию
+ACC	533	Активный/Пассивный	False	Troskovi zakupnina / Расходы на аренду
+ACC	534	Активный/Пассивный	False	Troskovi sajmova / Расходы участия в выставках
+ACC	535	Активный/Пассивный	False	Troskovi reklame i propagande / Расходы на рекламу
+ACC	536	Активный/Пассивный	False	Troskovi istrazivanja / Расходы на исследования
+ACC	537	Активный/Пассивный	False	Troskovi razvoja koji se ne kapitalizuju / Затраты на разработку, которые не капитализируются
+ACC	539	Активный/Пассивный	False	Troskovi ostalih usluga / Затраты на другие услуги
+ACC	540	Активный	False	Troskovi amortizacije / Амортизационные расходы ОС и НМА
+ACC	541	Активный/Пассивный	False	Troskovi rezervisanja za garantni rok / Расходы на подготовку к гарантийному сроку
+ACC	542	Активный/Пассивный	False	Rezervisanja za troskove obnavljanja prirodnih bogatstava / Резервы затрат на восстановление природных ресурсов
+ACC	543	Активный/Пассивный	False	Rezervisanja za zadrzane kaucije i depozite / Резервы по удержанным залогам и депозитам
+ACC	544	Активный/Пассивный	False	Rezervisanja za troskove restrukturiranja / Резервы на реструктуризацию расходов
+ACC	545	Активный/Пассивный	False	Rezervisanja za naknade i druge beneficije zaposlenih / Положения о компенсации и других вознаграждениях работникам
+ACC	549	Активный/Пассивный	False	Ostala dugorocna rezervisanja / Прочие долгосрочные резервы
+ACC	550	Активный	False	Troskovi neproizvodnih usluga
+ACC	551	Активный	False	Troskovi reprezentacije
+ACC	552	Активный	False	Troskovi premija osiguranja
+ACC	553	Активный	False	Troskovi platnog prometa
+ACC	554	Активный/Пассивный	False	Troskovi clanarina
+ACC	555	Активный	False	Troskovi poreza
+ACC	556	Активный	False	Troskovi doprinosa
+ACC	559	Активный	False	Ostali nematerijalni troskovi
+ACC	560	Активный/Пассивный	False	Finansijski rashodi iz odnosa sa maticnim i zavisnim pravnim licima / Финансовые расходы от отношений с материнскими и зависимыми юридическими лицами
+ACC	561	Активный/Пассивный	False	Finansijski rashodi iz odnosa sa ostalim povezanim pravnim licima / Финансовые расходы от отношений с другими связанными юридическими лицами
+ACC	562	Активный/Пассивный	False	Rashodi kamata / Расходы по уплате процентов
+ACC	563	Активный	False	Negativne kursne razlike / Отрицательные курсовые разницы
+ACC	564	Активный/Пассивный	False	Rashodi po osnovu efekata valutne klauzule / Расходы, основанные на влиянии валютной оговорки
+ACC	565	Активный/Пассивный	False	Rashodi od ucesca u gubitku zavisnih pravnih lica i zajednickih ulaganja koji se obracunavaju koriscenjem metoda udjela / Расходы от участия в убытках дочерних и совместных предприятий, рассчитанные п
+ACC	569	Активный/Пассивный	False	Ostali finansijski rashodi / Прочие финансовые расходы
+ACC	570	Активный/Пассивный	False	Gubici po osnovu rashodovanja i prodaje nematerijalnih ulaganja, nekretnina, postrojenja i opreme / Убытки, возникающие в связи с расходами и продажей нематериальных активов, основных средств
+ACC	571	Активный/Пассивный	False	Gubici po osnovu rashodovanja i prodaje bioloskih sredstava / Убытки от расходов и продажи биологических активов
+ACC	572	Активный/Пассивный	False	Gubici po osnovu prodaje ucesca u kapitalu i hartija od vrijednosti / Убытки от продажи долевого участия и ценных бумаг
+ACC	573	Активный/Пассивный	False	Gubici od prodaje materijala / Убытки от продажи материалов
+ACC	574	Активный/Пассивный	False	Manjkovi / Недостачи
+ACC	575	Активный/Пассивный	False	Rashodi po osnovu efekata ugovorene zastite od rizika, koji ne ispunjavaju uslove da se iskazu u okviru revalorizacionih rezervi / Расходы, возникающие в результате договорного хеджирования, не подпад
+ACC	576	Активный/Пассивный	False	Rashodi po osnovu direktnih otpisa potrazivanja / Расходы по списанию дебиторской задолженности
+ACC	577	Активный/Пассивный	False	Rashodi po osnovu rashodovanja zaliha materijala i robe / Расходы по выбытию МПЗ и товаров
+ACC	579	Активный/Пассивный	False	Ostali nepomenuti rashodi / Прочие расходы
+ACC	580	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti bioloskih sredstava / Расходы основаные на корректировке стоимости биологических активов
+ACC	581	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti nematerijalnih ulaganja / Расходы основаные на корректировке стоимости нематериальных активов
+ACC	582	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti nekretnina, postrojenja i opreme / Расходы основанные на корректировке стоимости недвижимости, машин и оборудования
+ACC	583	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti dugorocnih finansijskih plasmana i drugih hartija od vrijednosti raspolozivih za prodaju / Расходы основанные на корректировке стоимости долгосрочных финансо
+ACC	584	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti zaliha materijala i robe / Расходы основаные на корректировке стоимости товарно-материальных запасов и товаров
+ACC	585	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti potrazivanja i kratkorocnih finansijskih plasmana / Расходы основанные на корректировке стоимости дебиторской задолженности и краткосрочных финансовых вложен
+ACC	589	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti ostale imovine / Расходы основанные на корректировке стоимости прочих активов
+ACC	590	Активный/Пассивный	False	Gubitak poslovanja koje je obustavljeno / Потеря бизнеса, который был прекращен
+ACC	591	Активный/Пассивный	False	Rashodi (efekti) promjene racunovodstvenih politika i ispravke gresaka iz prethodnih izvjestajnih perioda / Расходы (последствия) изменений в учетной политике и исправления ошибок предыдущих отчетных
+ACC	599	Активный/Пассивный	False	Prenos rashoda / Перенос расходов
+ACC	600	Пассивный	False	Prihodi od prodaje robe maticnim i zavisnim pravnim licima / Выручка от продажи товаров материнским и зависимым юридическим лицам
+ACC	601	Пассивный	False	Prihodi od prodaje robe ostalim povezanim pravnim licima / Выручка от продажи товаров другим связанным юридическим лицам
+ACC	602	Пассивный	False	Prihodi od prodaje robe na domacem trzistu / Выручка от продажи товаров на внутреннем рынке
+ACC	603	Пассивный	False	Prihodi od prodaje robe na inostranom trzistu / Выручка от продажи товаров на внешнем рынке
+ACC	610	Пассивный	False	Prihodi od prodaje proizvoda i usluga maticnim i zavisnim pravnim licima / Выручка от реализации продукции и услуг материнским и дочерним юридическим лицам
+ACC	611	Пассивный	False	Prihodi od prodaje proizvoda i usluga ostalim povezanim pravnim licima / Выручка от реализации продукции и услуг другим связанным юридическим лицам
+ACC	612	Пассивный	False	Prihodi od prodaje proizvoda i usluga na domacem trzistu / Выручка от реализации продукции и услуг на внутреннем рынке
+ACC	613	Пассивный	False	Prihodi od prodaje proizvoda i usluga na inostranom trzistu / Выручка от реализации продукции и услуг на зарубежных рынках
+ACC	620	Активный/Пассивный	False	Prihodi od aktiviranja ili potrosnje robe za sopstvene potrebe / Доходы от потребления товаров для собственных нужд
+ACC	621	Активный/Пассивный	False	Prihodi od aktiviranja ili potrosnje proizvoda i usluga za sopstvene potrebe / Доходы от потребления готовой продукции и услуг для собственных нужд
+ACC	630	Активный/Пассивный	False	Povecanje vrijednosti zaliha nedovrsenih i gotovih proizvoda i nedovrsenih usluga / Увеличение стоимости запасов полуфабрикатов, готовой продукции и незавершенных услуг
+ACC	631	Активный/Пассивный	False	Smanjenje vrijednosti zaliha nedovrsenih i gotovih proizvoda i nedovrsenih usluga / Снижение стоимости полуфабрикатов, готовой продукции и незавершенных услуг
+ACC	640	Активный/Пассивный	False	Prihodi od premija, subvencija, dotacija, regresa, kompenzacija i povracaja poreskih dazbina / Доходы от премий, субсидий, грантов, регресса, компенсации и возмещения налоговых пошлин
+ACC	641	Активный/Пассивный	False	Prihodi po osnovu uslovljenih donacija / Доходы от безвозмездных поступлений
+ACC	650	Активный/Пассивный	False	Prihodi od zakupnina / Доходы от аренды
+ACC	651	Активный/Пассивный	False	Prihodi od clanarina / Доходы от членства в организациях
+ACC	652	Активный/Пассивный	False	Prihodi od tantijema i licencnih naknada / Доходы от роялти и лицензионных сборов
+ACC	659	Активный/Пассивный	False	Ostali poslovni prihodi / Прочие операционные доходы
+ACC	660	Активный/Пассивный	False	Finansijski prihodi od maticnih i zavisnih pravnih lica / Финансовый доход от материнских и дочерних юридических лиц
+ACC	661	Активный/Пассивный	False	Finansijski prihodi od ostalih povezanih pravnih lica / Финансовый доход от других связанных юридических лиц
+ACC	662	Пассивный	False	Prihodi od kamata / Процентный доход
+ACC	663	Пассивный	False	Pozitivne kursne razlike /  Положительные курсовые разницы
+ACC	664	Активный/Пассивный	False	Prihodi po osnovu efekata valutne klauzule / Доход от эффектов валютной оговорки
+ACC	665	Активный/Пассивный	False	Prihodi po osnovu ucesca u dobitku zavisnih pravnih lica i zajednickih ulaganja / Доход от участия в дочерних и совместных предприятий
+ACC	669	Активный/Пассивный	False	Ostali finansijski prihodi / Прочие финансовые доходы
+ACC	670	Активный/Пассивный	False	Dobici od prodaje nematerijalnih ulaganja, nekretnina, postrojenja i opreme / Доход от продажи нематериальных активов, основных средств
+ACC	671	Активный/Пассивный	False	Dobici od prodaje bioloskih sredstava / Доход от продажи биологических активов
+ACC	672	Активный/Пассивный	False	Dobici od prodaje ucesca i dugorocnih hartija od vrijednosti / Доход от продажи долевых и долгосрочных ценных бумаг
+ACC	673	Активный/Пассивный	False	Dobici od prodaje materijala / Доход от продажи материалов
+ACC	674	Активный/Пассивный	False	Viskovi / Выявленные излишки
+ACC	675	Активный/Пассивный	False	Naplacena otpisana potrazivanja / Погашенная дебиторская задолженность
+ACC	676	Активный/Пассивный	False	Prihodi po osnovu efekata ugovorene zastite od rizika / Доход, основанный на эффектах договорной защиты от рисков
+ACC	677	Активный/Пассивный	False	Prihodi od smanjenja obaveza / Доход от уменьшения обязательств
+ACC	678	Активный/Пассивный	False	Prihodi od ukidanja dugorocnih rezervisanja / Доход от списания долгосрочных резервов
+ACC	679	Активный/Пассивный	False	Ostali nepomenuti prihodi / Прочие доходы
+ACC	680	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti bioloskih sredstava / Доход от сверки стоимости биологических активов
+ACC	681	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti nematerijalnih ulaganja / Доход от сверки стоимости нематериальных активов
+ACC	682	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti nekretnina, postrojenja i opreme / Доход от сверки стоимости основных средств
+ACC	683	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti dugorocnih finansijskih plasmana i hartija od vrijednosti raspolozivih za prodaju / Доход от сверки стоимости долгосрочных финансовых вложений и ценных бумаг, имеющ
+ACC	684	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti zaliha materijala i robe / Доход от сверки стоимости товарно-материальных ценностей и товаров
+ACC	685	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti potrazivanja i kratkorocnih finansijskih plasmana / Доход от сверки стоимости дебиторской задолженности и краткосрочных финансовых размещений
+ACC	689	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti ostale imovine / Доход от сверки стоимости прочих активов
+ACC	690	Активный/Пассивный	False	Dobitak poslovanja koje je obustavljeno / Доход от бизнеса, который был прекращен
+ACC	691	Активный/Пассивный	False	Prihodi (efekti) po osnovu promjene racunovodstvenih politika i ispravke gresaka iz prethodnih izvjestajnih perioda / Доход (эффект) от изменений в учетной политике и исправления ошибок предыдущих отч
+ACC	692	Активный/Пассивный	False	Prihodi iz prethodnih izvjestajnih perioda / Доходы прошлых отчетных периодов
+ACC	699	Активный/Пассивный	False	Prenos prihoda / Перевод дохода
+ACC	700	Активный/Пассивный	False	Otvaranje racuna glavne knjige finansijskog knjigovodstva / Открытие счета в Главной книге
+ACC	710	Активный/Пассивный	False	Rashodi i prihodi / Расходы и доходы
+ACC	711	Активный/Пассивный	False	Racun dobitka i gubitka poslovanja koje se obustavlja / Отчет о прибылях и убытках по прекращенной деятельности
+ACC	712	Активный/Пассивный	False	Prenos ukupnog rezultata / Передача общего результата
+ACC	720	Активный/Пассивный	False	Dobitak ili gubitak / Прибыль или убыток
+ACC	721	Активный/Пассивный	False	Poreski rashod perioda / Налоговые расходы текущего периода
+ACC	722	Активный/Пассивный	False	Odlozeni poreski rashodi i prihodi perioda / Отложенные налоговые расходы и доходы за текущий период
+ACC	724	Активный/Пассивный	False	Prenos dobitka ili gubitka / Перенос прибыли или убытка
+ACC	730	Активный/Пассивный	False	Izravnanje racuna stanja / Балансировка остатка на счете
+ACC	880	Активный/Пассивный	True	Sredstva drugih lica / Средства других лиц
+ACC	881	Активный/Пассивный	True	Hartije od vrijednosti / Ценные бумаги
+ACC	882	Активный/Пассивный	True	Data jemstva,avali,mjenice i garancije / Гарантии, поручительства, векселя выданные
+ACC	883	Активный/Пассивный	True	Druga vanbilansna aktiva / Прочие забалансовые активы
+ACC	890	Активный/Пассивный	True	Obaveze za sredstva drugih lica / Обязательства по активам других лиц
+ACC	891	Активный/Пассивный	True	Obaveze za izdate hartije od vrijednosti / Обязательства по выпущенным ценным бумагам
+ACC	892	Активный/Пассивный	True	Obaveze za data jemstva, avale,mjenice i garancije / Обязательства по гарантиям, поручительствам, векселям
+ACC	893	Активный/Пассивный	True	Druga vanbilansna pasiva / Прочие забалансовые обязательства
+ACC	900	Активный/Пассивный	True	Racun za preuzimanje zaliha / Учет приема на закупку инвентаря
+ACC	901	Активный/Пассивный	True	Racun za preuzimanje nabavke materijala i robe / Учет приема на закупку материалов и товаров
+ACC	902	Активный/Пассивный	True	Racun za preuzimanje troskova / Учет затрат
+ACC	903	Активный/Пассивный	True	Racun za preuzimanje prihoda / Счет для получения дохода
+ACC	910	Активный/Пассивный	True	Materijal / Материал
+ACC	911	Активный/Пассивный	True	Roba / Товары
+ACC	912	Активный/Пассивный	True	Proizvodi i roba u prodavnicama proizvodaca / Товары и товары в магазинах производителей
+ACC	920	Активный/Пассивный	True	Mjesto troska nabavke / Место закупки Стоимость
+ACC	921	Активный/Пассивный	True	Mjesto troska tehnicke uprave / Место зачета технического администрирования
+ACC	922	Активный/Пассивный	True	Mjesta troskova pomocne djelatnosti / Вспомогательные МВЗ
+ACC	930	Активный/Пассивный	True	MT osnovna djelatnost / Основной бизнес MT
+ACC	931	Активный/Пассивный	True	MT sporedna djelatnost / Вспомогательная деятельность MT
+ACC	940	Активный/Пассивный	True	Mjesto troska uprave / Место административного расхода
+ACC	941	Активный/Пассивный	True	Mesto troska prodaje / Стоимость места продажи
+ACC	950	Активный/Пассивный	True	Proizvodnja proizvoda osnovne djelatnosti / Производство основных продуктов
+ACC	951	Активный/Пассивный	True	Proizvodnja proizvoda sporedne djelatnosti / Производство побочных продуктов
+ACC	958	Активный/Пассивный	True	Poluproizvodi sopstvene proizvodnje / Полуфабрикаты собственного производства
+ACC	959	Активный/Пассивный	True	Odstupanja u troskovima nosilaca troskova / Отклонения в расходах на предъявителя
+ACC	960	Активный/Пассивный	True	do 968 – Gotovi proizvodi / до 968 - Готовая продукция
+ACC	969	Активный/Пассивный	True	Odstupanja u troskovima gotovih proizvoda / Отклонения в стоимости готовой продукции
+ACC	980	Активный/Пассивный	True	Troskovi prodatih proizvoda i usluga / Стоимость проданных товаров и услуг
+ACC	981	Активный/Пассивный	True	Nabavna vrijednost prodate robe / Стоимость проданных товаров
+ACC	982	Активный/Пассивный	True	Troskovi perioda / Стоимость периода
+ACC	983	Активный/Пассивный	True	Otpisi i manjkovi zaliha ucinaka / Списание и накопление остатков
+ACC	984	Активный/Пассивный	True	Viskovi zaliha ucinaka / Излишки складских запасов
+ACC	985	Активный/Пассивный	True	Slobodan racun / Бесплатный аккаунт
+ACC	986	Активный/Пассивный	True	Prihodi po osnovu proizvoda i usluga / Доходы от продуктов и услуг
+ACC	987	Активный/Пассивный	True	Prihodi po osnovu prodate robe (ukljucuju se prihodi s grupa racuna 60, 61, 62, 64) / Выручка от реализованной продукции (в том числе выручка по группам счетов 60, 61, 62, 64)
+ACC	988	Активный/Пассивный	True	Slobodan racun / Бесплатный аккаунт
+ACC	989	Активный/Пассивный	True	Drugi prihodi / Другие доходы
+ACC	990	Активный/Пассивный	True	Poslovni dobitak i gubitak / Операционная прибыль и убыток
+ACC	991	Активный/Пассивный	True	Gubitak i dobitak po osnovu prodaje materijala / Прибыль и убыток от продажи материалов
+ACC	992	Активный/Пассивный	True	Manjkovi materijala i robe / Дефицит материалов и товаров
+ACC	993	Активный/Пассивный	True	Otpisi materijala i robe / Списание материалов и товаров
+ACC	994	Активный/Пассивный	True	Viskovi materijala i robe / Излишки материалов и товаров
+ACC	999	Активный/Пассивный	True	Zakljucak obracuna troskova i ucinaka / Заключение расчета стоимости и производительности
+ACC	0000	Активный/Пассивный	True	Вспомогательный забалансовый
+ACC	0010	Активный/Пассивный	False	Neuplacene upisane prioritetne akcije
+ACC	0100	Активный/Пассивный	False	Ulaganja u razvoj trzista, sa efektom duzim od jedne godine / Инвестиции в развитие рынка с эффектом более одного года
+ACC	0101	Активный/Пассивный	False	Ulaganja u razvoj tehnologije, sa efektom duzim od jedne godine / Инвестиции в развитие технологий с эффектом более одного года
+ACC	0102	Активный/Пассивный	False	Ulaganja u razvoj proizvoda sa efektom duzim od jedne godine / Инвестиции в разработку продуктов с эффектом более одного года
+ACC	0103	Активный/Пассивный	False	Ostali izdaci za razvoj / Прочие расходы на развитие
+ACC	0108	Активный/Пассивный	False	Ispravka vrijednosti ulaganja u razvoj / Обесценение инвестиций в развитие
+ACC	0109	Активный/Пассивный	False	Obezvrijedenje vrijednosti ulaganja u razvoj / Обесценение инвестиционной стоимости развития
+ACC	0110	Активный	False	Koncesije / уступки
+ACC	0111	Активный	False	Patenti / Патенты
+ACC	0112	Активный	False	Licence /Лицензии
+ACC	0113	Активный	False	Pravo na industrijski uzorak,zig, model, zastitni znak i sl. / Права на промышленный дизайн, товарный знак, модель, товарный знак и т. д.
+ACC	0114	Активный	False	Druga slicna prava / Другие аналогичные права
+ACC	0118	Активный	False	Ispravka vrijednosti koncesija, patenata, licenci i slicnih prava / Нарушение концессий, патентов, лицензий и аналогичных прав
+ACC	0119	Активный	False	Obezvrijedenje koncesija, patenata, licenci i slicnih prava / Нарушение концессий, патентов, лицензий и аналогичных прав
+ACC	0120	Активный	False	Goodwill nastao po osnovu stecene (pripojene) neto imovine drugog pravnog lica / Гудвилл, возникающий при приобретении (приобретении) чистых активов другого юридического лица
+ACC	0121	Активный	False	Goodwill nastao po onovu kupovine akcija i udjela u drugom pravnom licu / Гудвилл, возникающий при приобретении акций и долей в другом юридическом лице
+ACC	0129	Активный	False	Obezvredenje goodwill–a / Обесценение гудвилла
+ACC	0140	Активный	False	Racunarski programi / Компьютерные программы
+ACC	0141	Активный	False	Pravo koriscenja gradskog gradevinskog zemljista / Право пользования землей городской застройки
+ACC	0142	Активный	False	Ulaganja u lizing / Лизинговые инвестиции
+ACC	0145	Активный	False	Ostala nematerijalna ulaganja / Прочие нематериальные активы
+ACC	0148	Активный	False	Ispravka vrijednosti ostalih nematerijalnih ulaganja / Обесценение других нематериальных активов
+ACC	0149	Активный	False	Obezvrijedenje ostalih nematerijalnih ulaganja / Обесценение других нематериальных активов
+ACC	0150	Активный	False	Ulaganja u razvoj u pripremi / Инвестиции в развитие в стадии подготовки
+ACC	0151	Активный	False	Interno generisana nematerijalna ulaganja u pripremi / Внутренне созданные нематериальные активы в процессе подготовки
+ACC	0155	Активный	False	Druga nematerijalna ulaganja u pripremi / Прочие нематериальные активы в стадии подготовки
+ACC	0159	Активный	False	Obezvrijedenje nematerijalnih ulaganja u pripremi / Обесценение нематериальных активов в стадии подготовки
+ACC	0160	Активный	False	Avansi za nematerijalna ulaganja u razvoj / Авансы для нематериальных инвестиций в стадии подготовки
+ACC	0161	Активный	False	Avansi za druga nematerijalna ulaganja / Авансы по другим нематериальным активам
+ACC	0200	Активный	False	Poljoprivredna zemljista
+ACC	0201	Активный	False	Gradsko gradevinsko zemljiste
+ACC	0202	Активный	False	Gradevinsko zemljiste van granica gradskog gradevinskog zemljista 
+ACC	0203	Активный	False	Zemljista pod sumom
+ACC	0204	Активный	False	Zemljista pod visegodisnjim zasadima
+ACC	0205	Активный	False	Rudarsko eksploataciona zemljista
+ACC	0206	Активный	False	Ostalo zemljiste
+ACC	0209	Активный	False	Obezvrijedenje zemljista
+ACC	0210	Активный	False	Sume 
+ACC	0211	Активный	False	Visegodisnji zasadi 
+ACC	0220	Активный	False	Gradevinski objekti u funkciji
+ACC	0221	Активный	False	Gradevinski objekti van upotrebe
+ACC	0222	Активный	False	Stanovi i stambene zgrade koji cine poslovnu imovinu 
+ACC	0228	Активный	False	Ispravka vrijednosti gradevinskih objekata 
+ACC	0229	Активный	False	Obezvrijedenje gradevinskih objekata 
+ACC	0230	Активный	False	Postrojenja 
+ACC	0231	Активный	False	Oprema za proizvodnju 
+ACC	0232	Активный	False	Oprema za neproizvodne djelatnosti 
+ACC	0233	Активный	False	Postrojenja i oprema van upotrebe
+ACC	0238	Активный	False	Ispravka vrijednosti postrojenja i opreme 
+ACC	0239	Активный	False	Obezvrijedenje postrojenja i opreme
+ACC	0240	Активный	False	Investicione nekretnine – zemljiste / Инвестиционная недвижимость - земля
+ACC	0241	Активный	False	Investicione nekretnine – zgrade / Инвестиционная недвижимость - Здания
+ACC	0242	Активный	False	Investicione nekretnine – dio zgrade / Инвестиционная недвижимость - часть здания
+ACC	0243	Активный	False	Investicione nekretnine – zemljiste i zgrade / Инвестиционная недвижимость - земля и здания
+ACC	0248	Активный	False	Ispravka vrijednosti investicionih nekretnina / Обесценение инвестиционной недвижимости
+ACC	0249	Активный	False	Obezvrijedenje investicionih nekretnina / Обесценение инвестиционной недвижимости
+ACC	0250	Активный/Пассивный	False	Goveda / Крупный рогатый скот
+ACC	0251	Активный/Пассивный	False	Konji / Лошади
+ACC	0252	Активный/Пассивный	False	Mazge, magarci i mule / Ослы и мулы
+ACC	0253	Активный/Пассивный	False	Svinje / Свиньи
+ACC	0254	Активный/Пассивный	False	Ovce i koze / Овцы и козы
+ACC	0255	Активный/Пассивный	False	Zivina / Домашняя птица
+ACC	0256	Активный/Пассивный	False	Riba / Рыба
+ACC	0257	Активный/Пассивный	False	Pcelinja drustva / Семейства пчел
+ACC	0258	Активный/Пассивный	False	Ostalo osnovno stado / Остальное основное стадо
+ACC	0259	Активный/Пассивный	False	Ispravka vrijednosti i obezvrijedenje osnovnog stada / Корректировки стоимости и ухудшение основного стада
+ACC	0260	Активный	False	Alat i inventar sa kalkulativnim otpisom / Инструмент и инвентарь с расчетным списанием
+ACC	0261	Активный/Пассивный	False	Spomenici kulture / Памятники культуры
+ACC	0262	Активный/Пассивный	False	Istorijski spomenici / Исторические памятники
+ACC	0263	Активный/Пассивный	False	Dijela likovne, vajarske, filmske i drugih umjetnosti / Произведения изобразительного искусства, скульптуры, кино и др.
+ACC	0264	Активный/Пассивный	False	Dijela muzejske vrijednosti / Произведения музейного значения
+ACC	0265	Активный/Пассивный	False	Knjige / Книги
+ACC	0266	Активный/Пассивный	False	Vozila / Транспортные средства
+ACC	0267	Активный/Пассивный	False	Ispravka vrijednosti vozila / Корректировка стоимости транспортных средств
+ACC	0268	Активный/Пассивный	False	Ispravka vrijednosti drugih osnovnih sredstava / Корректировка стоимости прочих основных средств
+ACC	0269	Активный/Пассивный	False	Obezvrijedenje drugih osnovnih sredstava / Обесценение прочих основных средств
+ACC	0270	Активный	False	Gradevinski objekti u pripremi
+ACC	0271	Активный	False	Postrojenja i oprema u pripremi
+ACC	0272	Активный	False	Visegodisnji zasadi u podizanju 
+ACC	0273	Активный	False	Osnovno stado u podizanju
+ACC	0274	Активный	False	Ostala nekretnine, postrojenja i oprema u pripremi 
+ACC	0275	Активный	False	Ostala nekretnine, postrojenja i oprema u pripremi
+ACC	0278	Активный	False	Ostala nekretnine, postrojenja i oprema u pripremi 
+ACC	0279	Активный	False	Obezvrijedenje nekretnina, postrojenja, opreme i bioloskih sredstava u pripremi
+ACC	0280	Активный/Пассивный	False	Avansi za nekretnine / Авансы в сфере недвижимости
+ACC	0281	Активный/Пассивный	False	Avansi za postrojenja i opremu / Авансы на машины и оборудование
+ACC	0282	Активный/Пассивный	False	Avansi za bioloska sredstva / Авансы за биологические активы
+ACC	0290	Активный/Пассивный	False	Ulaganja na tudim nekretninama / Инвестиции в прочую недвижимость
+ACC	0291	Активный/Пассивный	False	Ulaganja na tudim postrojenjima / Инвестиции в прочие объекты
+ACC	0292	Активный/Пассивный	False	Ulaganja na tudoj opremi / Инвестиции в прочее оборудование
+ACC	0298	Активный/Пассивный	False	Ispravka vrijednosti ulaganja na tudim sredstvima / Корректировка стоимости вложений на прочие активы
+ACC	0299	Активный/Пассивный	False	Obezvredenje ulaganja na tudim sredstvima / Обесценение инвестиций в другие активы
+ACC	0300	Активный/Пассивный	False	Akcije u kapitalu zavisnih pravnih lica u zemlji / Доли в капитале зависимых юридических лиц в стране
+ACC	0301	Активный/Пассивный	False	Akcije u kapitalu zavisnih pravnih lica u inostranstvu / Доли в капитале зависимых компаний за рубежом
+ACC	0302	Активный/Пассивный	False	Udjeli u kapitalu zavisnih pravnih lica u zemlji / Пакеты акций дочерних компаний в стране
+ACC	0303	Активный/Пассивный	False	Udjeli u kapitalu zavisnih pravnih lica u inostranstvu / Пакеты акций дочерних компаний за рубежом
+ACC	0310	Активный/Пассивный	False	Akcije u kapitalu pridruzenih pravnih lica u zemlji / Акции в ассоциированных юридических лицах в стране
+ACC	0311	Активный/Пассивный	False	Akcije u kapitalu pridruzenih pravnih lica u inostranstvu / Доли участия ассоциированных юридических лиц за рубежом
+ACC	0312	Активный/Пассивный	False	Udjeli u kapitalu pridruzenih pravnih lica u zemlji / Доли участия ассоциированных юридических лиц в стране
+ACC	0313	Активный/Пассивный	False	Udjeli u kapitalu pridruzenih pravnih lica u inostranstvu / Пакеты акций ассоциированных компаний за рубежом
+ACC	0320	Активный/Пассивный	False	Akcije ostalih pravnih lica u zemlji ( ucesce ispod 20%) / Доли других юридических лиц в стране (участие ниже 20%)
+ACC	0321	Активный/Пассивный	False	Akcije ostalih pravnih lica u inostranstvu ( ucesce ispod 20%) / Доли других юридических лиц за рубежом (участие ниже 20%)
+ACC	0322	Активный/Пассивный	False	Ucesca u kapitalu ostalih pravnih lica u zemlji / долевое участие в других юридических лицах страны
+ACC	0323	Активный/Пассивный	False	Ucesca u kapitalu ostalih pravnih lica u inostranstvu / Участие в капитале других юридических лиц за рубежом
+ACC	0324	Активный/Пассивный	False	Druge hartije od vrijednosti raspolozive za prodaju / Другие ценные бумаги, доступные для продажи
+ACC	0330	Активный/Пассивный	False	Dugorocni krediti i zajmovi maticnim pravnim licima / Долгосрочные кредиты и займы материнским юридическим лицам
+ACC	0333	Активный/Пассивный	False	Dugorocni krediti i zajmovi zavisnim pravnim licima / Долгосрочные кредиты и займы дочерним компаниям
+ACC	0337	Активный/Пассивный	False	Dugorocni krediti i zajmovi pridruzenim pravnim licima / Долгосрочные кредиты и займы ассоциированным предприятиям
+ACC	0340	Активный/Пассивный	False	Dugorocni robni krediti u zemlji / Долгосрочные товарные кредиты в стране
+ACC	0341	Активный/Пассивный	False	Dugorocni zajmovi u zemlji / Долгосрочные кредиты в стране
+ACC	0348	Активный/Пассивный	False	Ostali dugorocni krediti u zemlji / Другие долгосрочные кредиты в стране
+ACC	0350	Активный/Пассивный	False	Dugorocni robni krediti u inostranstvu / Долгосрочные товарные займы за рубежом
+ACC	0351	Активный/Пассивный	False	Dugorocni zajmovi u inostranstvu / Долгосрочные кредиты за рубежом
+ACC	0358	Активный/Пассивный	False	Ostali dugorocni krediti u inostranstvu / Другие долгосрочные кредиты за рубежом
+ACC	0360	Активный/Пассивный	False	Obveznice sa rokom dospijeca preko godinu dana / Облигации со сроком погашения более одного года
+ACC	0366	Активный/Пассивный	False	Ostale dugorocne hartije od vrijednosti sa rokom dospijeca preko godinu dana / Прочие долгосрочные ценные бумаги со сроком погашения более одного года
+ACC	0391	Активный/Пассивный	False	Ispravka vrijednosti ucesca u kapitalu zavisnih pravnih lica / Обесценение долей участия в дочерних компаниях
+ACC	0392	Активный/Пассивный	False	Ispravka vrijednosti ucesca u kapitalu pridruzenih pravnih lica / Обесценение долевых инвестиций в ассоциированные компании
+ACC	0393	Активный/Пассивный	False	Ispravka vrijednosti ucesca u kapitalu ostalih pravnih lica i drugih hartija od vrijednosti raspolozivih za prodaju / Обесценение долевого участия в других юридических лицах и других ценных бумаг, име
+ACC	0394	Активный/Пассивный	False	Ispravka vrijednosti dugorocnih kredita i plasmana zavisnim i povezanim pravnim licima / Обесценение долгосрочных займов и размещений дочерних и связанных юридических лиц
+ACC	0395	Активный/Пассивный	False	Ispravka vrijednosti dugorocnih kredita u zemlji / Обесценение долгосрочных кредитов в стране
+ACC	0396	Активный/Пассивный	False	Ispravka vrijednosti dugorocnih kredita u inostranstvu / Обесценение долгосрочных кредитов за рубежом
+ACC	0397	Активный/Пассивный	False	Ispravka vrijednosti hartija od vrijednosti koje se drze do dospijeca / Обесценение ценных бумаг, удерживаемых до погашения
+ACC	0399	Активный/Пассивный	False	Ispravka vrijednosti ostalih dugorocnih plasmana / Обесценение других долгосрочных инвестиций
+ACC	0400	Активный/Пассивный	False	Nematerijalna imovina reklasifikovana iz stalne imovine / Нематериальные активы, реклассифицированные из основных средств
+ACC	0401	Активный/Пассивный	False	Nematerijalna ulaganja pribavljena iskljucivo radi prodaje / Нематериальные активы, приобретенные исключительно для продажи
+ACC	0410	Активный/Пассивный	False	Zemljiste reklasifikovano iz stalne imovine / Земля реклассифицирована из основных средств
+ACC	0411	Активный/Пассивный	False	Zemljiste pribavljeno iskljucivo radi prodaje / Земля приобретена исключительно для продажи
+ACC	0420	Активный/Пассивный	False	Gradevinski objekti reklasifikovani iz stalne imovine / Здания реклассифицированы из основных средств
+ACC	0421	Активный/Пассивный	False	Gradevinski objekti pribavljeni iskljucivo radi prodaje / Строительные работы, полученные исключительно для продажи
+ACC	0430	Активный/Пассивный	False	Investicione nekretnine reklasifikovane iz stalne imovine / Инвестиционная недвижимость реклассифицирована из основных средств
+ACC	0431	Активный/Пассивный	False	Investicione nekretnine pribavljene iskljucivo radi prodaje / Инвестиционная недвижимость, приобретенная исключительно для продажи
+ACC	0450	Активный/Пассивный	False	Postrojenja i oprema reklasifikovana iz stalne imovine / Основные средства реклассифицированы из основных средств
+ACC	0451	Активный/Пассивный	False	Postrojenja i oprema pribavljena iskljucivo radi prodaje / Машины и оборудование, приобретенные исключительно для продажи
+ACC	0460	Активный/Пассивный	False	Bioloska sredstva reklasifikovana iz stalne imovine / Биологические активы, реклассифицированные из основных средств
+ACC	0461	Активный/Пассивный	False	Bioloska sredstva pribavljena iskljucivo radi prodaje / Биологические ресурсы, полученные исключительно для продажи
+ACC	1000	Активный/Пассивный	False	Obracun nabavke materijala / Расчет закупки материалов
+ACC	1001	Активный/Пассивный	False	Obracun nabavke rezervnih djelova / Расчет закупки запасных частей
+ACC	1002	Активный/Пассивный	False	Obracun nabavke alata i inventara / Расчет закупки инструментов и инвентаря
+ACC	1010	Активный	False	Sirovine i osnovni materijal / Сырье и основные материалы
+ACC	1011	Активный	False	Pomocni materijal / Вспомогательные материалы
+ACC	1012	Активный	False	Ostali materijal / Прочие материалы
+ACC	1013	Активный	False	Gorivo i mazivo / Топливо и масло
+ACC	1014	Активный	False	Materijal u doradi, obradi i manipulaciji / Материал в отделке, обработке и переработке
+ACC	1015	Активный	False	Ambalaza sa jednokratnim otpisom / Одноразовая упаковка
+ACC	1016	Активный	False	Materijali niske vrijednosti / МБП
+ACC	1017	Активный	False	Građevinski materijali / Строительные материалы
+ACC	1018	Активный	False	Građevinski materijali / Строительные материалы
+ACC	1019	Активный	False	Odstupanje od planskih cijena materijala / Отклонение от плановых цен на материалы
+ACC	1020	Активный	False	Rezervni djelovi na zalihama / Запасные части в наличии
+ACC	1024	Активный	False	Rezervni djelovi u doradi, obradi i manipulaciji / Запасные части в отделке, обработке и транспортировке
+ACC	1029	Активный	False	Odstupanja od planskih cijena rezervnih djelova / Отклонения от плановых цен на запчасти
+ACC	1030	Активный	False	Alat i inventar na zalihi / Инструменты и инвентарь на складе
+ACC	1031	Активный	False	Alat i inventar – povratna ambalaza / Инструменты и инвентарь - возвратная упаковка
+ACC	1032	Активный	False	Posebna oprema i posebna odjeća / Специальная оснастка и специальная одежда
+ACC	1033	Активный	False	Posebna oprema i posebna odjeća / Специальная оснастка и специальная одежда
+ACC	1034	Активный	False	Posebna oprema i posebna odjeća / Специальная оснастка и специальная одежда
+ACC	1039	Активный	False	Odstupanje od planskih cijena alata i inventara / Отклонение от плановых цен на инструменты и инвентарь
+ACC	1091	Активный	False	Ispravka vrijednosti zaliha materijala / Корректировка стоимости запасов материала
+ACC	1092	Активный/Пассивный	False	Ispravka vrijednosti zaliha rezervnih djelova / Корректировка стоимости запасов запчастей
+ACC	1093	Активный/Пассивный	False	Ispravka vrijednosti zaliha alata i inventara / Корректировка стоимости инструмента и инвентаря
+ACC	1100	Активный/Пассивный	False	Nedovrsena proizvodnja / Незавершенное производство
+ACC	1101	Активный/Пассивный	False	Poluproizvodi i djelovi / Полуфабрикаты и запчасти
+ACC	1109	Активный/Пассивный	False	Odstupanja od cijena nedovrsene proizvodnje i nedovrsenih usluga / Отклонения от цен на незавершенное производство и незавершенное производство услуг
+ACC	1110	Активный/Пассивный	False	Nedovrsene usluge na domacem trzistu / Незавершенные услуги на внутреннем рынке
+ACC	1111	Активный/Пассивный	False	Nedovrsene usluge na inostranom trzistu / Незавершенные услуги на зарубежном рынке
+ACC	1200	Активный	False	Gotovi proizvodi / Готовая продукция
+ACC	1209	Активный/Пассивный	False	Odstupanja od cijena gotovih proizvoda / Отклонения от цен на готовую продукцию
+ACC	1300	Активный/Пассивный	False	Obracun neto fakturne vrijednosti robe / Расчет чистой фактурной стоимости товара
+ACC	1301	Активный/Пассивный	False	Troskovi transporta, utovara, istovara i drugih izvrsioca / Расходы на транспортировку, погрузку, разгрузку и другие подрядчики
+ACC	1302	Активный/Пассивный	False	Troskovi sopstvenog transprota, istovara i utovara / Расходы на собственный транспорт, разгрузку и погрузку
+ACC	1303	Активный/Пассивный	False	Troskovi osiguranja robe u transportu / Расходы по страхованию грузов в транспорте
+ACC	1304	Активный/Пассивный	False	Troskovi nastali pri uvozu robe primjenom propisa (carine, obavezni pregledi i sl.) / ЗРасходы, возникающие при ввозе товаров в соответствии с правилами (таможенные пошлины, обязательные проверки и т.
+ACC	1305	Активный/Пассивный	False	Ostali zavisni troskovi / Другие относящиеся расходы
+ACC	1306	Активный/Пассивный	False	Bankarske provizije, troskovi akreditiva i kamata na uvoz robe / Банковские комиссии, расходы по аккредитиву и проценты на импорт товаров
+ACC	1309	Активный/Пассивный	False	Obracun nabavne vrijednosti robe / Расчет покупной стоимости товара
+ACC	1310	Активный	False	Roba u magacinu 1 / Товар на складе в магазине
+ACC	1311	Активный	False	Roba u magacinu 2, itd / Товар на складе 2
+ACC	1320	Активный	False	Roba u prometu na veliko u skladistu / Товар в оптовом обращении на складе
+ACC	1321	Активный/Пассивный	False	Roba u prometu na veliko u stovaristu / Покупные изделия
+ACC	1322	Активный/Пассивный	False	Roba u prometu na skladistu za posebne vrste roba / Товары в обращении на складе для особых видов товаров
+ACC	1329	Активный/Пассивный	False	Ukalkulisana razlika u cijeni / Торговая наценка
+ACC	1330	Активный/Пассивный	False	Roba u komisionu / Товары на комиссии
+ACC	1331	Активный/Пассивный	False	Roba u konsignaciji / Консигнационный товар
+ACC	1335	Активный/Пассивный	False	Roba kod ostalih pravnih lica / Товары от других юридических лиц
+ACC	1340	Активный	False	Roba u prometu na malo / Розничные товары
+ACC	1344	Активный/Пассивный	False	Ukalkulisan porez na dodatu vrijednost / Включенный НДС
+ACC	1349	Активный	False	Ukalkulisana razlika u cijeni / Торговая наценка
+ACC	1360	Активный/Пассивный	False	Roba u Tranzitu / Товары в пути
+ACC	1500	Активный/Пассивный	False	Dati avansi za zalihe / Выданные авансы на расходные материалы
+ACC	1501	Активный/Пассивный	False	Dati avansi za uslugi / Предоставленные авансы за услуги
+ACC	1502	Активный/Пассивный	False	Dati avansi za uslugi / Предоставленные авансы в валюте
+ACC	1508	Активный/Пассивный	False	Dati avansi za uslugi / Предоставленные авансы в валюте
+ACC	1591	Активный/Пассивный	False	Ispravka vrijednosti datih avansa za zalihe / Корректировка стоимости авансов, выданных на поставки
+ACC	1592	Активный/Пассивный	False	Ispravka vrijednosti datih avansa za usluge / Корректировка стоимости авансов за услуги
+ACC	2000	Активный/Пассивный	False	Kupci – maticna i zavisna pravna lica za proizvode / Покупатели - материнские и зависимые юридические лица за продукцию
+ACC	2001	Активный/Пассивный	False	Kupci – maticna i zavisna pravna lica za robu / Покупатели - материнские и зависимые юридические лица за товары
+ACC	2002	Активный/Пассивный	False	Kupci – maticna i zavisna pravna lica za usluge / Покупатели - материнские и дочерние юридические лица за услуги
+ACC	2003	Активный/Пассивный	False	Kupci – maticna i zavisna pravna lica za nematerijalna ulaganja, nepokretnosti, postrojenja, opremu i bioloska sredstva / Покупатели - материнские и зависимые юридические лица за нематериальные активы
+ACC	2010	Активный/Пассивный	False	Kupci – ostala povezana pravna lica za proizvode / Покупатели - другие связанные юридические лица запродукции
+ACC	2011	Активный/Пассивный	False	Kupci – ostala povezana pravna lica za robu / Покупатели - Другие связанные юридические лица за товары
+ACC	2012	Активный/Пассивный	False	Kupci – ostala povezana pravna lica za usluge / Покупатели - Другие связанные юридические лица за услуги
+ACC	2013	Активный/Пассивный	False	Kupci – ostala povezana pravna lica za nematerijalna ulaganja, nepokretnosti, postrojenja, opremu i bioloska sredstva / Покупатели - другие связанные юридические лица за нематериальные активы, недвижи
+ACC	2020	Активный	False	Kupci u zemlji za proizvode / Покупатели продукции в стране
+ACC	2021	Активный/Пассивный	False	Kupci u zemlji za robu / Покупатели товаров в стране
+ACC	2022	Активный/Пассивный	False	Kupci u zemlji za usluge / Покупатели услуг в стране
+ACC	2023	Активный/Пассивный	False	Kupci u zemlji za nematerijalna ulaganja, nepokretnosti, postrojenja, opremu i bioloska sredstva / Покупатели нематериальных активов, недвижимости, машин, оборудования и биологических активов в стране
+ACC	2024	Активный/Пассивный	False	Kupci u zemlji za prodatu robu u konsignaciji i komisionu / Покупатели товаров, продаваемых на комиссионной основе в стране
+ACC	2030	Активный	False	Kupci u inostranstvu za proizvode, usluge i robu / Зарубежные покупатели товаров, работ, услуги
+ACC	2032	Активный/Пассивный	False	Kupci u inostranstvu za prodatu robu u konsignaciji i komisionu / Зарубежные покупатели товаров, продаваемых на комиссионной основе
+ACC	2038	Активный	False	Kupci u inostranstvu za proizvode, usluge i robu / Зарубежные покупатели товаров, работ, услуги
+ACC	2090	Активный/Пассивный	False	Ispravka vrijednosti od kupaca – zavisna pravna lica / Корректировка задолженности клиентов - зависимых юридических лиц
+ACC	2091	Активный/Пассивный	False	Ispravka vrijednosti od kupaca – povezana pravna lica / Корректировка задолженности клиентов - связанных юридических лиц
+ACC	2092	Активный/Пассивный	False	Ispravka vrijednosti od kupaca u zemlji / Корректировка задолженности клиентов в стране
+ACC	2093	Активный/Пассивный	False	Ispravka vrijednosti od kupaca u inostranstvu / Корректировка задолженнсти зарубежных клиентов
+ACC	2100	Активный/Пассивный	False	Potrazivanja od izvoznika za sopstvene proizvode i robu / Претензии к экспортерам за их собственную продукцию и товары
+ACC	2104	Активный/Пассивный	False	Potrazivanja od izvoznika za avans za uslugu izvoza / Дебиторская задолженность экспортеров за предоплату за экспортные услуги
+ACC	2110	Активный/Пассивный	False	Potrazivanja za uvezenu robu za tudi racun / Дебиторская задолженность за ввезенные товары за чужой счет
+ACC	2111	Активный/Пассивный	False	Potrazivanja za troskove uvoza za tudi racun / Дебиторская задолженность по затратам на импорт за чужой счет
+ACC	2112	Активный/Пассивный	False	Potrazivanja za uvoznicku proviziju / Дебиторская задолженность по импортной комиссии
+ACC	2120	Активный/Пассивный	False	Potrazivanja iz komisione prodaje / Дебиторская задолженность от комиссионных продаж
+ACC	2121	Активный/Пассивный	False	Potrazivanja iz konsignacione prodaje / Дебиторская задолженность от реализации консигнационных товаров
+ACC	2180	Активный/Пассивный	False	Potrazivanja iz zajednickog poslovanja / Дебиторская задолженность от совместной деятельности
+ACC	2181	Активный/Пассивный	False	Druga potrazivanja iz specificnih poslova / Прочая дебиторская задолженность особых операций
+ACC	2182	Активный/Пассивный	False	Druga potrazivanja iz specificnih poslova / Прочая дебиторская задолженность особых операций
+ACC	2189	Активный/Пассивный	False	Druga potrazivanja iz specificnih poslova / Прочая дебиторская задолженность особых операций
+ACC	2190	Активный/Пассивный	False	Ispravka vrijednosti potrazivanja od izvoznika / Корректировка стоимости дебиторской задолженности экспортера
+ACC	2191	Активный/Пассивный	False	Ispravka vrijednosti potrazivanja po osnovu uvoza za tudi racun / Корректировка стоимости дебиторской задолженности на основе импорта за чужой счет
+ACC	2192	Активный/Пассивный	False	Ispravka vrijednosti potrazivanja po osnovu komisione i konsignacione prodaje / Корректировка дебиторской задолженности на основе комиссионных и консигнационных продаж
+ACC	2200	Активный/Пассивный	False	Potrazivanja za kamatu / Проценты к получению
+ACC	2201	Активный/Пассивный	False	Potrazivanja za dividende / Дебиторская задолженность по дивидендам
+ACC	2210	Активный/Пассивный	False	Potrazivanja po osnovu akontacija za sluzbena putovanja / Дебиторская задолженность по авансовым платежам за служебные командировки
+ACC	2211	Активный/Пассивный	False	Potrazivanja od zaposlenih za naknadu steta / Претензии к работникам о возмещении ущерба
+ACC	2212	Активный/Пассивный	False	Potrazivanja od zaposlenih za manjkove / Претензии к работникам по недостачам
+ACC	2213	Активный/Пассивный	False	Druga potrazivanja od zaposlenih / Прочая дебиторская задолженность работников
+ACC	2220	Активный/Пассивный	False	Potrazivanja za regres / Регрессные требования
+ACC	2221	Активный/Пассивный	False	Potrazivanja za premije / Дебиторская задолженность по премиям
+ACC	2222	Активный/Пассивный	False	Potrazivanja za stimulacije / Дебиторская задолженность по поощрениям
+ACC	2223	Активный/Пассивный	False	Potrazivanja za dotacije / Грант заявки
+ACC	2224	Активный/Пассивный	False	Potrazivanja za kompenzacije / Компенсационные требования
+ACC	2225	Активный/Пассивный	False	Druga potrazivanja od drzavnih organa i organizacija / Прочая дебиторская задолженность от государственных органов и организаций
+ACC	2240	Активный/Пассивный	False	Potrazivanja po osnovu preplacenih poreza na imovinu / Претензии по переплаченным налогам на имущество
+ACC	2241	Активный/Пассивный	False	Potrazivanja po osnovu preplacenih doprinosa / Претензии по переплаченным взносам
+ACC	2242	Активный/Пассивный	False	Potrazivanja po osnovu preplacenih ostalih poreza i doprinosa / Претензии по переплаченным прочим налогам и взносам
+ACC	2280	Активный/Пассивный	False	Potrazivanja za carine i druge dazbine / Претензии по таможенным и другим пошлинам
+ACC	2281	Активный/Пассивный	False	Potrazivanja za naknadu zarade / Претензии по возмещению заработка
+ACC	2282	Активный/Пассивный	False	Potrazivanja za ostale naknade radnicima koje se refundiraju / Претензии по компенсационным выплатам другим работникам
+ACC	2284	Активный/Пассивный	False	Potrazivanja za izvrsene isplate na osnovu avala i garancija / Дебиторская задолженность по платежам на основе авалов и гарантий
+ACC	2285	Активный/Пассивный	False	Potrazivanja od osiguravajucih drustava za naknadu steta / Требования к страховым компаниям за ущерб
+ACC	2286	Активный/Пассивный	False	Druga potrazivanja / Другие претензии
+ACC	2287	Активный/Пассивный	False	Druga potrazivanja / Другие претензии
+ACC	2290	Активный/Пассивный	False	Ispravka vrijednosti potrazivanja za kamatu i dividende / Обесценение процентов к получению и дивидендов
+ACC	2291	Активный/Пассивный	False	Ispravka potrazivanja od zaposlenih / Корректировка дебиторской задолженности от работников
+ACC	2292	Активный/Пассивный	False	Ispravka potrazivanja od drzavnih organa i organizacija / Корректировка дебиторской задолженности от государственных органов и организаций
+ACC	2293	Активный/Пассивный	False	Ispravka potrazivanja za vise placeni porez na dobit / Корректировка дебиторской задолженности по более высокому налогу на прибыль
+ACC	2294	Активный/Пассивный	False	Ispravka potrazivanja po osnovu preplacenih ostalih poreza i doprinosa / Корректировка дебиторской задолженности за счет переплаты других налогов и взносов
+ACC	2295	Активный/Пассивный	False	Ispravka vrijednosti ostalih potrazivanja / Обесценение прочей дебиторской задолженности
+ACC	2300	Активный/Пассивный	False	Kratkorocni krediti u maticna pravna lica / Краткосрочные кредиты материнским юридическим лицам
+ACC	2301	Активный/Пассивный	False	Kratkorocni plasmani u zavisna pravna lica / Краткосрочные размещения в дочерних компаниях
+ACC	2310	Активный/Пассивный	False	Kratkorocni krediti,zajmovi i plasmani u pridruzena pravna lica / Краткосрочные кредиты, займы и размещения у ассоциированных компаний
+ACC	2311	Активный/Пассивный	False	Kratkorocni plasmani,zajmovi i plasmani u ostala povezana pravna lica / Краткосрочные размещения, кредиты и размещения у других связанных юридических лиц
+ACC	2320	Активный/Пассивный	False	Kratkorocni robni krediti dati pravnim licima / Краткосрочные товарные кредиты корпоративным клиентам
+ACC	2321	Активный/Пассивный	False	Kratkorocni robni krediti dati fizickim licima / Краткосрочные товарные кредиты физическим лицам
+ACC	2322	Активный/Пассивный	False	Kratkorocni potrosacki krediti / Краткосрочные потребительские кредиты
+ACC	2324	Активный/Пассивный	False	Zajmovi u zemlji / Загородные кредиты
+ACC	2325	Активный/Пассивный	False	Drugi kratkorocni krediti u zemlji / Другие краткосрочные кредиты в стране
+ACC	2330	Активный/Пассивный	False	Kratkorocni robni krediti u inostranstvu / Краткосрочные товарные кредиты за рубежом
+ACC	2331	Активный/Пассивный	False	Kratkorocni potrosacki krediti u inostranstvu / Краткосрочные потребительские кредиты за рубежом
+ACC	2332	Активный/Пассивный	False	Zajmovi u inostranstvu / Кредиты за рубежом
+ACC	2333	Активный/Пассивный	False	Drugi kratkorocni krediti u inostranstvu / Другие краткосрочные кредиты за рубежом
+ACC	2340	Активный/Пассивный	False	Dio dugorocnih finansijskih plasmana u zemlji koji dospijeva do jedne godine / Часть долгосрочных финансовых размещений в стране со сроком погашения в течение одного года
+ACC	2341	Активный/Пассивный	False	Dio dugorocnih finansijskih plasmana u inostranstvu koji dospijeva do jedne godine / Часть долгосрочных финансовых размещений за рубежом со сроком погашения до одного года
+ACC	2350	Активный/Пассивный	False	Obveznice / ценные бумаги
+ACC	2355	Активный/Пассивный	False	Ostale hartije od vrijednosti koje se drze do dospijeca – dio koji dospjeva do jedne godine / Прочие ценные бумаги, удерживаемые до погашения - та часть, срок погашения которой составляет до одного го
+ACC	2360	Активный/Пассивный	False	Akcije / акции
+ACC	2361	Активный/Пассивный	False	Obveznice / ценные бумаги
+ACC	2362	Активный/Пассивный	False	Blagajnicki zapisi / Кассовые аппараты
+ACC	2363	Активный/Пассивный	False	Komercijalni zapisi / Коммерческие бумаги
+ACC	2364	Активный/Пассивный	False	Drzavni zapisi / Казначейские обязательства
+ACC	2365	Активный/Пассивный	False	Sertifikati o depozitu / Депозитные сертификаты
+ACC	2366	Активный/Пассивный	False	Ostale hartije od vrijednosti kojima se trguje / Другие ценные бумаги торгуются
+ACC	2370	Активный/Пассивный	False	Otkupljene sopstvene akcije namijenjene prodaji ili ponistavanju / Выкупленные собственные акции для продажи или аннулирования
+ACC	2371	Активный/Пассивный	False	Otkupljeni sopstveni udjeli namijenjeni prodaji ili ponistavanju / Собственные акции, приобретенные для продажи или аннулирования
+ACC	2380	Активный/Пассивный	False	Potrazivanja po mjenicama kao instrumentima placanja / Счета к получению в качестве платежных инструментов
+ACC	2381	Активный/Пассивный	False	Potrazivanja po kamatama buduceg perioda sadrzana u mjenicnoj vrijednosti / Проценты к получению с будущего периода включены в стоимость обмена
+ACC	2390	Активный/Пассивный	False	Ispravka vrijednosti kratkorocnih kredita i plasmana u zavisna i povezana pravna lica / Обесценение краткосрочных кредитов и размещений дочерних и связанных юридических лиц
+ACC	2391	Активный/Пассивный	False	Ispravka vrijednosti kratkorocnih kredita u zemlji / Обесценение краткосрочных кредитов в стране
+ACC	2392	Активный/Пассивный	False	Ispravka vrijednosti kratkorocnih kredita u inostranstvu / Обесценение краткосрочных кредитов за рубежом
+ACC	2393	Активный/Пассивный	False	Ispravka vrijednosti dijela dugorocnog kredita koji dospijeva do jedne godine / Обесценение части долгосрочного кредита со сроком погашения в течение одного года
+ACC	2394	Активный/Пассивный	False	Ispravka vrijednosti hartija od vrijednosti koje se drze do dospijeca – dio koji dospijeva do jedne godine / Обесценение ценных бумаг, удерживаемых до погашения, - срок погашения до одного года
+ACC	2395	Активный/Пассивный	False	Ispravka vrijednosti ostalih kratkorocnih plasmana / Обесценение других краткосрочных размещений
+ACC	2400	Активный/Пассивный	False	Cekovi / проверки
+ACC	2408	Активный/Пассивный	False	Druge neposredno unovcive hartije od vrijednosti / Прочие непосредственно возмещаемые ценные бумаги
+ACC	2410	Активный	False	Ziro racun / Расчетный счет
+ACC	2416	Активный/Пассивный	False	Prelazni racuni
+ACC	2417	Активный/Пассивный	False	Prelazni racuni na malo/ Переходные счета розница
+ACC	2418	Активный/Пассивный	False	Prelazni racuni / Переходные счета продажа валюты
+ACC	2419	Активный/Пассивный	False	Prelazni racuni / Переходные счета
+ACC	2420	Активный/Пассивный	False	Izdvojena novcana sredstva za akreditive u banci / Выделенные средства для аккредитива в банке
+ACC	2422	Активный/Пассивный	False	Izdvojena novcana sredstva za isplatu cekova / Денежные средства, предназначенные для оплаты чеков
+ACC	2424	Активный/Пассивный	False	Izdvojena novcana sredstva za investicije / Денежные средства, выделенные на инвестиции
+ACC	2425	Активный/Пассивный	False	Izdvojena novcana sredstva za investicije / Денежные средства, выделенные на инвестиции
+ACC	2426	Активный/Пассивный	False	Izdvojena novcana sredstva za druge namjene / Денежные средства, предназначенные для других целей
+ACC	2430	Активный/Пассивный	False	Porto blagajna / Касса 
+ACC	2430	Активный/Пассивный	False	Glavna blagajna / Главная касса
+ACC	2431	Активный/Пассивный	False	Porto blagajna / Касса операционная
+ACC	2432	Активный/Пассивный	False	Blagajna prodavnice / Кассовые магазины
+ACC	2433	Активный/Пассивный	False	Blagajna stovarista / Склад кассира
+ACC	2434	Активный/Пассивный	False	Blagajna ugostiteljskih objekata / Касса предприятий общественного питания
+ACC	2440	Активный	False	Devizni racuni kod banaka u zemlji / Счета в иностранной валюте в банках страны
+ACC	2442	Активный/Пассивный	False	Devizni racuni u inostranstvu / Счета в иностранной валюте за рубежом
+ACC	2449	Активный/Пассивный	False	Prelazni devizni racuni / Переходные валютные счета
+ACC	2480	Активный/Пассивный	False	Deponovane novcane vrijednosti u banci / Депозиты в банке
+ACC	2482	Активный/Пассивный	False	Druga novcana sredstva / Другие денежные средства
+ACC	2700	Активный/Пассивный	False	Ulazni PDV / Входящий НДС за услуги
+ACC	2701	Активный/Пассивный	False	Ulazni PDV / Входящий НДС за ОС
+ACC	2702	Активный/Пассивный	False	Ulazni PDV / Входящий НДС за НМА
+ACC	2703	Активный/Пассивный	False	Ulazni PDV / Входящий НДС за ТМЦ
+ACC	2705	Активный/Пассивный	False	Ulazni PDV / Входящий НДС таможня
+ACC	2708	Активный/Пассивный	False	Ulazni PDV / НДС при строительстве ОС
+ACC	2709	Активный/Пассивный	False	Ulazni PDV / 
+ACC	2800	Активный/Пассивный	False	Placene pretplate na strucne publikacije / Платные подписки на профессиональные издания
+ACC	2801	Активный/Пассивный	False	Unaprijed placeni troskovi zakupnine i ogrijeva / Предоплата расходов на аренду и отопление
+ACC	2802	Активный/Пассивный	False	Unaprijed placene premije osiguranja / Страховые взносы оплачиваются заранее
+ACC	2803	Активный/Пассивный	False	Unaprijed placeni troskovi reklame i propagande / Предоплата за рекламу и пропаганду
+ACC	2804	Активный/Пассивный	False	Unaprijed placeni troskovi ucesca na sajmovima i izlozbama / Расходы на участие в ярмарках и выставках
+ACC	2805	Активный/Пассивный	False	Unaprijed placeni troskovi ogrijeva / Предоплаченные расходы на отопление
+ACC	2808	Активный/Пассивный	False	Drugi razgraniceni troskovi / Прочие начисленные расходы
+ACC	2809	Активный/Пассивный	False	Drugi razgraniceni troskovi / Прочие начисленные расходы
+ACC	2810	Активный/Пассивный	False	Potrazivanja za zakupnine za tekuci period po osnovu kojih nije izdata faktura / Текущая арендная задолженность, по которой не выставлен счет
+ACC	2811	Активный/Пассивный	False	Potrazivanja za kamatu kada obracun nije dostavljen duzniku / Проценты к получению, когда кредиторский отчет не был предоставлен должнику
+ACC	2812	Активный/Пассивный	False	Potrazivanja od investitora za izvedene gradevinske radove u obracunskom periodu kada nisu dostavljene privremene situacije / Дебиторская задолженность инвесторов за строительные работы, выполненные в
+ACC	2813	Активный/Пассивный	False	Potrazivanja za prihode od povracaja poreskih i drugih dazbina po osnovu izvoza koja dospijevaju u buducem periodu / Дебиторская задолженность по налогам и прочая экспортная пошлина к получению, подле
+ACC	2815	Активный/Пассивный	False	Druga potrazivanja za nefakturisani prihod / Прочая дебиторская задолженность по полученному счету
+ACC	2870	Активный/Пассивный	False	PDV u primljenim fakturama koje se odnose na promet iz prethodne godine / НДС в полученных счетах в отношении оборота предыдущего года
+ACC	2871	Активный/Пассивный	False	PDV u privremenim gradevinskim situacijama koje nisu ovjerene do kraja tekuce godine / НДС в условиях временного строительства не подтвержден до конца текущего года
+ACC	2872	Активный/Пассивный	False	PDV po osnovu knjiznog odobrenja ,kada se obaveza za PDV smanjuje u narednoj godini / НДС основывается на утверждении книги, когда обязательства по НДС уменьшаются в следующем году
+ACC	2874	Активный/Пассивный	False	PDV u primljenim (spornim) fakturama po osnovu kojih nije korisceno pravo na odbitak prethodnog poreza / НДС в полученных (оспариваемых) счетах, на основании которых не было использовано право на выче
+ACC	2880	Активный/Пассивный	False	Odlozena poreska sredstva po osnovu sredstava koja podlijezu amortizaciji / Отложенные налоговые активы на основе активов, подлежащих амортизации
+ACC	2881	Активный/Пассивный	False	Odlozena poreska sredstva po osnovu rezervisanja (u skladu sa MRS 19) / Отложенные налоговые активы из резервов (в соответствии с IAS 19)
+ACC	2882	Активный/Пассивный	False	Odlozena poreska sredstva po osnovu obezvredenja imovine / Отложенные налоговые активы от обесценения активов
+ACC	2883	Активный/Пассивный	False	Odlozena poreska sredstva po osnovu ostalih odbitnih razlika / Отложенные налоговые активы на основе других вычитаемых разниц
+ACC	2884	Активный/Пассивный	False	Odlozena poreska sredstva po osnovu neiskoriscenog poreskog kredita / Отложенные налоговые активы от неиспользованного налогового кредита
+ACC	2885	Активный/Пассивный	False	Odlozena poreska sredstva po osnovu prenijetih poreskih gubitaka / Отложенные налоговые активы от перенесенных налоговых убытков
+ACC	2886	Активный/Пассивный	False	Ostala odlozena poreska sredstva / Прочие отложенные налоговые активы
+ACC	3000	Активный/Пассивный	False	Akcijski kapital – obicne akcije / Уставный капитал - обыкновенные акции
+ACC	3001	Активный/Пассивный	False	Akcijski kapital – prioritetne akcije / Собственный капитал - Привилегированные акции
+ACC	3003	Активный/Пассивный	False	Akcijski kapital vecinskog vlasnika / Мажоритарный акционерный капитал
+ACC	3004	Активный/Пассивный	False	Akcijski kapital zaposlenih radnika / Собственный капитал занятых работников
+ACC	3007	Активный/Пассивный	False	Akcijski kapital po osnovu konvertovanog duga / Собственный капитал от конвертируемого долга
+ACC	3010	Активный/Пассивный	False	Osnivacki udjeli clanova drustva sa ogranicenom odgovrnoscu (analitika po ulagacima)
+ACC	3020	Активный/Пассивный	False	Ulozi clanova ortackog drustva i komplementara komanditnog drustva (pocetno stanje – analitika po clanovima) / Роли членов товарищества и коммандитного товарищества (начальный статус - аналитика по чл
+ACC	3021	Активный/Пассивный	False	Ulozi clanova komanditora komanditnog drustva (analitika po clanovima) / Роли членов коммандитного товарищества (аналитика участниками)
+ACC	3030	Активный/Пассивный	False	Kapital javnih preduzeca koje osniva drzava, odnosno jedinica lokalne samouprave / Капитал государственных предприятий, созданных государством или местным самоуправлением
+ACC	3099	Активный/Пассивный	False	Ostali oblici osnovnog kapitala koji nijesu obuhvaceni posebnim racunima / Другие формы акционерного капитала, не покрываемые отдельными счетами
+ACC	3100	Активный/Пассивный	False	Neuplacene upisane obicne akcije / Неоплаченные обыкновенные акции подписаны
+ACC	3101	Активный/Пассивный	False	Neuplacene upisane prioritetne akcije / Неоплаченные именные приоритетные акции
+ACC	3110	Активный/Пассивный	False	Neuplaceni upisani udjeli (analitika po upisnicima udjela) / Неоплаченные подписные акции (аналитика по подписке единиц)
+ACC	3200	Активный/Пассивный	False	Emisiona premija (obicne akcije) / Эмиссионная премия (обыкновенные акции)
+ACC	3201	Активный/Пассивный	False	Emisiona premija (prioritetne akcije) / Эмиссионная премия (приоритетные действия)
+ACC	3202	Активный/Пассивный	False	Emisiona premija (ostali kapital) / Эмиссионная премия (прочие акции)
+ACC	3210	Активный/Пассивный	False	Obavezne rezerve koje se formiraju u skladu sa zakonom / Обязательные резервы формируются в соответствии с законодательством
+ACC	3220	Активный/Пассивный	False	Statutarne rezerve / Обязательные резервы
+ACC	3221	Активный/Пассивный	False	Druge rezerve / Другие резервы
+ACC	3300	Активный/Пассивный	False	Revalorizacione rezerve po osnovu procjene nematerijalnih ulaganja / Резервы переоценки на основе оценки нематериальных активов
+ACC	3301	Активный/Пассивный	False	Revalorizacione rezerve po osnovu procijene  nekretnina, postrojenja i opreme / Резервы переоценки на основе оценки основных средств
+ACC	3302	Активный/Пассивный	False	Revalorizacione rezerve kod ucesca u kapitalu i drugim finansijskim instrumentima / Резервы переоценки долевых вложений и других финансовых инструментов
+ACC	3400	Активный/Пассивный	False	Nerasporedjena dobit ranijih godina / Нераспределенная прибыль прошлых лет
+ACC	3410	Пассивный	False	Nerasporedeni dobitak tekuce godine / Нераспределенная прибыль за текущий год
+ACC	4000	Активный/Пассивный	False	Rezervisanja za troskove u garantnom roku za prodate proizvode / Резервы на покрытие затрат в течение гарантийного срока на проданную продукцию
+ACC	4001	Активный/Пассивный	False	Rezervisanja za troskove u garantnom roku za izvrsene usluge / Резервы на покрытие затрат в течение гарантийного срока на оказанные услуги
+ACC	4003	Активный/Пассивный	False	Rezervisanja u garantnom roku za prodatu domacu robu / Положения в гарантийный период на реализуемые отечественные товары
+ACC	4004	Активный/Пассивный	False	Rezervisanja u garantnom roku za prodatu stranu robu / Положения в гарантийный период на проданные иностранные товары
+ACC	4010	Активный/Пассивный	False	Rezervisanja za troskove obnavljanja zemljista / Резервы на расходы на обновление земель
+ACC	4011	Активный/Пассивный	False	Rezervisanja za obnavljanje (reprodukciju) suma / Правила возобновления (воспроизведения) сумм
+ACC	4020	Активный/Пассивный	False	Rezervisanja za zadrzane kaucije i depozite u zemlji / Резервы по нераспределенным депозитам и депозитам в стране
+ACC	4021	Активный/Пассивный	False	Rezervisanja za zadrzane kaucije i depozite u inostranstvu / Резервы по удержанным поручительствам и депозитам за рубежом
+ACC	4040	Активный/Пассивный	False	Rezervisanja za otpremnine prilikom odlaska u penziju / Положения о выходном пособии при выходе на пенсию
+ACC	4041	Активный/Пассивный	False	Rezervisanja za jubilarne nagrade / Положения о юбилейных наградах
+ACC	4042	Активный/Пассивный	False	Rezervisanja za neiskoriscena placena odsustva / Положения на неиспользованный оплачиваемый отпуск
+ACC	4043	Активный/Пассивный	False	Ostala rezervisanja za naknade i benificije zaposlenih / Прочие резервы в отношении вознаграждений и надбавок работникам
+ACC	4090	Активный/Пассивный	False	Rezervisanja za ostale vjerovatne troskove (troskove u sporu) / Резервы на прочие вероятные затраты (оспариваемые затраты)
+ACC	4091	Активный/Пассивный	False	Rezervisanja po osnovu stetnih ugovora / Положения, основанные на вредных договорах
+ACC	4092	Активный/Пассивный	False	Rezervisanja za izdate garancije i druga jemstva / Положения по выданным гарантиям и другим гарантиям
+ACC	4099	Активный/Пассивный	False	Rezervisanja za druge nepomenute vjerovatne troskove / Резервы на покрытие прочих неуказанных вероятных затрат
+ACC	4110	Активный/Пассивный	False	Obaveze po osnovu primljenih dugorocnih kredita od maticnih pravnih lica u zemlji / Обязательства, вытекающие из долгосрочных кредитов, полученных от отечественных юридических лиц в стране
+ACC	4111	Активный/Пассивный	False	Obaveze po osnovu primljenih dugorocnih kredita od maticnih pravnih lica u inostranstvu / Обязательства по долгосрочным кредитам, полученным от материнских юридических лиц за рубежом
+ACC	4112	Активный/Пассивный	False	Obaveze po osnovu primljenih dugorocnih kredita od zavisnih pravnih lica u zemlji / Обязательства, вытекающие из долгосрочных займов, полученных от дочерних компаний в стране
+ACC	4113	Активный/Пассивный	False	Obaveze po osnovu primljenih dugorocnih kredita od zavisnih pravnih lica u inostranstvu / Обязательства по долгосрочным кредитам, полученным от дочерних компаний за рубежом
+ACC	4120	Активный/Пассивный	False	Obaveze po osnovu primljenih dugorocnih kredita od ostalih povezanih pravnih lica u zemlji / Обязательства по долгосрочным кредитам, полученным от других связанных юридических лиц в стране
+ACC	4121	Активный/Пассивный	False	Obaveze po osnovu primljenih dugorocnih kredita od ostalih povezanih pravnih lica u inostranstvu / Обязательства по долгосрочным кредитам, полученным от других связанных юридических лиц за рубежом
+ACC	4130	Активный/Пассивный	False	Obaveze za obveznice / Облигационные обязательства
+ACC	4132	Активный/Пассивный	False	Obaveze za finansijske derivate / Обязательства по производным финансовым инструментам
+ACC	4135	Активный/Пассивный	False	Obaveze za ostale emitovane hartije od vrijednosti u periodu duzem od godinu dana / Обязательства по другим выпущенным ценным бумагам на срок более одного года
+ACC	4140	Активный/Пассивный	False	Dugorocni finansijski krediti u zemlji / Долгосрочные финансовые кредиты в стране
+ACC	4141	Активный/Пассивный	False	Dugorocni zajmovi u zemlji / Долгосрочные кредиты в стране
+ACC	4142	Активный/Пассивный	False	Ostali dugorocni krediti i zajmovi / Другие долгосрочные кредиты и займы
+ACC	4143	Активный/Пассивный	False	Ostali dugorocni krediti i zajmovi / Другие долгосрочные кредиты и займы
+ACC	4150	Активный/Пассивный	False	Dugorocni finansijski krediti u inostranstvu / Долгосрочные финансовые кредиты за рубежом
+ACC	4151	Активный/Пассивный	False	Dugorocni zajmovi u inostranstvu / Долгосрочные кредиты за рубежом
+ACC	4155	Активный/Пассивный	False	Ostali dugorocni krediti i zajmovi u inostranstvu / Другие долгосрочные кредиты и займы за рубежом
+ACC	4190	Активный/Пассивный	False	Obaveze za dugorocne depozite / Обязательства по долгосрочным депозитам
+ACC	4191	Активный/Пассивный	False	Obaveze za dugorocne kaucije / Долгосрочные обязательства по поручительству
+ACC	4192	Активный/Пассивный	False	Obaveze po osnovu finansijskog lizinga / Финансовые лизинговые обязательства
+ACC	4193	Активный/Пассивный	False	Obaveze za kamate po osnovu finansijskog lizinga / Процентные обязательства по финансовому лизингу
+ACC	4196	Активный/Пассивный	False	Druge dugorocne obaveze / Прочие долгосрочные обязательства
+ACC	4200	Активный/Пассивный	False	Kratkorocni krediti od maticnih i zavisnih pravnih lica / Краткосрочные займы от материнских и дочерних юридических лиц
+ACC	4201	Активный/Пассивный	False	Kratkorocni zajmovi od maticnih i zavisnih pravnih lica / Краткосрочные займы от материнских и дочерних юридических лиц
+ACC	4202	Активный/Пассивный	False	Drugi kratkorocni krediti od maticnih i zavisnih pravnih lica / Прочие краткосрочные займы от материнских и дочерних юридических лиц
+ACC	4210	Активный/Пассивный	False	Kratkorocni krediti od ostalih povezanih pravnih lica / Краткосрочные займы от других связанных юридических лиц
+ACC	4211	Активный/Пассивный	False	Kratkorocni zajmovi od ostalih povezanih pravnih lica / Краткосрочные займы от других связанных юридических лиц
+ACC	4220	Активный/Пассивный	False	Kratkorocni finansijski krediti / Краткосрочные финансовые займы
+ACC	4221	Активный/Пассивный	False	Kratkorocni robni krediti pravnih lica / Краткосрочные товарные кредиты юридических лиц
+ACC	4222	Активный/Пассивный	False	Ostali krediti i zajmovi / Другие кредиты и займы
+ACC	4223	Активный/Пассивный	False	Krat.obaveze po osnovu pozajmica / Краткосрочные обязательства на основе кредитов
+ACC	4230	Активный/Пассивный	False	Kratkorocni finansijski krediti u inostranstvu / Краткосрочные финансовые кредиты за рубежом
+ACC	4232	Активный/Пассивный	False	Kratkorocni robni krediti u inostranstvu / Краткосрочные товарные кредиты за рубежом
+ACC	4234	Активный/Пассивный	False	Drugi kratkorocni krediti u inostranstvu / Другие краткосрочные кредиты за рубежом
+ACC	4240	Активный/Пассивный	False	Obaveze po anuitetima odnosno po otplatama dugorocnih finansijskih kredita koji dospijevaju za placanje u roku do godinu dana od dana bilansa / Обязательства по аннуитетам, т.е. погашению долгосрочных
+ACC	4241	Активный/Пассивный	False	Obaveze po dugorocnim robnim kreditima koji dospijevaju za placanje u roku do godinu dana od dana bilansa / Обязательства по долгосрочным товарным кредитам со сроком погашения в течение одного года с 
+ACC	4242	Активный/Пассивный	False	Obaveze po ostalim dugorocnim kreditima koji dospijevaju za placanje u roku do godinu dana od dana bilansa / Обязательства по прочим долгосрочным кредитам со сроком погашения в течение одного года с д
+ACC	4250	Активный/Пассивный	False	Obaveze po otplatama dugorocnih obaveza koje dospijevaju za placanje u roku do godinu dana od dana bilansa / Обязательства по погашению долгосрочных обязательств по оплате в течение одного года с даты
+ACC	4251	Активный/Пассивный	False	Obaveze po osnovu finansijskog lizinga koje dospjevaju u narednih 12 mjeseci / Обязательства по финансовому лизингу со сроком погашения в ближайшие 12 месяцев
+ACC	4252	Активный/Пассивный	False	Obaveze za kamate po osnovu finansijskog lizinga koje dospjevaju  u narednih 12 mjeseci / Процентные обязательства по финансовому лизингу со сроком погашения в ближайшие 12 месяцев
+ACC	4255	Активный/Пассивный	False	Ostale nepomenute dugorocne obaveze koje dospjevaju za placanje u roku od godinu dana od dana bilansa / Прочие не упомянутые долгосрочные обязательства, подлежащие оплате в течение одного года с даты 
+ACC	4260	Активный/Пассивный	False	Kratkorocne obaveze po emitovanim obveznicama / Краткосрочные обязательства по выпущенным облигациям
+ACC	4261	Активный/Пассивный	False	Kratkorocne obaveze po komercijalnim zapisima / Краткосрочные обязательства по коммерческим бумагам
+ACC	4262	Активный/Пассивный	False	Kratkorocne obaveze po finansijskim derivatima / Краткосрочные обязательства по производным финансовым инструментам
+ACC	4263	Активный/Пассивный	False	Ostale obaveze po kratkorocnim hartijama od vrijednosti / Прочие обязательства по краткосрочным ценным бумагам
+ACC	4270	Активный/Пассивный	False	Obaveze po osnovu stalnih sredstava namijenjenih prodaji / Обязательства на основе основных средств, предназначенных для продажи
+ACC	4271	Активный/Пассивный	False	Obaveze po osnovu obustavljenog poslovanja / Обязательства, основанные на прекращенной деятельности
+ACC	4300	Пассивный	False	Primljeni avansi za robu, proizvode i usluge u zemlji / Авансы, полученные за товары и услуги в стране
+ACC	4301	Пассивный	False	Primljeni avansi za robu, proizvode i usluge u inostranstvu / Авансы, полученные за товары и услуги из за рубежа в валюте
+ACC	4303	Активный/Пассивный	False	Primljeni avansi za robu / Авансы в полученных товаров
+ACC	4306	Активный/Пассивный	False	Primljeni avansi za robu u komisionu / Авансы полученные по товарам в комиссии
+ACC	4307	Активный/Пассивный	False	Primljeni depoziti / Депозиты полученные
+ACC	4308	Пассивный	False	Primljeni avansi za robu, proizvode i usluge u inostranstvu / Авансы, полученные за товары и услуги из за рубежа в валюте
+ACC	4309	Активный/Пассивный	False	Primljene kaucije / Залог получен
+ACC	4310	Пассивный	False	Dobavljaci – maticna i zavisna pravna lica za obrtna sredstva / Поставщики - Материнские и дочерние юридические лица за оборотный капитал
+ACC	4311	Пассивный	False	Dobavljaci – maticna i zavisna pravna lica za nematerijalna ulaganja i nekretnine, postrojenja, opremu i bioloska sredstva / Поставщики - Материнские и находящиеся в полной собственности юридические л
+ACC	4318	Пассивный	False	Dobavljaci – maticna i zavisna pravna lica za nefakturisane obaveze / Поставщики - материнские и дочерние юридические лица по неоплаченным счетам
+ACC	4320	Пассивный	False	Dobavljaci – ostala povezana pravna lica za obrtna sredstva / Поставщики - Другие связанные юридические лица за оборотный капитал
+ACC	4321	Пассивный	False	Dobavljaci – ostala povezana pravna lica za nematerijalna ulaganja, i nekretnine, postrojenja, opremu i bioloska sredstva / Поставщики - другие связанные юридические лица для нематериальных активов и 
+ACC	4322	Пассивный	False	Dobavljaci – ostala povezana pravna lica za nefakturisane obaveze / Поставщики - Другие связанные юридические лица по неоплаченным счетам
+ACC	4330	Пассивный	False	Dobavljaci u zemlji za obrtna sredstva / Поставщики в стране для оборотного капитала
+ACC	4331	Пассивный	False	Dobavljaci u zemlji za nematerijalna ulaganja i nekretnine, postrojenja, opremu i bioloska sredstva / Поставщики в стране нематериальных активов и недвижимости, установок, оборудования и биологических
+ACC	4338	Пассивный	False	Dobavljaci u zemlji za nefakturisane obaveze / Поставщики в стране для выдающихся счетов
+ACC	4340	Пассивный	False	Dobavljaci u inostranstvu za obrtna sredstva / Поставщики за рубеж для оборотного капитала
+ACC	4341	Пассивный	False	Dobavljaci u inostranstvu za nematerijalna ulaganja i nekretnine, postrojenja, opremu i bioloska sredstva / Зарубежные поставщики нематериальных активов и недвижимости, установок, оборудования и биоло
+ACC	4343	Пассивный	False	Dobavljaci u inostranstvu za nefakturisanu robu / Зарубежные поставщики товаров без фактурирования
+ACC	4344	Пассивный	False	Dobavljaci u inostranstvu za nematerijalna ulaganja i nekretnine, postrojenja, opremu i bioloska sredstva / Зарубежные поставщики нематериальных активов и недвижимости, установок, оборудования и биоло
+ACC	4348	Пассивный	False	Dobavljaci u inostranstvu za obrtna sredstva / Поставщики за рубеж для оборотного капитала
+ACC	4390	Пассивный	False	Obaveze po izdatim cekovima / Обязательства по выпущенным чекам
+ACC	4391	Пассивный	False	Obaveze za nominalnu vrijednost izdatih mjenica / Обязательства по номинальной стоимости выпущенных векселей
+ACC	4392	Пассивный	False	Obaveze za kamatu buduceg perioda koja je sadrzana u mjenicnoj vrijednosti / Проценты к уплате за будущий период, включенные в биржевую стоимость
+ACC	4393	Пассивный	False	Obaveze po izdatim obveznicama sa rokom dospijeca do godine dana / Обязательства по выпущенным облигациям со сроком погашения до одного года
+ACC	4394	Пассивный	False	Obaveze po izdatim blagajnickim zapisima sa rokom dospijeca do godine dana / Обязательства по выпущенным векселям со сроком погашения до одного года
+ACC	4395	Пассивный	False	Obaveze po izdatim komercijalnim zapisima sa rokom dospijeca do godine dana / Обязательства по выпущенным коммерческим бумагам со сроком погашения до одного года
+ACC	4396	Пассивный	False	Obaveze po izdatim certifikatima o depozitu sa rokom dospijeca do godine dana / Обязательства по выданным депозитным сертификатам со сроком погашения до одного года
+ACC	4397	Пассивный	False	Obaveze po izdatim finansijskim derivatima sa rokom dospijeca do godine dana / Обязательства по выпущенным производным финансовым инструментам со сроком погашения до одного года
+ACC	4398	Пассивный	False	Obaveze za naknade steta na sredstvima drugih pravnih i fizickih lica / Обязательства по возмещению убытков по активам других юридических и физических лиц
+ACC	4399	Пассивный	False	Druge obaveze iz poslovanja / Прочие операционные обязательства
+ACC	4400	Активный/Пассивный	False	Obaveze prema uvozniku / Обязательства перед импортером
+ACC	4406	Активный/Пассивный	False	Obaveze prema uvozniku po drugim osnovima / Обязательства перед импортером по другим основаниям
+ACC	4410	Активный/Пассивный	False	Obaveze za primljene depozite za usluge izvoza / Обязательства по вкладам, полученным за экспортные услуги
+ACC	4416	Активный/Пассивный	False	Druge obaveze po osnovu izvoza za tud racun / Другие экспортные обязательства для того же счета
+ACC	4420	Активный/Пассивный	False	Obaveze po osnovu komisione prodaje / Обязательства по продаже обязательств
+ACC	4423	Активный/Пассивный	False	Obaveze po osnovu konsignacione prodaje / Обязательства по продаже партии
+ACC	4490	Активный/Пассивный	False	Obaveze po osnovu zajednickih poslova / Обязательства
+ACC	4500	Активный/Пассивный	False	Obaveze za neto zarade za redovan rad
+ACC	4501	Активный/Пассивный	False	Obaveze za neto zarade po osnovu  doprinosa zaposlenog poslovnom uspjehu poslodavca
+ACC	4502	Активный/Пассивный	False	Obaveze za neto zarade po osnovu terenskog dodatka
+ACC	4505	Активный/Пассивный	False	Obaveze za neto zarade po osnovu otpremnine
+ACC	4506	Активный/Пассивный	False	Obaveze za neto zarade po osnovu dodatka za odvojeni zivot
+ACC	4507	Активный/Пассивный	False	Obaveze za neto naknade zarada
+ACC	4510	Активный/Пассивный	False	Obaveze za porez na zarade
+ACC	4511	Активный/Пассивный	False	Obaveze za porez na naknade zarada
+ACC	4512	Активный/Пассивный	False	Obaveze za porez na naknade zarada
+ACC	4513	Активный/Пассивный	False	Porezna LP po ugovoru o zakupu
+ACC	4520	Активный/Пассивный	False	Obaveze za doprinos za penzijsko i invalidsko osiguranje na zarade i naknade zarada
+ACC	4521	Активный/Пассивный	False	Obaveze za zdravstveno osiguranje na zarade i naknade zarada
+ACC	4522	Активный/Пассивный	False	Obaveze za osiguranje od nezaposlenosti na zarade i naknade zarada
+ACC	4529	Активный/Пассивный	False	Druge obaveze za doprinose na zarade i naknade
+ACC	4530	Активный/Пассивный	False	Obaveze za doprinos za penzijsko i invalidsko osiguranje
+ACC	4531	Активный/Пассивный	False	Obaveze za doprinos za zdravstveno osiguranje
+ACC	4532	Активный/Пассивный	False	Obaveze za doprinos za osiguranje od nezaposlenosti
+ACC	4533	Активный/Пассивный	False	Ostale obaveze za doprinose na teret poslodavca
+ACC	4534	Активный/Пассивный	False	Ostale obaveze za doprinose na teret poslodavca
+ACC	4540	Активный/Пассивный	False	Obaveze prema zaposlenima za doznacene naknade bolovanja
+ACC	4541	Активный/Пассивный	False	Prirez porezu po ugovoru o zakupu
+ACC	4543	Активный/Пассивный	False	Druge nepomenute obaveze prema zaposlenima
+ACC	4545	Активный/Пассивный	False	Prirez porezu po ugovoru o zakupu
+ACC	4590	Активный/Пассивный	False	Obaveze za poreze i doprinose na naknade zarada na teret poslodavca koje se refundiraju
+ACC	4600	Активный/Пассивный	False	Obaveze po osnovu kamata po finansijskim kreditima / Проценты по финансовым кредитам
+ACC	4601	Активный/Пассивный	False	Obaveze po osnovu kamata po robnim kreditima / Проценты по товарным кредитам
+ACC	4602	Активный/Пассивный	False	Obaveze po osnovu zateznih kamata / Проценты по задолженности
+ACC	4609	Активный/Пассивный	False	Druge nepomenute obaveze po osnovu kamata i troskova finansiranja / Другие не упомянутые обязательства, связанные с процентами и расходами на финансирование
+ACC	4610	Активный/Пассивный	False	Obaveze za dividende na obicne akcije / Обязательства по дивидендам по обыкновенным акциям
+ACC	4611	Активный/Пассивный	False	Obaveze za dividende na prioritetne akcije / Дивидендная задолженность по привилегированным акциям
+ACC	4612	Активный/Пассивный	False	Druge nepomenute obaveze na dividende / Прочая неопределенная задолженность по дивидендам
+ACC	4620	Активный/Пассивный	False	Obaveze ulagacima u drustvo sa ogranicenom odgovornoscu za ucesce u dobitku / Обязательства перед инвесторами в обществе с ограниченной ответственностью для участия в прибыли
+ACC	4621	Активный/Пассивный	False	Obaveze prema ortacima za ucesce u dobitku / Обязательства перед партнерами по участию в прибыли
+ACC	4622	Активный/Пассивный	False	Obaveze prema komplementarima za ucesce u dobitku / Обязательства перед доплатой за участие в выигрыше
+ACC	4623	Активный/Пассивный	False	Obaveze prema komanditorima za ucesce u dobitku / Обязательства перед командирами за участие в прибыли
+ACC	4629	Активный/Пассивный	False	Druge obaveze za ucesce u dobitku / Прочие обязательства по распределению прибыли
+ACC	4630	Активный/Пассивный	False	"Obaveze za otpremninu radi odlaska u penziju / 
+ACC	4631	Активный/Пассивный	False	Obaveza za jubilarne nagrade / Обязательства по юбилейным наградам
+ACC	4632	Активный/Пассивный	False	Obaveza za dnevnice i naknade troskova na sluzbenom putu / Обязательство по выплате суточных и возмещению расходов в командировке
+ACC	4633	Активный/Пассивный	False	Obaveza za naknadu troskova prevoza na radno mjesto i sa radnog mjesta / Обязательство возместить транспортные расходы на работу и с работы
+ACC	4634	Активный/Пассивный	False	Obaveza naknade za smjestaj i ishranu na terenu / Обязанность взимать плату за проживание и питание в поле
+ACC	4635	Активный/Пассивный	False	Obaveza za isplatu materijalnih troskova (blagajna) / Обязанность по оплате материальных затрат (касса)
+ACC	4639	Активный/Пассивный	False	Obaveze za ostale naknade troskova zaposlenih / Расчеты с подотчетными лицами
+ACC	4640	Активный/Пассивный	False	"Obaveze prema clanovima upravnog i nadzornog odbora na teret troskova / 
+ACC	4641	Активный/Пассивный	False	Obaveze prema clanovima upravnog i nadzornog odbora na teret nerasporedene dobiti ranijih godina / Обязательства перед членами Правления и Наблюдательного совета за счет нераспределенной прибыли прошл
+ACC	4642	Активный/Пассивный	False	Druge nepomenute obaveze prema clanovima upravnog i nazdzornog odbora / Другие несвязанные обязательства перед членами Правления и Наблюдательного Совета
+ACC	4650	Активный/Пассивный	False	"Obaveze prema fizickim licima po osnovu ugovora o autorskim honorarima / 
+ACC	4651	Активный/Пассивный	False	Obaveze prema fizickim licima po osnovu ugovora o djelu / Обязательства перед физическими лицами на основании трудового договора
+ACC	4652	Активный/Пассивный	False	Obaveze prema fizickim licima po osnovu ugovora o privremenim i povremenim poslovima / Обязательства перед физическими лицами по временным и случайным договорам
+ACC	4653	Активный/Пассивный	False	Obaveze prema fizickim licima po osnovu ugovora o dopunskom radu / Обязательства перед физическими лицами на основании дополнительных трудовых договоров
+ACC	4654	Активный/Пассивный	False	Obaveze prema fizickim licima po osnovu drugih nepomenutih ugovora / Обязательства перед физическими лицами по другим не упомянутым договорам
+ACC	4690	Активный/Пассивный	False	Obaveze za doprinose privrednim komorama
+ACC	4691	Активный/Пассивный	False	Obaveze za doprinose zadruznim savezima
+ACC	4692	Активный/Пассивный	False	Obaveze po osnovu bankarskih usluga
+ACC	4693	Активный/Пассивный	False	Druge nepomenute obaveze
+ACC	4694	Активный/Пассивный	False	Prirez porezu
+ACC	4695	Активный/Пассивный	False	Druge nepomenute obaveze
+ACC	4790	Активный/Пассивный	False	Obaveze za porez na dodatu vrijednost po osnovu razlike obracunatog poreza na dodatu vrijednost i prethodnog poreza / Обязательства по НДС, основанные на разнице между рассчитанным налогом на добавлен
+ACC	4793	Активный/Пассивный	False	Obaveze za porez na dodatu vrijednost po osnovu razlike obracunatog poreza na dodatu vrijednost i prethodnog poreza / Обязательства по НДС, основанные на разнице между рассчитанным налогом на добавлен
+ACC	4810	Активный/Пассивный	False	Obaveze za porez na dobit preduzeca / Обязательства по корпоративному подоходному налогу
+ACC	4811	Активный/Пассивный	False	Druge obaveze za porez iz rezultata / Прочие налоговые обязательства по результатам
+ACC	4817	Активный/Пассивный	False	Druge obaveze za porez iz rezultata / Прочие налоговые обязательства по результатам
+ACC	4820	Активный/Пассивный	False	Obaveze za porez na licna primanja gradana na teret poslodavca / Обязательства по подоходному налогу за счет работодателя
+ACC	4821	Активный/Пассивный	False	Obaveze za takse na teret poslodavca / Налоговые обязательства за счет работодателя
+ACC	4822	Активный/Пассивный	False	Obaveze za carine i druge dazbine po osnovu nabavke / Обязательства по таможенным и другим пошлинам, основанным на закупках
+ACC	4823	Активный/Пассивный	False	Obaveze za carine i druge dazbine na teret troskova / Обязательства по таможенным и другим пошлинам за счет затрат
+ACC	4824	Активный/Пассивный	False	Obaveze za poreze na imovinu / Налог на имущество
+ACC	4825	Активный/Пассивный	False	Obaveze za naknade za koriscenje dobara od opsteg interesa / Обязательства по сборам за пользование товарами общего интереса
+ACC	4829	Активный/Пассивный	False	Druge obaveze za poreze, carine i druge dazbine iz nabavke ili na teret troskovaПрочие обязательства по налогам, сборам и другим расходам от закупок или за счет / Прочие обязательства по налогам, сбор
+ACC	4830	Активный/Пассивный	False	Obaveze za doprinose koje placa vlasnik preduzeca po resenju nadleznog organa / Обязательства по взносам, уплачиваемым владельцем компании по решению компетентного органа
+ACC	4890	Активный/Пассивный	False	Obaveze za poreze i doprinose obracunate po osnovu ugovora o djelu / Обязательства по налогам и взносам рассчитываются на основании трудового договора
+ACC	4891	Активный/Пассивный	False	Obaveze za poreze i doprinose obracunate po osnovu ugovora o autorstvu / Обязательства по налогам и взносам рассчитываются на основании авторских договоров
+ACC	4892	Активный/Пассивный	False	Obaveze za poreze i doprinose po osnovu drugih ugovora uz naknadu / Обязательства по налогам и взносам на основе других договоров за плату
+ACC	4893	Активный/Пассивный	False	Obaveze po osnovama troskova za takse, naknade i slicne obaveze / Обязательства, основанные на затратах на комиссионные, сборы и аналогичные обязательства
+ACC	4894	Активный/Пассивный	False	Druge nepomenute obaveze za poreze i doprinose i druge dazbine / Прочие не упомянутые обязательства по налогам, взносам и другим пошлинам
+ACC	4900	Активный/Пассивный	False	Obracunati troskovi zakupnine / Расчетная стоимость аренды
+ACC	4901	Активный/Пассивный	False	Obracunati troskovi grijanja / Расчетные расходы на отопление
+ACC	4902	Активный/Пассивный	False	Obracunati troskovi kala, rastura, kvara i loma / Расчет затрат на грязь, отходы, разрушение и преломление
+ACC	4903	Активный/Пассивный	False	Obracunati troskovi kamata / Процентные расходы рассчитаны
+ACC	4909	Активный/Пассивный	False	Obracunati drugi nefakturisani troskovi / Другие счета-фактуры будут сняты
+ACC	4910	Активный/Пассивный	False	Unaprijed naplacena zakupnina za buduci obracunski period / Предоплата аренды за будущий отчетный период
+ACC	4911	Активный/Пассивный	False	Unaprijed naplacena pretplata koja se odnosi na buduci obracunski period / Предоплаченная подписка, относящаяся к будущему платежному периоду
+ACC	4912	Активный/Пассивный	False	Unaprijed naplaceni ostali prihodi koji se odnose na naredni obracunski period / Предоплата прочих доходов, связанных со следующим отчетным периодом
+ACC	4940	Активный/Пассивный	False	Razgraniceni zavisni troskovi nabavke materijala / Амортизированная зависимая стоимость приобретения материалов
+ACC	4941	Активный/Пассивный	False	Razgraniceni zavisni troskovi nabavke rezervnih djelova / Амортизированная зависимая стоимость покупки запчастей
+ACC	4942	Активный/Пассивный	False	Razgraniceni zavisni troskovi nabavke robe / Амортизированная зависимая стоимость приобретения товара
+ACC	4944	Активный/Пассивный	False	Razgraniceni zavisni troskovi nabavke nepokretnosti, postrojenja, opreme i bioloskih sredstava / Зависимые зависимые затраты на приобретение недвижимости, установок, оборудования и биологических актив
+ACC	4946	Активный/Пассивный	False	Drugi razgraniceni zavisni troskovi nabavke / Прочие начисленные зависимые затраты на приобретение
+ACC	4950	Активный/Пассивный	False	Odlozeni prihodi po osnovu primljenih donacija / Отложенный доход от полученных пожертвований
+ACC	4951	Активный/Пассивный	False	Odlozeni prihodi po osnovu drugih drzavnih davanja / Отложенный доход от других государственных пособий
+ACC	4970	Активный/Пассивный	False	Razgranicene obaveze za PDV po osnovu rashoda i manjka / Отложенная ответственность по НДС по расходам и дефицитам
+ACC	4971	Активный/Пассивный	False	Razgranicene obaveze za PDV po osnovu privremene situacije koja nije ovjerena  do kraja tekuce godine / Обязательства по НДС с разделителями основаны на временной ситуации, которая не была сертифициро
+ACC	4972	Активный/Пассивный	False	Razgranicene obaveze za PDV po osnovu knjiznog odobrenja,po osnovu kojeg postoji obaveza ispravke odbitaka prethodnog poreza u narednoj godini / Отложенное обязательство по НДС на основании книжного р
+ACC	4980	Активный/Пассивный	False	Odlozene poreske obaveze po osnovu razlike u obracunu amortizacije za racunovodstvene i poreske svrhe / Отложенные налоговые обязательства основаны на разнице в расчете амортизации для целей бухгалтер
+ACC	4981	Активный/Пассивный	False	Odlozene poreska sredstva povodom revalorizacije sredstava / Отложенные налоговые активы в отношении переоценки активов
+ACC	4982	Активный/Пассивный	False	Odlozene  poreske obaveze po osnovu ostalih oporezivih privremenih razlika / Отложенные налоговые обязательства на основе других налогооблагаемых временных разниц
+ACC	4989	Активный/Пассивный	False	Odlozene  poreske obaveze po osnovu ostalih oporezivih privremenih razlika / Отложенные налоговые обязательства на основе других налогооблагаемых временных разниц
+ACC	4990	Активный/Пассивный	False	Ostala pasivna vremenska razgranicenja / Другие пассивные временные разграничения
+ACC	5000	Активный/Пассивный	False	Nabavna vrijednost kupljene robe / Стоимость купленных товаров
+ACC	5001	Активный/Пассивный	False	Prenos nabavne vrijednosti prodate robe / Передача стоимости проданных товаров
+ACC	5002	Активный/Пассивный	False	Promjena stanja zaliha robe / Изменение складского состояния товара
+ACC	5010	Активный/Пассивный	False	Nabavna vrijednost prodate robe maticnim i zavisnim pravnim licima / Стоимость товаров, проданных материнским и зависимым юридическим лицам
+ACC	5011	Активный/Пассивный	False	Nabavna vrijednost prodate robe ostalim povezanim pravnim licima / Стоимость товаров, проданных другим связанным юридическим лицам
+ACC	5012	Активный/Пассивный	False	Nabavna vrijednost prodate robe u veleprodajnim objektima / Себестоимость проданных товаров на оптовых объектах
+ACC	5013	Активный/Пассивный	False	Nabavna vrijednost prodate robe u maloprodajnim objektima / Себестоимость проданных товаров в торговых точках
+ACC	5014	Активный/Пассивный	False	Nabavna vrijednost prodate robe u komisionu i konsignaciji drugih lica / Себестоимость проданных товаров в комиссии и партии товара
+ACC	5015	Активный/Пассивный	False	Nabavna vrijednost prodate robe u tranzitu na domacem trzistu / Стоимость товаров, проданных транзитом на внутреннем рынке
+ACC	5016	Активный/Пассивный	False	Nabavna vrijednost samostalne prodaje na inostranom trzistu / Стоимость самостоятельной продажи на зарубежном рынке
+ACC	5017	Активный/Пассивный	False	Nabavna vrijednost prodate robe na inostranom trzistu posredstvom izvoznika / Стоимость товаров, проданных на внешнем рынке через экспортера
+ACC	5018	Активный/Пассивный	False	Nabavna vrijednost prodate robe u reeksportu / Себестоимость проданных товаров при реэкспорте
+ACC	5019	Активный/Пассивный	False	Nabavna vrijednost ostale prodate robe / Стоимость других проданных товаров
+ACC	5020	Активный/Пассивный	False	"Nabavna vrijednost prodatog zemljista pribavljenog radi prodaje / 
+ACC	5021	Активный/Пассивный	False	"Nabavna vrijednost gradevinskih objekata pribavljenih radi prodaje / 
+ACC	5022	Активный/Пассивный	False	Nabavna vrijednost ostalih nekretnina pribavljenih radi prodaje / Стоимость другой недвижимости, приобретенной для продажи
+ACC	5101	Активный/Пассивный	False	Nabavka materijala za izradu / Закупка материалов для изготовления
+ACC	5102	Активный/Пассивный	False	Nabavka ostalog materijala (rezijskog) / Закупка других материалов (режиссерская)
+ACC	5103	Активный/Пассивный	False	Nabavka goriva / Закупка топлива
+ACC	5110	Активный/Пассивный	False	Troskovi sirovina i osnovnog materijala / Затраты на сырье и основные материалы
+ACC	5111	Активный/Пассивный	False	Troskovi pomocnog materijala / Стоимость вспомогательного материала
+ACC	5112	Активный/Пассивный	False	Troskovi ambalaze (neodvojive) / Стоимость упаковки (неразделимая)
+ACC	5120	Активный	False	Troskovi materijala za odrzavanje higijene / Расходы на гигиенические материалы
+ACC	5121	Активный	False	Troskovi kancelarijskog materijala / Расходы на канцелярские товары
+ACC	5122	Активный	False	Troskovi rezervnih djelova / Расходы на запасные части
+ACC	5123	Активный	False	Troskovi alata i inventara / Затраты на инструменты и инвентарь
+ACC	5124	Активный	False	Troskovi ostalog materijala / Затраты на другие материалы
+ACC	5125	Активный	False	Troskovi za vozila / Затраты на содержание авто
+ACC	5129	Активный/Пассивный	False	Drugi troskovi rezijskog materijala / Прочие накладные расходы на материал
+ACC	5130	Активный	False	Troskovi elektricne energije / Расходы на электроэнергию
+ACC	5131	Активный	False	Drugi troskovi pogonskog goriva (ugalj, nafta i njeni derivati, gas, itd) / Прочие затраты на топливо (уголь, нефть и ее производные, газ и т. Д.)
+ACC	5132	Активный	False	Troskovi upotrebljene pare i tople vode / Стоимость использованного пара и горячей воды
+ACC	5133	Активный	False	Troskovi goriva za vozila / Расходы на топливо для автомобилей
+ACC	5139	Активный	False	Drugi troskovi goriva i energije / Прочие расходы на топливо и энергию
+ACC	5200	Активный	False	Troskovi neto zarada za redovan rad
+ACC	5201	Активный	False	Troskovi neto zarada po osnovu doprinosa zaposlenog poslovnom uspjehu poslodavca / Затраты на чистую прибыль, основанные на вкладе работника в успех бизнеса работодателя
+ACC	5204	Активный	False	Troskovi neto zarade po osnovu terenskog dodatka
+ACC	5205	Активный	False	Troskovi neto zarada po osnovu otpremnine / Расходы чистого заработка на выходное пособие
+ACC	5206	Активный	False	Troskovi neto zarada po osnovu dodatka za odvojeni zivot / Затраты на чистую прибыль на отдельное пожизненное пособие
+ACC	5207	Активный	False	Troskovi poreza na zarade i naknade zarada na teret zaposlenog
+ACC	5208	Активный	False	Troskovi doprinosa na zarade i naknade zarada na teret zaposlenog
+ACC	5210	Активный	False	Troskovi poreza na zarade i naknade zarada na teret poslodavca / Затраты на заработную плату и налоги на заработную плату за счет работодателя
+ACC	5211	Активный	False	Troskovi doprinosa na zarade i naknade zarada na teret poslodavca 
+ACC	5212	Активный	False	Troskovi doprinosa na zarade i naknade zarada na teret poslodavca
+ACC	5213	Активный	False	Prirez porezu po ugovoru o zakupu
+ACC	5214	Активный	False	Prirez porezu po ugovoru o zakupu 
+ACC	5220	Активный	False	Prirez porezu po ugovoru o zakupu 
+ACC	5251	Активный/Пассивный	False	Porez na LP po ugovoru o zakupu
+ACC	5290	Активный/Пассивный	False	Otpremnina za odlazak u penziju i prestanak radnog odnosa / Выходное пособие за выход на пенсию и увольнение
+ACC	5291	Активный/Пассивный	False	Jubilarne nagrade / Юбилейные награды
+ACC	5292	Активный/Пассивный	False	Naknade troskova smjestaja i ishrane na sluzbenom putu / Расходы на проживание и питание в командировке
+ACC	5293	Активный/Пассивный	False	Naknade troskova prevoza na sluzbenom putu / Возмещение командировочных расходов
+ACC	5294	Активный/Пассивный	False	Naknade troskova prevoza na radno mjesto i sa radnog mjesta / Возмещение транспортных расходов на рабочее место и обратно
+ACC	5295	Активный/Пассивный	False	Naknade za smjestaj i ishranu na terenu / Плата за проживание и питание в поле
+ACC	5299	Активный/Пассивный	False	Ostale naknade troskova zaposlenima, poslodavcima i drugim fizickim licima / Возмещение других расходов работникам, работодателям и другим лицам
+ACC	5300	Активный/Пассивный	False	Troskovi proizvodnih usluga / Стоимость производственных услуг
+ACC	5310	Активный/Пассивный	False	Troskovi usluga prevoza u zemlji / Стоимость транспортных услуг по стране
+ACC	5311	Активный/Пассивный	False	Troskovi usluga prevoza u inostranstvu / Расходы на транспортные услуги за рубежом
+ACC	5312	Активный/Пассивный	False	Troskovi PTT usluga u zemlji / Стоимость услуг PTT в стране
+ACC	5313	Активный/Пассивный	False	Troskovi PTT usluga u inostranstvu / Расходы на услуги PTT за рубежом
+ACC	5319	Активный/Пассивный	False	Drugi troskovi transportnih usluga / Прочие расходы на транспортные услуги
+ACC	5320	Активный/Пассивный	False	Troskovi usluga odrzavanja osnovnih sredstava u zemlji / Затраты на обслуживание основных средств в стране
+ACC	5321	Активный/Пассивный	False	Troskovi usluga odrzavanja osnovnih sredstava u inostranstvu / Затраты на обслуживание основных средств за рубежом
+ACC	5329	Активный/Пассивный	False	Drugi troskovi usluga odrzavanja / Прочие расходы на техническое обслуживание
+ACC	5330	Активный/Пассивный	False	Troskovi zakupa pogonske opreme / Стоимость аренды силовой установки
+ACC	5331	Активный/Пассивный	False	Troskovi zakupa transportnih sredstava / Расходы на аренду транспортных средств
+ACC	5332	Активный/Пассивный	False	Troskovi zakupa poslovnog inventara i opreme / Стоимость лизингового бизнеса, инвентарь и оборудование
+ACC	5333	Активный/Пассивный	False	Troskovi zakupa skladisnog prostora / Стоимость аренды складских помещений
+ACC	5334	Активный/Пассивный	False	Troskovi zakupa poslovnog prostora / Расходы на аренду офисных помещений
+ACC	5339	Активный/Пассивный	False	Drugi troskovi zakupnina / Прочие расходы на аренду
+ACC	5340	Активный/Пассивный	False	Troskovi ucesca na sajmovima u zemlji,u vezi izlaganja proizvoda, robe i usluga / Стоимость участия в ярмарках в стране, в связи с показом товаров, товаров и услуг
+ACC	5342	Активный/Пассивный	False	Troskovi ucesca na sajmovima u inostranstvu u vezi izlaganja proizvoda, robe i usluga / Стоимость участия в ярмарках за рубежом в связи с показом товаров, товаров и услуг
+ACC	5350	Активный/Пассивный	False	Troskovi reklame i propagande u zemlji / Стоимость рекламы и пропаганды в стране
+ACC	5351	Активный/Пассивный	False	Troskovi reklame i propagande u inostranstvu / Расходы на рекламу и пропаганду за рубежом
+ACC	5352	Активный/Пассивный	False	Troskovi sopstvenih proizvoda upotrebljenih za reklamu i propagandu / Затраты на собственную продукцию, используемую для рекламы и пропаганды
+ACC	5353	Активный/Пассивный	False	Troskovi sopstvenih usluga upotrebljenih za reklamu i propagandu / Затраты на собственные услуги, используемые для рекламы и пропаганды
+ACC	5354	Активный/Пассивный	False	Troskovi robe upotrebljene za reklamu i propagandu / Стоимость товаров, используемых для рекламы и пропаганды
+ACC	5359	Активный/Пассивный	False	Drugi troskovi reklame i propagande / Прочие расходы на рекламу и пропаганду
+ACC	5360	Активный/Пассивный	False	Troskovi fundamentalnih istrazivanja / Затраты на фундаментальные исследования
+ACC	5361	Активный/Пассивный	False	Troskovi primijenjenih istrazivanja / Затраты на прикладные исследования
+ACC	5390	Активный/Пассивный	False	Troskovi usluga zastite na radu / Расходы на охрану труда
+ACC	5391	Активный/Пассивный	False	Troskovi usluga preciscavanja otpadnih voda / Затраты на услуги по очистке сточных вод
+ACC	5393	Активный/Пассивный	False	Troskovi usluga istrazivanja rudnog i drugog mineralnog blaga / Затраты на услуги по разведке руды и других полезных ископаемых
+ACC	5394	Активный/Пассивный	False	Troskovi istrazivanja / Расходы на исследования
+ACC	5399	Активный/Пассивный	False	Troskovi drugih proizvodnih usluga / Затраты на другие производственные услуги
+ACC	5400	Активный	False	Troskovi amortizacije nematerijalnih ulaganja obracunati proporcionalnom metodom / Амортизационная стоимость нематериальных активов рассчитывается линейным методом
+ACC	5402	Активный	False	Troskovi obracunate amortizacije nematerijalnih ulaganja obracunati degresivnom metodom / Стоимость рассчитанной амортизации нематериальных активов рассчитывается с использованием дегрессивного метода
+ACC	5403	Активный	False	Troskovi obracunate amortizacije nematerijalnih ulaganja obracunati funkcionalnom metodom / Стоимость начисленной амортизации нематериальных активов рассчитывается с использованием функционального мет
+ACC	5404	Активный	False	Troskovi amortizacije nekretnina,postrojenja i opreme obracunati proporcionalnom metodom / Амортизация основных средств начисляется линейным способом
+ACC	5405	Активный/Пассивный	False	Troskovi amortizacije nekretnina,postrojenja i opreme obracunati degresivnom metodom / Амортизация основных средств рассчитывается с использованием дегрессивного метода
+ACC	5406	Активный/Пассивный	False	Troskovi amortizacije nekretnina,postrojenja i opreme obracunati funkcionalnom metodom / Амортизация основных средств рассчитывается с использованием функционального метода
+ACC	5500	Активный	False	Troskovi zdravstvenih usluga / Расходы на здравоохранение
+ACC	5501	Активный	False	Troskovi advokatskih usluga / Стоимость юридических услуг
+ACC	5502	Активный	False	Troskovi usluga ciscenja / Расходы на уборку
+ACC	5503	Активный	False	Troskovi usluga racunovodstva i revizije / Затраты на бухгалтерские и аудиторские услуги
+ACC	5504	Активный	False	Troskovi savjetovanja i drugih intelektualnih usluga pravnih lica / Затраты на консультационные и другие интеллектуальные услуги юридических лиц
+ACC	5505	Активный	False	Troskovi intelektualnih usluga fizickih lica / Затраты на интеллектуальные услуги физических лиц
+ACC	5509	Активный/Пассивный	False	Troskovi drugih neproizvodnih usluga / Затраты на другие непроизводственные услуги
+ACC	5510	Активный	False	Troskovi reprezentacije u zemlji / Расходы на национальное представительство, представительские расходы
+ACC	5511	Активный	False	Troskovi reprezentacije u inostranstvu / Расходы на представительство за рубежом
+ACC	5512	Активный	False	Troskovi sopstvenih proizvoda upotrijebljenih za reprezentaciju / Затраты на собственные продукты, используемые для представления
+ACC	5513	Активный	False	Troskovi robe upotrijebljene za reprezentaciju / Стоимость товаров, используемых для представительства
+ACC	5520	Активный	False	Troskovi premija osiguranja osnovnih sredstava / Затраты на страховые премии по основным средствам
+ACC	5521	Активный	False	Troskovi premija osiguranja zaliha / Стоимость страховой премии
+ACC	5522	Активный	False	Troskovi premija osiguranja proizvodnje / Затраты на производство страховых взносов
+ACC	5523	Активный	False	Troskovi premija osiguranja od odgovornosti prema trecim licima / Расходы по страхованию ответственности перед третьими лицами
+ACC	5524	Активный	False	Troskovi osiguranja zaposlenih u toku rada / Расходы на страхование работника во время работы
+ACC	5525	Активный	False	Troskovi premija osiguranja plasmana i potrazivanja / Затраты на страховые взносы по размещению и дебиторской задолженности
+ACC	5529	Активный	False	Drugi troskovi premija osiguranja / Другие расходы на страховые взносы
+ACC	5530	Активный	False	Troskovi platnog prometa u zemlji / Общенациональные расходы по оплате
+ACC	5532	Активный	False	Troskovi platnog prometa u inostranstvu / Расходы на зарубежные платежи
+ACC	5540	Активный/Пассивный	False	Troskovi clanarina poslovnim udruzenjima / Расходы на членские взносы в бизнес ассоциации
+ACC	5549	Активный/Пассивный	False	Drugi troskovi clanarina / Другие членские взносы
+ACC	5550	Активный	False	Troskovi poreza na imovinu / Расходы по налогу на имущество
+ACC	5551	Активный/Пассивный	False	Troskovi koriscenja dobara od opsteg interesa / Затраты на использование товаров общего интереса
+ACC	5552	Активный/Пассивный	False	Troskovi koriscenja prirodnog ljekovitog faktora / Затраты на использование природного лечебного фактора
+ACC	5553	Активный	False	Troskovi koriscenja gradskog zemljista / Затраты на использование городских земель
+ACC	5554	Активный	False	Troskovi naknada za koriscenje puteva / Затраты на оплату дорожного пользования
+ACC	5556	Активный	False	Troskovi carina / Таможенные расходы
+ACC	5559	Активный	False	Drugi troskovi poreza / Другие налоговые расходы
+ACC	5560	Активный	False	Troskovi doprinosa privrednim komorama
+ACC	5561	Активный	False	Troskovi doprinosa zadruznim savezima
+ACC	5562	Активный	False	Drugi troskovi doprinosa
+ACC	5590	Активный	False	Sudski troskovi i troskovi vjestacenja / Затраты и расходы на экспертизу
+ACC	5599	Активный	False	Drugi nematerijalni troskovi / Прочие нематериальные расходы
+ACC	5600	Активный/Пассивный	False	Rashodi kamata iz odnosa sa maticnim i zavisnim pravnim licima / Процентные расходы от отношений с материнскими и зависимыми юридическими лицами
+ACC	5601	Активный/Пассивный	False	Negativne kursne razlike iz odnosa sa maticnim pravnim licima / Отрицательные курсовые отличия от отношений с материнскими юридическими лицами
+ACC	5602	Активный/Пассивный	False	Negativne kursne razlike iz odnosa sa zavisnim pravnim licima / Отрицательные курсовые отличия от отношений с зависимыми юридическими лицами
+ACC	5609	Активный/Пассивный	False	Drugi finansijski rashodi iz odnosa sa maticnim i zavisnim pravnim licima / Прочие финансовые расходы от отношений с материнскими и зависимыми юридическими лицами
+ACC	5610	Активный/Пассивный	False	Rashodi kamata iz odnosa sa ostalim povezanim pravnim licima / Процентные расходы от отношений с другими связанными юридическими лицами
+ACC	5611	Активный/Пассивный	False	Negativne kursne razlike iz odnosa sa ostalim povezanim pravnim licima / Отрицательные курсовые отличия от отношений с другими связанными юридическими лицами
+ACC	5619	Активный/Пассивный	False	Drugi finansijski rashodi iz odnosa sa ostalim povezanim pravnim licima / Прочие финансовые расходы от отношений с другими связанными юридическими лицами
+ACC	5620	Активный/Пассивный	False	Rashodi kamata po finansijskim kreditima / Процентные расходы по финансовым кредитам
+ACC	5621	Активный/Пассивный	False	Rashodi kamata po robnim kreditima / Процентные расходы по товарным кредитам
+ACC	5623	Активный/Пассивный	False	Rashodi kamata po obavezama iz duznicko–povjerilackih odnosa / Процентные расходы по обязательствам от отношений должник-кредитор
+ACC	5625	Активный/Пассивный	False	Rashodi kamata po obavezama za poreze, doprinose i druge dazbine / Процентные расходы по обязательствам по налогам, взносам и другим пошлинам
+ACC	5629	Активный/Пассивный	False	Rashodi drugih kamata / Расходы других интересов
+ACC	5630	Активный	False	Negativne kursne razlike po obavezama i potrazivanjima / Отрицательные курсовые разницы по обязательствам и дебиторской задолженности
+ACC	5631	Активный	False	Negativne kursne razlike po osnovu kredita i zamova u stranoj valuti / Валютные убытки по кредитам и займам в иностранной валюте
+ACC	5632	Активный	False	Negativne kursne razlike po stranim novcanim sredstvima / Отрицательные курсовые разницы по иностранной валюте
+ACC	5633	Активный	False	Negativne kursne razlike po stranim novcanim sredstvima / Отрицательные курсовые разницы по иностранной валюте
+ACC	5690	Активный/Пассивный	False	Finansijski rashodi po osnovu kasa skonta / Финансовые расходы на наличные скидки
+ACC	5699	Активный/Пассивный	False	Drugi finansijski rashodi / Другие финансовые расходы
+ACC	5700	Активный/Пассивный	False	Gubitak od prodaje nematerijalnih ulaganja / Убыток от продажи нематериальных активов
+ACC	5701	Активный/Пассивный	False	Gubitak od rashodovanja nematerijalnih ulaganja / Убыток от нематериальных активов
+ACC	5702	Активный/Пассивный	False	Gubitak od prodaje nekretnina / Убыток от продажи недвижимости
+ACC	5703	Активный/Пассивный	False	Gubitak od rashodovanja (rusenja) nekretnine / Убыток от расходования (сноса) недвижимости
+ACC	5704	Активный/Пассивный	False	Gubitak od prodaje postrojenja i opreme / Убыток от продажи машин и оборудования
+ACC	5705	Активный/Пассивный	False	Gubitak od rashodovanja postrojenja i opreme / Убыток от затрат на оборудование и оборудование
+ACC	5709	Активный/Пассивный	False	Drugi gubici po osnovu rashodovanja i otpisa nematerijalnih ulaganja,postrojenja i opreme / Прочие убытки от расходов и списания нематериальных активов, машин и оборудования
+ACC	5710	Активный/Пассивный	False	Gubici po osnovu rashodovanja i prodaje suma i visegodisnjih zasada / Убытки от расходов и продажи сумм и многолетних насаждений
+ACC	5711	Активный/Пассивный	False	Gubici po osnovu rashodovanja i prodaje osnovnog stada / Убытки от расходов и продажи основного стада
+ACC	5720	Активный/Пассивный	False	Gubici od prodaje ucesca u kapitalu i hartija od vrijednosti / Убытки от долевых инвестиций и ценных бумаг
+ACC	5730	Активный/Пассивный	False	Gubici od prodaje osnovng materijala / Убытки от продажи основных материалов
+ACC	5731	Активный/Пассивный	False	Gubici od prodaje rezervnih djelova / Убытки от продажи запчастей
+ACC	5732	Активный/Пассивный	False	Gubici od prodaje sitnog inventara / Убытки от продажи мелкого инвентаря
+ACC	5740	Активный/Пассивный	False	Manjkovi materijala / Материальные дефекты
+ACC	5741	Активный/Пассивный	False	Manjkovi robe / Нехватка товаров
+ACC	5742	Активный/Пассивный	False	Manjkovi alata i inventara / Отсутствие инструментов и инвентаря
+ACC	5743	Активный/Пассивный	False	Manjkovi ostalih osnovnih sredstava / Недостатки других основных средств
+ACC	5744	Активный/Пассивный	False	Drugi manjkovi / Другие недостатки
+ACC	5750	Активный/Пассивный	False	Rashodi po osnovu negativnog efekta ugovorene revalorizacije / Расходы из-за негативного влияния переоценки контракта
+ACC	5751	Активный/Пассивный	False	Rashodi po osnovu negativnog efekta ugovorene valutne klauzule / Расходы из-за негативного влияния оговоренной оговорки
+ACC	5758	Активный/Пассивный	False	Rashodi po osnovu ostalih oblika ugovorene zastite od rizika / Расходы на другие формы договорного хеджирования
+ACC	5760	Активный/Пассивный	False	Rashodi po osnovu direktnih otpisa potrazivanja u zemlji / Расходы на прямые списания дебиторской задолженности в стране
+ACC	5761	Активный/Пассивный	False	Rashodi po osnovu direktnih otpisa potrazivanja u inostranstvu / Расходы на прямые списания дебиторской задолженности за рубежом
+ACC	5770	Активный/Пассивный	False	Rashodi po osnovu rashodovanja zaliha materijala / Расходы на инвентаризацию материалов
+ACC	5771	Активный/Пассивный	False	Rashodi po osnovu rashodovanja zaliha robe / Расходы на инвентаризацию товаров
+ACC	5790	Активный/Пассивный	False	Kazne za privredne prestupe i prekrsaje / Наказания за экономические правонарушения и правонарушения
+ACC	5791	Активный/Пассивный	False	Penali / штрафы
+ACC	5792	Активный/Пассивный	False	Izgubljene kapare / Потерянные каперсы
+ACC	5793	Активный/Пассивный	False	Naknade steta drugim licima / Компенсация за ущерб другим лицам
+ACC	5795	Активный/Пассивный	False	Troskovi u neposlovne svrhe / Расходы не коммерческие 
+ACC	5799	Активный/Пассивный	False	Drugi nepomenuti rashodi / Другие расходы не упомянуты
+ACC	5800	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti suma i visegodisnjih zasada / Расходы на основе корректировки стоимости лесов и многолетних культур
+ACC	5801	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti osnovnog stada / Расходы основаны на корректировке стоимости основного стада
+ACC	5810	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti ulaganja u razvoj / Расходы основаны на корректировке стоимости инвестиций в развитие
+ACC	5811	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti koncesija, patenata, licenci i slicnih prava / Расходы основаны на гармонизации стоимости концессий, патентов, лицензий и аналогичных прав
+ACC	5814	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti ostalih nematerijalnih ulaganja / Расходы на основе корректировки стоимости других нематериальных активов
+ACC	5820	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti nekretnina / Расходы на основе корректировки стоимости недвижимости
+ACC	5821	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti postrojenja i opreme / Расходы основаны на корректировке стоимости основных средств
+ACC	5830	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti dugorocnih finansijskih plasmana / Расходы основаны на корректировке стоимости долгосрочных финансовых вложений
+ACC	5831	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti kratkorocnih finansijskih plasmana / Расходы на основе корректировки стоимости краткосрочных финансовых вложений
+ACC	5840	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti zaliha robe / Расходы на основе корректировки стоимости запасов товаров
+ACC	5841	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti zaliha materijala / Расходы основаны на корректировке стоимости материальных запасов
+ACC	5850	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti potrazivanja od maticnih i zavisnih, te ostalih povezanih pravnih lica / Расходы на основе корректировки стоимости дебиторской задолженности от материнской и
+ACC	5851	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti potrazivanja od domacih kupaca / Расходы на основе корректировки стоимости дебиторской задолженности от внутренних клиентов
+ACC	5852	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti potrazivanja od kupaca u inostranstvu / Расходы на основе корректировки стоимости дебиторской задолженности от клиентов за рубежом
+ACC	5853	Активный/Пассивный	False	Rashodi po osnovu uskladivanja vrijednosti kratkorocnih finansijskih plasmana i hartija od vrijednosti / Расходы на основе корректировки стоимости краткосрочных финансовых вложений и ценных бумаг
+ACC	5890	Активный/Пассивный	False	Obezvredenje vrijednosti goodwill-a / Обесценение гудвилла
+ACC	5891	Активный/Пассивный	False	Negativan efekat procijene fer vrijednosti investicionih nekretnina / Негативный эффект от оценки справедливой стоимости инвестиционной собственности
+ACC	5910	Активный/Пассивный	False	Rashodi po osnovu materijalno beznacajnih efekata promjene racunovodstvenih politika / Расходы на существенно незначительное влияние изменений в учетной политике
+ACC	5911	Активный/Пассивный	False	Rashodi po osnovu  ispravke materijalno beznacajnih gresaka iz ranijih godina / Расходы от исправления существенных незначительных ошибок предыдущих лет
+ACC	6000	Активный/Пассивный	False	Prihodi od prodaje robe maticnim pravnim licima u zemlji / Выручка от продажи товаров отечественным юридическим лицам на территории страны
+ACC	6001	Активный/Пассивный	False	Prihodi od prodaje robe zavisnim pravnim licima u zemlji / Выручка от продажи товаров дочерним компаниям в стране
+ACC	6002	Активный/Пассивный	False	Prihodi od prodaje robe maticnim pravnim licima u inostranstvu / Выручка от продажи товаров материнским юридическим лицам за рубежом
+ACC	6003	Активный/Пассивный	False	Prihodi od prodaje robe zavisnim pravnim licima u inostranstvu / Выручка от продажи товаров дочерним компаниям за рубежом
+ACC	6010	Активный/Пассивный	False	Prihodi od prodaje ostalim povezanim pravnim licima u zemlji / Выручка от реализации другим связанным юридическим лицам в стране
+ACC	6011	Активный/Пассивный	False	Prihodi od prodaje ostalim povezanim pravnim licima u inostranstvu / Доход от продажи другим связанным юридическим лицам за границей
+ACC	6020	Пассивный	False	Prihodi od prodaje robe na veliko / Доход от продажи товаров оптом
+ACC	6021	Пассивный	False	Prihodi od prodaje robe u maloprodajnim objektima / Доход от продажи товаров в торговых точках
+ACC	6023	Пассивный	False	Prihodi od prodaje robe u komisionu i konsignaciji drugih lica / Выручка от продажи товаров в комиссию и отгрузки других
+ACC	6024	Пассивный	False	Prihodi od prodaje robe u tranzitu / Выручка от продажи товаров в пути
+ACC	6025	Пассивный	False	Drugi prihodi od prodaje robe / Прочие доходы от продажи товаров
+ACC	6030	Пассивный	False	Prihodi od samostalne prodaje robe na inostranom trzistu / Независимые продажи товаров на внешнем рынке
+ACC	6031	Пассивный	False	Prihodi od prodaje robe na inostranom trzistu posredstvom izvoznika / Выручка от продажи товаров на внешнем рынке через экспортеров
+ACC	6034	Пассивный	False	Prihodi od prodaje robe u reeksportu / Выручка от продажи товаров в реэкспорте
+ACC	6100	Пассивный	False	Prihodi od prodaje proizvoda maticnim i zavisnim pravnim licima u zemlji / Выручка от реализации продукции материнским и дочерним юридическим лицам в стране
+ACC	6101	Пассивный	False	Prihodi od prodaje proizvoda maticnim i zavisnim pravnim licima u inostranstvu / Выручка от реализации продукции материнским и дочерним юридическим лицам за рубежом
+ACC	6102	Пассивный	False	Prihodi od izvrsenih usluga maticnim i zavisnim pravnim licima u zemlji / Доходы от услуг, оказанных материнским и дочерним юридическим лицам в стране
+ACC	6103	Пассивный	False	Prihodi od izvrsenih usluga maticnim i zavisnim pravnim licima u inostranstvu / Доходы от услуг, оказанных материнским и дочерним юридическим лицам за рубежом
+ACC	6110	Пассивный	False	Prihodi od prodaje proizvoda ostalim povezanim pravnim licima u zemlji / Выручка от реализации продукции другим связанным юридическим лицам в стране
+ACC	6111	Пассивный	False	Prihodi od prodaje proizvoda ostalim povezanim pravnim licima u inostranstvu / Выручка от реализации продукции другим связанным юридическим лицам за рубежом
+ACC	6112	Пассивный	False	Prihodi od izvrsenih usluga ostalim povezanim pravnim licima u zemlji / Доходы от услуг, оказанных другим связанным юридическим лицам в стране
+ACC	6113	Пассивный	False	Prihodi od izvrsenih usluga ostalim povezanim pravnim licima u inostranstvu / Доходы от услуг, оказанных другим связанным юридическим лицам за рубежом
+ACC	6120	Пассивный	False	Prihodi od prodaje proizvoda u prometu na veliko / Выручка от оптовых продаж продукции
+ACC	6121	Пассивный	False	Prihodi od prodaje proizvoda u prometu na malo / Выручка от реализации продукции в розничной торговле
+ACC	6122	Пассивный	False	Prihodi od prodaje usluga / Доходы от продажи услуг
+ACC	6123	Пассивный	False	Prihodi od prodaje usluga na malo / Доходы от продажи услуг в рознице
+ACC	6130	Пассивный	False	Prihodi od samostalne prodaje proizvoda na inostranom trzistu / Доходы от независимых продаж продукции на зарубежных рынках
+ACC	6131	Пассивный	False	Prihodi od prodaje proizvoda preko izvoznika / Выручка от реализации продукции через экспортеров
+ACC	6132	Пассивный	False	Prihodi od izvrsenih usluga na inostranom trzistu / Доходы от услуг, оказанных на зарубежных рынках
+ACC	6200	Активный/Пассивный	False	Prihodi od upotrebe robe za nekretnine, postrojenja, opremu i bioloska sredstva / Доходы от использования товаров для недвижимости, растений, оборудования и биологических активов
+ACC	6201	Активный/Пассивный	False	Prihodi od upotrebe robe za materijal / Доходы от использования товаров для материалов
+ACC	6202	Активный/Пассивный	False	Prihodi od upotrebe robe za rezervne djelove / Доходы от использования товаров на запчасти
+ACC	6203	Активный/Пассивный	False	Prihodi od upotrebe robe za reprezentaciju / Доходы от использования товаров для представительства
+ACC	6209	Активный/Пассивный	False	Drugi prihodi od aktiviranja ili potrosnje robe za sopstvene potrebe / Прочие доходы от активации или потребления товаров для собственных нужд
+ACC	6210	Активный/Пассивный	False	Prihodi po osnovu upotrebe proizvoda i usluga za nematerijalna ulaganja / Доходы от использования товаров и услуг для нематериальных активов
+ACC	6211	Активный/Пассивный	False	Prihodi po osnovu upotrebe proizvoda i usluga za nekretnine, postrojenja i opremu / Доходы от использования товаров и услуг для недвижимости, машин и оборудования
+ACC	6214	Активный/Пассивный	False	Prihodi po osnovu prirasta osnovnog stada / Доход, основанный на росте основного стада
+ACC	6215	Активный/Пассивный	False	Prihodi po osnovu upotrebe proizvoda za materijal (kada se vode na kontu 101) / Доходы от использования продуктов для материалов (при ведении счета 101)
+ACC	6216	Активный/Пассивный	False	Prihodi po osnovu upotrebe proizvoda za rezervne delove (kada se vode na kontu 100) / Выручка от использования продукции на запчасти (при учете на счете 100)
+ACC	6217	Активный/Пассивный	False	Prihodi po osnovu upotrebe sopstvenog transporta pri nabavci materijala i robe / Доходы от использования собственного транспорта при закупках материалов и товаров
+ACC	6219	Активный/Пассивный	False	Drugi prihodi od aktiviranja ili potrosnje proizvoda i usluga za sopstvene potrebe / Прочие доходы от активации или потребления продуктов и услуг для собственных нужд
+ACC	6300	Активный/Пассивный	False	Povecanje vrijednosti zaliha nedovrsenih proizvoda / Увеличение инвентарной стоимости незаконченных продуктов
+ACC	6301	Активный/Пассивный	False	Povecanje vrijednosti nedovrsenih usluga / Увеличение стоимости незавершенных услуг
+ACC	6302	Активный/Пассивный	False	Povecanje vrijednosti zaliha gotovih proizvoda / Увеличение стоимости запасов готовой продукции
+ACC	6310	Активный/Пассивный	False	Smanjenje vrijednosti zaliha nedovrsenih proizvoda / Снижение товарно-материальных ценностей на незаконченную продукцию
+ACC	6311	Активный/Пассивный	False	Smanjenje vrijednosti nedovrsene proizvodnje / Снижение стоимости незавершенного производства
+ACC	6312	Активный/Пассивный	False	Smanjenje vrijednosti zaliha gotovih proizvoda / Снижение стоимости запасов готовой продукции
+ACC	6400	Активный/Пассивный	False	Prihodi od premija / Премиальный доход
+ACC	6401	Активный/Пассивный	False	Prihodi od subvencija / Доход от субсидий
+ACC	6402	Активный/Пассивный	False	Prihodi od dotacija / Доход от грантов
+ACC	6403	Активный/Пассивный	False	Prihodi od donacija / Доход от пожертвований
+ACC	6404	Активный/Пассивный	False	Prihodi od regresa / Доход от регресса
+ACC	6405	Активный/Пассивный	False	Prihodi od kompenzacija / Компенсационный доход
+ACC	6406	Активный/Пассивный	False	Prihodi od povracaja poreskih dazbina / Доходы от возврата налогов
+ACC	6500	Активный/Пассивный	False	Prihodi od zakupa zemljista / Доход от аренды земли
+ACC	6501	Активный/Пассивный	False	Prihodi od zakupa pogonske opreme / Выручка от проката силового оборудования
+ACC	6502	Активный/Пассивный	False	Prihodi od zakupa transportnih sredstava i inventara / Доход от транспортировки и инвентаризации
+ACC	6503	Активный/Пассивный	False	Prihodi od zakupa poslovnog inventara i opreme / Доход от сдачи в аренду инвентаря и оборудования для бизнеса
+ACC	6504	Активный/Пассивный	False	Prihodi od zakupa skladisnog prostora / Доход от аренды склада
+ACC	6505	Активный/Пассивный	False	Prihodi od zakupa poslovnog prostora / Доход от аренды помещений
+ACC	6509	Активный/Пассивный	False	Drugi prihodi od zakupnina / Прочие доходы от аренды
+ACC	6510	Активный/Пассивный	False	Prihodi od clanarina poslovnog udruzenja / Доход от членских взносов бизнес-ассоциации
+ACC	6519	Активный/Пассивный	False	Drugi prihodi od clanarina / Другие членские взносы
+ACC	6520	Активный/Пассивный	False	Prihodi od naknada po osnovu patenata / Доход от патентных сборов
+ACC	6521	Активный/Пассивный	False	Prihodi od  naknada po osnovu zigova / Доходы от торговой марки
+ACC	6522	Активный/Пассивный	False	Prihodi po osnovu autorskih prava / Доход от авторского права
+ACC	6529	Активный/Пассивный	False	Prihodi po osnovu ostalih prava / Доход от других прав
+ACC	6600	Активный/Пассивный	False	Prihodi od kamata iz odnosa sa maticnim i zavisnim pravnim licima / Процентный доход от отношений с материнскими и дочерними юридическими лицами
+ACC	6601	Активный/Пассивный	False	Prihodi od ucesca u rezultatu maticnih i zavisnih pravnih lica / Доход от участия в результатах материнских и дочерних юридических лиц
+ACC	6602	Активный/Пассивный	False	Pozitivne kursne razlike iz odnosa sa maticnim i zavisnim pravnim licima / Валютные доходы от отношений с материнскими и дочерними юридическими лицами
+ACC	6603	Активный/Пассивный	False	Drugi finansijski prihodi iz odnosa sa maticnim i zavisnim pravnim licima / Прочие финансовые доходы от отношений с материнскими и дочерними юридическими лицами
+ACC	6610	Активный/Пассивный	False	Prihodi od kamata iz odnosa sa ostalim povezanim pravnim licima / Процентный доход от отношений с другими связанными юридическими лицами
+ACC	6611	Активный/Пассивный	False	Prihodi od ucesca u rezultatu ostalih povezanih pravnih lica / Доход от участия в результате других связанных юридических лиц
+ACC	6612	Активный/Пассивный	False	Pozitivne kursne razlike iz odnosa sa ostalim povezanim pravnim licima / Валютные доходы от отношений с другими связанными юридическими лицами
+ACC	6619	Активный/Пассивный	False	Drugi finansijski prihodi iz odnosa sa ostalim povezanim pravnim licima / Прочие финансовые доходы от отношений с другими связанными юридическими лицами
+ACC	6620	Пассивный	False	Prihodi od kamata po finansijskim kreditima i zajmovima / Процентный доход по финансовым кредитам и займам
+ACC	6621	Пассивный	False	Prihodi od kamata po robnim kreditima / Процентный доход по товарным кредитам
+ACC	6623	Пассивный	False	Prihodi od kamata po potrazivanjima iz duznicko–povjerilackih odnosa / Процентный доход по дебиторской задолженности от отношений должник-кредитор
+ACC	6629	Пассивный	False	Drugi prihodi od kamata / Прочие процентные доходы
+ACC	6630	Пассивный	False	Pozitivne kursne razlike po potrazivanjima i obavezama / Положительные курсовые разницы по дебиторской и кредиторской задолженности
+ACC	6632	Пассивный	False	Pozitivne kursne razlike po novcanim sredstvima u stranoj valuti / Положительные курсовые разницы от денежных потоков в иностранной валюте
+ACC	6633	Пассивный	False	Pozitivne kursne razlike po novcanim sredstvima u stranoj valuti / Положительные курсовые разницы от денежных потоков в иностранной валюте
+ACC	6650	Активный/Пассивный	False	Prihodi po osnovu ucesca u dobitku zavisnih pravnih lica / Доход от участия в прибыли дочерних компаний
+ACC	6651	Активный/Пассивный	False	Prihodi po osnovu ucesca u dobitku zajednickih ulaganja / Доход от участия в прибыли совместного предприятия
+ACC	6690	Активный/Пассивный	False	Prihodi po osnovu iskoriscenog kasa skonta / Доходы от использованного кассового аппарата
+ACC	6691	Активный/Пассивный	False	Prihodi od dividendi / Дивидендный доход
+ACC	6692	Активный/Пассивный	False	Prihodi od rasporedene dobiti / Доход от распределенной прибыли
+ACC	6699	Активный/Пассивный	False	Drugi finansijski prihodi / Прочие финансовые доходы
+ACC	6700	Активный/Пассивный	False	Dobici od prodaje nematerijalnih ulaganja / Доход от продажи нематериальных активов
+ACC	6701	Активный/Пассивный	False	Dobici od prodaje nekretnina, postrojenja i opreme / Доход от продажи недвижимости, машин и оборудования
+ACC	6710	Активный/Пассивный	False	Dobici od prodaje suma i visegodisnjih zasada / Прибыль от продажи сумм и многолетних насаждений
+ACC	6711	Активный/Пассивный	False	Dobici od prodaje osnovnog stada / Прибыль от продажи основного стада
+ACC	6720	Активный/Пассивный	False	Dobici od prodaje ucesca / Прибыль от продажи участия
+ACC	6721	Активный/Пассивный	False	Dobici od prodaje hartija od vrijednosti / Прибыль от продажи ценных бумаг
+ACC	6740	Активный/Пассивный	False	Viskovi gotovine i gotovinskih ekvivalenata / Денежные средства и их эквиваленты
+ACC	6741	Активный/Пассивный	False	Viskovi materijala / Крики материала
+ACC	6742	Активный/Пассивный	False	Viskovi robe / Крики товаров
+ACC	6744	Активный/Пассивный	False	Viskovi stalnih sredstava / Визги основных средств
+ACC	6749	Активный/Пассивный	False	Drugi viskovi / Другие виски
+ACC	6760	Активный/Пассивный	False	Prihodi po osnovu pozitivnih efekata ugovorene revalorizacije / Доход от положительного эффекта переоценки контракта
+ACC	6761	Активный/Пассивный	False	Prihodi po osnovu pozitivnih efekata valutne klauzule / Доход от положительного эффекта валютной оговорки
+ACC	6770	Активный/Пассивный	False	Prihodi od smanjenja obaveza po osnovu zakona / Выручка от снижения обязательств по закону
+ACC	6771	Активный/Пассивный	False	Prihodi od smanjenja obaveza po osnovu vanparnicnog poravnanja / Доходы от сокращения безналичных расчетных обязательств
+ACC	6772	Активный/Пассивный	False	Prihodi od smanjenja obaveza po osnovu oprosta duga / Доход от уменьшения задолженности по прощению обязательств
+ACC	6779	Активный/Пассивный	False	Drugi nepomenuti prihodi od smanjenja obaveza / Прочие неуказанные доходы от уменьшения обязательств
+ACC	6780	Активный/Пассивный	False	Prihodi od neiskoriscenih dugorocnih rezervisanja za troskove u garantnom roku / Доход от неиспользованных долгосрочных резервов на расходы в течение гарантийного периода
+ACC	6781	Активный/Пассивный	False	Prihodi od neiskoriscenih dugorocnih rezervisanja za troskove obnavljanja prirodnih bogatstava / Доход от неиспользованных долгосрочных резервов на расходы по восстановлению природных ресурсов
+ACC	6782	Активный/Пассивный	False	Prihodi od neiskoriscenih dugorocnih rezervisanja za zadrzane kaucije i depozite / Доход от неиспользованных долгосрочных резервов под залог и удержанных депозитов
+ACC	6783	Активный/Пассивный	False	Prihodi od neiskoriscenih dugorocnih rezervisanja za troskove restrukturiranja / Доход от неиспользованных долгосрочных резервов на расходы по реструктуризации
+ACC	6789	Активный/Пассивный	False	Prihodi od neiskoriscenih ostalih dugorocnih rezervisanja / Доход от неиспользованных других долгосрочных резервов
+ACC	6790	Активный/Пассивный	False	Ostali prihodi po osnovu povracaja poreza, doprinosa, taksa / Другие доходы от возврата налогов, взносов, сборов
+ACC	6791	Активный/Пассивный	False	Ostali prihodi po osnovu naplacenih: penala, kapare, izgubljene dobiti, prihoda po osnovu naknade stete i dr. / Прочие доходы на основе собранных: штрафы, авансовый платеж, упущенная выгода, доход от 
+ACC	6792	Активный/Пассивный	False	Prihodi po osnovu vece fer vrijednosti pripojene neto imovine u odnosu na trosak sticanja / Выручка от более высокой справедливой стоимости приобретенных чистых активов относительно стоимости приобрет
+ACC	6793	Активный/Пассивный	False	Prihodi po osnovu popusta dobijenih nakon sastavljanja finansijskih iskaza / Выручка от скидок, полученных после подготовки финансовой отчетности
+ACC	6800	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti suma i visegodisnjih zasada / Доход от сверки стоимости сумм и многолетних насаждений
+ACC	6801	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti osnovnog stada / Доход от сверки стоимости основного стада
+ACC	6810	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti ulaganja u razvoj / Доход от сверки инвестиционной стоимости развития
+ACC	6811	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti koncesija, patenata, licenci, i slicnih prava / Доход от сверки концессий, патентов, лицензий и аналогичных прав
+ACC	6813	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti ostalih nematerijalnih ulaganja / Доход от сверки прочих нематериальных активов
+ACC	6820	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti nekretnina / Доход от корректировки стоимости недвижимости
+ACC	6821	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti postrojenja i opreme / Доход от сверки основных средств
+ACC	6830	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti ucesca u kapitalu / Доход от корректировки стоимости капитала
+ACC	6831	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti hartija od vrijednosti raspolozivih za prodaju / Доход от сверки ценных бумаг, имеющихся в наличии для продажи
+ACC	6839	Активный/Пассивный	False	Drugi nepomenuti prihodi od uskladivanja koji nisu obuhvaceni na prethodnim analitickim racunima / Прочие доходы от выверки, не включенные в предыдущие аналитические счета
+ACC	6840	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti zaliha robe / Доход от сверки товарных запасов
+ACC	6841	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti zaliha materijala / Доход от сверки запасов материалов
+ACC	6850	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti potrazivanja / Доход от сверки дебиторской задолженности
+ACC	6851	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti hartija od vrijednosti / Доход от сверки ценных бумаг
+ACC	6852	Активный/Пассивный	False	Prihodi od uskladivanja vrijednosti ostalih kratkorocnih finansijskih plasmana / Доход от сверки других краткосрочных финансовых вложений
+ACC	6910	Активный/Пассивный	False	Prihodi, efekti promjene racunovodstvenih politika / Доходы, последствия изменений в учетной политике
+ACC	6911	Активный/Пассивный	False	Prihodi, ispravke gresaka iz ranijih godina / Доход, ошибки, сделанные в предыдущие годы
+ACC	7001	Активный/Пассивный	False	Otvaranje racuna glavne knjige finansijskog knjigovodstva / Открытие счета в Главной книге
+ACC	7002	Активный/Пассивный	False	Otvaranje racuna glavne knjige finansijskog knjigovodstva / Открытие счета в Главной книге
+ACC	7003	Активный/Пассивный	False	Otvaranje racuna glavne knjige finansijskog knjigovodstva / Открытие счета в Главной книге
+ACC	7004	Активный/Пассивный	False	Otvaranje racuna glavne knjige finansijskog knjigovodstva / Открытие счета в Главной книге
+ACC	7005	Активный/Пассивный	False	Otvaranje racuna glavne knjige finansijskog knjigovodstva / Открытие счета в Главной книге
+ACC	7006	Активный/Пассивный	False	Otvaranje racuna glavne knjige finansijskog knjigovodstva / Открытие счета в Главной книге
+ACC	7007	Активный/Пассивный	False	Otvaranje racuna glavne knjige finansijskog knjigovodstva / Открытие счета в Главной книге
+ACC	7008	Активный/Пассивный	False	Otvaranje racuna glavne knjige finansijskog knjigovodstva / Открытие счета в Главной книге
+ACC	7009	Активный/Пассивный	False	Otvaranje racuna glavne knjige finansijskog knjigovodstva / Открытие счета в Главной книге
+ACC	7200	Активный/Пассивный	False	Dobitak / прибыль
+ACC	7201	Активный/Пассивный	False	Gubitak / потеря
+ACC	7220	Активный/Пассивный	False	Odlozeni poreski rashodi perioda / Отложенные налоговые расходы периода
+ACC	7221	Активный/Пассивный	False	Odlozeni poreski prihodi perioda / Отложенный налоговый доход за период
+ACC	7240	Активный/Пассивный	False	Prenos dobitka / Перевод выигрыша
+ACC	7241	Активный/Пассивный	False	Prenos gubitka / Передача потери
+ACC	8800	Активный/Пассивный	True	Zemljista i objekti drugih lica uzeti u zakup / Земля и объекты других лиц, сданные в аренду
+ACC	8801	Активный/Пассивный	True	Oprema drugih lica u zakupu / Другое арендованное оборудование
+ACC	8802	Активный/Пассивный	True	Oprema drugih lica na popravci / Другое ремонтное оборудование
+ACC	8803	Активный/Пассивный	True	Materijal i proizvodi drugih lica u obradi i doradi / Материал и изделия других лиц при обработке и отделке
+ACC	8804	Активный/Пассивный	True	Roba drugih lica preuzeta radi izvoza / Товары других лиц, вывезенные на экспорт
+ACC	8805	Активный/Пассивный	True	Roba primljena u komision ili konsignaciju / Товары, полученные на комиссию или консигнацию
+ACC	8806	Активный/Пассивный	True	Ambalaza drugih lica / Упаковка других лиц
+ACC	8807	Активный/Пассивный	True	Tuda roba u skladistu / Товары на складе
+ACC	8809	Активный/Пассивный	True	Ostala sredstva drugih lica / Другие активы других
+ACC	8810	Активный/Пассивный	True	Bonovi za ishranu / Талоны на питание
+ACC	8811	Активный/Пассивный	True	Ulaznice / билеты
+ACC	8812	Активный/Пассивный	True	Primljene mjenice / Счета получены
+ACC	8819	Активный/Пассивный	True	Druge hartije od vrijednosti / Другие ценные бумаги
+ACC	8820	Активный/Пассивный	True	Data jemstva / Гарантийные данные
+ACC	8821	Активный/Пассивный	True	Dati avali / Дай авалы
+ACC	8822	Активный/Пассивный	True	Date garancije / Дата гарантии
+ACC	8823	Активный/Пассивный	True	Date mjenice / Дата векселей
+ACC	8900	Активный/Пассивный	True	Obaveze za zemljiste i objekte drugih lica / Обязательства по земле и объектам других лиц
+ACC	8901	Активный/Пассивный	True	Obaveze za opremu drugih lica u zakupu / Обязательства по снаряжению других арендованных лиц
+ACC	8902	Активный/Пассивный	True	Obaveze za opremu drugih lica na popravci / Обязательства по ремонту оборудования других
+ACC	8903	Активный/Пассивный	True	Obaveze za materijal i proizvode drugih lica u obradi i doradi / Обязательства по материалам и изделиям других лиц при обработке и отделке
+ACC	8904	Активный/Пассивный	True	Obaveze za robu drugih lica preuzetu radi izvoza / Обязательства в отношении товаров других лиц, принятых на экспорт
+ACC	8905	Активный/Пассивный	True	Obaveze za robu preuzetu u komisiom i na konsignaciju / Обязательства в отношении товаров, совершенных и отправленных
+ACC	8906	Активный/Пассивный	True	Obaveze za ambalazu drugih lica / Обязанности по упаковке других лиц
+ACC	8907	Активный/Пассивный	True	Obaveze za tudu robu u skladistu / Обязательства по прочим товарам на складе
+ACC	8909	Активный/Пассивный	True	Obaveze za ostala sredstva drugih lica / Обязательства по прочим активам других лиц
+ACC	8910	Активный/Пассивный	True	Obaveze za bonove za ishranu / Обязательства по продовольственным ваучерам
+ACC	8911	Активный/Пассивный	True	Obaveze za ulaznice / Обязательства по билетам
+ACC	8912	Активный/Пассивный	True	Obaveze za primljene mjenice / Обязательства по полученным счетам
+ACC	8919	Активный/Пассивный	True	Obaveze za druge hartije od vrijednosti / Обязательства по другим ценным бумагам
+ACC	8920	Активный/Пассивный	True	Obaveze za data jemstva / Обязательства по предоставленным гарантиям
+ACC	8921	Активный/Пассивный	True	Obaveze za date avale / Обязательства по предоставленным авалам
+ACC	8922	Активный/Пассивный	True	Obaveze za date garancije / Обязательства по предоставленным гарантиям
+ACC	8923	Активный/Пассивный	True	Obaveze za date mjenice / Обязательства по предоставленным векселям
+ACC	9000	Активный/Пассивный	True	Racun za preuzimanje zaliha materijala / Счет-фактура за инвентаризацию материалов
+ACC	9001	Активный/Пассивный	True	Racun za preuzimanje zaliha nedovrsene proizvodnje / Принимать во внимание незавершенную работу
+ACC	9002	Активный/Пассивный	True	Racun za preuzimanje nezavrsenih usluga / Учетная запись для получения незавершенных услуг
+ACC	9003	Активный/Пассивный	True	Racun za preuzimanje zaliha gotovih proizvoda / Счет-фактура за прием запасов готовой продукции
+ACC	9004	Активный/Пассивный	True	Racun za preuzimanje zaliha robe / Счет-фактура за инвентаризацию товаров
+ACC	9010	Активный/Пассивный	True	Racun za preuzimanje nabavke materijala / Счет-фактура за прием материалов на закупку
+ACC	9011	Активный/Пассивный	True	Racun za preuzimanje nabavke robe / Счет-фактура за прием закупки товаров
+ACC	9021	Активный/Пассивный	True	Racun za preuzimanje troskova materijala / Учет затрат на материалы
+ACC	9022	Активный/Пассивный	True	Racun za preuzimanje troskova zarada, naknada zarada i ostalih licnih rashoda / Учет затрат на заработную плату, компенсацию заработной платы и другие личные расходы
+ACC	9023	Активный/Пассивный	True	Racun za preuzimanje troskova proizvodnih usluga / Учет затрат на производственные услуги
+ACC	9024	Активный/Пассивный	True	Racun za preuzimanje troskova amortizacije i rezervisanja / Учет затрат на амортизацию и резервы
+ACC	9025	Активный/Пассивный	True	Racun za preuzimanje nematerijalnih troskova / Учет нематериальных затрат
+ACC	9026	Активный/Пассивный	True	Racun za preuzimanje ostalih rashoda / Учет других расходов
+ACC	9030	Активный/Пассивный	True	Preuzeti prihodi od prodaje proizvoda i usluga / Выручка от продажи товаров и услуг
+ACC	9031	Активный/Пассивный	True	Preuzeti prihodi od aktiviranja ucinaka proizvoda i usluga / Доходы от активации эффектов продуктов и услуг
+ACC	9032	Активный/Пассивный	True	Preuzeti prihodi od prodaje robe / Выручка от продажи товаров
+ACC	9033	Активный/Пассивный	True	Preuzeti prihodi od aktiviranja i potrosnje robe za sopstvene potrebe / Доходы от активации и потребления товаров для собственных нужд
+ACC	9034	Активный/Пассивный	True	Preuzeti prihodi od premija, subvencija, dotacija i sl. / Доходы от премий, субсидий, грантов и т. Д.
+ACC	9035	Активный/Пассивный	True	Preuzeti ostali prihodi / Взять на себя прочий доход
+ACC	9100	Активный/Пассивный	True	Sirovine i materijal / Сырье
+ACC	9101	Активный/Пассивный	True	Pomocni materijal / Вспомогательный материал
+ACC	9102	Активный/Пассивный	True	Gorivo i mazivo / Топливо и смазочные материалы
+ACC	9103	Активный/Пассивный	True	Rezervni djelovi / Запасные части
+ACC	9104	Активный/Пассивный	True	Ostali materijal / Другой материал
+ACC	9105	Активный/Пассивный	True	Alat, inventar i auto–gume / Инструменты, инвентарь и автомобильные шины
+ACC	9106	Активный/Пассивный	True	Ambalaza / Упаковка
+ACC	9107	Активный/Пассивный	True	Odstupanje od planskih cijena / Отклонение от плановых цен
+ACC	9108	Активный/Пассивный	True	Ispravka vrijednosti zaliha materijala / Обесценение запасов материалов
+ACC	9110	Активный/Пассивный	True	Roba u magacinu / Товар на складе
+ACC	9111	Активный/Пассивный	True	Roba u skladistu, stovaristu i prodavnicama kod drugih pravnih lica / Товары на складах, складах и в магазинах у других юридических лиц
+ACC	9112	Активный/Пассивный	True	Roba u prometu na veliko / Оптовая торговля товарами
+ACC	9113	Активный/Пассивный	True	Roba u prometu na malo / Розничные товары
+ACC	9115	Активный/Пассивный	True	Roba u obradi, doradi i manipulaciji / Товары в обработке, отделке и погрузке-разгрузке
+ACC	9117	Активный/Пассивный	True	Ukalkulisani porez na promet / Расчетный налог с продаж
+ACC	9119	Активный/Пассивный	True	Ukalkulisana razlika u cijeni robe / Расчетная разница в цене товара
+ACC	9120	Активный/Пассивный	True	Proizvodi u prodavnicama proizvodaca / Товары в магазинах производителя
+ACC	9121	Активный/Пассивный	True	Roba u prodavnici proizvodaca / Товар в магазине производителя
+ACC	9122	Активный/Пассивный	True	Odstupanja od planskih cijena proizvoda / Отклонения от плановых цен на продукцию
+ACC	9123	Активный/Пассивный	True	Ukalkulisana razlika u cijeni proizvoda / Расчетная разница в цене товара
+ACC	9124	Активный/Пассивный	True	Ukalkulisana razlika u cijeni robe / Расчетная разница в цене товара
+ACC	9125	Активный/Пассивный	True	Ukalkulisani porez na dodatu vrijednost proizvoda / Расчетный налог на добавленную стоимость продукта
+ACC	9126	Активный/Пассивный	True	Ukalkulisani porez na promet robe / Расчетный налог с продаж на товары
+ACC	9200	Активный/Пассивный	True	Troskovi materijala MT (mjesta troska) nabavke / Стоимость материалов МТ (места стоимости) закупки
+ACC	9201	Активный/Пассивный	True	Troskovi zarada, naknada zarada i ostali licni rashodi MT nabavke / Затраты на заработную плату, компенсацию заработной платы и другие личные расходы на закупку МТ
+ACC	9202	Активный/Пассивный	True	Troskovi proizvodnih usluga MT nabavke / Затраты на производственные услуги по закупке МТ
+ACC	9203	Активный/Пассивный	True	Troskovi amortizacije i rezervisanja MT nabavke / Амортизационные и резервные затраты на закупку МТ
+ACC	9204	Активный/Пассивный	True	Nematerijalni troskovi MT nabavke / Нематериальные затраты на закупку МП
+ACC	9205	Активный/Пассивный	True	Povecani troskovi koji terete troskove perioda / Повышенные затраты, относящиеся к затратам периода
+ACC	9206	Активный/Пассивный	True	Drugi direktni troskovi MT nabavke / Прочие прямые затраты на закупку МТ
+ACC	9207	Активный/Пассивный	True	Troskovi nabavke, tehnicke uprave i pomocnih djelatnosti / Затраты на закупку, технический менеджмент и вспомогательную деятельность
+ACC	9208	Активный/Пассивный	True	Troskovi uprave, prodaje i slicnih aktivnosti / Затраты на администрирование, продажи и аналогичные виды деятельности
+ACC	9209	Активный/Пассивный	True	Prenos troskova MT nabavke / Перенос затрат на закупку МТ
+ACC	9210	Активный/Пассивный	True	Troskovi materijala MT tehnicke uprave / Материальные затраты технического администрирования МТ
+ACC	9211	Активный/Пассивный	True	Troskovi zarada, naknada zarada i ostali licni rashodi MT tehnicke uprave / Расходы на заработную плату, компенсацию заработной платы и другие личные расходы технического администрирования MT
+ACC	9212	Активный/Пассивный	True	Troskovi proizvodnih usluga MT tehnicke uprave / Затраты на производственные услуги технического управления МТ
+ACC	9213	Активный/Пассивный	True	Troskovi amortizacije i rezervisanja MT tehnicke uprave / Амортизационные и резервные расходы на техническое администрирование МТ
+ACC	9214	Активный/Пассивный	True	Nematerijalni troskovi MT tehnicke uprave / Нематериальные затраты на техническое администрирование МП
+ACC	9215	Активный/Пассивный	True	Povecani troskovi koji terete troskove perioda / Повышенные затраты, относящиеся к затратам периода
+ACC	9216	Активный/Пассивный	True	Drugi direktni troskovi MT tehnicke uprave / Прочие прямые затраты на техническое администрирование МТ
+ACC	9217	Активный/Пассивный	True	Troskovi nabavke i pomocnih djelatnosti / Затраты на закупку и вспомогательную деятельность
+ACC	9218	Активный/Пассивный	True	Troskovi uprave, prodaje i slicnih aktivnosti / Затраты на администрирование, продажи и аналогичные виды деятельности
+ACC	9219	Активный/Пассивный	True	Prenos troskova MT tehnicke uprave / Перенос затрат на техническое администрирование МТ
+ACC	9220	Активный/Пассивный	True	Racuni mjesta troskova pomocne djelatnosti / Вспомогательные счета МВЗ
+ACC	9221	Активный/Пассивный	True	Troskovi zarada, naknada zarada i ostali licni rashodi PD / Расходы на заработную плату, компенсацию заработной платы и другие личные расходы PD
+ACC	9222	Активный/Пассивный	True	Troskovi proizvodnih usluga PD / Стоимость услуг по производству ПД
+ACC	9223	Активный/Пассивный	True	Troskovi amortizacije i rezervisanja PD / Амортизация и резервы ПД
+ACC	9224	Активный/Пассивный	True	Nematerijalni troskovi PD / Нематериальные затраты PD
+ACC	9225	Активный/Пассивный	True	Povecani troskovi koji terete troskove perioda / Повышенные затраты, относящиеся к затратам периода
+ACC	9226	Активный/Пассивный	True	Drugi direktni troskovi PD / Прочие прямые затраты ПД
+ACC	9227	Активный/Пассивный	True	Troskovi nabavke, tehnicke uprave i pomocnih djelatnosti / Затраты на закупку, технический менеджмент и вспомогательную деятельность
+ACC	9228	Активный/Пассивный	True	Troskovi uprave, prodaje i slicnih aktivnosti / Затраты на администрирование, продажи и аналогичные виды деятельности
+ACC	9229	Активный/Пассивный	True	Prenos troskova pomocne djelatnosti / Перенос затрат на вспомогательную деятельность
+ACC	9300	Активный/Пассивный	True	Troskovi materijala izrade / Затраты на строительные материалы
+ACC	9301	Активный/Пассивный	True	Troskovi zarada, naknada zarada i ostali licni rashodi / Расходы на заработную плату, компенсацию заработной платы и другие личные расходы
+ACC	9302	Активный/Пассивный	True	Troskovi proizvodnih usluga / Стоимость производственных услуг
+ACC	9303	Активный/Пассивный	True	Troskovi amortizacije i rezervisanja / Затраты на амортизацию и резервирование
+ACC	9304	Активный/Пассивный	True	Nematerijalni troskovi / Нематериальные затраты
+ACC	9306	Активный/Пассивный	True	Drugi direktni troskovi / Прочие прямые затраты
+ACC	9307	Активный/Пассивный	True	Troskovi nabavke, tehnicke uprave i pomocnih djelatnosti / Затраты на закупку, технический менеджмент и вспомогательную деятельность
+ACC	9308	Активный/Пассивный	True	Troskovi uprave, prodaje i slicnih aktivnosti / Затраты на администрирование, продажи и аналогичные виды деятельности
+ACC	9309	Активный/Пассивный	True	Prenos troskova osnovne djelatnosti / Перенос затрат на основной бизнес
+ACC	9310	Активный/Пассивный	True	Troskovi materijala izrade / Затраты на строительные материалы
+ACC	9311	Активный/Пассивный	True	Troskovi zarada, nakanda zarada i ostali licni rashodi / Расходы на заработную плату, компенсацию заработной платы и другие личные расходы
+ACC	9312	Активный/Пассивный	True	Troskovi proizvodnih usluga / Стоимость производственных услуг
+ACC	9313	Активный/Пассивный	True	Troskovi amortizacije i rezervisanja / Затраты на амортизацию и резервирование
+ACC	9314	Активный/Пассивный	True	Nematerijalni troskovi / Нематериальные затраты
+ACC	9316	Активный/Пассивный	True	Drugi direktni troskovi / Прочие прямые затраты
+ACC	9317	Активный/Пассивный	True	Troskovi nabavke, tehnicke uprave i pomocnih djelatnosti / Затраты на закупку, технический менеджмент и вспомогательную деятельность
+ACC	9318	Активный/Пассивный	True	Troskovi uprave, prodaje i slicnih aktivnosti / Затраты на администрирование, продажи и аналогичные виды деятельности
+ACC	9319	Активный/Пассивный	True	Prenos troskova sporedne djelatnosti / Перенос затрат на вспомогательную деятельность
+ACC	9400	Активный/Пассивный	True	Troskovi materijala MT uprave / Затраты на административные материалы MT
+ACC	9401	Активный/Пассивный	True	Troskovi zarada, naknada zarada i ostali licni rashodi MT uprave / Расходы на заработную плату, компенсацию заработной платы и другие личные расходы руководства МТ
+ACC	9402	Активный/Пассивный	True	Troskovi proizvodnih usluga MT uprave / Затраты на производственные услуги администрации МП
+ACC	9403	Активный/Пассивный	True	Troskovi amortizacije i rezervisanja MT uprave / Амортизационные и резервные расходы на управление МТ
+ACC	9404	Активный/Пассивный	True	Nematerijalni troskovi MT uprave / Нематериальные затраты на управление МП
+ACC	9406	Активный/Пассивный	True	Drugi direktni troskovi MT uprave / Прочие прямые затраты на управление МП
+ACC	9407	Активный/Пассивный	True	Troskovi nabavke, tehnicke uprave i pomocnih djelatnosti / Затраты на закупку, технический менеджмент и вспомогательную деятельность
+ACC	9408	Активный/Пассивный	True	Troskovi prodaje i slicnih aktivnosti / Себестоимость продаж и аналогичные виды деятельности
+ACC	9409	Активный/Пассивный	True	Prenos troskova MT uprave / Перенос административных расходов MT
+ACC	9410	Активный/Пассивный	True	Troskovi materijala MT prodaje / Стоимость рекламных материалов МТ
+ACC	9411	Активный/Пассивный	True	Troskovi zarada, naknada zarada i ostali licni rashodi MT prodaje / Затраты на заработную плату, компенсацию заработной платы и другие личные расходы при продаже МТ
+ACC	9412	Активный/Пассивный	True	Troskovi proizvodnih usluga MT prodaje / Затраты на производственные услуги по реализации МП
+ACC	9413	Активный/Пассивный	True	Troskovi amortizacije i rezervisanja MT prodaje / Амортизация и резервы при реализации МТ
+ACC	9414	Активный/Пассивный	True	Nematerijalni troskovi MT prodaje / Нематериальные затраты на продажу МТ
+ACC	9416	Активный/Пассивный	True	Drugi direktni troskovi MT prodaje / Прочие прямые затраты от реализации МТ
+ACC	9417	Активный/Пассивный	True	Troskovi nabavke, tehnicke uprave i pomocnih djelatnosti / Затраты на закупку, технический менеджмент и вспомогательную деятельность
+ACC	9418	Активный/Пассивный	True	Troskovi uprave i slicnih aktivnosti / Затраты на администрирование и аналогичные мероприятия
+ACC	9419	Активный/Пассивный	True	Prenos troskova MT prodaje / Стоимость перевода МТ
+ACC	9500	Активный/Пассивный	True	Materijal za izradu / Материал для изготовления
+ACC	9501	Активный/Пассивный	True	Troskovi usluga osnovne djelatnosti / Стоимость основных бизнес-услуг
+ACC	9502	Активный/Пассивный	True	Troskovi zarada, naknada zarada i ostali licni rashodi / Расходы на заработную плату, компенсацию заработной платы и другие личные расходы
+ACC	9503	Активный/Пассивный	True	Troskovi amortizacije osnovnih sredstava osnovne djelatnosti / Амортизационные расходы основных средств
+ACC	9504	Активный/Пассивный	True	Drugi direktni troskovi izrade / Прочие прямые производственные затраты
+ACC	9505	Активный/Пассивный	True	Troskovi nabavke, tehnicke uprave i pomocnih djelatnosti / Затраты на закупку, технический менеджмент и вспомогательную деятельность
+ACC	9506	Активный/Пассивный	True	Troskovi uprave, prodaje i slicnih aktivnosti (za ucinke sa duzim proizvodnim ciklusom) / Затраты на администрирование, продажи и аналогичные действия (для эффектов с более длительным производственным
+ACC	9507	Активный/Пассивный	True	Opsti troskovi finansiranja (za ucinke sa duzim proizvodnim ciklusom) / Общие затраты на финансирование (для эффектов с более длительным производственным циклом)
+ACC	9509	Активный/Пассивный	True	Prenos troskova zavrsenih ucinaka / Перенос стоимости готовых эффектов
+ACC	9510	Активный/Пассивный	True	Materijal za izradu / Материал для изготовления
+ACC	9511	Активный/Пассивный	True	Troskovi usluga osnovne djelatnosti / Стоимость основных бизнес-услуг
+ACC	9512	Активный/Пассивный	True	Troskovi zarada, naknada zarada i ostali licni rashodi / Расходы на заработную плату, компенсацию заработной платы и другие личные расходы
+ACC	9513	Активный/Пассивный	True	Troskovi amortizacije osnovnih sredstava sporedne djelatnosti / Амортизационные расходы основных средств вспомогательной деятельности
+ACC	9514	Активный/Пассивный	True	Drugi direktni troskovi izrade / Прочие прямые производственные затраты
+ACC	9515	Активный/Пассивный	True	Troskovi nabavke, tehnicke uprave i pomocnih djelatnosti / Затраты на закупку, технический менеджмент и вспомогательную деятельность
+ACC	9516	Активный/Пассивный	True	Troskovi uprave, prodaje i slicnih aktivnosti (za ucinke sa duzim proizvodnim ciklusom) / Затраты на администрирование, продажи и аналогичные действия (для эффектов с более длительным производственным
+ACC	9517	Активный/Пассивный	True	Opsti troskovi finansiranja (za ucinke sa duzim proizvodnim ciklusom) / Общие затраты на финансирование (для эффектов с более длительным производственным циклом)
+ACC	9519	Активный/Пассивный	True	Prenos troskova zavrsenih ucinaka / Перенос стоимости готовых эффектов
+ACC	9590	Активный/Пассивный	True	Odstupanja od planskih cijena cinilaca proizvodnje / Отклонения от плановых цен факторов производства
+ACC	9591	Активный/Пассивный	True	Odstupanja od planirane zaposlenosti / Отклонения от плановой занятости
+ACC	9592	Активный/Пассивный	True	Pozitivna odstupanja od planirane efikasnosti (po osnovu opstih fiksnih troskova) / Положительные отклонения от плановой эффективности (исходя из общих постоянных затрат)
+ACC	9593	Активный/Пассивный	True	Negativna odstupanja od planirane aktivnosti (po osnovu opstih fiksnih troskova) / Отрицательные отклонения от запланированной деятельности (исходя из общих постоянных затрат)
+ACC	9594	Активный/Пассивный	True	Pozitivna odstupanja od planirane efikasnosti (po osnovu opstih varijabilnih troskova) / Положительные отклонения от плановой эффективности (на основе общих переменных затрат)
+ACC	9595	Активный/Пассивный	True	Negativna odstupanja od planirane efikasnosti (po osnovu opstih varijabilnih troskova) / Отрицательные отклонения от плановой эффективности (исходя из общих переменных затрат)
+ACC	9596	Активный/Пассивный	True	Odstupanja zbog nastanka nepredvidenih troskova / Отклонения из-за непредвиденных расходов
+ACC	9597	Активный/Пассивный	True	Odstupanja zbog snizenja troskova / Отклонения из-за удешевления
+ACC	9598	Активный/Пассивный	True	Odstupanja zbog prekoracenja troskova / Отклонения из-за перерасхода средств
+ACC	9599	Активный/Пассивный	True	Ostala odstupanja od planskih troskova / Прочие отклонения от плановых затрат
+ACC	9600	Активный/Пассивный	True	Proizvod "A" / Продукт «А»
+ACC	9830	Активный/Пассивный	True	Otpisi nedovrsene proizvodnje / Списание незавершенного производства
+ACC	9831	Активный/Пассивный	True	Otpisi gotovih proizvoda / Списание готовой продукции
+ACC	9832	Активный/Пассивный	True	Manjkovi nedovrsene proizvodnje / Недостатки незавершенного производства
+ACC	9833	Активный/Пассивный	True	Manjkovi gotovih proizvoda / Недостатки готовой продукции
+ACC	9840	Активный/Пассивный	True	Viskovi nedovrsene proizvodnje / Работа в процессе
+ACC	9841	Активный/Пассивный	True	Viskovi gotovih proizvoda / Излишки готовой продукции
+ACC	9860	Активный/Пассивный	True	Prihodi od prodaje proizvoda na domacem trzistu / Выручка от реализации продукции на внутреннем рынке
+ACC	9861	Активный/Пассивный	True	Prihodi od usluga na domacem trzistu / Доходы от услуг на внутреннем рынке
+ACC	9862	Активный/Пассивный	True	Prihodi od prodaje proizvoda na stranom trzistu / Выручка от реализации продукции на внешних рынках
+ACC	9863	Активный/Пассивный	True	Prihodi od usluga na stranom trzistu / Доходы от услуг на внешнем рынке
+ACC	9869	Активный/Пассивный	True	Drugi prihodi po osnovu proizvoda i usluga / Прочие доходы от продуктов и услуг
+ACC	9870	Активный/Пассивный	True	Prihodi od prodaje robe na domacem trzistu / Выручка от реализации товаров на внутреннем рынке
+ACC	9872	Активный/Пассивный	True	Prihodi od prodaje robe na stranom trzistu / Выручка от реализации товаров на внешних рынках
+ACC	9879	Активный/Пассивный	True	Drugi prihodi po osnovu robe / Прочие доходы от товаров
+ACC	9900	Активный/Пассивный	True	Poslovni dobitak / Операционный доход
+ACC	9901	Активный/Пассивный	True	Poslovni gubitak / Потеря бизнеса
+ACC	9910	Активный/Пассивный	True	Dobitak po osnovu prodaje materijala / Прибыль от продажи материалов
+ACC	9911	Активный/Пассивный	True	Gubitak po osnovu prodaje materijala / Убыток от продажи материалов
+ACC	9920	Активный/Пассивный	True	Manjkovi materijala / Материальный дефицит
+ACC	9921	Активный/Пассивный	True	Manjkovi robe / Нехватка товаров
+ACC	9930	Активный/Пассивный	True	Otpisi materijala / Списание материалов
+ACC	9931	Активный/Пассивный	True	Otpisi robe / Списание товаров
+ACC	9940	Активный/Пассивный	True	Viskovi materijala / Излишки материала
+ACC	9941	Активный/Пассивный	True	Viskovi robe / Излишки товаров

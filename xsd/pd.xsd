@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:element name="PD">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="PoreskiPeriodOd" type="xs:string" minOccurs="1"/>
+        <xs:element name="PoreskiPeriodDo" type="xs:string" minOccurs="1"/>
+        <xs:element name="Zaglavlje" minOccurs="0">
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="FinansijskaKonsolidacija" type="xs:string" minOccurs="0"/>
+              <xs:element name="BrojRjesenja" type="xs:string" minOccurs="0"/>
+              <xs:element name="DatumRjesenja" type="xs:string" minOccurs="0"/>
+              <xs:element name="Naziv" type="xs:string" minOccurs="0"/>
+              <xs:element name="Pib" type="xs:string" minOccurs="0"/>
+              <xs:element name="OdgovornoLice_Naziv" type="xs:string" minOccurs="0"/>
+              <xs:element name="OdgovornoLice_JMBG" type="xs:string" minOccurs="0"/>
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+        <!-- Iznosi -->
+        <xs:element name="Iznos1" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos2" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos3" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos4" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos5" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos6" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos7" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos8" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos9" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos10" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos11" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos12" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos13" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos14" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos15" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos15a" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos15b" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos16" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos17" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos18" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos18a" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos18b" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos18c" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos19" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos20" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos21" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos21a" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos21b" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos22" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos23" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos24" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos25" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos26" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos27" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos28" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos29" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos30" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos31" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos32" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos33" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos34" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos35" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos36" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos37" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos38" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos39" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos40" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos41" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos42" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos43" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos44" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos45" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos46" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos47" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos48" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos49" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos49a" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos49b" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos50" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos51" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos51a" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos51b" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos51c" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos52" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos53" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos54" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos55" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos55a" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos55b" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos55c" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos56" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos56a" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos56b" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos57" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos58" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="Iznos59" type="xs:decimal" minOccurs="1"/>
+        <!-- PG1 -->
+        <xs:element name="IznosPG1_1" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG1_2" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG1_3" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG1_21" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG1_22" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG1_23" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG1_24" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG1_25" type="xs:decimal" minOccurs="1"/>
+        <!-- PG2 -->
+        <xs:element name="IznosPG2_1" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG2_2" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG2_3" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG2_21" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG2_22" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG2_23" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG2_24" type="xs:decimal" minOccurs="1"/>
+        <xs:element name="IznosPG2_25" type="xs:decimal" minOccurs="1"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

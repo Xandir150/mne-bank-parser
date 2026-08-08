@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+
+  <xs:simpleType name="OptionalDecimal">
+    <xs:union memberTypes="xs:decimal">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:length value="0"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+
+  <xs:element name="FinansijskiIskazi">
+    <xs:complexType>
+      <xs:sequence>
+
+        <xs:element name="Zaglavlje" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BrojIskaza" type="xs:string" minOccurs="0"/>
+              <xs:element name="Godina" type="xs:string" minOccurs="0"/>
+              <xs:element name="DatumOd" type="xs:string" minOccurs="0"/>
+              <xs:element name="DatumDo" type="xs:string" minOccurs="0"/>
+              <xs:element name="NazivObveznika" type="xs:string" minOccurs="0"/>
+              <xs:element name="SjedisteObveznika" type="xs:string" minOccurs="0"/>
+              <xs:element name="SifraDjelatnosti" type="xs:string" minOccurs="0"/>
+              <xs:element name="MaticniBroj" type="xs:string" minOccurs="0"/>
+              <xs:element name="TipPromjene" type="xs:string" minOccurs="0"/>
+              <xs:element name="Konsolidovani" type="xs:string" minOccurs="0"/>
+              <xs:element name="LiceKojeSastavljaIskaz_Naziv" type="xs:string" minOccurs="0"/>
+              <xs:element name="LiceKojeSastavljaIskaz_JMBG" type="xs:string" minOccurs="0"/>
+              <xs:element name="LiceKojeSastavljaIskaz_Email" type="xs:string" minOccurs="0"/>
+              <xs:element name="OdgovornoLice_Ime" type="xs:string" minOccurs="0"/>
+              <xs:element name="OdgovornoLice_Prezime" type="xs:string" minOccurs="0"/>
+              <xs:element name="OdgovornoLice_JMBG" type="xs:string" minOccurs="0"/>
+              <xs:element name="FinansijskiIzvestajSastavljenNaDan" type="xs:string" minOccurs="0"/>
+              <xs:element name="FinansijskiIzvestajPodnesenNaDan" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="BilanStanja">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Stavka">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="RedniBroj" type="xs:string"/>
+                    <xs:element name="Iznos1" type="OptionalDecimal"/>
+                    <xs:element name="Iznos2" type="OptionalDecimal"/>
+                    <xs:element name="Iznos3" type="OptionalDecimal"/>
+                    <xs:element name="NapomenaBroj" minOccurs="0"/>
+                    <xs:element name="Pozicija" type="xs:string"/>
+                    <xs:element name="GrupaRacuna" type="xs:string"/>
+                    <xs:element name="identifier" type="xs:string" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="BilanUspjeha">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Stavka">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="RedniBroj" type="xs:string"/>
+                    <xs:element name="Iznos1" type="OptionalDecimal"/>
+                    <xs:element name="Iznos2" type="OptionalDecimal"/>
+                    <xs:element name="NapomenaBroj" minOccurs="0"/>
+                    <xs:element name="Pozicija" type="xs:string"/>
+                    <xs:element name="GrupaRacuna" type="xs:string"/>
+                    <xs:element name="identifier" type="xs:string" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="IskazOTokovimaGotovine">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Stavka">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="RedniBroj" type="xs:string"/>
+                    <xs:element name="Iznos1" type="OptionalDecimal"/>
+                    <xs:element name="Iznos2" type="OptionalDecimal"/>
+                    <xs:element name="Pozicija" type="xs:string"/>
+                    <xs:element name="identifier" type="xs:string" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="TokoviGotovine3a">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Stavka">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="RedniBroj" type="xs:string"/>
+                    <xs:element name="Iznos1" type="OptionalDecimal"/>
+                    <xs:element name="Iznos2" type="OptionalDecimal"/>
+                    <xs:element name="Pozicija" type="xs:string"/>
+                    <xs:element name="identifier" type="xs:string" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="IskazOPromenamaKapitala">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Stavka">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Pozicija" type="OptionalDecimal"/>
+                    <xs:element name="Opis" type="xs:string"/>
+                    <xs:element name="RedniBr2" type="xs:unsignedShort"/>
+                    <xs:element name="Iznos2" type="OptionalDecimal"/>
+                    <xs:element name="RedniBr3" type="xs:unsignedShort"/>
+                    <xs:element name="Iznos3" type="OptionalDecimal"/>
+                    <xs:element name="RedniBr4" type="xs:unsignedShort"/>
+                    <xs:element name="Iznos4" type="OptionalDecimal"/>
+                    <xs:element name="RedniBr5" type="xs:unsignedShort"/>
+                    <xs:element name="Iznos5" type="OptionalDecimal"/>
+                    <xs:element name="RedniBr6" type="xs:unsignedShort"/>
+                    <xs:element name="Iznos6" type="OptionalDecimal"/>
+                    <xs:element name="RedniBr7" type="xs:unsignedShort"/>
+                    <xs:element name="Iznos7" type="OptionalDecimal"/>
+                    <xs:element name="RedniBr8" type="xs:unsignedShort"/>
+                    <xs:element name="Iznos8" type="OptionalDecimal"/>
+                    <xs:element name="RedniBr9" type="xs:unsignedShort"/>
+                    <xs:element name="Iznos9" type="OptionalDecimal"/>
+                    <xs:element name="RedniBr10" type="xs:unsignedShort"/>
+                    <xs:element name="Iznos10" type="OptionalDecimal"/>
+                    <xs:element name="RedniBr11" type="xs:unsignedShort"/>
+                    <xs:element name="Iznos11" type="OptionalDecimal"/>
+                    <xs:element name="identifier" type="xs:string" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="StatistickiAneks">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Stavka">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="RedniBroj" type="xs:string"/>
+                    <xs:element name="Iznos1" type="OptionalDecimal"/>
+                    <xs:element name="Iznos2" type="OptionalDecimal"/>
+                    <xs:element name="NapomenaBroj" minOccurs="0"/>
+                    <xs:element name="Pozicija" type="xs:string"/>
+                    <xs:element name="GrupaRacuna" type="xs:string"/>
+                    <xs:element name="identifier" type="xs:string" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="ObracunAmortizacije">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Stavka">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Grupa" type="xs:string"/>
+                    <xs:element name="Iznos2" type="OptionalDecimal"/>
+                    <xs:element name="Iznos3" type="OptionalDecimal"/>
+                    <xs:element name="Iznos4" type="OptionalDecimal"/>
+                    <xs:element name="Iznos5" type="OptionalDecimal"/>
+                    <xs:element name="Iznos6" type="OptionalDecimal"/>
+                    <xs:element name="Iznos7" type="OptionalDecimal"/>
+                    <xs:element name="Iznos8" type="OptionalDecimal"/>
+                    <xs:element name="identifier" type="xs:string" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

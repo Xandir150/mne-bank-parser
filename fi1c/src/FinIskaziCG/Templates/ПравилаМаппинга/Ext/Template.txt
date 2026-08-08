@@ -1,0 +1,3220 @@
+﻿{
+ "sections": {
+  "BilanStanja": {
+   "rows": [
+    {
+     "redniBroj": "",
+     "pozicija": "AKTIVA",
+     "grupaRacuna": "",
+     "kind": "header"
+    },
+    {
+     "redniBroj": "001",
+     "pozicija": "A. NEUPLAĆENI UPISANI KAPITAL",
+     "grupaRacuna": "00",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "00"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "002",
+     "pozicija": "B. STALNA IMOVINA (003+008+016)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "003+008+016"
+    },
+    {
+     "redniBroj": "003",
+     "pozicija": "I NEMATERIJALNA ULAGANJA (004 do 007)",
+     "grupaRacuna": "01",
+     "kind": "formula",
+     "formula": "004+005+006+007"
+    },
+    {
+     "redniBroj": "004",
+     "pozicija": "1. Ulaganja u razvoj",
+     "grupaRacuna": "010",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "010"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "005",
+     "pozicija": "2. Koncesije, patenti, licence i slična prava i ostala nematerijalna ulaganja",
+     "grupaRacuna": "011 i 014",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "011",
+       "014"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "006",
+     "pozicija": "3. Goodwill",
+     "grupaRacuna": "012",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "012"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "007",
+     "pozicija": "4. Avansi za nematerijalna ulaganja i nematerijalna ulaganja u priprem",
+     "grupaRacuna": "016 i 015",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "016",
+       "015"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "008",
+     "pozicija": "II NEKRETNINE, POSTROJENJA, OPREMA I BIOLOŠKA SREDSTVA (009+010+011+015)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "009+010+011+015"
+    },
+    {
+     "redniBroj": "009",
+     "pozicija": "1. Zemljište i objekti",
+     "grupaRacuna": "020 i 022",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "020",
+       "022"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "010",
+     "pozicija": "2. Postrojenja i oprema",
+     "grupaRacuna": "023",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "023"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "011",
+     "pozicija": "3. Ostala ugrađena oprema, alati i oprema (012+013+014)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "012+013+014"
+    },
+    {
+     "redniBroj": "012",
+     "pozicija": "3.1. Investicione nekretnine",
+     "grupaRacuna": "024",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "024"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "013",
+     "pozicija": "3.2. Biološka sredstva",
+     "grupaRacuna": "021 i 025",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "021",
+       "025"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "014",
+     "pozicija": "3.3. Ostala nepomenuta materijalna stalna sredstva",
+     "grupaRacuna": "026 i 029",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "026",
+       "029"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "015",
+     "pozicija": "4. Avansi za nekretnine, postrojenja, opremu i biološka sredstva i nekretnine, postrojenja, oprema i biološka sredstva u pripremi",
+     "grupaRacuna": "028 i 027",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "028",
+       "027"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "016",
+     "pozicija": "III DUGOROČNI FINANSIJSKI PLASMANI I DUGOROČNA POTRAŽIVANJA (017 do 023)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "017+018+019+020+021+022+023"
+    },
+    {
+     "redniBroj": "017",
+     "pozicija": "1. Učešća u kapitalu zavisnih pravnih lica",
+     "grupaRacuna": "030, 039(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "030",
+       "039"
+      ],
+      "dio": [
+       "039"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "018",
+     "pozicija": "2. Dugoročni krediti matičnom i zavisnim pravnim licima",
+     "grupaRacuna": "033(dio), 039(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "033"
+      ],
+      "dio": [
+       "033",
+       "039"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "019",
+     "pozicija": "3. Učešća u kapitalu kod pravnih lica (sem zavisnih pravnih lica)",
+     "grupaRacuna": "031(dio), 032(dio), 039(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "031",
+       "032"
+      ],
+      "dio": [
+       "031",
+       "032",
+       "039"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "020",
+     "pozicija": "4. Dugoročni krediti pravnim licima kod kojih postoji učešće u kapitalu (sem zavisnih pravnih lica)",
+     "grupaRacuna": "033(dio), 039(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "033",
+       "039"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "021",
+     "pozicija": "5. Učešća u kapitalu koja se vrednuju metodom učešća",
+     "grupaRacuna": "031(dio), 032(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "031",
+       "032"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "022",
+     "pozicija": "6. Dugoročna finansijska ulaganja (dati krediti i hartije od vrijednosti)",
+     "grupaRacuna": "032(dio), 034, 035, 036, 039(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "034",
+       "035",
+       "036"
+      ],
+      "dio": [
+       "032",
+       "039"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "023",
+     "pozicija": "7. Ostali dugoročni finansijski plasmani i potraživanja",
+     "grupaRacuna": "038, 039(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "038"
+      ],
+      "dio": [
+       "039"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "024",
+     "pozicija": "C. ODLOŽENA PORESKA SREDSTVA",
+     "grupaRacuna": "288",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "288"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "025",
+     "pozicija": "D. OBRTNA SREDSTVA(026+031+039+043+044)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "026+031+039+043+044"
+    },
+    {
+     "redniBroj": "026",
+     "pozicija": "I. ZALIHE (027 do 030)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "027+028+029+030"
+    },
+    {
+     "redniBroj": "027",
+     "pozicija": "I. Zalihe materijala (materijal za izradu, rezervni delovi, sitan inventar i auto gume)",
+     "grupaRacuna": "10",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "10"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "028",
+     "pozicija": "2. Nedovršena proizvodnja",
+     "grupaRacuna": "11",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "11"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "029",
+     "pozicija": "3. Gotovi proizvodi i roba",
+     "grupaRacuna": "12 i 13",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "12",
+       "13"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "030",
+     "pozicija": "4. Dati avansi",
+     "grupaRacuna": "15",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "15"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "031",
+     "pozicija": "II. KRATKOROČNA POTRAŽIVANJA (032 do 035)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "032+033+034+035"
+    },
+    {
+     "redniBroj": "032",
+     "pozicija": "1. Potraživanja od kupaca",
+     "grupaRacuna": "202, 203, 209(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "202",
+       "203",
+       "209"
+      ],
+      "dio": [
+       "209"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "033",
+     "pozicija": "2. Potraživanja od matičnog i zavisnih pravnih lica",
+     "grupaRacuna": "200, 209(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "200"
+      ],
+      "dio": [
+       "209"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "034",
+     "pozicija": "3. Potraživanja od ostalih povezanih lica",
+     "grupaRacuna": "201, 209(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "201"
+      ],
+      "dio": [
+       "209"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "035",
+     "pozicija": "4. Ostala potraživanja (036+037+038)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "036+037+038"
+    },
+    {
+     "redniBroj": "036",
+     "pozicija": "4.1. Potraživanja za više plaćen porez na dobit",
+     "grupaRacuna": "223",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "223"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "037",
+     "pozicija": "4.2. Potraživanja po osnovu poreza na dodatu vrijednost",
+     "grupaRacuna": "27",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "27"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "038",
+     "pozicija": "4.3. Ostala nepomenuta potraživanja",
+     "grupaRacuna": "21, 22, osim 223",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "21",
+       "22"
+      ],
+      "exclude": [
+       "223"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "039",
+     "pozicija": "III. KRATKOROČNI FINANSIJSKI PLASMANI (040 do 042)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "040+041+042"
+    },
+    {
+     "redniBroj": "040",
+     "pozicija": "1. Učešće u kapitalu zavisnih pravnih lica namijenjeno trgovanju",
+     "grupaRacuna": "236(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "236"
+      ],
+      "dio": [
+       "236"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "041",
+     "pozicija": "2. Otkupljene sopstvene akcije i otkupljeni sopstveni udjeli",
+     "grupaRacuna": "237",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "237"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "042",
+     "pozicija": "3. Ostali kratkoročni finansijski plasmani",
+     "grupaRacuna": "23 osim 236(dio) i osim 237",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "23"
+      ],
+      "exclude": [
+       "236",
+       "237"
+      ],
+      "dio": [
+       "236"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "043",
+     "pozicija": "IV. GOTOVINA NA RAČUNIMA I U BLAGAJNI",
+     "grupaRacuna": "24",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "24"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "044",
+     "pozicija": "V. STALNA SREDSTVA NAMIJENJENA PRODAJI I SREDSTVA POSLOVANJA KOJE JE OBUSTAVLJENO",
+     "grupaRacuna": "04",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "04"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "045",
+     "pozicija": "E. AKTIVNA VREMENSKA RAZGRANIČENJA",
+     "grupaRacuna": "28 osim 288",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "28"
+      ],
+      "exclude": [
+       "288"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "046",
+     "pozicija": "F. UKUPNA AKTIVA (001+002+024+025+045)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "001+002+024+025+045"
+    },
+    {
+     "redniBroj": "",
+     "pozicija": "PASIVA",
+     "grupaRacuna": "",
+     "kind": "header"
+    },
+    {
+     "redniBroj": "101",
+     "pozicija": "A. KAPITAL (102+103+104+105+111+116)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "102+103+104+105+111+116"
+    },
+    {
+     "redniBroj": "102",
+     "pozicija": "I. OSNOVNI KAPITAL",
+     "grupaRacuna": "30",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "30"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "103",
+     "pozicija": "II. NEUPLAĆENI UPISANI KAPITAL",
+     "grupaRacuna": "31",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "31"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "104",
+     "pozicija": "III. EMISIONA PREMIJA",
+     "grupaRacuna": "320",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "320"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "105",
+     "pozicija": "IV. REZERVE (106+107+108+109-110)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "106+107+108+109-110"
+    },
+    {
+     "redniBroj": "106",
+     "pozicija": "1. Zakonske rezerve",
+     "grupaRacuna": "321",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "321"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "107",
+     "pozicija": "2. Statutarne rezerve",
+     "grupaRacuna": "322(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "322"
+      ],
+      "dio": [
+       "322"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "108",
+     "pozicija": "3. Druge rezerve",
+     "grupaRacuna": "322(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "322"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "109",
+     "pozicija": "4. Pozitivne revalorizacione rezerve i nerealizovani dobici po osnovu finansijskih sredstava i drugih komponenti ostalog sveobuhvatnog rezultata",
+     "grupaRacuna": "330 i potr. saldo rač. 331, 332, 333, 334, 335, 336 i 337",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "330",
+       "331",
+       "332",
+       "333",
+       "334",
+       "335",
+       "336",
+       "337"
+      ]
+     },
+     "balance": "creditOnly"
+    },
+    {
+     "redniBroj": "110",
+     "pozicija": "5. Negativne revalorizacione rezerve i nerealizovani gubici po osnovu finansijskih sredstava i drugih komponenti ostalog sveobuhvatnog rezultata",
+     "grupaRacuna": "dugov. saldo rač. 331, 332, 333, 334, 335, 336, 337",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "331",
+       "332",
+       "333",
+       "334",
+       "335",
+       "336",
+       "337"
+      ]
+     },
+     "balance": "debitOnly"
+    },
+    {
+     "redniBroj": "111",
+     "pozicija": "VI. NERASPOREDJENI DOBITAK ILI GUBITAK (112+113-114-115)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "112+113-114-115"
+    },
+    {
+     "redniBroj": "112",
+     "pozicija": "1. Neraspoređeni dobitak ranijih godina",
+     "grupaRacuna": "340",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "340"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "113",
+     "pozicija": "2. Neraspoređeni dobitak tekuće godine",
+     "grupaRacuna": "341",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "341"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "114",
+     "pozicija": "3. Gubitak ranijih godina",
+     "grupaRacuna": "350",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "350"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "115",
+     "pozicija": "4. Gubitak tekuće godine",
+     "grupaRacuna": "351",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "351"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "116",
+     "pozicija": "VIII. UČEŠĆE KOJE NE OBEZBJEĐUJE KONTROLU",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "117",
+     "pozicija": "B. DUGOROČNA REZERVISANJA I DUGOROČNE OBAVEZE (118+122)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "118+122"
+    },
+    {
+     "redniBroj": "118",
+     "pozicija": "I. DUGOROČNA REZERVISANJA (119 do 121)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "119+120+121"
+    },
+    {
+     "redniBroj": "119",
+     "pozicija": "1. Rezervisanja za naknade i druge beneficije zaposlenih",
+     "grupaRacuna": "404(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "404"
+      ],
+      "dio": [
+       "404"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "120",
+     "pozicija": "2. Rezervisanja za troškove u garantnom roku",
+     "grupaRacuna": "400(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "400"
+      ],
+      "dio": [
+       "400"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "121",
+     "pozicija": "3. Ostala dugoročna rezervisanja",
+     "grupaRacuna": "40, sem 400 i 404",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "40"
+      ],
+      "exclude": [
+       "400",
+       "404"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "122",
+     "pozicija": "II. DUGOROČNE OBAVEZE (123+124)",
+     "grupaRacuna": "41",
+     "kind": "formula",
+     "formula": "123+124"
+    },
+    {
+     "redniBroj": "123",
+     "pozicija": "1. Dugoročni krediti",
+     "grupaRacuna": "414, 415",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "414",
+       "415"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "124",
+     "pozicija": "2. Ostale dugoročne obaveze",
+     "grupaRacuna": "41 bez 414, 415",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "41"
+      ],
+      "exclude": [
+       "414",
+       "415"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "125",
+     "pozicija": "C. ODLOŽENE PORESKE OBAVEZE",
+     "grupaRacuna": "498",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "498"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "126",
+     "pozicija": "D. DUGOROČNI ODLOŽENI PRIHODI I PRIMLJENE DONACIJE",
+     "grupaRacuna": "495(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "495"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "127",
+     "pozicija": "Е. KRATKOROČNA REZERVISANJA I KRATKOROČNE OBAVEZE (128+129)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "128+129"
+    },
+    {
+     "redniBroj": "128",
+     "pozicija": "I KRATKOROČNA REZERVISANJA",
+     "grupaRacuna": "467",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "467"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "129",
+     "pozicija": "II KRATKOROČNE OBAVEZE 130 do 137)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "130+131+132+133+134+135+136+137"
+    },
+    {
+     "redniBroj": "130",
+     "pozicija": "1. Obaveze po osnovu kredita i zajmova od lica koja nisu kreditne institucije",
+     "grupaRacuna": "422(dio),423(dio),424(dio),425(dio),426,429(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "422",
+       "423",
+       "424",
+       "425",
+       "426",
+       "429"
+      ],
+      "dio": [
+       "422",
+       "423",
+       "424",
+       "425",
+       "429"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "131",
+     "pozicija": "2. Obaveze po osnovu kredita od kreditnih institucija",
+     "grupaRacuna": "422(dio),423(dio),424(dio),425(dio) i 429(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "422",
+       "423",
+       "424",
+       "425",
+       "429"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "132",
+     "pozicija": "3. Primljeni avansi, depoziti i kaucije",
+     "grupaRacuna": "430",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "430"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "133",
+     "pozicija": "4. Obaveze prema dobavljačima",
+     "grupaRacuna": "433, 434, 440-449",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "433",
+       "434",
+       "440",
+       "441",
+       "442",
+       "449"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "134",
+     "pozicija": "5. Obaveze po mjenicama",
+     "grupaRacuna": "439(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "439"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "135",
+     "pozicija": "6. Obaveze prema matičnom i zavisnim pravnim licima",
+     "grupaRacuna": "420 i 431",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "420",
+       "431"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "136",
+     "pozicija": "7. Obaveze prema ostalim povezanim licima",
+     "grupaRacuna": "421 i 432",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "421",
+       "432"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "137",
+     "pozicija": "8. Ostale obaveze iz poslovanja i ostale kratkoročne obaveze (138 do 142)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "138+139+140+141+142"
+    },
+    {
+     "redniBroj": "138",
+     "pozicija": "8.1. Ostale obaveze iz poslovanja",
+     "grupaRacuna": "439(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "439"
+      ],
+      "dio": [
+       "439"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "139",
+     "pozicija": "8.2. Ostale kratkoročne obaveze",
+     "grupaRacuna": "45 i 46",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "45",
+       "46"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "140",
+     "pozicija": "8.3. Obaveze po osnovu poreza na dodatu vrijednost i ostalih javnih prihoda",
+     "grupaRacuna": "47,48 osim 481",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "47",
+       "48"
+      ],
+      "exclude": [
+       "481"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "141",
+     "pozicija": "8.4. Obaveze po osnovu poreza na dobit",
+     "grupaRacuna": "481",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "481"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "142",
+     "pozicija": "8.5. Obaveze po osnovu sredstava namijenjenih prodaji i sredstava poslovanja koje je obustavljeno",
+     "grupaRacuna": "427",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "427"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "143",
+     "pozicija": "F. PASIVNA VREMENSKA RAZGRANIČENJA",
+     "grupaRacuna": "490, 491, 494, 495(dio), 496, 497 i 499",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "490",
+       "491",
+       "494",
+       "495",
+       "496",
+       "497",
+       "499"
+      ],
+      "dio": [
+       "495"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "144",
+     "pozicija": "G. UKUPNA PASIVA (101+117+125+126+127+143)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "101+117+125+126+127+143"
+    }
+   ]
+  },
+  "BilanUspjeha": {
+   "rows": [
+    {
+     "redniBroj": "201",
+     "pozicija": "1. Prihodi od prodaje - neto prihod",
+     "grupaRacuna": "60 i 61",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "60",
+       "61"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "202",
+     "pozicija": "2. Promjena vrijednosti zaliha gotovih proizvoda i nedovršene proizvodnje",
+     "grupaRacuna": "630 i 631",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "630",
+       "631"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "203",
+     "pozicija": "3. Prihodi od aktiviranja učinaka i robe",
+     "grupaRacuna": "62",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "62"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "204",
+     "pozicija": "4. Ostali prihodi iz poslovanja (205 do 207)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "205+206+207"
+    },
+    {
+     "redniBroj": "205",
+     "pozicija": "a) Ostali prihodi iz redovnog poslovanja",
+     "grupaRacuna": "64 i 65",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "64",
+       "65"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "206",
+     "pozicija": "b) Ostali prihodi iz poslovanja",
+     "grupaRacuna": "67, 691 i 692",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "67",
+       "691",
+       "692"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "207",
+     "pozicija": "c) Prihodi po osnovu vrijednosnog usklađivanja imovine",
+     "grupaRacuna": "68, sem 683 i 685",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "68"
+      ],
+      "exclude": [
+       "683",
+       "685"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "208",
+     "pozicija": "5. Troškovi poslovanja (209+210+210a)",
+     "grupaRacuna": "208",
+     "kind": "formula",
+     "formula": "209+210+210a"
+    },
+    {
+     "redniBroj": "209",
+     "pozicija": "a) Nabavna vrijednost prodate robe i troškovi materijala",
+     "grupaRacuna": "50 i 51",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "50",
+       "51"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "210",
+     "pozicija": "b) Ostali troškovi poslovanja (rezervisanja i ostali poslovni rashodi)",
+     "grupaRacuna": "53, 54 (dio) i 55",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "53",
+       "54",
+       "55"
+      ],
+      "dio": [
+       "54"
+      ],
+      "exclude": [
+       "540"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "210a",
+     "pozicija": "c) Amortizacija",
+     "grupaRacuna": "540",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "540"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "211",
+     "pozicija": "6. Troškovi zarada, naknada zarada i ostali lični rashodi (212+213)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "212+213"
+    },
+    {
+     "redniBroj": "212",
+     "pozicija": "a) Neto troškovi zarada, naknada zarada i lični rashodi",
+     "grupaRacuna": "52 (dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "520",
+       "521"
+      ],
+      "dio": [
+       "52"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "213",
+     "pozicija": "b) Troškovi poreza i doprinosa (214 do 216)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "214+215+216"
+    },
+    {
+     "redniBroj": "214",
+     "pozicija": "1/ Troškovi poreza",
+     "grupaRacuna": "52 (dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "522",
+       "523",
+       "524",
+       "525",
+       "526",
+       "529"
+      ],
+      "dio": [
+       "52"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "215",
+     "pozicija": "2/ Troškovi doprinosa za penzije",
+     "grupaRacuna": "52 (dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "52"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "216",
+     "pozicija": "3/ Troškovi doprinosa",
+     "grupaRacuna": "52 (dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "52"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "217",
+     "pozicija": "7. Rashodi po osnovu vrijednosnog usklađivanja imovine (osim finansijske) (218+219)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "218+219"
+    },
+    {
+     "redniBroj": "218",
+     "pozicija": "a) Rashodi po osnovu vrijednosnog usklađivanja stalne imovine (osim finansijske)",
+     "grupaRacuna": "580, 581, 582, 589 (dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "580",
+       "581",
+       "582"
+      ],
+      "dio": [
+       "589"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "219",
+     "pozicija": "b) Rashodi po osnovu vrijednosnog usklađivanja obrtne imovine (osim finansijske)",
+     "grupaRacuna": "584, 589 (dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "584",
+       "589"
+      ],
+      "dio": [
+       "589"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "220",
+     "pozicija": "8. Ostali rashodi iz poslovanja",
+     "grupaRacuna": "57, 591 i 592",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "57",
+       "591",
+       "592"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "221",
+     "pozicija": "I. Poslovni rezultat (201+202+203+204-208-211-217-220)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "201+202+203+204-208-211-217-220"
+    },
+    {
+     "redniBroj": "222",
+     "pozicija": "9. Prihodi po osnovu učešća u kapitalu (223 do 225)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "223+224+225"
+    },
+    {
+     "redniBroj": "223",
+     "pozicija": "a) Prihodi po osnovu učešća u kapitalu zavisnih pravnih lica",
+     "grupaRacuna": "660(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "660",
+       "665"
+      ],
+      "dio": [
+       "660"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "224",
+     "pozicija": "b) Prihodi po osnovu učešća u kapitalu ostalih povezanih pravnih lica",
+     "grupaRacuna": "661(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "661"
+      ],
+      "dio": [
+       "661"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "225",
+     "pozicija": "c) Prihodi po osnovu učešća u kapitalu nepovezanih pravnih lica",
+     "grupaRacuna": "669(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "669"
+      ],
+      "dio": [
+       "669"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "226",
+     "pozicija": "10. Prihodi od ostalih finansijskih ulaganja i zajmova (kamate, kursne razlike i efekti ugovorene zaštite) (227 do 229)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "227+228+229"
+    },
+    {
+     "redniBroj": "227",
+     "pozicija": "a) Prihodi od ostalih finansijskih ulaganja i zajmova od matičnog i zavisnih pravnih lica",
+     "grupaRacuna": "660(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "660"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "228",
+     "pozicija": "b) Prihodi od ostalih finansijskih ulaganja i zajmova od ostalih povezanih pravnih lica",
+     "grupaRacuna": "661(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "661"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "229",
+     "pozicija": "c) Prihodi od ostalih finansijskih ulaganja i zajmova od nepovezanih pravnih lica",
+     "grupaRacuna": "662(dio), 663(dio), 664(dio), 669(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "662",
+       "663",
+       "664"
+      ],
+      "dio": [
+       "662",
+       "663",
+       "664",
+       "669"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "230",
+     "pozicija": "11. Ostali prihodi po osnovu kamata, kursnih razlika i drugih efekata ugovorene zaštite (231 do 233)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "231+232+233"
+    },
+    {
+     "redniBroj": "231",
+     "pozicija": "a) Finansijski prihodi po osnovu tekućih potraživanja od matičnog i zavisnih pravnih lica",
+     "grupaRacuna": "660(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "660"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "232",
+     "pozicija": "b) Finansijski prihodi po osnovu tekućih potraživanja od ostalih povezanih pravnih lica",
+     "grupaRacuna": "661(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "661"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "233",
+     "pozicija": "c) Finansijski prihodi po osnovu tekućih potraživanja od nepovezanih pravnih lica",
+     "grupaRacuna": "662(dio), 663(dio), 664(dio), 669(dio)",
+     "kind": "account",
+     "accounts": {
+      "include": [],
+      "dio": [
+       "662",
+       "663",
+       "664",
+       "669"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "234",
+     "pozicija": "12. Vrijednosno usklađivanje kratkoročnih finansijskih sredstava i finansijskih ulaganja koji su dio obrtne imovine (235-236)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "235-236"
+    },
+    {
+     "redniBroj": "235",
+     "pozicija": "a) Prihodi po osnovu vrijednosnog usklađivanja kratkoročnih finansijskih sredstava i finansijskih ulaganja koji su dio obrtne imovine",
+     "grupaRacuna": "683, 685",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "683",
+       "685"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "236",
+     "pozicija": "b) Rashodi po osnovu vrijednosnog usklađivanja kratkoročnih finansijskih sredstava i finansijskih ulaganja koji su dio obrtne imovine",
+     "grupaRacuna": "583, 585",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "583",
+       "585"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "237",
+     "pozicija": "13. Rashodi po osnovu kamata, kursnih razlika i drugih efekata ugovorene zaštite (238 do 240)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "238+239+240"
+    },
+    {
+     "redniBroj": "238",
+     "pozicija": "a) Rashodi po osnovu kamata, kursnih razlika i drugih efekata ugovorene zaštite po osnovu odnosa sa matičnim i zavisnim pravnim licima",
+     "grupaRacuna": "560",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "560",
+       "565"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "239",
+     "pozicija": "b) Rashodi po osnovu kamata, kursnih razlika i drugih efekata ugovorene zaštite po osnovu odnosa sa drugim povezanim licima",
+     "grupaRacuna": "561",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "561"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "240",
+     "pozicija": "c) Rashodi po osnovu kamata, kursnih razlika i drugih efekata ugovorene zaštite po osnovu odnosa sa nepovezanim licima",
+     "grupaRacuna": "562, 563, 564, 569",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "562",
+       "563",
+       "564",
+       "569"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "241",
+     "pozicija": "II. Finansijski rezultat (222+226+230+234–237)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "222+226+230+234-237"
+    },
+    {
+     "redniBroj": "242",
+     "pozicija": "III. Rezultat iz redovnog poslovanja prije oporezivanja (221+241)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "221+241"
+    },
+    {
+     "redniBroj": "243",
+     "pozicija": "IV. Neto rezultat poslovanja koje je obustavljeno",
+     "grupaRacuna": "690-590",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "690",
+       "590"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "244",
+     "pozicija": "V. Rezultat prije oporezivanja (242+243)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "242+243"
+    },
+    {
+     "redniBroj": "245",
+     "pozicija": "14. Poreski rashod perioda (246+247)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "246+247"
+    },
+    {
+     "redniBroj": "246",
+     "pozicija": "1. Tekući porez na dobit",
+     "grupaRacuna": "721",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "721"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "247",
+     "pozicija": "2. Odloženi poreski rashodi ili prihodi perioda",
+     "grupaRacuna": "722",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "722"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "248",
+     "pozicija": "15. Dobitak ili gubitak nakon oporezivanja (244-245)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "244-245"
+    },
+    {
+     "redniBroj": "249",
+     "pozicija": "VI. BRUTO REZULTAT DRUGIH STAVKI REZULTATA /POVEZANIH SA KAPITALOM/ (250 do 257)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "250+251+252+253+254+255+256+257"
+    },
+    {
+     "redniBroj": "250",
+     "pozicija": "1. Promjene revalorizacionih rezervi po osnovu nekretnina, postrojenja, opreme, nematerijalnih ulaganja i bioloških sredstava",
+     "grupaRacuna": "330",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "330"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "251",
+     "pozicija": "2. Promjene nerealizovanih dobitaka i gubitaka po osnovu preračuna finansijskih izvještaja inostranog poslovanja",
+     "grupaRacuna": "331",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "331"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "252",
+     "pozicija": "3. Promjene nerealizovanih dobitaka i gubitaka po osnovu ulaganja u vlasničke instrumente kapitala",
+     "grupaRacuna": "332",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "332"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "253",
+     "pozicija": "4. Promjene aktuarskih dobitaka i gubitaka po osnovu planova definisanih naknada aktuarskih dobitaka (ili gubitaka) u vezi sa definisanim planovima penzionih naknada",
+     "grupaRacuna": "333",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "333"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "254",
+     "pozicija": "5. Promjene učešća u ostalom sveobuhvatnom rezultatu pridruženog društva",
+     "grupaRacuna": "334",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "334"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "255",
+     "pozicija": "6. Promjene nerealizovanih dobitaka i gubitaka po osnovu instrumenata zaštite neto ulaganja u inostrano poslovanje",
+     "grupaRacuna": "335",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "335"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "256",
+     "pozicija": "7. Promjene revalorizacionih rezervi po osnovu hedžinga tokova gotovine",
+     "grupaRacuna": "336",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "336"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "257",
+     "pozicija": "8. Ostale promjene nerealizovanih dobitaka i gubitaka",
+     "grupaRacuna": "337",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "337"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "258",
+     "pozicija": "VII. ODLOŽENI PORESKI RASHODI ILI PRIHODI PERIODA U VEZI SA DRUGIM STAVKAMA REZULTATA /POVEZANIM SA KAPITALOM/",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "259",
+     "pozicija": "VIII. NETO REZULTAT DRUGIH STAVKI REZULTATA /POVEZANIH SA KAPITALOM/ (249+258)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "249+258"
+    },
+    {
+     "redniBroj": "260",
+     "pozicija": "IX. NETO SVEOBUHVATNI REZULTAT ( 248-259)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "248-259"
+    },
+    {
+     "redniBroj": "261",
+     "pozicija": "X. ZARADA PO AKCIJI",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "262",
+     "pozicija": "1. Osnovna zarada po akciji",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "263",
+     "pozicija": "2. Umanjena (razvodnjena) zarada po akciji",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "264",
+     "pozicija": "XI. NETO REZULTAT KOJI PRIPADA VLASNICIMA MATIČNOG PRAVNOG LICA",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "265",
+     "pozicija": "XII. NETO REZULTAT KOJI PRIPADA UČEŠĆIMA KOJI NE OBEZBEĐUJU KONTROLU",
+     "grupaRacuna": "",
+     "kind": "manual"
+    }
+   ]
+  },
+  "IskazOTokovimaGotovine": {
+   "rows": [
+    {
+     "redniBroj": "",
+     "pozicija": "A. TOKOVI GOTOVINE IZ POSLOVNIH AKTIVNOSTI",
+     "grupaRacuna": "",
+     "kind": "header"
+    },
+    {
+     "redniBroj": "301",
+     "pozicija": "I. Prilivi gotovine iz poslovnih aktivnosti (1 do 3)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "302+303+304"
+    },
+    {
+     "redniBroj": "302",
+     "pozicija": "1. Prodaja i primljeni avansi",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "303",
+     "pozicija": "2. Primljene kamate iz poslovnih aktivnosti",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "304",
+     "pozicija": "3. Ostali prilivi iz redovnog poslovanja",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "305",
+     "pozicija": "II. Odlivi gotovine iz poslovnih aktivnosti (1 do 5)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "306+307+308+309+310"
+    },
+    {
+     "redniBroj": "306",
+     "pozicija": "1. Isplate dobavljačima i dati avansi",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "307",
+     "pozicija": "2. Zarade, naknade zarada i ostali lični rashodi",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "308",
+     "pozicija": "3. Plaćene kamate",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "309",
+     "pozicija": "4. Porez na dobit",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "310",
+     "pozicija": "5. Plaćanja po osnovu ostalih javnih prihoda",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "311",
+     "pozicija": "III. Neto tok gotovine iz poslovnih aktivnosti (I-II)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "301-305"
+    },
+    {
+     "redniBroj": "",
+     "pozicija": "B. TOKOVI GOTOVINE IZ AKTIVNOSTI INVESTIRANJA",
+     "grupaRacuna": "",
+     "kind": "header"
+    },
+    {
+     "redniBroj": "312",
+     "pozicija": "I. Prilivi gotovine iz aktivnosti investiranja (1 do 5)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "313+314+315+316+317"
+    },
+    {
+     "redniBroj": "313",
+     "pozicija": "1. Prodaja akcija i udjela",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "314",
+     "pozicija": "2. Prodaja nematerijalnih ulaganja, nekretnina, postrojenja, opremene i bioloških sredstava",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "315",
+     "pozicija": "3. Ostali finansijski plasmani",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "316",
+     "pozicija": "4. Primljene kamate iz aktivnosti investiranja",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "317",
+     "pozicija": "5. Primljene dividende",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "318",
+     "pozicija": "II. Odlivi gotovine iz aktivnosti investiranja (1 do 3)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "319+320+321"
+    },
+    {
+     "redniBroj": "319",
+     "pozicija": "1. Kupovina akcija i udjela",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "320",
+     "pozicija": "2. Kupovina nematerijalnih ulaganja, nekretnina, postrojenja, opreme i bioloških sredstava",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "321",
+     "pozicija": "3. Ostali finansijski plasmani",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "322",
+     "pozicija": "III. Neto tok gotovine iz aktivnosti investiranja (I-II)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "312-318"
+    },
+    {
+     "redniBroj": "",
+     "pozicija": "C. TOKOVI GOTOVINE IZ AKTIVNOSTI FINANSIRANJA",
+     "grupaRacuna": "",
+     "kind": "header"
+    },
+    {
+     "redniBroj": "323",
+     "pozicija": "I. Prilivi gotovine iz aktivnosti finansiranja (1 do 3)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "324+325+326"
+    },
+    {
+     "redniBroj": "324",
+     "pozicija": "1. Uvećanje osnovnog kapitala",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "325",
+     "pozicija": "2. Dugoročni i kratkoročni krediti",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "326",
+     "pozicija": "3. Ostale dugoročne i kratkoročne obaveze",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "327",
+     "pozicija": "II. Odlivi gotovine iz aktivnosti finansiranja (1 do 4)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "328+329+330+331"
+    },
+    {
+     "redniBroj": "328",
+     "pozicija": "1. Otkup sopstvenih akcija i udjela",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "329",
+     "pozicija": "2. Dugoročni i kratkoročni krediti i ostale obaveze",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "330",
+     "pozicija": "3. Finansijski lizing",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "331",
+     "pozicija": "4. Isplaćene dividende",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "332",
+     "pozicija": "III. Neto tok gotovine iz aktivnosti finansiranja (I-II)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "323-327"
+    },
+    {
+     "redniBroj": "333",
+     "pozicija": "D. NETO TOK GOTOVINE (311+322+332)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "311+322+332"
+    },
+    {
+     "redniBroj": "334",
+     "pozicija": "E. GOTOVINA NA POČETKU IZVJEŠTAJNOG PERIODA",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "335",
+     "pozicija": "F. POZITIVNE KURSNE RAZLIKE PO OSNOVU PRERAČUNA GOTOVINE",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "336",
+     "pozicija": "G. NEGATIVNE KURSNE RAZLIKE PO OSNOVU PRERAČUNA GOTOVINE",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "337",
+     "pozicija": "H. GOTOVINA NA KRAJU IZVJEŠTAJNOG PERIODA (333+334+335-336)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "333+334+335-336"
+    }
+   ]
+  },
+  "TokoviGotovine3a": {
+   "rows": [
+    {
+     "redniBroj": "",
+     "pozicija": "A. TOKOVI GOTOVINE IZ POSLOVNIH AKTIVNOSTI",
+     "grupaRacuna": "",
+     "kind": "header"
+    },
+    {
+     "redniBroj": "301",
+     "pozicija": "1. Rezultat prije oporezivanja",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "302",
+     "pozicija": "2. Amortizacija",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "303",
+     "pozicija": "3. Promjena zaliha",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "304",
+     "pozicija": "4. Promjena potraživanja",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "305",
+     "pozicija": "5. Promjena obaveza prema dobavljačima",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "306",
+     "pozicija": "6. Promjena rezervisanja",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "307",
+     "pozicija": "7. Plaćene kamate",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "308",
+     "pozicija": "8. Porez na dobit",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "309",
+     "pozicija": "9. Plaćanja po osnovu ostalih javnih prihoda",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "310",
+     "pozicija": "10. Promjena odloženih poreza i drugih nepomenutih stavki koje imaju uticaj na tok gotovine iz poslovnih aktivnosti",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "311",
+     "pozicija": "I. Neto tok gotovine iz poslovnih aktivnosti (1 do 10)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "301+302+303+304+305+306+307+308+309+310"
+    },
+    {
+     "redniBroj": "",
+     "pozicija": "B. TOKOVI GOTOVINE IZ AKTIVNOSTI INVESTIRANJA",
+     "grupaRacuna": "",
+     "kind": "header"
+    },
+    {
+     "redniBroj": "312",
+     "pozicija": "I. Prilivi gotovine iz aktivnosti investiranja (1 do 5)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "313+314+315+316+317"
+    },
+    {
+     "redniBroj": "313",
+     "pozicija": "1. Prodaja akcija i udjela",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "314",
+     "pozicija": "2. Prodaja nematerijalnih ulaganja, nekretnina, postrojenja, opremene i bioloških sredstava",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "315",
+     "pozicija": "3. Ostali finansijski plasmani",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "316",
+     "pozicija": "4. Primljene kamate iz aktivnosti investiranja",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "317",
+     "pozicija": "5. Primljene dividende",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "318",
+     "pozicija": "II. Odlivi gotovine iz aktivnosti investiranja (1 do 3)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "319+320+321"
+    },
+    {
+     "redniBroj": "319",
+     "pozicija": "1. Kupovina akcija i udjela",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "320",
+     "pozicija": "2. Kupovina nematerijalnih ulaganja, nekretnina, postrojenja, opreme i bioloških sredstava",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "321",
+     "pozicija": "3. Ostali finansijski plasmani",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "322",
+     "pozicija": "III. Neto tok gotovine iz aktivnosti investiranja (I-II)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "312-318"
+    },
+    {
+     "redniBroj": "",
+     "pozicija": "C. TOKOVI GOTOVINE IZ AKTIVNOSTI FINANSIRANJA",
+     "grupaRacuna": "",
+     "kind": "header"
+    },
+    {
+     "redniBroj": "323",
+     "pozicija": "I. Prilivi gotovine iz aktivnosti finansiranja (1 do 3)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "324+325+326"
+    },
+    {
+     "redniBroj": "324",
+     "pozicija": "1. Uvećanje osnovnog kapitala",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "325",
+     "pozicija": "2. Dugoročni i kratkoročni krediti",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "326",
+     "pozicija": "3. Ostale dugoročne i kratkoročne obaveze",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "327",
+     "pozicija": "II. Odlivi gotovine iz aktivnosti finansiranja (1 do 4)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "328+329+330+331"
+    },
+    {
+     "redniBroj": "328",
+     "pozicija": "1. Otkup sopstvenih akcija i udjela",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "329",
+     "pozicija": "2. Dugoročni i kratkoročni krediti i ostale obaveze",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "330",
+     "pozicija": "3. Finansijski lizing",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "331",
+     "pozicija": "4. Isplaćene dividende",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "332",
+     "pozicija": "III. Neto tok gotovine iz aktivnosti finansiranja (I-II)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "323-327"
+    },
+    {
+     "redniBroj": "333",
+     "pozicija": "D. NETO TOK GOTOVINE (311+322+332)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "311+322+332"
+    },
+    {
+     "redniBroj": "334",
+     "pozicija": "E. GOTOVINA NA POČETKU IZVJEŠTAJNOG PERIODA",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "335",
+     "pozicija": "F. POZITIVNE KURSNE RAZLIKE PO OSNOVU PRERAČUNA GOTOVINE",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "336",
+     "pozicija": "G. NEGATIVNE KURSNE RAZLIKE PO OSNOVU PRERAČUNA GOTOVINE",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "337",
+     "pozicija": "H. GOTOVINA NA KRAJU IZVJEŠTAJNOG PERIODA (333+334+335-336)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "333+334+335-336"
+    }
+   ]
+  },
+  "IskazOPromenamaKapitala": {
+   "rows": [
+    {
+     "redniBroj": "1",
+     "pozicija": "Stanje na dan 01.01 _____ godine",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "2",
+     "pozicija": "Efekti retroaktivne ispravke materijalno značajnih grešaka i promjena računovodstvenih politika",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "3",
+     "pozicija": "Korigovano početno stanje na dan 01.01. _____ godine (r.br. 1+2)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "1+2"
+    },
+    {
+     "redniBroj": "4",
+     "pozicija": "Neto promjene u _____ godini",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "5",
+     "pozicija": "Stanje na dan 31.12. ___________ godine (r.b 3+4)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "3+4"
+    },
+    {
+     "redniBroj": "6",
+     "pozicija": "Efekti retroaktivne ispravke materijalno značajnih grešaka i promjena računovodstvenih politika",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "7",
+     "pozicija": "Korigovano početno stanje na dan ___________ godine (r.br. 5+6)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "5+6"
+    },
+    {
+     "redniBroj": "8",
+     "pozicija": "Neto promjene u _____ godini",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "9",
+     "pozicija": "Stanje na dan 31.12 _____ godine (r.br. 7+8)",
+     "grupaRacuna": "",
+     "kind": "formula",
+     "formula": "7+8"
+    }
+   ]
+  },
+  "StatistickiAneks": {
+   "rows": [
+    {
+     "redniBroj": "001",
+     "pozicija": "Prosječan broj zaposlenih (ukupan broj zaposlenih krajem svakog mjeseca podijeljen sa brojem mjeseci)",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "002",
+     "pozicija": "Prihodi od prodaje robe",
+     "grupaRacuna": "60",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "60"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "003",
+     "pozicija": "Prihodi od prodaje proizvoda i usluga",
+     "grupaRacuna": "61",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "61"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "004",
+     "pozicija": "Prihodi od aktiviranja učinaka i robe",
+     "grupaRacuna": "62",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "62"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "005",
+     "pozicija": "Prihodi od subvencija, prihodi od dotacija i prihodi od donacija",
+     "grupaRacuna": "640",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "640"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "006",
+     "pozicija": "Prihodi od zakupnina",
+     "grupaRacuna": "650",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "650"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "007",
+     "pozicija": "Dobici od prodaje materijala",
+     "grupaRacuna": "673",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "673"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "008",
+     "pozicija": "Nabavna vrijednost prodate robe",
+     "grupaRacuna": "501",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "501"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "009",
+     "pozicija": "Troškovi materijala za izradu",
+     "grupaRacuna": "511",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "511"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "010",
+     "pozicija": "Troškovi ostalog materijala (režijskog)",
+     "grupaRacuna": "512",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "512"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "011",
+     "pozicija": "Troškovi goriva i energije",
+     "grupaRacuna": "513",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "513"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "012",
+     "pozicija": "Troškovi zarada i naknada zarada (bruto)",
+     "grupaRacuna": "520",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "520"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "013",
+     "pozicija": "Naknada troškova smještaja i ishrane na službenom putu, naknade troškova prevoza na službenom putu",
+     "grupaRacuna": "529",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "529"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "014",
+     "pozicija": "Troškovi proizvodnih usluga",
+     "grupaRacuna": "53",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "53"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "015",
+     "pozicija": "Troškovi transportnih usluga i troškovi usluga održavanja",
+     "grupaRacuna": "531 i 532",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "531",
+       "532"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "016",
+     "pozicija": "Troškovi zakupnina",
+     "grupaRacuna": "533",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "533"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "017",
+     "pozicija": "Troškovi sajmova i troškovi reklame i propagande",
+     "grupaRacuna": "534 i 535",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "534",
+       "535"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "018",
+     "pozicija": "Troškovi istraživanja",
+     "grupaRacuna": "536",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "536"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "019",
+     "pozicija": "Troškovi neproizvodnih usluga i troškovi reprezentacije",
+     "grupaRacuna": "550 i 551",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "550",
+       "551"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "020",
+     "pozicija": "Troškovi premija osiguranja i troškovi platnog prometa",
+     "grupaRacuna": "552 i 553",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "552",
+       "553"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "021",
+     "pozicija": "Gubici od prodaje materijala",
+     "grupaRacuna": "573",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "573"
+      ]
+     },
+     "balance": "turnoverDebitNet"
+    },
+    {
+     "redniBroj": "022",
+     "pozicija": "Zalihe materijala",
+     "grupaRacuna": "10",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "10"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "023",
+     "pozicija": "Zalihe nedovršene proizvodnje",
+     "grupaRacuna": "11",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "11"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "024",
+     "pozicija": "Zalihe gotovih proizvoda",
+     "grupaRacuna": "12",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "12"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "025",
+     "pozicija": "Zalihe roba",
+     "grupaRacuna": "13",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "13"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "",
+     "pozicija": "Analitički prikaz nematerijalne imovine pravnog lica",
+     "grupaRacuna": "",
+     "kind": "header"
+    },
+    {
+     "redniBroj": "026",
+     "pozicija": "Prihodi od naknade po osnovu patenata",
+     "grupaRacuna": "652",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "652"
+      ]
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "027",
+     "pozicija": "Prihodo po osnovu autorskih prava",
+     "grupaRacuna": "652",
+     "kind": "account",
+     "accounts": {
+      "include": []
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "028",
+     "pozicija": "Prihodi od prodaje licenci",
+     "grupaRacuna": "652",
+     "kind": "account",
+     "accounts": {
+      "include": []
+     },
+     "balance": "turnoverCreditNet"
+    },
+    {
+     "redniBroj": "029",
+     "pozicija": "Ulaganja u razvoj",
+     "grupaRacuna": "010",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "010"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "030",
+     "pozicija": "Ulaganja u razvoj tržišta, sa efektom dužim od jedne godine",
+     "grupaRacuna": "0100",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0100"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "031",
+     "pozicija": "Ulaganja u razvoj tehnologije, sa efektom dužim od jedne godine",
+     "grupaRacuna": "0101",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0101"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "032",
+     "pozicija": "Ulaganja u razvoj proizvoda, sa efektom dužim od jedne godine",
+     "grupaRacuna": "0102",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0102"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "033",
+     "pozicija": "Ostali izdaci za razvoj",
+     "grupaRacuna": "0103",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0103"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "034",
+     "pozicija": "Ispravka vrijednosti ulaganja u razvoj",
+     "grupaRacuna": "0108",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0108"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "035",
+     "pozicija": "Obezvređivanje vrijednosti ulaganja u razvoj",
+     "grupaRacuna": "0109",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0109"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "036",
+     "pozicija": "Koncesije, patenti, licence i slična prava",
+     "grupaRacuna": "011",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "011"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "037",
+     "pozicija": "Koncesije",
+     "grupaRacuna": "0110",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0110"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "038",
+     "pozicija": "Patenti",
+     "grupaRacuna": "0111",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0111"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "039",
+     "pozicija": "Licence",
+     "grupaRacuna": "0112",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0112"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "040",
+     "pozicija": "Pravo na industrijski uzorak, žig, model, zaštitni znak i sl.",
+     "grupaRacuna": "0113",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0113"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "041",
+     "pozicija": "Druga slična prava",
+     "grupaRacuna": "0114",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0114"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "042",
+     "pozicija": "Ispravka vrijednosti koncesija, patenata, licenci i sličnih prava",
+     "grupaRacuna": "0118",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0118"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "043",
+     "pozicija": "Obezvređivanje koncesija, patenata, licenci i sli?nih prava",
+     "grupaRacuna": "0119",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0119"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "044",
+     "pozicija": "Goodwill",
+     "grupaRacuna": "012",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "012"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "045",
+     "pozicija": "Goodwill nastao po osnovu stečene (pripojene) neto imovine drugog pravnog lica",
+     "grupaRacuna": "0120",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0120"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "046",
+     "pozicija": "Goodwill nastao po osnovu kupovine akcija i udjela u drugom pravnom licu",
+     "grupaRacuna": "0121",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0121"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "047",
+     "pozicija": "Obezvređivanje goodwill-a",
+     "grupaRacuna": "0129",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0129"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "048",
+     "pozicija": "Ostala nematerijalna ulaganja",
+     "grupaRacuna": "014",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "014"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "049",
+     "pozicija": "Računarski programi",
+     "grupaRacuna": "0140",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0140"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "050",
+     "pozicija": "Pravo korišćenja gradskog građevinskog zemljišta",
+     "grupaRacuna": "0141",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0141"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "051",
+     "pozicija": "Ulaganja u lizing",
+     "grupaRacuna": "0142",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0142"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "052",
+     "pozicija": "Ostala nematerijalna ulaganja",
+     "grupaRacuna": "0145",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0145"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "053",
+     "pozicija": "Ispravka vrijednosti ostalih nematerijalnih ulaganja",
+     "grupaRacuna": "0148",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0148"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "054",
+     "pozicija": "Obezvređivanje ostalih nematerijalnih ulaganja",
+     "grupaRacuna": "0149",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0149"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "055",
+     "pozicija": "Nematerijalna ulaganja u pripremi",
+     "grupaRacuna": "015",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "015"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "056",
+     "pozicija": "Ulaganja u razvoj u pripremi",
+     "grupaRacuna": "0150",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0150"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "057",
+     "pozicija": "Interno generisana nematerijalna ulaganja u pripremi",
+     "grupaRacuna": "0151",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0151"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "058",
+     "pozicija": "Druga nematerijalna ulaganja u pripremi",
+     "grupaRacuna": "0155",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0155"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "059",
+     "pozicija": "Obezvređenje nematerijalnih ulaganja u pripremi",
+     "grupaRacuna": "0159",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0159"
+      ]
+     },
+     "balance": "creditNet"
+    },
+    {
+     "redniBroj": "060",
+     "pozicija": "Avansi za nematerijalna ulaganja",
+     "grupaRacuna": "016",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "016"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "061",
+     "pozicija": "Avansi za nematerijalna ulaganja u razvoj",
+     "grupaRacuna": "0160",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0160"
+      ]
+     },
+     "balance": "debitNet"
+    },
+    {
+     "redniBroj": "062",
+     "pozicija": "Avansi za druga nematerijalna ulaganja",
+     "grupaRacuna": "0161",
+     "kind": "account",
+     "accounts": {
+      "include": [
+       "0161"
+      ]
+     },
+     "balance": "debitNet"
+    }
+   ]
+  },
+  "ObracunAmortizacije": {
+   "rows": [
+    {
+     "redniBroj": "I",
+     "pozicija": "Amortizaciona grupa I (stopa 2.5%)",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "II",
+     "pozicija": "Amortizaciona grupa II (stopa 10%)",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "III",
+     "pozicija": "Amortizaciona grupa III (stopa 15%)",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "IV",
+     "pozicija": "Amortizaciona grupa IV (stopa 20%)",
+     "grupaRacuna": "",
+     "kind": "manual"
+    },
+    {
+     "redniBroj": "V",
+     "pozicija": "Amortizaciona grupa V (stopa 30%)",
+     "grupaRacuna": "",
+     "kind": "manual"
+    }
+   ]
+  }
+ },
+ "_defaults_applied": "dio-splits v1: см. mapping_notes.md §6 и apply_defaults.py; разнесение уточняется вручную через Корректировки в обработке"
+}

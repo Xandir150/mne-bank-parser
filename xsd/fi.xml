@@ -1,0 +1,2639 @@
+<FinansijskiIskazi>
+<Zaglavlje>
+<Godina/>
+<DatumOd/>
+<DatumDo/>
+<NazivObveznika/>
+<SjedisteObveznika/>
+<SifraDjelatnosti/>
+<MaticniBroj/>
+<LiceKojeSastavljaIskaz_Naziv/>
+<LiceKojeSastavljaIskaz_JMBG/>
+<LiceKojeSastavljaIskaz_Email/>
+<OdgovornoLice_Ime/>
+<OdgovornoLice_Prezime/>
+<OdgovornoLice_JMBG/>
+<FinansijskiIzvestajSastavljenNaDan/>
+<FinansijskiIzvestajPodnesenNaDan/>
+</Zaglavlje>
+<BilanStanja>
+<Stavka>
+<RedniBroj/>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>AKTIVA</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>001</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>A. NEUPLAĆENI UPISANI KAPITAL</Pozicija>
+<GrupaRacuna>00</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>002</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>B. STALNA IMOVINA (003+008+016)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>003</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>I NEMATERIJALNA ULAGANJA (004 do 007)</Pozicija>
+<GrupaRacuna>01</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>004</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>1. Ulaganja u razvoj</Pozicija>
+<GrupaRacuna>010</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>005</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>2. Koncesije, patenti, licence i slična prava i ostala nematerijalna ulaganja</Pozicija>
+<GrupaRacuna>011 i 014</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>006</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3. Goodwill</Pozicija>
+<GrupaRacuna>012</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>007</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>4. Avansi za nematerijalna ulaganja i nematerijalna ulaganja u priprem</Pozicija>
+<GrupaRacuna>016 i 015</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>008</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>II NEKRETNINE, POSTROJENJA, OPREMA I BIOLOŠKA SREDSTVA (009+010+011+015)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>009</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>1. Zemljište i objekti</Pozicija>
+<GrupaRacuna>020 i 022</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>010</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>2. Postrojenja i oprema</Pozicija>
+<GrupaRacuna>023</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>011</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3. Ostala ugrađena oprema, alati i oprema (012+013+014)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>012</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3.1. Investicione nekretnine</Pozicija>
+<GrupaRacuna>024</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>013</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3.2. Biološka sredstva</Pozicija>
+<GrupaRacuna>021 i 025</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>014</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3.3. Ostala nepomenuta materijalna stalna sredstva</Pozicija>
+<GrupaRacuna>026 i 029</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>015</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>4. Avansi za nekretnine, postrojenja, opremu i biološka sredstva i nekretnine, postrojenja, oprema i biološka sredstva u pripremi </Pozicija>
+<GrupaRacuna>028 i 027</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>016</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>III DUGOROČNI FINANSIJSKI PLASMANI I DUGOROČNA POTRAŽIVANJA (017 do 023)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>017</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>1. Učešća u kapitalu zavisnih pravnih lica</Pozicija>
+<GrupaRacuna>030, 039(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>018</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>2. Dugoročni krediti matičnom i zavisnim pravnim licima</Pozicija>
+<GrupaRacuna>033(dio), 039(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>019</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3. Učešća u kapitalu kod pravnih lica (sem zavisnih pravnih lica)</Pozicija>
+<GrupaRacuna>031(dio), 032(dio), 039(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>020</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>4. Dugoročni krediti pravnim licima kod kojih postoji učešće u kapitalu (sem zavisnih pravnih lica) </Pozicija>
+<GrupaRacuna>033(dio), 039(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>021</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>5. Učešća u kapitalu koja se vrednuju metodom učešća</Pozicija>
+<GrupaRacuna>031(dio), 032(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>022</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>6. Dugoročna finansijska ulaganja (dati krediti i hartije od vrijednosti)</Pozicija>
+<GrupaRacuna>032(dio), 034, 035, 036, 039(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>023</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>7. Ostali dugoročni finansijski plasmani i potraživanja</Pozicija>
+<GrupaRacuna>038, 039(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>024</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>C. ODLOŽENA PORESKA SREDSTVA</Pozicija>
+<GrupaRacuna>288</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>025</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>D. OBRTNA SREDSTVA(026+031+039+043+044)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>026</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>I. ZALIHE (027 do 030)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>027</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>I. Zalihe materijala (materijal za izradu, rezervni delovi, sitan inventar i auto gume)</Pozicija>
+<GrupaRacuna>10</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>028</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>2. Nedovršena proizvodnja</Pozicija>
+<GrupaRacuna>11</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>029</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3. Gotovi proizvodi i roba</Pozicija>
+<GrupaRacuna>12 i 13</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>030</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>4. Dati avansi</Pozicija>
+<GrupaRacuna>15</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>031</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>II. KRATKOROČNA POTRAŽIVANJA (032 do 035)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>032</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>1. Potraživanja od kupaca</Pozicija>
+<GrupaRacuna>202, 203, 209(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>033</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>2. Potraživanja od matičnog i zavisnih pravnih lica</Pozicija>
+<GrupaRacuna>200, 209(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>034</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3. Potraživanja od ostalih povezanih lica</Pozicija>
+<GrupaRacuna>201, 209(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>035</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>4. Ostala potraživanja (036+037+038)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>036</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>4.1. Potraživanja za više plaćen porez na dobit</Pozicija>
+<GrupaRacuna>223</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>037</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>4.2. Potraživanja po osnovu poreza na dodatu vrijednost</Pozicija>
+<GrupaRacuna>27</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>038</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>4.3. Ostala nepomenuta potraživanja</Pozicija>
+<GrupaRacuna>21, 22, osim 223</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>039</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>III. KRATKOROČNI FINANSIJSKI PLASMANI (040 do 042)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>040</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>1. Učešće u kapitalu zavisnih pravnih lica namijenjeno trgovanju </Pozicija>
+<GrupaRacuna>236(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>041</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>2. Otkupljene sopstvene akcije i otkupljeni sopstveni udjeli</Pozicija>
+<GrupaRacuna>237</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>042</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3. Ostali kratkoročni finansijski plasmani</Pozicija>
+<GrupaRacuna>23 osim 236(dio) i osim 237</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>043</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>IV. GOTOVINA NA RAČUNIMA I U BLAGAJNI</Pozicija>
+<GrupaRacuna>24</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>044</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>V. STALNA SREDSTVA NAMIJENJENA PRODAJI I SREDSTVA POSLOVANJA KOJE JE OBUSTAVLJENO</Pozicija>
+<GrupaRacuna>04</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>045</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>E. AKTIVNA VREMENSKA RAZGRANIČENJA</Pozicija>
+<GrupaRacuna>28 osim 288</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>046</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>F. UKUPNA AKTIVA (001+002+024+025+045)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj/>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>PASIVA</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>101</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>A. KAPITAL (102+103+104+105+111+116) </Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>102</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>I. OSNOVNI KAPITAL</Pozicija>
+<GrupaRacuna>30</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>103</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>II. NEUPLAĆENI UPISANI KAPITAL</Pozicija>
+<GrupaRacuna>31</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>104</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>III. EMISIONA PREMIJA</Pozicija>
+<GrupaRacuna>320</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>105</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>IV. REZERVE (106+107+108+109-110)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>106</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>1. Zakonske rezerve</Pozicija>
+<GrupaRacuna>321</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>107</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>2. Statutarne rezerve</Pozicija>
+<GrupaRacuna>322(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>108</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3. Druge rezerve</Pozicija>
+<GrupaRacuna>322(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>109</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>4. Pozitivne revalorizacione rezerve i nerealizovani dobici po osnovu finansijskih sredstava i drugih komponenti ostalog sveobuhvatnog rezultata</Pozicija>
+<GrupaRacuna>330 i potr. saldo rač. 331, 332, 333, 334, 335, 336 i 337</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>110</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>5. Negativne revalorizacione rezerve i nerealizovani gubici po osnovu finansijskih sredstava i drugih komponenti ostalog sveobuhvatnog rezultata</Pozicija>
+<GrupaRacuna>dugov. saldo rač. 331, 332, 333, 334, 335, 336, 337</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>111</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>VI. NERASPOREDJENI DOBITAK ILI GUBITAK (112+113-114-115)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>112</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>1. Neraspoređeni dobitak ranijih godina</Pozicija>
+<GrupaRacuna>340</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>113</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>2. Neraspoređeni dobitak tekuće godine</Pozicija>
+<GrupaRacuna>341</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>114</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3. Gubitak ranijih godina</Pozicija>
+<GrupaRacuna>350</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>115</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>4. Gubitak tekuće godine</Pozicija>
+<GrupaRacuna>351</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>116</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>VIII. UČEŠĆE KOJE NE OBEZBJEĐUJE KONTROLU</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>117</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>B. DUGOROČNA REZERVISANJA I DUGOROČNE OBAVEZE (118+122)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>118</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>I. DUGOROČNA REZERVISANJA (119 do 121)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>119</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>1. Rezervisanja za naknade i druge beneficije zaposlenih </Pozicija>
+<GrupaRacuna>404(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>120</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>2. Rezervisanja za troškove u garantnom roku</Pozicija>
+<GrupaRacuna>400(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>121</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3. Ostala dugoročna rezervisanja</Pozicija>
+<GrupaRacuna>40, sem 400 i 404</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>122</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>II. DUGOROČNE OBAVEZE (123+124)</Pozicija>
+<GrupaRacuna>41</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>123</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>1. Dugoročni krediti</Pozicija>
+<GrupaRacuna>414, 415</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>124</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>2. Ostale dugoročne obaveze</Pozicija>
+<GrupaRacuna>41 bez 414, 415</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>125</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>C. ODLOŽENE PORESKE OBAVEZE</Pozicija>
+<GrupaRacuna>498</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>126</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>D. DUGOROČNI ODLOŽENI PRIHODI I PRIMLJENE DONACIJE </Pozicija>
+<GrupaRacuna>495(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>127</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>Е. KRATKOROČNA REZERVISANJA I KRATKOROČNE OBAVEZE (128+129)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>128</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>I KRATKOROČNA REZERVISANJA</Pozicija>
+<GrupaRacuna>467</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>129</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>II KRATKOROČNE OBAVEZE 130 do 137)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>130</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>1. Obaveze po osnovu kredita i zajmova od lica koja nisu kreditne institucije</Pozicija>
+<GrupaRacuna>422(dio),423(dio),424(dio),425(dio),426,429(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>131</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>2. Obaveze po osnovu kredita od kreditnih institucija</Pozicija>
+<GrupaRacuna>422(dio),423(dio),424(dio),425(dio) i 429(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>132</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>3. Primljeni avansi, depoziti i kaucije</Pozicija>
+<GrupaRacuna>430</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>133</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>4. Obaveze prema dobavljačima</Pozicija>
+<GrupaRacuna>433, 434, 440-449</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>134</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>5. Obaveze po mjenicama</Pozicija>
+<GrupaRacuna>439(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>135</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>6. Obaveze prema matičnom i zavisnim pravnim licima</Pozicija>
+<GrupaRacuna>420 i 431</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>136</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>7. Obaveze prema ostalim povezanim licima</Pozicija>
+<GrupaRacuna>421 i 432</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>137</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>8. Ostale obaveze iz poslovanja i ostale kratkoročne obaveze (138 do 142)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>138</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>8.1. Ostale obaveze iz poslovanja</Pozicija>
+<GrupaRacuna>439(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>139</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>8.2. Ostale kratkoročne obaveze</Pozicija>
+<GrupaRacuna>45 i 46</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>140</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>8.3. Obaveze po osnovu poreza na dodatu vrijednost i ostalih javnih prihoda </Pozicija>
+<GrupaRacuna>47,48 osim 481</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>141</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>8.4. Obaveze po osnovu poreza na dobit</Pozicija>
+<GrupaRacuna>481</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>142</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>8.5. Obaveze po osnovu sredstava namijenjenih prodaji i sredstava poslovanja koje je obustavljeno </Pozicija>
+<GrupaRacuna>427</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>143</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>F. PASIVNA VREMENSKA RAZGRANIČENJA</Pozicija>
+<GrupaRacuna>490, 491, 494, 495(dio), 496, 497 i 499</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>144</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Iznos3>0.0</Iznos3>
+<NapomenaBroj/>
+<Pozicija>G. UKUPNA PASIVA (101+117+125+126+127+143)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+</BilanStanja>
+<BilanUspjeha>
+<Stavka>
+<RedniBroj>201</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>1. Prihodi od prodaje - neto prihod</Pozicija>
+<GrupaRacuna>60 i 61</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>202</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>2. Promjena vrijednosti zaliha gotovih proizvoda i nedovršene proizvodnje</Pozicija>
+<GrupaRacuna>630 i 631</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>203</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>3. Prihodi od aktiviranja učinaka i robe</Pozicija>
+<GrupaRacuna>62</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>204</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>4. Ostali prihodi iz poslovanja (205 do 207)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>205</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>a) Ostali prihodi iz redovnog poslovanja</Pozicija>
+<GrupaRacuna>64 i 65</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>206</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>b) Ostali prihodi iz poslovanja</Pozicija>
+<GrupaRacuna>67, 691 i 692</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>207</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>c) Prihodi po osnovu vrijednosnog usklađivanja imovine </Pozicija>
+<GrupaRacuna>68, sem 683 i 685</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>208</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>5. Troškovi poslovanja (209+210+210a)</Pozicija>
+<GrupaRacuna>208</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>209</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>a) Nabavna vrijednost prodate robe i troškovi materijala </Pozicija>
+<GrupaRacuna>50 i 51</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>210</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>b) Ostali troškovi poslovanja (rezervisanja i ostali poslovni rashodi) </Pozicija>
+<GrupaRacuna>53, 54 (dio) i 55</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>210a</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>c) Amortizacija</Pozicija>
+<GrupaRacuna>540</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>211</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>6. Troškovi zarada, naknada zarada i ostali lični rashodi (212+213)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>212</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>a) Neto troškovi zarada, naknada zarada i lični rashodi </Pozicija>
+<GrupaRacuna>52 (dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>213</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>b) Troškovi poreza i doprinosa (214 do 216)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>214</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>1/ Troškovi poreza</Pozicija>
+<GrupaRacuna>52 (dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>215</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>2/ Troškovi doprinosa za penzije</Pozicija>
+<GrupaRacuna>52 (dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>216</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>3/ Troškovi doprinosa</Pozicija>
+<GrupaRacuna>52 (dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>217</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>7. Rashodi po osnovu vrijednosnog usklađivanja imovine (osim finansijske) (218+219)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>218</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>a) Rashodi po osnovu vrijednosnog usklađivanja stalne imovine (osim finansijske)</Pozicija>
+<GrupaRacuna>580, 581, 582, 589 (dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>219</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>b) Rashodi po osnovu vrijednosnog usklađivanja obrtne imovine (osim finansijske)</Pozicija>
+<GrupaRacuna>584, 589 (dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>220</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>8. Ostali rashodi iz poslovanja</Pozicija>
+<GrupaRacuna>57, 591 i 592</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>221</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>I. Poslovni rezultat (201+202+203+204-208-211-217-220)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>222</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>9. Prihodi po osnovu učešća u kapitalu (223 do 225)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>223</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>a) Prihodi po osnovu učešća u kapitalu zavisnih pravnih lica</Pozicija>
+<GrupaRacuna>660(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>224</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>b) Prihodi po osnovu učešća u kapitalu ostalih povezanih pravnih lica</Pozicija>
+<GrupaRacuna>661(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>225</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>c) Prihodi po osnovu učešća u kapitalu nepovezanih pravnih lica</Pozicija>
+<GrupaRacuna>669(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>226</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>10. Prihodi od ostalih finansijskih ulaganja i zajmova (kamate, kursne razlike i efekti ugovorene zaštite) (227 do 229)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>227</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>a) Prihodi od ostalih finansijskih ulaganja i zajmova od matičnog i zavisnih pravnih lica</Pozicija>
+<GrupaRacuna>660(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>228</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>b) Prihodi od ostalih finansijskih ulaganja i zajmova od ostalih povezanih pravnih lica</Pozicija>
+<GrupaRacuna>661(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>229</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>c) Prihodi od ostalih finansijskih ulaganja i zajmova od nepovezanih pravnih lica</Pozicija>
+<GrupaRacuna>662(dio), 663(dio), 664(dio), 669(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>230</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>11. Ostali prihodi po osnovu kamata, kursnih razlika i drugih efekata ugovorene zaštite (231 do 233)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>231</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>a) Finansijski prihodi po osnovu tekućih potraživanja od matičnog i zavisnih pravnih lica</Pozicija>
+<GrupaRacuna>660(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>232</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>b) Finansijski prihodi po osnovu tekućih potraživanja od ostalih povezanih pravnih lica</Pozicija>
+<GrupaRacuna>661(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>233</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>c) Finansijski prihodi po osnovu tekućih potraživanja od nepovezanih pravnih lica</Pozicija>
+<GrupaRacuna>662(dio), 663(dio), 664(dio), 669(dio)</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>234</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>12. Vrijednosno usklađivanje kratkoročnih finansijskih sredstava i finansijskih ulaganja koji su dio obrtne imovine (235-236)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>235</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>a) Prihodi po osnovu vrijednosnog usklađivanja kratkoročnih finansijskih sredstava i finansijskih ulaganja koji su dio obrtne imovine </Pozicija>
+<GrupaRacuna>683, 685</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>236</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>b) Rashodi po osnovu vrijednosnog usklađivanja kratkoročnih finansijskih sredstava i finansijskih ulaganja koji su dio obrtne imovine</Pozicija>
+<GrupaRacuna>583, 585</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>237</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>13. Rashodi po osnovu kamata, kursnih razlika i drugih efekata ugovorene zaštite (238 do 240)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>238</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>a) Rashodi po osnovu kamata, kursnih razlika i drugih efekata ugovorene zaštite po osnovu odnosa sa matičnim i zavisnim pravnim licima</Pozicija>
+<GrupaRacuna>560</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>239</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>b) Rashodi po osnovu kamata, kursnih razlika i drugih efekata ugovorene zaštite po osnovu odnosa sa drugim povezanim licima</Pozicija>
+<GrupaRacuna>561</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>240</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>c) Rashodi po osnovu kamata, kursnih razlika i drugih efekata ugovorene zaštite po osnovu odnosa sa nepovezanim licima</Pozicija>
+<GrupaRacuna>562, 563, 564, 569</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>241</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>II. Finansijski rezultat (222+226+230+234–237)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>242</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>III. Rezultat iz redovnog poslovanja prije oporezivanja (221+241)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>243</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>IV. Neto rezultat poslovanja koje je obustavljeno</Pozicija>
+<GrupaRacuna>690-590</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>244</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>V. Rezultat prije oporezivanja (242+243)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>245</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>14. Poreski rashod perioda (246+247)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>246</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>1. Tekući porez na dobit</Pozicija>
+<GrupaRacuna>721</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>247</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>2. Odloženi poreski rashodi ili prihodi perioda</Pozicija>
+<GrupaRacuna>722</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>248</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>15. Dobitak ili gubitak nakon oporezivanja (244-245)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>249</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>VI. BRUTO REZULTAT DRUGIH STAVKI REZULTATA /POVEZANIH SA KAPITALOM/ (250 do 257)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>250</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>1. Promjene revalorizacionih rezervi po osnovu nekretnina, postrojenja, opreme, nematerijalnih ulaganja i bioloških sredstava</Pozicija>
+<GrupaRacuna>330</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>251</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>2. Promjene nerealizovanih dobitaka i gubitaka po osnovu preračuna finansijskih izvještaja inostranog poslovanja</Pozicija>
+<GrupaRacuna>331</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>252</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>3. Promjene nerealizovanih dobitaka i gubitaka po osnovu ulaganja u vlasničke instrumente kapitala</Pozicija>
+<GrupaRacuna>332</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>253</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>4. Promjene aktuarskih dobitaka i gubitaka po osnovu planova definisanih naknada aktuarskih dobitaka (ili gubitaka) u vezi sa definisanim planovima penzionih naknada</Pozicija>
+<GrupaRacuna>333</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>254</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>5. Promjene učešća u ostalom sveobuhvatnom rezultatu pridruženog društva</Pozicija>
+<GrupaRacuna>334</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>255</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>6. Promjene nerealizovanih dobitaka i gubitaka po osnovu instrumenata zaštite neto ulaganja u inostrano poslovanje</Pozicija>
+<GrupaRacuna>335</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>256</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>7. Promjene revalorizacionih rezervi po osnovu hedžinga tokova gotovine</Pozicija>
+<GrupaRacuna>336</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>257</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>8. Ostale promjene nerealizovanih dobitaka i gubitaka</Pozicija>
+<GrupaRacuna>337</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>258</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>VII. ODLOŽENI PORESKI RASHODI ILI PRIHODI PERIODA U VEZI SA DRUGIM STAVKAMA REZULTATA /POVEZANIM SA KAPITALOM/</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>259</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>VIII. NETO REZULTAT DRUGIH STAVKI REZULTATA /POVEZANIH SA KAPITALOM/ (249+258)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>260</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>IX. NETO SVEOBUHVATNI REZULTAT ( 248-259)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>261</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>X. ZARADA PO AKCIJI</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>262</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>1. Osnovna zarada po akciji</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>263</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>2. Umanjena (razvodnjena) zarada po akciji</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>264</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>XI. NETO REZULTAT KOJI PRIPADA VLASNICIMA MATIČNOG PRAVNOG LICA</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>265</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>XII. NETO REZULTAT KOJI PRIPADA UČEŠĆIMA KOJI NE OBEZBEĐUJU KONTROLU </Pozicija>
+<GrupaRacuna/>
+</Stavka>
+</BilanUspjeha>
+<IskazOTokovimaGotovine>
+<Stavka>
+<RedniBroj/>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>A. TOKOVI GOTOVINE IZ POSLOVNIH AKTIVNOSTI</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>301</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>I. Prilivi gotovine iz poslovnih aktivnosti (1 do 3)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>302</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>1. Prodaja i primljeni avansi</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>303</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>2. Primljene kamate iz poslovnih aktivnosti</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>304</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>3. Ostali prilivi iz redovnog poslovanja</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>305</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>II. Odlivi gotovine iz poslovnih aktivnosti (1 do 5)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>306</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>1. Isplate dobavljačima i dati avansi</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>307</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>2. Zarade, naknade zarada i ostali lični rashodi</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>308</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>3. Plaćene kamate</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>309</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>4. Porez na dobit</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>310</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>5. Plaćanja po osnovu ostalih javnih prihoda</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>311</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>III. Neto tok gotovine iz poslovnih aktivnosti (I-II)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj/>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>B. TOKOVI GOTOVINE IZ AKTIVNOSTI INVESTIRANJA</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>312</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>I. Prilivi gotovine iz aktivnosti investiranja (1 do 5)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>313</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>1. Prodaja akcija i udjela</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>314</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>2. Prodaja nematerijalnih ulaganja, nekretnina, postrojenja, opremene i bioloških sredstava</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>315</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>3. Ostali finansijski plasmani</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>316</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>4. Primljene kamate iz aktivnosti investiranja</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>317</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>5. Primljene dividende</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>318</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>II. Odlivi gotovine iz aktivnosti investiranja (1 do 3)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>319</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>1. Kupovina akcija i udjela</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>320</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>2. Kupovina nematerijalnih ulaganja, nekretnina, postrojenja, opreme i bioloških sredstava</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>321</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>3. Ostali finansijski plasmani</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>322</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>III. Neto tok gotovine iz aktivnosti investiranja (I-II)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj/>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>C. TOKOVI GOTOVINE IZ AKTIVNOSTI FINANSIRANJA</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>323</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>I. Prilivi gotovine iz aktivnosti finansiranja (1 do 3)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>324</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>1. Uvećanje osnovnog kapitala</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>325</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>2. Dugoročni i kratkoročni krediti</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>326</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>3. Ostale dugoročne i kratkoročne obaveze</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>327</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>II. Odlivi gotovine iz aktivnosti finansiranja (1 do 4) </Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>328</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>1. Otkup sopstvenih akcija i udjela </Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>329</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>2. Dugoročni i kratkoročni krediti i ostale obaveze</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>330</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>3. Finansijski lizing</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>331</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>4. Isplaćene dividende</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>332</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>III. Neto tok gotovine iz aktivnosti finansiranja (I-II) </Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>333</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>D. NETO TOK GOTOVINE (311+322+332)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>334</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>E. GOTOVINA NA POČETKU IZVJEŠTAJNOG PERIODA</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>335</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>F. POZITIVNE KURSNE RAZLIKE PO OSNOVU PRERAČUNA GOTOVINE</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>336</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>G. NEGATIVNE KURSNE RAZLIKE PO OSNOVU PRERAČUNA GOTOVINE</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>337</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>H. GOTOVINA NA KRAJU IZVJEŠTAJNOG PERIODA (333+334+335-336)</Pozicija>
+</Stavka>
+</IskazOTokovimaGotovine>
+<TokoviGotovine3a>
+<Stavka>
+<RedniBroj/>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>A. TOKOVI GOTOVINE IZ POSLOVNIH AKTIVNOSTI</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>301</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>1. Rezultat prije oporezivanja</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>302</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>2. Amortizacija</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>303</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>3. Promjena zaliha</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>304</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>4. Promjena potraživanja</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>305</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>5. Promjena obaveza prema dobavljačima</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>306</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>6. Promjena rezervisanja</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>307</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>7. Plaćene kamate</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>308</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>8. Porez na dobit</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>309</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>9. Plaćanja po osnovu ostalih javnih prihoda</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>310</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>10. Promjena odloženih poreza i drugih nepomenutih stavki koje imaju uticaj na tok gotovine iz poslovnih aktivnosti</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>311</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>I. Neto tok gotovine iz poslovnih aktivnosti (1 do 10)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj/>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>B. TOKOVI GOTOVINE IZ AKTIVNOSTI INVESTIRANJA</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>312</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>I. Prilivi gotovine iz aktivnosti investiranja (1 do 5)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>313</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>1. Prodaja akcija i udjela</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>314</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>2. Prodaja nematerijalnih ulaganja, nekretnina, postrojenja, opremene i bioloških sredstava</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>315</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>3. Ostali finansijski plasmani</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>316</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>4. Primljene kamate iz aktivnosti investiranja</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>317</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>5. Primljene dividende</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>318</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>II. Odlivi gotovine iz aktivnosti investiranja (1 do 3)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>319</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>1. Kupovina akcija i udjela</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>320</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>2. Kupovina nematerijalnih ulaganja, nekretnina, postrojenja, opreme i bioloških sredstava</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>321</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>3. Ostali finansijski plasmani</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>322</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>III. Neto tok gotovine iz aktivnosti investiranja (I-II)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj/>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>C. TOKOVI GOTOVINE IZ AKTIVNOSTI FINANSIRANJA</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>323</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>I. Prilivi gotovine iz aktivnosti finansiranja (1 do 3)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>324</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>1. Uvećanje osnovnog kapitala</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>325</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>2. Dugoročni i kratkoročni krediti</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>326</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>3. Ostale dugoročne i kratkoročne obaveze</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>327</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>II. Odlivi gotovine iz aktivnosti finansiranja (1 do 4) </Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>328</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>1. Otkup sopstvenih akcija i udjela </Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>329</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>2. Dugoročni i kratkoročni krediti i ostale obaveze</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>330</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>3. Finansijski lizing</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>331</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>4. Isplaćene dividende</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>332</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>III. Neto tok gotovine iz aktivnosti finansiranja (I-II) </Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>333</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>D. NETO TOK GOTOVINE (311+322+332)</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>334</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>E. GOTOVINA NA POČETKU IZVJEŠTAJNOG PERIODA</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>335</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>F. POZITIVNE KURSNE RAZLIKE PO OSNOVU PRERAČUNA GOTOVINE</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>336</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>G. NEGATIVNE KURSNE RAZLIKE PO OSNOVU PRERAČUNA GOTOVINE</Pozicija>
+</Stavka>
+<Stavka>
+<RedniBroj>337</RedniBroj>
+<Iznos1>0.0</Iznos1>
+<Iznos2>0.0</Iznos2>
+<Pozicija>H. GOTOVINA NA KRAJU IZVJEŠTAJNOG PERIODA (333+334+335-336)</Pozicija>
+</Stavka>
+</TokoviGotovine3a>
+<IskazOPromenamaKapitala>
+<Stavka>
+<Pozicija>1.</Pozicija>
+<Opis>Stanje na dan 01.01 _____ godine</Opis>
+<RedniBr2>401</RedniBr2>
+<Iznos2>0.0</Iznos2>
+<RedniBr3>410</RedniBr3>
+<Iznos3>0.0</Iznos3>
+<RedniBr4>419</RedniBr4>
+<Iznos4>0.0</Iznos4>
+<RedniBr5>428</RedniBr5>
+<Iznos5>0.0</Iznos5>
+<RedniBr6>437</RedniBr6>
+<Iznos6>0.0</Iznos6>
+<RedniBr7>446</RedniBr7>
+<Iznos7>0.0</Iznos7>
+<RedniBr8>455</RedniBr8>
+<Iznos8>0.0</Iznos8>
+<RedniBr9>464</RedniBr9>
+<Iznos9>0.0</Iznos9>
+<RedniBr10>473</RedniBr10>
+<Iznos10>0.0</Iznos10>
+<RedniBr11>482</RedniBr11>
+<Iznos11>0.0</Iznos11>
+</Stavka>
+<Stavka>
+<Pozicija>2.</Pozicija>
+<Opis>Efekti retroaktivne ispravke materijalno značajnih grešaka i promjena računovodstvenih politika</Opis>
+<RedniBr2>402</RedniBr2>
+<Iznos2>0.0</Iznos2>
+<RedniBr3>411</RedniBr3>
+<Iznos3>0.0</Iznos3>
+<RedniBr4>420</RedniBr4>
+<Iznos4>0.0</Iznos4>
+<RedniBr5>429</RedniBr5>
+<Iznos5>0.0</Iznos5>
+<RedniBr6>438</RedniBr6>
+<Iznos6>0.0</Iznos6>
+<RedniBr7>447</RedniBr7>
+<Iznos7>0.0</Iznos7>
+<RedniBr8>456</RedniBr8>
+<Iznos8>0.0</Iznos8>
+<RedniBr9>465</RedniBr9>
+<Iznos9>0.0</Iznos9>
+<RedniBr10>474</RedniBr10>
+<Iznos10>0.0</Iznos10>
+<RedniBr11>483</RedniBr11>
+<Iznos11>0.0</Iznos11>
+</Stavka>
+<Stavka>
+<Pozicija>3.</Pozicija>
+<Opis>Korigovano početno stanje na dan 01.01. _____ godine (r.br. 1+2)</Opis>
+<RedniBr2>403</RedniBr2>
+<Iznos2>0.0</Iznos2>
+<RedniBr3>412</RedniBr3>
+<Iznos3>0.0</Iznos3>
+<RedniBr4>421</RedniBr4>
+<Iznos4>0.0</Iznos4>
+<RedniBr5>430</RedniBr5>
+<Iznos5>0.0</Iznos5>
+<RedniBr6>439</RedniBr6>
+<Iznos6>0.0</Iznos6>
+<RedniBr7>448</RedniBr7>
+<Iznos7>0.0</Iznos7>
+<RedniBr8>457</RedniBr8>
+<Iznos8>0.0</Iznos8>
+<RedniBr9>466</RedniBr9>
+<Iznos9>0.0</Iznos9>
+<RedniBr10>475</RedniBr10>
+<Iznos10>0.0</Iznos10>
+<RedniBr11>484</RedniBr11>
+<Iznos11>0.0</Iznos11>
+</Stavka>
+<Stavka>
+<Pozicija>4.</Pozicija>
+<Opis>Neto promjene u _____ godini</Opis>
+<RedniBr2>404</RedniBr2>
+<Iznos2>0.0</Iznos2>
+<RedniBr3>413</RedniBr3>
+<Iznos3>0.0</Iznos3>
+<RedniBr4>422</RedniBr4>
+<Iznos4>0.0</Iznos4>
+<RedniBr5>431</RedniBr5>
+<Iznos5>0.0</Iznos5>
+<RedniBr6>440</RedniBr6>
+<Iznos6>0.0</Iznos6>
+<RedniBr7>449</RedniBr7>
+<Iznos7>0.0</Iznos7>
+<RedniBr8>458</RedniBr8>
+<Iznos8>0.0</Iznos8>
+<RedniBr9>467</RedniBr9>
+<Iznos9>0.0</Iznos9>
+<RedniBr10>476</RedniBr10>
+<Iznos10>0.0</Iznos10>
+<RedniBr11>485</RedniBr11>
+<Iznos11>0.0</Iznos11>
+</Stavka>
+<Stavka>
+<Pozicija>5.</Pozicija>
+<Opis>Stanje na dan 31.12. ___________ godine (r.b 3+4)</Opis>
+<RedniBr2>405</RedniBr2>
+<Iznos2>0.0</Iznos2>
+<RedniBr3>414</RedniBr3>
+<Iznos3>0.0</Iznos3>
+<RedniBr4>423</RedniBr4>
+<Iznos4>0.0</Iznos4>
+<RedniBr5>432</RedniBr5>
+<Iznos5>0.0</Iznos5>
+<RedniBr6>441</RedniBr6>
+<Iznos6>0.0</Iznos6>
+<RedniBr7>450</RedniBr7>
+<Iznos7>0.0</Iznos7>
+<RedniBr8>459</RedniBr8>
+<Iznos8>0.0</Iznos8>
+<RedniBr9>468</RedniBr9>
+<Iznos9>0.0</Iznos9>
+<RedniBr10>477</RedniBr10>
+<Iznos10>0.0</Iznos10>
+<RedniBr11>486</RedniBr11>
+<Iznos11>0.0</Iznos11>
+</Stavka>
+<Stavka>
+<Pozicija>6.</Pozicija>
+<Opis>Efekti retroaktivne ispravke materijalno značajnih grešaka i promjena računovodstvenih politika</Opis>
+<RedniBr2>406</RedniBr2>
+<Iznos2>0.0</Iznos2>
+<RedniBr3>415</RedniBr3>
+<Iznos3>0.0</Iznos3>
+<RedniBr4>424</RedniBr4>
+<Iznos4>0.0</Iznos4>
+<RedniBr5>433</RedniBr5>
+<Iznos5>0.0</Iznos5>
+<RedniBr6>442</RedniBr6>
+<Iznos6>0.0</Iznos6>
+<RedniBr7>451</RedniBr7>
+<Iznos7>0.0</Iznos7>
+<RedniBr8>460</RedniBr8>
+<Iznos8>0.0</Iznos8>
+<RedniBr9>469</RedniBr9>
+<Iznos9>0.0</Iznos9>
+<RedniBr10>478</RedniBr10>
+<Iznos10>0.0</Iznos10>
+<RedniBr11>487</RedniBr11>
+<Iznos11>0.0</Iznos11>
+</Stavka>
+<Stavka>
+<Pozicija>7.</Pozicija>
+<Opis>Korigovano početno stanje na dan ___________ godine (r.br. 5+6)</Opis>
+<RedniBr2>407</RedniBr2>
+<Iznos2>0.0</Iznos2>
+<RedniBr3>416</RedniBr3>
+<Iznos3>0.0</Iznos3>
+<RedniBr4>425</RedniBr4>
+<Iznos4>0.0</Iznos4>
+<RedniBr5>434</RedniBr5>
+<Iznos5>0.0</Iznos5>
+<RedniBr6>443</RedniBr6>
+<Iznos6>0.0</Iznos6>
+<RedniBr7>452</RedniBr7>
+<Iznos7>0.0</Iznos7>
+<RedniBr8>461</RedniBr8>
+<Iznos8>0.0</Iznos8>
+<RedniBr9>470</RedniBr9>
+<Iznos9>0.0</Iznos9>
+<RedniBr10>479</RedniBr10>
+<Iznos10>0.0</Iznos10>
+<RedniBr11>488</RedniBr11>
+<Iznos11>0.0</Iznos11>
+</Stavka>
+<Stavka>
+<Pozicija>8.</Pozicija>
+<Opis>Neto promjene u _____ godini</Opis>
+<RedniBr2>408</RedniBr2>
+<Iznos2>0.0</Iznos2>
+<RedniBr3>417</RedniBr3>
+<Iznos3>0.0</Iznos3>
+<RedniBr4>426</RedniBr4>
+<Iznos4>0.0</Iznos4>
+<RedniBr5>435</RedniBr5>
+<Iznos5>0.0</Iznos5>
+<RedniBr6>444</RedniBr6>
+<Iznos6>0.0</Iznos6>
+<RedniBr7>453</RedniBr7>
+<Iznos7>0.0</Iznos7>
+<RedniBr8>462</RedniBr8>
+<Iznos8>0.0</Iznos8>
+<RedniBr9>471</RedniBr9>
+<Iznos9>0.0</Iznos9>
+<RedniBr10>480</RedniBr10>
+<Iznos10>0.0</Iznos10>
+<RedniBr11>489</RedniBr11>
+<Iznos11>0.0</Iznos11>
+</Stavka>
+<Stavka>
+<Pozicija>9.</Pozicija>
+<Opis>Stanje na dan 31.12 _____ godine (r.br. 7+8)</Opis>
+<RedniBr2>409</RedniBr2>
+<Iznos2>0.0</Iznos2>
+<RedniBr3>418</RedniBr3>
+<Iznos3>0.0</Iznos3>
+<RedniBr4>427</RedniBr4>
+<Iznos4>0.0</Iznos4>
+<RedniBr5>436</RedniBr5>
+<Iznos5>0.0</Iznos5>
+<RedniBr6>445</RedniBr6>
+<Iznos6>0.0</Iznos6>
+<RedniBr7>454</RedniBr7>
+<Iznos7>0.0</Iznos7>
+<RedniBr8>463</RedniBr8>
+<Iznos8>0.0</Iznos8>
+<RedniBr9>472</RedniBr9>
+<Iznos9>0.0</Iznos9>
+<RedniBr10>481</RedniBr10>
+<Iznos10>0.0</Iznos10>
+<RedniBr11>490</RedniBr11>
+<Iznos11>0.0</Iznos11>
+</Stavka>
+</IskazOPromenamaKapitala>
+<StatistickiAneks>
+<Stavka>
+<RedniBroj>001</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Prosječan broj zaposlenih (ukupan broj zaposlenih krajem svakog mjeseca podijeljen sa brojem mjeseci)</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>002</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Prihodi od prodaje robe</Pozicija>
+<GrupaRacuna>60</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>003</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Prihodi od prodaje proizvoda i usluga</Pozicija>
+<GrupaRacuna>61</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>004</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Prihodi od aktiviranja učinaka i robe</Pozicija>
+<GrupaRacuna>62</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>005</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Prihodi od subvencija, prihodi od dotacija i prihodi od donacija</Pozicija>
+<GrupaRacuna>640</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>006</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Prihodi od zakupnina</Pozicija>
+<GrupaRacuna>650</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>007</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Dobici od prodaje materijala</Pozicija>
+<GrupaRacuna>673</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>008</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Nabavna vrijednost prodate robe</Pozicija>
+<GrupaRacuna>501</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>009</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Troškovi materijala za izradu</Pozicija>
+<GrupaRacuna>511</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>010</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Troškovi ostalog materijala (režijskog)</Pozicija>
+<GrupaRacuna>512</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>011</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Troškovi goriva i energije</Pozicija>
+<GrupaRacuna>513</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>012</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Troškovi zarada i naknada zarada (bruto)</Pozicija>
+<GrupaRacuna>520</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>013</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Naknada troškova smještaja i ishrane na službenom putu, naknade troškova prevoza na službenom putu</Pozicija>
+<GrupaRacuna>529</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>014</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Troškovi proizvodnih usluga</Pozicija>
+<GrupaRacuna>53</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>015</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Troškovi transportnih usluga i troškovi usluga održavanja</Pozicija>
+<GrupaRacuna>531 i 532</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>016</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Troškovi zakupnina</Pozicija>
+<GrupaRacuna>533</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>017</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Troškovi sajmova i troškovi reklame i propagande</Pozicija>
+<GrupaRacuna>534 i 535</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>018</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Troškovi istraživanja</Pozicija>
+<GrupaRacuna>536</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>019</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Troškovi neproizvodnih usluga i troškovi reprezentacije</Pozicija>
+<GrupaRacuna>550 i 551</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>020</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Troškovi premija osiguranja i troškovi platnog prometa</Pozicija>
+<GrupaRacuna>552 i 553</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>021</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Gubici od prodaje materijala</Pozicija>
+<GrupaRacuna>573</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>022</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Zalihe materijala</Pozicija>
+<GrupaRacuna>10</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>023</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Zalihe nedovršene proizvodnje</Pozicija>
+<GrupaRacuna>11</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>024</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Zalihe gotovih proizvoda</Pozicija>
+<GrupaRacuna>12</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>025</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Zalihe roba</Pozicija>
+<GrupaRacuna>13</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj/>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Analitički prikaz nematerijalne imovine pravnog lica</Pozicija>
+<GrupaRacuna/>
+</Stavka>
+<Stavka>
+<RedniBroj>026</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Prihodi od naknade po osnovu patenata</Pozicija>
+<GrupaRacuna>652</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>027</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Prihodo po osnovu autorskih prava</Pozicija>
+<GrupaRacuna>652</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>028</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Prihodi od prodaje licenci</Pozicija>
+<GrupaRacuna>652</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>029</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Ulaganja u razvoj</Pozicija>
+<GrupaRacuna>010</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>030</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Ulaganja u razvoj tržišta, sa efektom dužim od jedne godine</Pozicija>
+<GrupaRacuna>0100</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>031</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Ulaganja u razvoj tehnologije, sa efektom dužim od jedne godine</Pozicija>
+<GrupaRacuna>0101</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>032</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Ulaganja u razvoj proizvoda, sa efektom dužim od jedne godine</Pozicija>
+<GrupaRacuna>0102</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>033</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Ostali izdaci za razvoj</Pozicija>
+<GrupaRacuna>0103</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>034</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Ispravka vrijednosti ulaganja u razvoj</Pozicija>
+<GrupaRacuna>0108</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>035</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Obezvređivanje vrijednosti ulaganja u razvoj</Pozicija>
+<GrupaRacuna>0109</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>036</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Koncesije, patenti, licence i slična prava</Pozicija>
+<GrupaRacuna>011</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>037</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Koncesije</Pozicija>
+<GrupaRacuna>0110</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>038</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Patenti</Pozicija>
+<GrupaRacuna>0111</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>039</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Licence</Pozicija>
+<GrupaRacuna>0112</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>040</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Pravo na industrijski uzorak, žig, model, zaštitni znak i sl.</Pozicija>
+<GrupaRacuna>0113</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>041</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Druga slična prava</Pozicija>
+<GrupaRacuna>0114</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>042</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Ispravka vrijednosti koncesija, patenata, licenci i sličnih prava</Pozicija>
+<GrupaRacuna>0118</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>043</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Obezvređivanje koncesija, patenata, licenci i sli?nih prava</Pozicija>
+<GrupaRacuna>0119</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>044</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Goodwill</Pozicija>
+<GrupaRacuna>012</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>045</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Goodwill nastao po osnovu stečene (pripojene) neto imovine drugog pravnog lica</Pozicija>
+<GrupaRacuna>0120</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>046</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Goodwill nastao po osnovu kupovine akcija i udjela u drugom pravnom licu</Pozicija>
+<GrupaRacuna>0121</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>047</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Obezvređivanje goodwill-a</Pozicija>
+<GrupaRacuna>0129</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>048</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Ostala nematerijalna ulaganja</Pozicija>
+<GrupaRacuna>014</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>049</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Računarski programi</Pozicija>
+<GrupaRacuna>0140</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>050</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Pravo korišćenja gradskog građevinskog zemljišta</Pozicija>
+<GrupaRacuna>0141</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>051</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Ulaganja u lizing</Pozicija>
+<GrupaRacuna>0142</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>052</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Ostala nematerijalna ulaganja</Pozicija>
+<GrupaRacuna>0145</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>053</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Ispravka vrijednosti ostalih nematerijalnih ulaganja</Pozicija>
+<GrupaRacuna>0148</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>054</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Obezvređivanje ostalih nematerijalnih ulaganja</Pozicija>
+<GrupaRacuna>0149</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>055</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Nematerijalna ulaganja u pripremi</Pozicija>
+<GrupaRacuna>015</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>056</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Ulaganja u razvoj u pripremi</Pozicija>
+<GrupaRacuna>0150</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>057</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Interno generisana nematerijalna ulaganja u pripremi</Pozicija>
+<GrupaRacuna>0151</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>058</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Druga nematerijalna ulaganja u pripremi</Pozicija>
+<GrupaRacuna>0155</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>059</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Obezvređenje nematerijalnih ulaganja u pripremi</Pozicija>
+<GrupaRacuna>0159</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>060</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Avansi za nematerijalna ulaganja</Pozicija>
+<GrupaRacuna>016</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>061</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Avansi za nematerijalna ulaganja u razvoj</Pozicija>
+<GrupaRacuna>0160</GrupaRacuna>
+</Stavka>
+<Stavka>
+<RedniBroj>062</RedniBroj>
+<Iznos1>0</Iznos1>
+<Iznos2>0</Iznos2>
+<NapomenaBroj/>
+<Pozicija>Avansi za druga nematerijalna ulaganja</Pozicija>
+<GrupaRacuna>0161</GrupaRacuna>
+</Stavka>
+</StatistickiAneks>
+<ObracunAmortizacije>
+<Stavka>
+<Grupa>I</Grupa>
+<Iznos2>0</Iznos2>
+<Iznos3>0</Iznos3>
+<Iznos4>0</Iznos4>
+<Iznos5>0</Iznos5>
+<Iznos6>2.5</Iznos6>
+<Iznos7>0</Iznos7>
+<Iznos8>0</Iznos8>
+</Stavka>
+<Stavka>
+<Grupa>II</Grupa>
+<Iznos2>0</Iznos2>
+<Iznos3>0</Iznos3>
+<Iznos4>0</Iznos4>
+<Iznos5>0</Iznos5>
+<Iznos6>10</Iznos6>
+<Iznos7>0</Iznos7>
+<Iznos8>0</Iznos8>
+</Stavka>
+<Stavka>
+<Grupa>III</Grupa>
+<Iznos2>0</Iznos2>
+<Iznos3>0</Iznos3>
+<Iznos4>0</Iznos4>
+<Iznos5>0</Iznos5>
+<Iznos6>15</Iznos6>
+<Iznos7>0</Iznos7>
+<Iznos8>0</Iznos8>
+</Stavka>
+<Stavka>
+<Grupa>IV</Grupa>
+<Iznos2>0</Iznos2>
+<Iznos3>0</Iznos3>
+<Iznos4>0</Iznos4>
+<Iznos5>0</Iznos5>
+<Iznos6>20</Iznos6>
+<Iznos7>0</Iznos7>
+<Iznos8>0</Iznos8>
+</Stavka>
+<Stavka>
+<Grupa>V</Grupa>
+<Iznos2>0</Iznos2>
+<Iznos3>0</Iznos3>
+<Iznos4>0</Iznos4>
+<Iznos5>0</Iznos5>
+<Iznos6>30</Iznos6>
+<Iznos7>0</Iznos7>
+<Iznos8>0</Iznos8>
+</Stavka>
+</ObracunAmortizacije>
+</FinansijskiIskazi>
