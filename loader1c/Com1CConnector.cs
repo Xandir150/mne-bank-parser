@@ -1293,6 +1293,94 @@ public partial class Com1CConnector : IDisposable
         return sb.ToString();
     }
 
+    /// <summary>Read-only sweep of EVERY account currently in accounts.config.json: for each,
+    /// looks up the bank account in 1C and checks whether Владелец is actually typed as
+    /// Справочник.Организации (as documents require) or something else (typically
+    /// Справочник.Контрагенты — the TELETEH bug). Pure reads, no writes — safe to run anytime.
+    /// Grouped per database to reuse one connection. Note this deliberately does NOT filter by
+    /// ТИПЗНАЧЕНИЯ(Владелец)=Организации the way ScanDatabases/AuditAll do — that filter is
+    /// exactly the blind spot that let the TELETEH issue hide from earlier audits.</summary>
+    public string AuditOwnerTypes()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"AUDIT OWNER TYPES @ {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+        sb.AppendLine($"Проверяю {_accountMap.Count} счетов из accounts.config.json...");
+        sb.AppendLine();
+
+        int checkedCount = 0, mismatchCount = 0, notFoundCount = 0, errorCount = 0;
+        var byDb = _accountMap.GroupBy(kvp => kvp.Value.Database);
+
+        foreach (var grp in byDb)
+        {
+            string db = grp.Key;
+            dynamic? conn = null;
+            try
+            {
+                conn = Connect(db);
+                foreach (var kvp in grp)
+                {
+                    string acctNum = kvp.Key;
+                    string orgHint = kvp.Value.OrgName;
+                    checkedCount++;
+                    try
+                    {
+                        dynamic? found = null;
+                        foreach (var variant in new[] { acctNum, "ME25" + acctNum })
+                        {
+                            dynamic f = conn.Справочники.БанковскиеСчета.НайтиПоРеквизиту("НомерСчета", variant);
+                            if (!(bool)f.Пустая()) { found = f; break; }
+                        }
+                        if (found == null)
+                        {
+                            notFoundCount++;
+                            sb.AppendLine($"  ? [{db}] {acctNum} ({orgHint}) — счёт НЕ найден в 1С");
+                            continue;
+                        }
+                        if ((bool)found.ПометкаУдаления) continue; // deleted account, not our concern here
+
+                        dynamic owner = found.Владелец;
+                        if (owner == null || (bool)owner.Пустая())
+                        {
+                            mismatchCount++;
+                            sb.AppendLine($"  ⚠ [{db}] {acctNum} ({orgHint}) — Владелец ПУСТОЙ (не заполнен вообще)");
+                            continue;
+                        }
+
+                        string typeName = "?";
+                        try { typeName = (string)owner.Метаданные().ПолноеИмя(); } catch { }
+
+                        if (typeName != "Справочник.Организации")
+                        {
+                            mismatchCount++;
+                            string ownerName = "?";
+                            try { ownerName = (string)(owner.Наименование ?? "?"); } catch { }
+                            sb.AppendLine($"  ⚠ [{db}] {acctNum} ({orgHint}) — Владелец = '{ownerName}' из {typeName}, " +
+                                $"ОЖИДАЛОСЬ Справочник.Организации");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        errorCount++;
+                        sb.AppendLine($"  ERROR [{db}] {acctNum} ({orgHint}): {ex.Message}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sb.AppendLine($"  [{db}] CONNECT FAILED: {ex.Message}");
+            }
+            finally
+            {
+                if (conn != null) { try { CleanupCom(conn); } catch { } }
+            }
+        }
+
+        sb.AppendLine();
+        sb.AppendLine($"ИТОГО: проверено {checkedCount}, несовпадений типа Владельца {mismatchCount}, " +
+            $"не найдено в 1С {notFoundCount}, ошибок {errorCount}");
+        return sb.ToString();
+    }
+
     /// <summary>Diagnostic: find documents in a database matching a bank account and a date,
     /// and dump the actual field values (Организация, Контрагент, СчетОрганизации,
     /// СчетКонтрагента, Сумма) as stored in 1C right now. Use this to see exactly what a
