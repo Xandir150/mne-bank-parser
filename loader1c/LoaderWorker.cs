@@ -30,6 +30,12 @@ public class LoaderWorker : BackgroundService
     private readonly HashSet<string> _discoverySuggested = new();
     private long _discoverySeenGen = -1;
 
+    // Discovery scheduling: full sweeps are expensive (1 COM connect per DB) and
+    // block the scan loop, so outside discover.trigger they only run once, during
+    // the configured off-hours window. See DiscoveryScheduleHour / ShouldRunDiscoverySweepNow.
+    private DateTime? _lastScheduledSweepDate;
+    private bool _forceSweepNow;
+
     public LoaderWorker(LoaderConfig config, Com1CConnector com,
         ILogger<LoaderWorker> logger)
     {
@@ -225,6 +231,41 @@ public class LoaderWorker : BackgroundService
                     _logger.LogError(ex, "Lookup failed");
                     try { File.WriteAllText(resultFile, $"ERROR: {ex.Message}\n{ex}",
                         System.Text.Encoding.UTF8); } catch { }
+                }
+            });
+            return true;
+        }
+        catch { return false; }
+    }
+
+    /// <summary>ownertype.trigger (any content, even empty) — sweeps every account in
+    /// accounts.config.json (read-only) checking whether each bank account's Владелец is
+    /// correctly typed as Справочник.Организации. Writes ownertype.result.txt.</summary>
+    private bool CheckOwnerTypeTrigger()
+    {
+        try
+        {
+            var dataDir = Path.GetDirectoryName(_config.OutputDir);
+            if (string.IsNullOrEmpty(dataDir)) return false;
+            var trigger = Path.Combine(dataDir, "ownertype.trigger");
+            if (!File.Exists(trigger)) return false;
+            try { File.Delete(trigger); } catch { }
+
+            var resultFile = Path.Combine(dataDir, "ownertype.result.txt");
+            _logger.LogInformation("ownertype.trigger detected — sweeping all accounts (read-only)");
+
+            try { _com.EndSession(); } catch { }
+            Task.Run(() => {
+                try
+                {
+                    var report = _com.AuditOwnerTypes();
+                    File.WriteAllText(resultFile, report, System.Text.Encoding.UTF8);
+                    _logger.LogInformation("ownertype.result written to {File}", resultFile);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "ownertype sweep failed");
+                    try { File.WriteAllText(resultFile, $"ERROR: {ex.Message}\n{ex}", System.Text.Encoding.UTF8); } catch { }
                 }
             });
             return true;
@@ -519,6 +560,7 @@ public class LoaderWorker : BackgroundService
         CheckLookupTrigger();
         CheckInspectTrigger();
         CheckDiagnoseOrgTrigger();
+        CheckOwnerTypeTrigger();
         CheckAuditTrigger();
         CheckFixTrigger();
         CheckFixCurrencyTrigger();
@@ -692,9 +734,27 @@ public class LoaderWorker : BackgroundService
             DeepGC();
         }
 
-        // One discovery sweep per cycle for accounts unknown to the mapping.
-        if (pendingUnknown.Count > 0 && _config.MaxDiscoverySweepsPerCycle > 0)
+        // One discovery sweep per cycle for accounts unknown to the mapping —
+        // gated to the off-hours schedule unless a human forced it via discover.trigger.
+        if (pendingUnknown.Count > 0 && _config.MaxDiscoverySweepsPerCycle > 0 && ShouldRunDiscoverySweepNow())
+        {
             RunDiscoverySweep(pendingUnknown);
+            _lastScheduledSweepDate = DateTime.Today;
+            _forceSweepNow = false;
+        }
+    }
+
+    /// <summary>Gate for the expensive full discovery sweep (1 COM connect per DB,
+    /// can take many minutes across 23 DBs and blocks the scan loop meanwhile — no
+    /// other file loads while it runs). DiscoveryScheduleHour &lt; 0 keeps the legacy
+    /// behavior of sweeping immediately every cycle. Otherwise it only runs once per
+    /// day, during the configured local hour, unless discover.trigger forced it.</summary>
+    private bool ShouldRunDiscoverySweepNow()
+    {
+        if (_forceSweepNow) return true;
+        if (_config.DiscoveryScheduleHour < 0) return true;
+        if (DateTime.Now.Hour != _config.DiscoveryScheduleHour) return false;
+        return _lastScheduledSweepDate != DateTime.Today;
     }
 
     /// <summary>discover.trigger: clear the discovery caches so unknown accounts are
@@ -711,6 +771,7 @@ public class LoaderWorker : BackgroundService
             try { File.Delete(trigger); } catch { }
             _discoveryMisses.Clear();
             _discoverySuggested.Clear();
+            _forceSweepNow = true;
             _logger.LogInformation("discover.trigger detected — discovery caches cleared, unknown accounts will be swept again");
             RequeueErrorFiles(requireMapped: false);
             return true;

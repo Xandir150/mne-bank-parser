@@ -50,6 +50,13 @@ public class LoaderConfig
     public int DiscoveryNegativeCacheHours { get; set; } = 12;
     /// <summary>Max discovery sweeps per scan cycle (each sweep = 1 connect per DB).</summary>
     public int MaxDiscoverySweepsPerCycle { get; set; } = 1;
+    /// <summary>Local hour (0-23) at which full discovery sweeps (a COM connect to every
+    /// DB in <see cref="Databases"/>) are allowed to run — they block the scan loop for
+    /// minutes, so by default they wait for an off-hours window instead of firing
+    /// immediately for every newly-seen unknown account. discover.trigger still forces
+    /// an immediate sweep regardless of this setting. -1 restores the legacy behavior
+    /// (sweep right away, every cycle, for any pending unknown account).</summary>
+    public int DiscoveryScheduleHour { get; set; } = -1;
     public List<string> Databases { get; set; } = new();
 }
 
