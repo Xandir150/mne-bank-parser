@@ -94,8 +94,11 @@ class HipotekarnaParser(BankParser):
                 continue
 
             for x, t in texts:
-                # PIB is a short numeric at right side
-                if re.match(r"^\d{7,8}$", t) and x > 1000:
+                # PIB is a short numeric at the right edge of the client-name
+                # line. Take the first match only: reference numbers in the
+                # transaction table below sit at a similar x and can also be
+                # 7-8 digits (e.g. "13082026"), and would otherwise overwrite it.
+                if re.match(r"^\d{7,8}$", t) and x > 1000 and not stmt.client_pib:
                     stmt.client_pib = t
                 # Currency code
                 elif re.match(r"^\d{3}$", t) and x > 1000:
