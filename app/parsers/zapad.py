@@ -30,7 +30,10 @@ class ZapadParser(BankParser):
     # to back in one PDF (e.g. a "whole period" export). Each such document
     # starts with this header on its first page; pages without it continue
     # the preceding statement.
-    _UPP_HEADER_RE = re.compile(r"IZVOD\s+BR\.\s*([\d/]+)\s+ZA\s+RAČUN\s+(\d+)")
+    # Account after "ZA RAČUN" is sometimes a bare 18-digit account, sometimes
+    # a full IBAN (e.g. "ME25570000117000056703") — the bank print template
+    # varies by account. normalize_account() strips the ME.. prefix either way.
+    _UPP_HEADER_RE = re.compile(r"IZVOD\s+BR\.\s*([\d/]+)\s+ZA\s+RAČUN\s+((?:ME\d{2})?\d+)")
 
     def parse(self, file_path: Path) -> ParsedStatement:
         stmt = ParsedStatement(
@@ -99,7 +102,7 @@ class ZapadParser(BankParser):
             self._parse_upp_transactions(page.extract_text(layout=True) or "", stmt)
 
     def _parse_upp_header(self, text: str, stmt: ParsedStatement) -> None:
-        m = re.search(r"IZVOD\s+BR\.\s*([\d/]+)\s+ZA\s+RAČUN\s+(\d+)", text)
+        m = re.search(r"IZVOD\s+BR\.\s*([\d/]+)\s+ZA\s+RAČUN\s+((?:ME\d{2})?\d+)", text)
         if m:
             stmt.statement_number = m.group(1)
             stmt.account_number = self.normalize_account(m.group(2))

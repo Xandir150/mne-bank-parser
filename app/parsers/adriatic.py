@@ -14,8 +14,13 @@ from app.parsers.base import BankParser, ParsedStatement, ParsedTransaction
 class AdriaticParser(BankParser):
     """Parser for Adriatic Bank (580) PDF statements.
 
-    English language. Title "STATEMENT TURNOVER".
-    Table columns: DATE, TRANSACTION DESCRIPTION, CHARGED, IN BENEFIT.
+    The bank issues the same layout in two languages and both are in active
+    use, so every label is matched in either one:
+      English      "STATEMENT TURNOVER" / DATE, TRANSACTION DESCRIPTION,
+                   CHARGED, IN BENEFIT
+      Montenegrin  "IZVOD PROMETA"      / DATUM, OPIS TRANSAKCIJE,
+                   NA TERET, U KORIST
+    Only the labels differ — the table column layout is identical.
     Transaction description is multi-line with purpose, reference, counterparty, account.
     """
 
@@ -35,26 +40,35 @@ class AdriaticParser(BankParser):
 
         return stmt
 
+    # Label alternations: English | Montenegrin. Serbian diacritics are
+    # matched with their ASCII counterpart too — some exports drop them.
+    _L_STATEMENT_NO = r"(?:Statement\s+no|Broj\s+izvoda)"
+    _L_ACCOUNT_NO = r"(?:Account\s+no|Broj\s+ra[čc]una)"
+    _L_CURRENCY = r"(?:Currency|Deviza)"
+    _L_STMT_DATE = r"(?:Statem\.\s*date|Datum\s+izvoda)"
+    _L_PERIOD = r"(?:For\s+period|Za\s+period)"
+    _L_INITIAL = r"(?:INITIAL\s+STATE\s+ON\s+DAY|PO[ČC]ETNO\s+STANJE\s+NA\s+DAN)"
+
     def _parse_header(self, page, stmt: ParsedStatement) -> None:
         text = page.extract_text() or ""
 
         # Statement number
-        m = re.search(r"Statement\s+no\s*:\s*(\d+)", text)
+        m = re.search(rf"{self._L_STATEMENT_NO}\s*:\s*(\d+)", text)
         if m:
             stmt.statement_number = m.group(1)
 
         # Account number
-        m = re.search(r"Account\s+no\s*:\s*(\d+)", text)
+        m = re.search(rf"{self._L_ACCOUNT_NO}\s*:\s*(\d+)", text)
         if m:
             stmt.account_number = m.group(1)
 
         # Currency
-        m = re.search(r"Currency\s*:\s*\d+\s+(\w+)", text)
+        m = re.search(rf"{self._L_CURRENCY}\s*:\s*\d+\s+(\w+)", text)
         if m:
             stmt.currency = m.group(1)
 
         # Statement date
-        m = re.search(r"Statem\.\s*date\s*:\s*(\d{2}\.\d{2}\.\d{4})", text)
+        m = re.search(rf"{self._L_STMT_DATE}\s*:\s*(\d{{2}}\.\d{{2}}\.\d{{4}})", text)
         if m:
             stmt.statement_date = self.parse_date_dmy(m.group(1))
 
@@ -63,26 +77,29 @@ class AdriaticParser(BankParser):
         if m:
             stmt.iban = m.group(1)
 
-        # Client name - on the "For period:" line after the date range
-        # E.g.: "For period: 18.02.2026-18.02.2026 BUREVESTNIK MONTENEGRO"
+        # Client name — trails the date range on the period line, e.g.
+        # "For period: 18.02.2026-18.02.2026 BUREVESTNIK MONTENEGRO"
+        # "Za period: 31.08.2026-31.08.2026 MINDER DOO"
         m = re.search(
-            r"For\s+period:\s*\d{2}\.\d{2}\.\d{4}\s*-\s*\d{2}\.\d{2}\.\d{4}\s+(.+)",
+            rf"{self._L_PERIOD}:\s*\d{{2}}\.\d{{2}}\.\d{{4}}\s*-\s*\d{{2}}\.\d{{2}}\.\d{{4}}\s+(.+)",
             text,
         )
         if m:
             stmt.client_name = self.clean_text(m.group(1))
 
-        # Period: "For period: DD.MM.YYYY-DD.MM.YYYY"
+        # Period: "<label>: DD.MM.YYYY-DD.MM.YYYY"
         m = re.search(
-            r"For\s+period:\s*(\d{2}\.\d{2}\.\d{4})\s*-\s*(\d{2}\.\d{2}\.\d{4})", text
+            rf"{self._L_PERIOD}:\s*(\d{{2}}\.\d{{2}}\.\d{{4}})\s*-\s*(\d{{2}}\.\d{{2}}\.\d{{4}})",
+            text,
         )
         if m:
             stmt.period_start = self.parse_date_dmy(m.group(1))
             stmt.period_end = self.parse_date_dmy(m.group(2))
 
         # Opening balance: "INITIAL STATE ON DAY: 18.02.2026  203.55"
+        #                  "POČETNO STANJE NA DAN: 31.08.2026 2,075.28"
         m = re.search(
-            r"INITIAL\s+STATE\s+ON\s+DAY:\s*\d{2}\.\d{2}\.\d{4}\s+([\d,]+\.\d{2})",
+            rf"{self._L_INITIAL}:\s*\d{{2}}\.\d{{2}}\.\d{{4}}\s+([\d,]+\.\d{{2}})",
             text,
         )
         if m:
@@ -97,22 +114,25 @@ class AdriaticParser(BankParser):
 
                 # Skip header rows
                 first = (row[0] or "").strip()
-                if first in ("DATE", "") and any(
-                    "TRANSACTION" in (c or "") for c in row
+                if first in ("DATE", "DATUM", "") and any(
+                    ("TRANSACTION" in (c or "") or "OPIS TRANSAKCIJE" in (c or ""))
+                    for c in row
                 ):
                     continue
-                if "INITIAL STATE" in first:
+                if "INITIAL STATE" in first or re.match(
+                    r"PO[ČC]ETNO\s+STANJE", first
+                ):
                     continue
 
-                # Sales / New Balance summary rows
-                if first == "SALES:":
+                # Turnover / new balance summary rows
+                if first in ("SALES:", "PROMET:"):
                     if len(row) > 4 and row[4]:
                         stmt.total_debit = self.parse_amount_us(row[4])
                     if len(row) > 5 and row[5]:
                         stmt.total_credit = self.parse_amount_us(row[5])
                     continue
 
-                if "NEW BALANCE" in first:
+                if "NEW BALANCE" in first or "NOVO STANJE" in first:
                     # Closing balance is in the last non-empty cell
                     for c in reversed(row):
                         if c and c.strip():
